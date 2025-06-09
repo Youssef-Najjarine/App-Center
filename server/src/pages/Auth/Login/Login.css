@@ -1,0 +1,395 @@
+.sign-in-photo {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 12.889px;
+}
+
+.sign-in-container {
+    padding: 32px 20px 24px 20px;
+}
+
+.sign-in-logo-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 38.67px;
+}
+
+.sign-in-logo-icon {
+    width: 32.222px;
+    height: 32.222px;
+    object-fit: cover;
+    margin-right: 9.67px;
+}
+
+.sign-in-logo-text {
+    color: #141522;
+    font-size: 20.944px;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: -0.419px;
+}
+
+.sign-in-form-div h2 {
+    color: #141522;
+    font-size: 25.778px;
+    font-weight: 500;
+    line-height: 150%;
+    margin: 0 0 8.06px 0;
+}
+
+.sign-in-already-have-account-div {
+    display: flex;
+    align-items: center;
+    margin: 0 0 29px 0;
+    gap: 5px;
+}
+
+.sign-in-already-have-account-div p {
+    margin: 0;
+    color: #141522;
+    font-size: 11.278px;
+    font-weight: 400;
+    line-height: 200%; 
+}
+
+.sign-in-already-have-account-div a {
+color: #5541D7;
+    font-size: 11.278px;
+    font-weight: 500;
+    line-height: 150%;
+}
+
+.sign-in-email-username-div {
+    margin: 0 0 19.33px 0;
+}
+
+.sign-in-email-username,
+.sign-in-password {
+    color: #141522;
+    font-size: 12.889px;
+    font-weight: 700;
+    line-height: 150%; 
+}
+
+.sign-in-email-username input,
+.sign-in-password input {
+    width: 100%;
+    height: 40.27778px;
+    margin: 6.44px 0 0 0;
+    color: #141522;
+    font-size: 11.278px;
+    font-weight: 500;
+    line-height: 150%;
+    border-radius: 6.667px;
+    padding: 12.89px 9.67px;
+    border: 0.806px solid #F5F5F5;
+    background: #FFF;
+}
+
+.sign-in-password-div {
+    margin-bottom: 19.33px;
+}
+
+.sign-in-password-input-container {
+    position: relative;
+}
+
+.sign-in-field-missing {
+    color: #FF461D;
+    position: absolute;
+    top: -13px;
+    right: 0;
+    font-size: 11.278px;
+    font-weight: 500;
+    line-height: 150%;
+}
+
+.sign-in-error-icon {
+    position: absolute;
+    right: 12px;
+    top: 55%;
+    transform: translateY(-50%);
+    height: 16.111px;
+    width: 16.111px;
+}
+
+.sign-in-password-eye {
+    width: 17.5px;
+}
+
+.forgot-password-login-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.forgot-password {
+    color: #141522;
+    font-size: 11.278px;
+    font-weight: 700;
+    line-height: 150%; 
+}
+
+.log-in {
+    padding: 9.667px 12.889px;
+    width: 123.25px;
+    height: 36.33334px;
+    color:#FFF;
+    font-size: 11.278px;
+    font-weight: 500;
+    line-height: 150%; 
+    border-radius: 8.056px;
+    background: #5541D7;
+    border: none;
+}
+
+.sign-in-greyLine {
+    border: 0.806px solid #e6e6e6 !important;
+    margin: 29px 0;
+}
+
+.sign-in-error-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(255, 0, 0, 0.05);
+    border: 0.806px solid #EAEAEA;
+    padding: 9.667px;
+    border-radius: 6.444px;
+    width: 100%;
+    box-shadow: 9.667px 9.667px 19.333px 0px rgba(0, 0, 0, 0.10);
+    margin-bottom: 32px;
+  }
+
+  .sign-in-error-box-icon {
+    width: 19.333px;
+  }
+  
+  .sign-in-error-box-message {
+    color: #201D1D;
+    font-size: 12.278px;
+    font-weight: 500;
+    line-height: 150%;
+    letter-spacing: -0.338px;
+  }
+  .sign-in-close-error-box-icon {
+    cursor: pointer;
+    font-size: 19.333px;
+  }
+  
+  /* Close button hover effect */
+  .sign-in-error-box .close-btn:hover {
+    color: #a94442;
+  }
+@media screen and (min-width: 768px) {
+    .sign-in-photo {
+        height: 466px;
+        border-radius: 14px;
+    }
+    
+    .sign-in-container {
+        padding: 60px 20px 20px 20px;
+    }
+    
+    .sign-in-logo-container {
+        margin-bottom: 42px;
+    }
+    
+    .sign-in-logo-icon {
+        width: 35px;
+        height: 35px;
+        margin-right: 10.5px;
+    }
+    
+    .sign-in-logo-text {
+        font-size: 22.75px;
+        letter-spacing: -0.455px;
+    }
+    
+    .sign-in-form-div h2 {
+        font-size: 28px;
+        margin: 0 0 8.75px 0;
+    }
+
+    .sign-in-already-have-account-div {
+        margin: 0 0 31.5px 0;
+        gap: 8px;
+    }
+    
+    .sign-in-already-have-account-div p {
+        font-size: 12.25px;
+    }
+    
+    .sign-in-already-have-account-div a {
+        font-size: 12.25px;
+    }
+
+    .sign-in-email-username-div {
+        margin: 0;
+    }
+    .sign-in-email-username-password-div {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 21px;
+    }
+    .sign-in-email-username,
+    .sign-in-password {
+        font-size: 14px;
+    }
+    
+    .sign-in-email-username input,
+    .sign-in-password input {
+        width: 326px;
+        height: 43.75px;
+        margin: 7px 0 0 0;
+        font-size: 12.25px;
+        border-radius: 7px;
+        padding: 14px 10.5px;
+        border: 0.875px solid #F5F5F5;
+    }
+    
+    .sign-in-password-div {
+        margin-bottom: 0;
+    }
+
+    .forgot-password {
+        font-size: 12.25px;
+    }
+    
+    .log-in {
+        padding: 10.5px 14px;
+        width: 133.875px;
+        height: 39px;
+        font-size: 12.25px;
+        border-radius: 8.75px;
+    }
+    
+    .sign-in-greyLine {
+        margin: 31.5px 0;
+    }
+
+    .sign-in-field-missing {
+        top: -20px;
+        font-size: 12.25px;
+    }
+
+    
+    .sign-in-password-eye {
+        width: 17.5px;
+    }
+
+    .sign-in-error-box-column {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .sign-in-error-box {
+        width: 311px;
+        height: 42px;
+        border: 0.875px solid  #EAEAEA;
+        padding: 10.5px;
+        border-radius: 7px;
+        box-shadow: 10.5px 10.5px 21px 0px rgba(0, 0, 0, 0.10);
+        margin-bottom: 30px;
+      }
+    
+      .sign-in-error-box-icon {
+        width: 21px;
+      }
+      
+      .sign-in-error-box-message {
+        font-size: 12.25px;
+        letter-spacing: -0.367px;
+      }
+      .sign-in-close-error-box-icon {
+        font-size: 17.5px;
+      }
+}
+  @media screen and (min-width: 1440px) {
+    .sign-in-photo {
+        width: 715px;
+height: 920px;
+        border-radius: 16px;
+    }
+
+    .sign-in-container {
+        display: flex;
+        justify-content: end;
+        padding: 20px;
+    }
+
+    .sign-in-form-div {
+        margin: 172.5px 160px 0 140px;
+    }
+
+    .sign-in-logo-container {
+        margin-bottom: 48.5px;
+    }
+    
+    .sign-in-logo-icon {
+        width: 40px;
+        height: 40px;
+        margin-right: 12px;
+    }
+    
+    .sign-in-logo-text {
+        font-size: 26px;
+        letter-spacing: -0.52px;
+    }
+    
+    .sign-in-form-div h2 {
+        font-size: 32px;
+        margin: 0 0 10px 0;
+    }
+
+    .sign-in-already-have-account-div {
+        margin: 0 0 36px 0;
+    }
+    
+    .sign-in-already-have-account-div p {
+        font-size: 14px;
+    }
+    
+    .sign-in-already-have-account-div a {
+        font-size: 14px;
+    }
+
+    .sign-in-email-username-password-div {
+        flex-direction: column;
+        margin-bottom: 24px;
+    }
+
+    .sign-in-email-username,
+    .sign-in-password {
+        font-size: 16px;
+    }
+    
+    .sign-in-email-username input,
+    .sign-in-password input {
+        width: 385px;
+        height: 50px;
+        margin: 8px 0 0 0;
+        font-size: 14px;
+        border-radius: 8px;
+        padding: 16px 12px;
+        border: 1px solid #F5F5F5;
+    }
+
+    .forgot-password {
+        font-size: 14px;
+    }
+    
+    .log-in {
+        padding: 12px 16px;
+        width: 153px;
+        height: 45px;
+        font-size: 14px;
+        border-radius: 10px;
+    }
+    
+    .sign-in-greyLine {
+        margin: 36px 0;
+    }
+}

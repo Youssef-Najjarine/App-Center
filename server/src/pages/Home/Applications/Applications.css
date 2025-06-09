@@ -1,0 +1,309 @@
+.mainSubDiv {
+  padding: 57.6px 60px;
+}
+.title-content {
+  display: flex;
+  flex-direction: column;
+  gap: 14.4px;
+}
+
+.title-a {
+  text-align: center;
+  font-family: Satoshi;
+  font-size: 40.8px;
+  font-weight: 700;
+  line-height: 53.04px;
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: #141522;
+}
+.line-mf {
+  font-family: Satoshi;
+  font-size: 19.2px;
+  font-weight: 500;
+  line-height: 28.8px;
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+.search-bar {
+  width: 729.6px;
+  height: 53.8px;
+  padding: 14.4px 19.2px;
+  border-radius: 12px;
+  justify-content: space-between;
+  border: 0.97px solid #f5f5f5;
+}
+
+.applications-grid {
+  display: flex;
+  gap: 19.2px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 0px 60px;
+  justify-items: center;
+  cursor: pointer;
+}
+.application-card {
+  width: 100%;
+  max-width: 427.2px;
+  height: 684px;
+  display: flex;
+  flex-direction: column;
+  padding: 14.4px 14.4px 19.2px 14.4px;
+  gap: 19.2px;
+  border-radius: 19.2px;
+  opacity: 0px;
+  background: #fcfcfc;
+  border: 1.2px solid #f5f5f5;
+}
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 19.2px;
+}
+.github {
+  display: flex;
+  align-items: center;
+  gap: 9.6px;
+}
+.github-url {
+  font-family: Satoshi;
+  font-size: 21.6px;
+  font-weight: 500;
+  line-height: 32.4px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #5c6bc0;
+}
+.card-title {
+  font-family: Satoshi;
+  font-size: 26.4px;
+  font-weight: 700;
+  line-height: 39.6px;
+  letter-spacing: -0.02em;
+  text-align: left;
+}
+.card-description {
+  font-family: Satoshi;
+  font-size: 21.6px;
+  font-weight: 400;
+  line-height: 32.4px;
+  letter-spacing: -0.02em;
+  text-align: left;
+}
+.skills {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14.4px;
+}
+
+.skill {
+  width: 131.8px;
+  height: 39.4px;
+  padding: 7.2px 14.4px;
+  gap: 14.4px;
+  border-radius: 19.2px;
+  opacity: 0px;
+  background: #5541d726;
+  font-family: Satoshi;
+  font-size: 16.8px;
+  font-weight: 500;
+  line-height: 25.2px;
+  color: #5541d7;
+}
+
+.load-more {
+  text-align: center;
+  margin: 57.6px auto;
+  width: 139.6px;
+  height: 53.8px;
+  padding: 14.4px 28.8px;
+  border-radius: 12px;
+  background: #5541d7;
+  font-family: Satoshi;
+  font-size: 16.8px;
+  font-weight: 500;
+  line-height: 25.2px;
+  color: #fff;
+}
+@media (max-width: 1440px) {
+  .mainSubDiv {
+    padding: 32px 30px;
+  }
+  .search-bar {
+    width: 708px;
+    height: 47.2px;
+    padding: 12.6px 16.8px;
+    border-radius: 10.5px;
+    border: 1.05px;
+    justify-content: space-between;
+    opacity: 0px;
+    border: 0.97px solid #f5f5f5;
+  }
+  .applications-grid {
+    display: flex;
+    gap: 16.8px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0px 30px;
+    justify-items: center;
+  }
+  .application-card {
+    width: 100%;
+    max-width: 345.5px;
+    height: 538.55px;
+    display: flex;
+    flex-direction: column;
+    padding: 12.6px 12.6px 16.8px 12.6px;
+    gap: 16.8px;
+    border-radius: 16.8px;
+    background: #fcfcfc;
+    border: 1.05px solid #f5f5f5;
+  }
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16.8px;
+  }
+  .github {
+    display: flex;
+    align-items: center;
+    gap: 8.4px;
+  }
+
+  .github-url {
+    font-family: Satoshi;
+    font-size: 18.9px;
+    font-weight: 500;
+    line-height: 28.35px;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #5c6bc0;
+  }
+  .card-title {
+    font-family: Satoshi;
+    font-size: 23.1px;
+    font-weight: 700;
+    line-height: 34.65px;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
+  .card-description {
+    font-family: Satoshi;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 27px;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
+  .skills {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12.6px;
+  }
+
+  .skill {
+    width: 115.2px;
+    height: 34.6px;
+    padding: 6.3px 12.6px;
+    gap: 12.6px;
+    border-radius: 16.8px;
+    background: #5541d726;
+    font-family: Satoshi;
+    font-size: 14.7px;
+    font-weight: 500;
+    line-height: 22.05px;
+    color: #5541d7;
+  }
+}
+
+@media (max-width: 768px) {
+  .mainSubDiv {
+    padding: 40px 20px;
+  }
+  .search-bar {
+    width: 335px;
+    height: 43.2px;
+    padding: 11.6px 15.47px;
+    border-radius: 9.67px;
+    justify-content: space-between;
+    opacity: 0px;
+    border: 0.97px solid #f5f5f5;
+  }
+  .applications-grid {
+    display: flex;
+    gap: 15.47px;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    padding: 0px 20px;
+    justify-items: center;
+  }
+  .application-card {
+    width: 100%;
+    max-width: 335px;
+    height: 551.17px;
+    display: flex;
+    flex-direction: column;
+    padding: 11.6px 11.6px 15.47px 11.6px;
+    gap: 15.47px;
+    border-radius: 15.47px;
+    background: #fcfcfc;
+    border: 0.97px solid #f5f5f5;
+  }
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 11.6px;
+  }
+  .github {
+    display: flex;
+    align-items: center;
+    gap: 7.73px;
+  }
+
+  .github-url {
+    font-family: Satoshi;
+    font-size: 17.4px;
+    font-weight: 500;
+    line-height: 26.1px;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #5c6bc0;
+  }
+  .card-title {
+    font-family: Satoshi;
+    font-size: 21.27px;
+    font-weight: 700;
+    line-height: 31.9px;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
+  .card-description {
+    font-family: Satoshi;
+    font-size: 17.4px;
+    font-weight: 400;
+    line-height: 26.1px;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
+  .skills {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 11.6px;
+  }
+
+  .skill {
+    width: 106.2px;
+    height: 31.6px;
+    padding: 5.8px 11.6px;
+    gap: 11.6px;
+    border-radius: 15.47px;
+    background: #5541d726;
+    font-family: Satoshi;
+    font-size: 13.53px;
+    font-weight: 500;
+    line-height: 20.3px;
+    color: #5541d7;
+  }
+}

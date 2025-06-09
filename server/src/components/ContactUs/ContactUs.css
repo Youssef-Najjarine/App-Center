@@ -1,0 +1,145 @@
+.contact-section {
+    background: #F6F5FD; /* Background color for the entire section */
+    text-align: center;
+    padding: 40px 20px; /* Increase padding for top and bottom */
+    color: #333;
+    border-radius: 10px;
+}
+
+.contact-headline {
+    font-size:46.267px;
+    font-weight: 700;
+    color: #030712; /* Darker color for the headline */
+    margin: 0 0 8px 0;
+}
+
+.contact-icon {
+    font-size: 50.267px;
+}
+
+.contact-description {
+    font-size: 17.4px;
+    font-weight: 400;
+    line-height: 150%;
+    color: #374151;
+    max-width: 335px;
+    letter-spacing: 0.348px;
+    margin: 23.2px 0 30px 0;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-item {
+    background-color: #FFF;
+    border-radius: 15.467px;
+    padding: 16px 12px;
+    width: 100%;
+    max-width: 335px;
+    height: 122px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 16px;
+}
+
+.contact-item .icon i {
+    font-size:  41.567px;
+    color: #6366F1;
+}
+.contact-item p {
+    font-size: 17.4px;
+    color: #141522;
+    font-weight: 500;
+    margin: 23.2px 0 0 0;
+}
+
+@media screen and (min-width: 768px) {
+    .contact-section {
+        padding: 64px 30px;
+    }
+    .contact-headline-icon-div {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
+    .contact-headline {
+        font-size: 54.6px;
+        margin: 0 0 25.2px 0;
+    }
+
+    .contact-icon {
+        margin-left: 10px;
+        font-size: 54.6px;
+    }
+
+    .contact-description {
+        font-size: 18.5px;
+        max-width: 100%;
+        letter-spacing: 0.378px;
+        margin: 0 0 50.4px 0;
+    }
+
+    .contact-item {
+        border-radius: 8px;
+        padding: 24px 16.8px;
+        max-width: 708px;
+        height: 146.35px;
+        margin-bottom: 24px;
+    }
+    
+    .contact-item .icon i {
+        font-size:  45.15px;
+    }
+    .contact-item p {
+        font-size: 18.9px;
+        margin: 25.2px 0 0 0;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .contact-section {
+        padding: 96px 60px;
+    }
+
+    .contact-headline {
+        font-size: 62.4px;
+        margin: 0 0 28.8px 0;
+    }
+
+    .contact-icon {
+        margin-left: 10px;
+        font-size: 62.4px;
+    }
+
+    .contact-description {
+        font-size: 21.6px;;
+        max-width: 100%;
+        letter-spacing: 0.432px;
+        margin: 0 0 57.6px 0;
+    }
+
+    .contact-info {
+        flex-direction: row;
+        gap: 28.8px;
+    }
+
+    .contact-item {
+        border-radius: 19.2px;
+        padding: 38.4px 19.2px;
+        max-width: 420.79px;
+        height: 189.2px;
+        margin-bottom: 0;
+    }
+    
+    .contact-item .icon i {
+        font-size:  51.6px;
+    }
+    .contact-item p {
+        font-size: 21.6px;
+        margin: 28.8px 0 0 0;
+    }
+}
+

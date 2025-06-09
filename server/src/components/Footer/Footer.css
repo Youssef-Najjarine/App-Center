@@ -1,0 +1,161 @@
+.footer-copyright-desktop {
+    display: none;
+}
+.footer {
+    background-color: #030712;
+    border-top: 0.967px solid var(--Neutral-70, #374151);
+    padding: 32px 20px;
+}
+
+.footer-logo-section {
+    margin-bottom: 11.6px;
+    display: flex;
+    align-items: center;
+}
+
+.footer-logo {
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+}
+
+.footer-logo-text {
+    color: #FFF;
+    font-size: 21.363px;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: -0.427px;
+    margin: 0;
+} 
+
+.footer-description {
+    font-size: 17.4px;
+    font-weight: 400;
+    color: #E5E7EB;
+    margin: 0 0 38.7px 0;
+    line-height: 130%;
+    letter-spacing: 0.348px;
+}
+
+.footer-icons {
+    margin-bottom: 38.67px;
+} 
+
+.social-icon {
+    padding: 15.467px;
+    background: #111827;
+    color: #94A3B8;
+    border-radius: 96.6px;
+    font-size: 19.3px;
+    transition: color 0.3s ease;
+    margin-right: 15.47px;
+}
+
+.social-icon:hover {
+    color: #FFF;
+}
+
+.footer-copyright-mobile,
+.footer-copyright-desktop {
+    margin: 0;
+    color: #898989;
+    font-size: 15.467px;
+    font-weight: 500;
+    line-height: 150%;
+    letter-spacing: 0.309px;
+}
+
+@media screen and (min-width: 768px) {
+    .footer {
+        padding: 48px 30px;
+    }
+
+    .footer-logo-section {
+        margin-bottom: 12.6px;
+    }
+
+    .footer-logo {
+        width: 35.7px;
+        height: 35.7px;
+        margin-right: 10.7px;
+    }
+
+    .footer-logo-text {
+        font-size: 23.205px;
+        letter-spacing: -0.464px;
+    } 
+
+    .footer-description {
+        font-size: 18.9px;
+        margin: 0 0 42px 0;
+        letter-spacing: 0.348px;
+    }
+
+    .footer-icons {
+        margin-bottom: 42px;
+    } 
+
+    .social-icon {
+        padding: 16.8px;
+        border-radius: 105px;
+        font-size: 21px;
+        margin-right: 16.8px;
+    }
+
+    .footer-copyright-mobile {
+        font-size: 16.8px;
+        letter-spacing: 0.336px;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .footer-copyright-mobile {
+        display: none;
+    }
+    .footer {
+        padding: 57.6px 60px;
+    }
+
+    .footer-logo-section {
+        margin-bottom: 14.4px;
+    }
+
+    .footer-logo {
+        width: 40.8px;
+        height: 40.8px;
+        margin-right: 12.24px;
+    }
+
+    .footer-logo-text {
+        font-size: 26.52px;
+        letter-spacing: -0.53px;
+    } 
+
+    .footer-description {
+        font-size: 21.6px;
+        margin: 0 0 48px 0;
+        letter-spacing: 0.432px;
+    }
+    .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .footer-icons {
+        display: flex;
+        gap: 19.2px;
+    } 
+
+    .social-icon {
+        padding: 19.2px;
+        border-radius: 120px;
+        font-size: 24px;
+        margin-right: 0;
+    }
+
+    .footer-copyright-desktop {
+        display: block;
+        font-size: 19.2px;
+        letter-spacing: 0.384px;
+    }
+}

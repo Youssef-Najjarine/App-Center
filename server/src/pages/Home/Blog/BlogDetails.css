@@ -1,0 +1,323 @@
+.container {
+  padding: 57.6px 60px;
+  gap: 24px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 14.4px;
+}
+
+.arrow-back {
+  width: 28.61px;
+  height: 28.61px;
+  cursor: pointer;
+}
+
+.blog-tag {
+  width: 150.8px;
+  height: 44.4px;
+  padding: 7.2px 14.4px 7.2px 14.4px;
+  gap: 14.4px;
+  border-radius: 19.2px;
+  background: #5541d726;
+  font-family: Satoshi;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 30px;
+  color: #5541d7;
+}
+.blog-date {
+  font-family: Satoshi;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 33px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #141522;
+}
+.blog-title {
+  font-family: Satoshi;
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 57px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #141522;
+}
+.image-section1 {
+  display: flex;
+  justify-content: center;
+}
+.blog-image1 {
+  width: 1320px;
+  height: 539px;
+  padding: 19.2px;
+  gap: 36px;
+  border-radius: 9.6px;
+  opacity: 0px;
+}
+.blog-content1 {
+  font-family: Satoshi;
+  font-size: 19.2px;
+  font-weight: 400;
+  line-height: 38.4px;
+  letter-spacing: -0.02em;
+  color: #141522;
+}
+.image-section2 {
+  display: flex;
+  justify-content: center;
+}
+.blog-image2 {
+  width: 740px;
+  height: 392px;
+  padding: 19.2px;
+  gap: 36px;
+  border-radius: 9.6px;
+  opacity: 0px;
+}
+.blog-content2 {
+  font-family: Satoshi;
+  font-size: 19.2px;
+  font-weight: 400;
+  line-height: 38.4px;
+  letter-spacing: -0.02em;
+}
+.image-section3 {
+  display: flex;
+  justify-content: center;
+}
+.blog-image3 {
+  width: 785px;
+  height: 392px;
+  padding: 19.2px;
+  gap: 36px;
+  border-radius: 9.6px;
+  opacity: 0px;
+}
+.blog-image4 {
+  width: 511px;
+  height: 392px;
+  padding: 19.2px;
+  gap: 36px;
+  border-radius: 9.6px;
+  opacity: 0px;
+}
+
+@media (max-width: 1440px) {
+  .container {
+    padding: 48px 30px;
+    gap: 21px;
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 12.6px;
+  }
+  .arrow-back {
+    width: 25.03px;
+    height: 25.03px;
+  }
+  .blog-tag {
+    width: 132.2px;
+    height: 38.6px;
+    padding: 6.3px 12.6px 7.2px 14.4px;
+    gap: 12.6px;
+    border-radius: 16.8px;
+    background: #5541d726;
+    font-family: Satoshi;
+    font-size: 17.5px;
+    font-weight: 500;
+    line-height: 26.25px;
+    color: #5541d7;
+  }
+  .blog-date {
+    font-family: Satoshi;
+    font-size: 19.25px;
+    font-weight: 500;
+    line-height: 28.88px;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #141522;
+  }
+  .blog-title {
+    font-family: Satoshi;
+    font-size: 33.25px;
+    font-weight: 700;
+    line-height: 49.88px;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #141522;
+  }
+  .image-section1 {
+    display: flex;
+    justify-content: center;
+  }
+  .blog-image1 {
+    width: 708px;
+    height: 471.63px;
+    padding: 16.8px;
+    gap: 31.5px;
+    border-radius: 8.4px;
+    opacity: 0px;
+  }
+
+  .blog-content1 {
+    font-family: Satoshi;
+    font-size: 16.8px;
+    font-weight: 400;
+    line-height: 33.6px;
+    letter-spacing: -0.02em;
+    color: #141522;
+  }
+  .image-section2 {
+    display: flex;
+    justify-content: center;
+  }
+  .blog-image2 {
+    width: 524px;
+    height: 277px;
+    padding: 16.8px;
+    gap: 31.5px;
+    border-radius: 8.4px;
+    opacity: 0px;
+  }
+  .blog-content2 {
+    font-family: Satoshi;
+    font-size: 16.8px;
+    font-weight: 400;
+    line-height: 33.6px;
+    letter-spacing: -0.02em;
+  }
+  .image-section3 {
+    display: flex;
+    justify-content: center;
+  }
+  .blog-image3 {
+    width: 412px;
+    height: 241px;
+    padding: 16.8px;
+    gap: 31.5px;
+    border-radius: 8.4px;
+    opacity: 0px;
+  }
+  .blog-image4 {
+    width: 275px;
+    height: 241px;
+    padding: 16.8px;
+    gap: 31.5px;
+    border-radius: 8.4px;
+    opacity: 0px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 48px 20px;
+    gap: 19px;
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 11.6px;
+  }
+  .arrow-back {
+    width: 23.05px;
+    height: 23.05px;
+  }
+  .blog-tag {
+    width: 122.2px;
+    height: 35.6px;
+    padding: 5.8px 11.6px;
+    gap: 11.6px;
+    border-radius: 15.47px;
+    background: #5541d726;
+    font-family: Satoshi;
+    font-size: 16.11px;
+    font-weight: 500;
+    line-height: 24.17px;
+    color: #5541d7;
+  }
+  .blog-date {
+    font-family: Satoshi;
+    font-size: 17.72px;
+    font-weight: 500;
+    line-height: 26.58px;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #141522;
+  }
+  .blog-title {
+    font-family: Satoshi;
+    font-size: 30.61px;
+    font-weight: 700;
+    line-height: 45.92px;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #141522;
+  }
+  .image-section1 {
+    display: flex;
+    justify-content: center;
+  }
+  .blog-image1 {
+    width: 335px;
+    height: 163px;
+    padding: 15.47px;
+    gap: 29px;
+    border-radius: 7.73px;
+    opacity: 0px;
+  }
+
+  .blog-content1 {
+    font-family: Satoshi;
+    font-size: 15.47px;
+    font-weight: 400;
+    line-height: 30.93px;
+    letter-spacing: -0.02em;
+    color: #141522;
+  }
+  .image-section2 {
+    display: flex;
+    justify-content: center;
+  }
+  .blog-image2 {
+    width: 339px;
+    height: 180px;
+    padding: 15.47px;
+    gap: 29px;
+    border-radius: 7.73px;
+    opacity: 0px;
+  }
+  .blog-content2 {
+    font-family: Satoshi;
+    font-size: 15.47px;
+    font-weight: 400;
+    line-height: 30.93px;
+    letter-spacing: -0.02em;
+  }
+  .image-section3 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .blog-image3 {
+    width: 335px;
+    height: 168px;
+    padding: 15.47px;
+    gap: 29px;
+    border-radius: 7.73px;
+    opacity: 0px;
+  }
+  .blog-image4 {
+    width: 335px;
+    height: 315.78px;
+    padding: 15.47px;
+    gap: 29px;
+    border-radius: 7.73px;
+    opacity: 0px;
+  }
+}

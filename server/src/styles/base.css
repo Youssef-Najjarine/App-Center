@@ -1,0 +1,84 @@
+a {
+  transition: all 0.5s ease-in-out;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+a.scrollLink {
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+
+.col-12::-webkit-scrollbar-track,
+.w-cat-div::-webkit-scrollbar-track,
+.my-profile-bio::-webkit-scrollbar-track,
+.nested-login-container::-webkit-scrollbar-track,
+.appsConclusion p::-webkit-scrollbar-track,
+.appModalEntry::-webkit-scrollbar-track,
+.blogEntry::-webkit-scrollbar-track,
+.my-profile-right::-webkit-scrollbar-track,
+.w-title::-webkit-scrollbar-track,
+.my-profile-app-to-display h2:-webkit-scrollbar-track,
+#my-app-upload:-webkit-scrollbar-track,
+#my-profile-settings:-webkit-scrollbar-track,
+#update-account-bio:-webkit-scrollbar-track,
+.user-about:-webkit-scrollbar-track,
+#upload-new-app-conclusion:-webkit-scrollbar-track,
+#my-profile-apps:-webkit-scrollbar-track,
+#update-app-header-phrase:-webkit-scrollbar-track,
+#update-app-short-desc:-webkit-scrollbar-track,
+#update-app-tech-stack:-webkit-scrollbar-track,
+#update-app-conclusion:-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+.col-12::-webkit-scrollbar,
+.w-cat-div::-webkit-scrollbar,
+.my-profile-bio::-webkit-scrollbar,
+.nested-login-container::-webkit-scrollbar,
+.appsConclusion p::-webkit-scrollbar,
+.appModalEntry::-webkit-scrollbar,
+.blogEntry::-webkit-scrollbar,
+.my-profile-right::-webkit-scrollbar,
+.w-title::-webkit-scrollbar,
+.my-profile-app-to-display h2::-webkit-scrollbar,
+#my-app-upload::-webkit-scrollbar,
+#my-profile-settings::-webkit-scrollbar,
+#update-account-bio::-webkit-scrollbar,
+.user-about::-webkit-scrollbar,
+#upload-new-app-conclusion::-webkit-scrollbar,
+#my-profile-apps::-webkit-scrollbar,
+#update-app-header-phrase::-webkit-scrollbar,
+#update-app-short-desc::-webkit-scrollbar,
+#update-app-tech-stack::-webkit-scrollbar,
+#update-app-conclusion::-webkit-scrollbar {
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+.col-12::-webkit-scrollbar-thumb,
+.w-cat-div::-webkit-scrollbar-thumb,
+.my-profile-bio::-webkit-scrollbar-thumb,
+.nested-login-container::-webkit-scrollbar-thumb,
+.appsConclusion p::-webkit-scrollbar-thumb,
+.appModalEntry::-webkit-scrollbar-thumb,
+.blogEntry::-webkit-scrollbar-thumb,
+.my-profile-right::-webkit-scrollbar-thumb,
+.w-title::-webkit-scrollbar-thumb,
+.my-profile-app-to-display h2::-webkit-scrollbar-thumb,
+#my-app-upload::-webkit-scrollbar-thumb,
+#my-profile-settings::-webkit-scrollbar-thumb,
+#update-account-bio::-webkit-scrollbar-thumb,
+.user-about::-webkit-scrollbar-thumb,
+#upload-new-app-conclusion::-webkit-scrollbar-thumb,
+#my-profile-apps::-webkit-scrollbar-thumb,
+#update-app-header-phrase::-webkit-scrollbar-thumb,
+#update-app-short-desc::-webkit-scrollbar-thumb,
+#update-app-tech-stack::-webkit-scrollbar-thumb,
+#update-app-conclusion::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #555;
+}

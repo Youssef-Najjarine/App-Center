@@ -1,0 +1,139 @@
+.headline-desktop,
+.desktop-description-break {
+  display: none;
+}
+.home-background {
+  width: 100%;
+  height: 812.4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  margin-top: 130px;
+  padding: 46.4px 20px;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  position: relative;
+  color: #fff;
+  z-index: 2;
+}
+
+.headline-mobile {
+  margin: 0 0 15px 0;
+  font-weight: 500;
+  max-width: 335px;
+  font-size: 52.2px;
+  line-height: 120%;
+}
+
+.headline-mobile span,
+.headline-desktop span {
+  color: #c4b5fd;
+}
+
+.description {
+  font-weight: 400;
+  font-size: 17.4px;
+  line-height: 150%;
+  color: #fff;
+  max-width: 335px;
+  margin: 0 0 30px 0;
+  letter-spacing: 0.348px;
+}
+
+.explore-button {
+  padding: 12px 24px;
+  background-color: #fff;
+  color: #5541d7;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 9.667px;
+}
+
+@media screen and (min-width: 768px) {
+  .home-background {
+    align-items: baseline;
+    height: 710.85px;
+    margin-top: 124.2px;
+    padding: 50.4px 52.5px;
+  }
+
+  .headline-mobile br {
+    display: none;
+  }
+
+  .headline-mobile {
+    margin: 124.725px 0 16.8px 0;
+    font-weight: 500;
+    max-width: 663px;
+    font-size: 56.7px;
+    letter-spacing: -1.134px;
+  }
+
+  .description {
+    font-size: 18.9px;
+    max-width: 663px;
+    margin: 0 0 33.6px 0;
+    letter-spacing: 0.378px;
+  }
+
+  .explore-button {
+    padding: 12.6px 25.2px;
+    font-size: 16.8px;
+    border-radius: 10.5px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .home-background {
+    height: 812.4px;
+    margin-top: 111.4px;
+    padding: 57.6px 60px;
+  }
+  .headline-mobile {
+    display: none;
+  }
+
+  .headline-desktop {
+    display: flow-root;
+    font-weight: 500;
+    max-width: 896.6px;
+    margin: 180.9px 0 19.2px 0;
+    font-size: 64.8px;
+    line-height: 120%;
+    letter-spacing: -1.296px;
+  }
+  .description {
+    text-align: center;
+    font-size: 21.6px;
+    max-width: 1320px;
+    margin: 0 0 38.4px 0;
+    letter-spacing: 0.432px;
+  }
+  .desktop-description-break {
+    padding: 0;
+    display: inline;
+  }
+
+  .explore-button {
+    padding: 14.4px 28.8px;
+    font-size: 19.2px;
+    border-radius: 12px;
+  }
+}
