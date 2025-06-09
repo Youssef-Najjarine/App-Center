@@ -16,7 +16,7 @@ const Blog = () => {
   };
 
   return (
-    <section id="blog" className="page-container">
+    <section id="blog" className="blog-container page-container">
       <div className="mainSubDiv">
         <div className="col-full headers">
           <div className="title-a">Blogs</div>

@@ -1,5 +1,5 @@
 /* Common styles */
-.container {
+.about-container {
   display: flex;
   flex-direction: column;
   /* max-width: 1440px; */
@@ -94,7 +94,7 @@
 
 /* Media Queries for Responsiveness */
 @media (max-width: 1440px) {
-  .container {
+  .about-container {
     width: 100%;
   }
 

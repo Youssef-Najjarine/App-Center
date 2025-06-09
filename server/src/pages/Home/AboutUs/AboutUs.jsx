@@ -33,7 +33,7 @@ const Section = ({ imageFirst, image, title, children }) => (
 
 const AboutUs = () => {
   return (
-    <div className="container">
+    <div className="about-container">
       <div className="part1">
         <Section imageFirst title="Why Open App Partner?" image={ImageThumb1}>
           At Open App Partners, we are passionate innovators determined to

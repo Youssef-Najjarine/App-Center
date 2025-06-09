@@ -9,17 +9,16 @@ const HomeCarousel = () => {
   return (
     <section className="home-carousel-section">
       <div className="carousel-container">
-        <div className="carousel-track">
-          <img src={image1} alt="AI Future" className="carousel-image" />
-          <img src={image2} alt="Design" className="carousel-image" />
-          <img src={image3} alt="Matrix" className="carousel-image" />
-          <img src={image1} alt="AI Future" className="carousel-image" />
-          <img src={image2} alt="Design" className="carousel-image" />
-          <img src={image3} alt="Matrix" className="carousel-image" />
-        </div>
+<div className="carousel-track">
+  {[image1, image2, image3, image1, image2, image3].map((img, i) => (
+    <img src={img} key={i} alt="" className="carousel-image" />
+  ))}
+</div>
       </div>
     </section>
   );
 };
 
 export default HomeCarousel;
+
+

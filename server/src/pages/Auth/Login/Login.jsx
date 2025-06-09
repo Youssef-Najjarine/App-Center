@@ -100,7 +100,7 @@ const Login = () => {
         <h2>Sign In</h2>
         <div className="sign-in-already-have-account-div">
           <p>Don't have an Account?</p>
-          <a href="/auth/sign-up">Sign Up</a>
+          <Link to="/auth/sign-up">Sign Up</Link>
         </div>
         <form onSubmit={handleSubmit}>
           <div className='sign-in-email-username-password-div'>
