@@ -14,7 +14,7 @@ const Home = () => {
         style={{ backgroundImage: `url(${introBg})` }}
       >
         <div className="overlay"></div>
-        <div className="content">
+        <div className="home-content">
           <h1 className="headline-mobile">
             <span>
               Deploy Apps
@@ -34,9 +34,11 @@ const Home = () => {
             </span>
             effortlessly and reach new heights with ease.
           </p>
-          <Link to="/applications" className="explore-button">
-            Explore Our Latest Apps
-          </Link>
+          <div className="home-explore-div">
+            <Link to="/applications" className="explore-button">
+              Explore Our Latest Apps
+            </Link>
+          </div>
         </div>
       </div>
       <Carousel />

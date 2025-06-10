@@ -25,7 +25,7 @@
   z-index: 1;
 }
 
-.content {
+.home-content {
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -57,6 +57,10 @@
   letter-spacing: 0.348px;
 }
 
+.home-explore-div {
+  width: 100%;
+
+}
 .explore-button {
   padding: 12px 24px;
   background-color: #fff;
@@ -131,7 +135,14 @@
     display: inline;
   }
 
+  .home-explore-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .explore-button {
+    width: 291px;
     padding: 14.4px 28.8px;
     font-size: 19.2px;
     border-radius: 12px;
