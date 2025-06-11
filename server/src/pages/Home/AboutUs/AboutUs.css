@@ -28,7 +28,11 @@
 
 .about-part3 {
   padding: 56px 0 48px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
 
 
 .about-part4 {
@@ -45,7 +49,11 @@
   margin: 0 0 23.2px 0;
 }
 
+.about-our-vision {
+  text-align: center;
+}
 .about-text {
+  text-align: center;
   color:#374151;
   font-size: 15px;
   font-style: normal;
@@ -63,24 +71,37 @@
     padding: 196px 30px 72px 30px;
   }
 
+  .about-title {
+    font-size: 54.6px;
+    line-height: 54.6px;
+    letter-spacing: -1.092px;
+        margin: 0 0 25.2px 0;
+  }
+
+  .about-text {
+    font-size: 18.9px;
+    font-weight: 400;
+    line-height: 28.35px;
+    letter-spacing: 0.378px;
+  }
   .about-part1 {
     padding: 0 0 72px 0;
   }
 
   .about-image {
-    width: 708px;
-    height: 525px;
+    width: 100%;
+    height: 600px;
   }
 
   .about-part4 .about-image {
     margin-bottom: 0;
   }
   .about-part2 {
-    padding: 48px 0 0 0;
+    padding: 48px 0 8.4px 0;
   }
 
   .about-part3 {
-    padding: 56px 0 48px 0;
+    padding: 93.6px 0 48px 0;
   }
 
 
@@ -88,24 +109,12 @@
     padding: 48px 0;
   }
 
-  .about-title {
-    color: #030712;
-    font-size: 61px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 62px;
-    letter-spacing: -1.24px;
-    margin: 0 0 25.2px 0;
+  .about-part3 {
+    flex-direction: column-reverse;
   }
 
-  .about-text {
-    color:#374151;
-    font-size: 15px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 26.1px;
-    letter-spacing: 0.348px;
-    margin: 0;
+  .about-part3 .about-image {
+    margin-bottom: 40px;
   }
   .about-part3 .about-text {
     margin: 0 0 40px 0;

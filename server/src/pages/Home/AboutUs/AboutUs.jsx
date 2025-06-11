@@ -27,7 +27,7 @@ const AboutUs = () => {
       </div>
 
       <div className="about-section about-part2">
-        <h3 className="about-title">Our Vision</h3>
+        <h3 className="about-title about-our-vision">Our Vision</h3>
         <p className="about-text">
           We envision a world where everyone has access to publishing
           applications, no matter how many team members they have. It should
@@ -42,19 +42,21 @@ const AboutUs = () => {
       </div>
       <Carousel />
       <div className="about-section about-part3">
-        <h3 className="about-title">What We Do</h3>
-        <p className="about-text">
-          We specialize in developing and releasing a variety of innovative applications 
-          across multiple industries, publishing other applications no matter how many team 
-          members they have, unlike that large corporation. We have a highly advanced 
-          cybersecurity AI application, mental health, creative tools, and some game 
-          development. Our platform, Open App Partners, is designed to support developers 
-          and entrepreneurs by providing a flexible, open-source solution for launching and 
-          managing applications. Our solutions, from AI-powered mental health platforms, Dream 
-          Interpretation algorithm, and Blessings Random, which is the opposite of Random Nautica, 
-          to advanced 3D asset creation tools, reflect our commitment to creating high-quality, 
-          user-centric experiences that deliver real value.
-        </p>
+        <div>
+          <h3 className="about-title">What We Do</h3>
+          <p className="about-text">
+            We specialize in developing and releasing a variety of innovative applications 
+            across multiple industries, publishing other applications no matter how many team 
+            members they have, unlike that large corporation. We have a highly advanced 
+            cybersecurity AI application, mental health, creative tools, and some game 
+            development. Our platform, Open App Partners, is designed to support developers 
+            and entrepreneurs by providing a flexible, open-source solution for launching and 
+            managing applications. Our solutions, from AI-powered mental health platforms, Dream 
+            Interpretation algorithm, and Blessings Random, which is the opposite of Random Nautica, 
+            to advanced 3D asset creation tools, reflect our commitment to creating high-quality, 
+            user-centric experiences that deliver real value.
+          </p>
+        </div>
         <div className="about-image">
           <img src={ImageThumb2} alt="What We Do" />
         </div>
