@@ -20,19 +20,19 @@ import SignUp from "./pages/Auth/SignUp/SignUp";
 import ForgotPassword from "./pages/Auth/ForgotPassword/ForgotPassword";
 
 const HomeLayout = () => (
-  <div className="container">
-    <HomeNavbarDesktop />
-    <HomeNavbarMobile />
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/applications" element={<Applications />} />
-      <Route path="/blog" element={<Blog />} />
-      <Route path="/blog/edit" element={<BlogDetails />} />
-      <Route path="/about-us" element={<AboutUs />} />
-    </Routes>
-    <ContactUs />
-    <Footer />
-  </div>
+  <section className="container">
+      <HomeNavbarDesktop />
+      <HomeNavbarMobile />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/applications" element={<Applications />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/edit" element={<BlogDetails />} />
+        <Route path="/about-us" element={<AboutUs />} />
+      </Routes>
+      <ContactUs />
+    <Footer/>
+  </section>
 );
 
 const ProfileLayout = () => (

@@ -37,15 +37,14 @@
   text-align: left;
   color: #141522;
 }
-.blog-title {
-  font-family: Satoshi;
+/* .blog-title {
   font-size: 38px;
   font-weight: 700;
   line-height: 57px;
   letter-spacing: -0.02em;
   text-align: left;
   color: #141522;
-}
+} */
 .image-section1 {
   display: flex;
   justify-content: center;
@@ -142,15 +141,14 @@
     text-align: left;
     color: #141522;
   }
-  .blog-title {
-    font-family: Satoshi;
+  /* .blog-title {
     font-size: 33.25px;
     font-weight: 700;
     line-height: 49.88px;
     letter-spacing: -0.02em;
     text-align: left;
     color: #141522;
-  }
+  } */
   .image-section1 {
     display: flex;
     justify-content: center;
@@ -249,7 +247,7 @@
     text-align: left;
     color: #141522;
   }
-  .blog-title {
+  /* .blog-title {
     font-family: Satoshi;
     font-size: 30.61px;
     font-weight: 700;
@@ -257,7 +255,7 @@
     letter-spacing: -0.02em;
     text-align: left;
     color: #141522;
-  }
+  } */
   .image-section1 {
     display: flex;
     justify-content: center;

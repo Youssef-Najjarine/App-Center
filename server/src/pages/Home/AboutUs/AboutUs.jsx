@@ -7,11 +7,12 @@ import "./AboutUs.css";
 
 const AboutUs = () => {
   return (
-    <div className="about-container">
-      <div className="about-section about-part1">
+    <section id="about-us">
+      <div className="about-part1">
         <div className="about-image">
           <img src={ImageThumb1} alt="Why Open App Partner?" />
         </div>
+        <div className="about-text-container">
           <h3 className="about-title">Why Open App Partner?</h3>
           <p className="about-text">
             At Open App Partners, we are passionate innovators determined to
@@ -24,9 +25,10 @@ const AboutUs = () => {
             bring the future of tech into the present, with an affordable
             applications platform.
           </p>
+        </div>
       </div>
 
-      <div className="about-section about-part2">
+      <div className="about-part2">
         <h3 className="about-title about-our-vision">Our Vision</h3>
         <p className="about-text">
           We envision a world where everyone has access to publishing
@@ -41,8 +43,8 @@ const AboutUs = () => {
         </p>
       </div>
       <Carousel />
-      <div className="about-section about-part3">
-        <div>
+      <div className="about-part3">
+        <div className="about-text-container">
           <h3 className="about-title">What We Do</h3>
           <p className="about-text">
             We specialize in developing and releasing a variety of innovative applications 
@@ -61,10 +63,11 @@ const AboutUs = () => {
           <img src={ImageThumb2} alt="What We Do" />
         </div>
       </div>
-      <div className="about-section about-part4">
+      <div className="about-part4">
         <div className="about-image">
           <img src={ImageThumb3} alt="Our Approach" />
         </div>
+        <div className="about-text-container">
           <h3 className="about-title">Our Approach</h3>
           <p className="about-text">
             At Open App Partners, our approach is user-focused, collaborative,
@@ -79,8 +82,9 @@ const AboutUs = () => {
             communities and other developers to continuously push the
             boundaries of what’s possible.
           </p>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

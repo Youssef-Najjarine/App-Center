@@ -1,68 +1,227 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import blogData from "../../../data/blogData";
+import React from "react";
 import searchIcon from "../../../assets/Blogs/search-normal.svg";
+import blogImg1 from "../../../assets/Blogs/1.png";
+import blogImg2 from "../../../assets/Blogs/2.png";
+import blogImg3 from "../../../assets/Blogs/3.png";
+import blogImg4 from "../../../assets/Blogs/4.png";
+import blogImg5 from "../../../assets/Blogs/5.png";
+import blogImg6 from "../../../assets/Blogs/6.png";
+import blogImg7 from "../../../assets/Blogs/7.png";
+import BlogCarousel from "./BlogsCarousel/BlogsCarousel";
 import "./Blog.css";
+
 const Blog = () => {
-  const [expandedBlogIndex, setExpandedBlogIndex] = useState(null);
-  const navigate = useNavigate();
-
-  const toggleReadMore = (index) => {
-    setExpandedBlogIndex(expandedBlogIndex === index ? null : index);
-  };
-
-  const handleCardClick = (blogId) => {
-    navigate("/blog/edit");
-  };
-
   return (
-    <section id="blog" className="blog-container page-container">
-      <div className="mainSubDiv">
-        <div className="col-full headers">
-          <div className="title-a">Blogs</div>
-          <div className="line-mf">
-            Explore the best blogs related to apps and Partner app.
+    <section id="blogs">
+      <div className="blogs-main">
+        <div className="blog-title-div">
+            <h2 className="blogs-title">Blogs</h2>
+            <h3 className="blogs-sub-header">
+              Explore the best blogs related to apps and Partner app.
+            </h3>
+            <div className="blog-search-div">
+              <input className="blog-search" placeholder="Search blogs..."/>
+              <img src={searchIcon} alt="Blog Search" className="blog-search-icon" />
+            </div>
+        </div>
+        <div className="blogs-cards">
+          <div className="blogs-card">
+            <div className="blogs-info">
+              <div className="blogs-header">
+                <ul className="blogs-list">
+                  <li className="blogs-tag-ui-ux">UI/UX Design</li>
+                  <li className="blogs-date">Aug 13, 2024</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="blogs-header-desc">
+                  Title of the Blog
+                </h4>
+                <p className="blogs-entry">
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+                  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                  when an unknown printer took a galley of type and scrambled it to make a type 
+                  specimen book. It has survived not only five centuries, but also the leap into 
+                  electronic typesetting, remaining essentially unchanged. It was popularised in 
+                  the 1960s with the...
+                </p>
+              </div>
+              <button className="blogs-read-more">Read More</button>
+            </div>
+            <div className="blogs-image-div">
+              <img src={blogImg1} alt="Title of the Blog" />
+            </div>
           </div>
-          <div className="search-bar">
-            <div className="search-placeholder">Any blog title...</div>
-            <img src={searchIcon} alt="Close" className="search-icon" />
+          <div className="blogs-card">
+            <div className="blogs-info">
+              <div className="blogs-header">
+                <ul className="blogs-list">
+                  <li className="blogs-tag-ui-ux">UI/UX Design</li>
+                  <li className="blogs-date">Aug 13, 2024</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="blogs-header-desc">
+                  Title of the Blog
+                </h4>
+                <p className="blogs-entry">
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+                  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                  when an unknown printer took a galley of type and scrambled it to make a type 
+                  specimen book. It has survived not only five centuries, but also the leap into 
+                  electronic typesetting, remaining essentially unchanged. It was popularised in 
+                  the 1960s with the...
+                </p>
+              </div>
+              <button className="blogs-read-more">Read More</button>
+            </div>
+            <div className="blogs-image-div">
+              <img src={blogImg2} alt="Title of the Blog" />
+            </div>
+          </div>
+          <div className="blogs-card">
+            <div className="blogs-info">
+              <div className="blogs-header">
+                <ul className="blogs-list">
+                  <li className="blogs-tag-ui-ux">UI/UX Design</li>
+                  <li className="blogs-date">Aug 13, 2024</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="blogs-header-desc">
+                  Title of the Blog
+                </h4>
+                <p className="blogs-entry">
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+                  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                  when an unknown printer took a galley of type and scrambled it to make a type 
+                  specimen book. It has survived not only five centuries, but also the leap into 
+                  electronic typesetting, remaining essentially unchanged. It was popularised in 
+                  the 1960s with the...
+                </p>
+              </div>
+              <button className="blogs-read-more">Read More</button>
+            </div>
+            <div className="blogs-image-div">
+              <img src={blogImg3} alt="Title of the Blog" />
+            </div>
+          </div>
+          <div className="blogs-card">
+            <div className="blogs-info">
+              <div className="blogs-header">
+                <ul className="blogs-list">
+                  <li className="blogs-tag-ui-ux">UI/UX Design</li>
+                  <li className="blogs-date">Aug 13, 2024</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="blogs-header-desc">
+                  Title of the Blog
+                </h4>
+                <p className="blogs-entry">
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+                  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                  when an unknown printer took a galley of type and scrambled it to make a type 
+                  specimen book. It has survived not only five centuries, but also the leap into 
+                  electronic typesetting, remaining essentially unchanged. It was popularised in 
+                  the 1960s with the...
+                </p>
+              </div>
+              <button className="blogs-read-more">Read More</button>
+            </div>
+            <div className="blogs-image-div">
+              <img src={blogImg4} alt="Title of the Blog" />
+            </div>
+          </div>
+          <div className="blogs-card">
+            <div className="blogs-info">
+              <div className="blogs-header">
+                <ul className="blogs-list">
+                  <li className="blogs-tag-ui-ux">UI/UX Design</li>
+                  <li className="blogs-date">Aug 13, 2024</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="blogs-header-desc">
+                  Title of the Blog
+                </h4>
+                <p className="blogs-entry">
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+                  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                  when an unknown printer took a galley of type and scrambled it to make a type 
+                  specimen book. It has survived not only five centuries, but also the leap into 
+                  electronic typesetting, remaining essentially unchanged. It was popularised in 
+                  the 1960s with the...
+                </p>
+              </div>
+              <button className="blogs-read-more">Read More</button>
+            </div>
+            <div className="blogs-image-div">
+              <img src={blogImg5} alt="Title of the Blog" />
+            </div>
+          </div>
+          <div className="blogs-card">
+            <div className="blogs-info">
+              <div className="blogs-header">
+                <ul className="blogs-list">
+                  <li className="blogs-tag-ui-ux">UI/UX Design</li>
+                  <li className="blogs-date">Aug 13, 2024</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="blogs-header-desc">
+                  Title of the Blog
+                </h4>
+                <p className="blogs-entry">
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+                  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                  when an unknown printer took a galley of type and scrambled it to make a type 
+                  specimen book. It has survived not only five centuries, but also the leap into 
+                  electronic typesetting, remaining essentially unchanged. It was popularised in 
+                  the 1960s with the...
+                </p>
+              </div>
+              <button className="blogs-read-more">Read More</button>
+            </div>
+            <div className="blogs-image-div">
+              <img src={blogImg6} alt="Title of the Blog" />
+            </div>
+          </div>
+          <div className="blogs-load-more-div">
+            <button className="blogs-load-more">Load More</button>
           </div>
         </div>
-      </div>
-      <div className="blog-grid">
-        {blogData.map((blog, index) => (
-          <div
-            className="card"
-            key={index}
-            onClick={() => handleCardClick(blog.id || index)}
-          >
-            <div className="card-body">
-              <div className="body-header">
-                <div className={`tag tag-${blog.tag.toLowerCase()}`}>
-                  {blog.tag}
+        <div className="blogs-unique">
+            <div className="blogs-unique-card">
+              <div className="blogs-unique-info">
+                <div className="blogs-unique-header">
+                  <ul className="blogs-unique-list">
+                    <li className="blogs-unique-tag-ui-ux">UI/UX Design</li>
+                    <li className="blogs-unique-date">Aug 13, 2024</li>
+                  </ul>
                 </div>
-                <div className="body-date">{blog.Date}</div>
-              </div>
-              <div className="blog-content">
-                <div className="blog-title">{blog.title}</div>
-                <div className="blog-description">{blog.description}</div>
-              </div>
-              {expandedBlogIndex === index && (
-                <div className="blogEntry roboto-regular">
-                  <div dangerouslySetInnerHTML={{ __html: blog.content }} />
+                <div>
+                  <h4 className="blogs-unique-header-desc">
+                    Title of the Blog
+                  </h4>
+                  <p className="blogs-unique-entry">
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                    when an unknown printer took a galley of type and scrambled it to make a type 
+                    specimen book. It has survived not only five centuries, but also the leap into 
+                    electronic typesetting, remaining essentially unchanged. It was popularised in 
+                    the 1960s with the...
+                  </p>
                 </div>
-              )}
-              <div className="readMore" onClick={() => toggleReadMore(index)}>
-                {expandedBlogIndex === index ? "Show Less" : "Read More"}
+                <button className="blogs-unique-read-more">Read More</button>
               </div>
-            </div>
-            <div className="card-header">
-              <img src={blog.image} alt={blog.title} />
+              <div className="blogs-unique-image-div">
+                <img src={blogImg7} alt="Title of the Blog" />
+              </div>
             </div>
           </div>
-        ))}
-        <div className="loadmore-btn">Load More</div>
       </div>
+      <BlogCarousel/>
     </section>
   );
 };

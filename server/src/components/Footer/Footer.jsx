@@ -32,9 +32,9 @@ const Footer = () => {
             <FontAwesomeIcon icon={faInstagram} className="social-icon" />
           </a>
         </div>
-        <p className="footer-copyright-mobile">©2024 All Rights Reserved.</p>
+        <p className="footer-copyright-mobile">©2025 All Rights Reserved.</p>
       </div>
-      <p className="footer-copyright-desktop">©2024 All Rights Reserved.</p>
+      <p className="footer-copyright-desktop">©2025 All Rights Reserved.</p>
     </footer>
   );
 };

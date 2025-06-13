@@ -5,9 +5,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: './server/src/AppEntry.js', // Entry point for React app
   output: {
-    path: path.resolve(__dirname, 'server/public_html/Js'), // Output directory
-    filename: 'bundle.js', // Bundle file name
-    publicPath: '/Js/', // Path where static files are served
+    path: path.resolve(__dirname, 'server/public_html/Js'),
+    filename: 'bundle.js',
+    publicPath: '/Js/',
+    clean: true, // Clean output dir before build
   },
   module: {
     rules: [
@@ -17,44 +18,46 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'], // For React and modern JS support
+            presets: ['@babel/preset-env', '@babel/preset-react'],
           },
         },
       },
       {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'], // For CSS files
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(png|jpe?g|gif|svg)$/i, // For images
+        test: /\.(png|jpe?g|gif|svg)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'assets/[name].[hash][ext]', // Place images in assets folder
+          filename: 'assets/[name].[hash][ext]',
         },
       },
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx'], // Resolve JS and JSX files
-  },
-  devServer: {
-    static: {
-      directory: path.resolve(__dirname, 'server/public_html'), // Serve files from public_html
-    },
-    port: 8080, // Development server port
-    hot: true, // Enable hot module replacement
-    historyApiFallback: {
-      rewrites: [
-        { from: /^\/auth\/Js\/bundle\.js$/, to: '/Js/bundle.js' }, // Rewrite for /auth/Js/ requests
-      ],
-    }, // Ensure React Router works
+    extensions: ['.js', '.jsx'],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './server/public_html/index.html', // Path to index.html template
-      inject: 'body', // Inject bundle.js before closing </body>
+      template: './server/public_html/index.html',
+      filename: '../index.html', // Output index.html to public_html root
+      inject: 'body',
     }),
-    new webpack.HotModuleReplacementPlugin(), // Enable hot module replacement
+    new webpack.HotModuleReplacementPlugin(),
   ],
-  mode: 'development', // Development mode
+  devServer: {
+    static: {
+      directory: path.resolve(__dirname, 'server/public_html'),
+    },
+    port: 8080,
+    hot: true,
+    liveReload: true,
+    open: true,
+    historyApiFallback: true,
+    client: {
+      overlay: true,
+    },
+  },
+  mode: 'development',
 };
