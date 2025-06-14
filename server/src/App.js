@@ -26,9 +26,9 @@ const HomeLayout = () => (
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/applications" element={<Applications />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/blog/edit" element={<BlogDetails />} />
         <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/blogDetails" element={<BlogDetails />} />
       </Routes>
       <ContactUs />
     <Footer/>

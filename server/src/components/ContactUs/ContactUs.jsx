@@ -9,9 +9,11 @@ const ContactUs = () => {
         <h2 className="contact-headline">Keep in Touch</h2>
         <span className="contact-icon"><i className="fa-solid fa-phone"></i></span>
       </div>
-      <p className="contact-description">
-        Get in touch with us for support, inquiries, or feedback. We're here to help!
-      </p>
+      <div className='contact-description-div'>
+        <p className="contact-description">
+          Get in touch with us for support, inquiries, or feedback. We're here to help!
+        </p>
+      </div>
       <div className="contact-info">
         <div className="contact-item">
           <div>

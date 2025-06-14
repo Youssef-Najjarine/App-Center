@@ -1,4 +1,4 @@
-.blogs-carousel-track {
+.blog-details-carousel-track {
   display: flex;
   animation: scroll-right 15s linear infinite;
 }
@@ -12,35 +12,47 @@
   }
 }
 
-.blogs-carousel-section {
+.blog-details-carousel-section {
   width: 100%;
   overflow: hidden;
   padding: 0;
+  margin: 0 0 19px 0;
 }
 
-.blog-carousel-title-div {
+.blog-details-carousel-title-div {
+    padding: 0 20px;
   width: 100%;
   text-align: center;
 }
 
-.blog-carousel-title-div .blogs-carousel-title {
-  margin: 0 0 24px 0;
+.blog-details-carousel-title-div .blog-details-carousel-title {
+  margin: 0 0 9.67px 0;
   color: #141522;
-  font-size: 32px;
+  font-size: 25.778px;
   font-style: normal;
   font-weight: 700;
-  line-height: 48px;
-  letter-spacing: -0.64px;
+  line-height:  33.511px;
+  letter-spacing: -0.516px;
 }
 
-.blogs-carousel-container {
+.blog-details-carousel-title-div .blog-details-carousel-sub-title {
+    color: rgba(0, 0, 0, 0.40);
+    font-size: 15.306px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22.958px;
+    letter-spacing: -0.306px;
+    margin: 0 0 19px 0;
+}
+
+.blog-details-carousel-container {
   overflow: hidden;
   width: 100%;
   display: flex;
 }
 
-.blogs-carousel-card {
-  width: 344px;
+.blog-details-carousel-card {
+  width: 344.133px;
   padding: 11.6px 11.6px 15.467px 11.6px;
   border-radius: 15.467px;
   margin: 0 15.47px 0 0;
@@ -49,23 +61,23 @@
   cursor: pointer;
 }
 
-.blogs-carousel-image-div {
+.blog-details-carousel-image-div {
   width: 320.9px;
-  height: 255.5px;
-  margin-bottom: 15.47px;
+  height: 255.2px;
+  margin-bottom: 0 0 15.47px 0;
 }
 
-.blogs-carousel-image-div img {
-  border-radius: 7.733px;
+.blog-details-carousel-image-div img {
   width: 100%;
   height: 100%;
+  border-radius: 7.733px;
 }
 
-.blogs-carousel-header {
+.blog-details-carousel-header {
   margin: 0 0 15.47px 0;
 }
 
-.blogs-carousel-list {
+.blog-details-carousel-list {
   list-style-type: none;
   display: flex;
   align-items: center;
@@ -73,7 +85,7 @@
   padding: 0;
 }
 
-.blogs-carousel-tag-ui-ux {
+.blog-details-carousel-tag-ui-ux {
   border-radius: 15.467px;
   background: rgba(85, 65, 215, 0.15);
   color: #5541D7;
@@ -85,7 +97,7 @@
   margin-right: 11.6px;
 }
 
-.blogs-carousel-date {
+.blog-details-carousel-date {
   color: #141522;
   font-size: 15.467px;
   font-style: normal;
@@ -94,7 +106,7 @@
   letter-spacing: -0.309px;
 }
 
-.blogs-carousel-header-desc {
+.blog-details-carousel-header-desc {
   margin: 0 0 5.8px 0;
   color: #141522;
   font-size: 21.267px;
@@ -104,7 +116,7 @@
   letter-spacing: -0.425px;
 }
 
-.blogs-carousel-entry {
+.blog-details-carousel-entry {
   margin: 0;
   color: #141522;
   font-size: 15.467px;
@@ -115,28 +127,50 @@
 }
 
 @media screen and (min-width: 768px) {
-  .blogs-carousel-card {
+    .blog-details-carousel-section {
+        margin: 0 0 19px 0;
+    }
+
+    .blog-details-carousel-title-div {
+        padding: 0 30px;
+    }
+
+    .blog-details-carousel-title-div .blog-details-carousel-title {
+        margin: 0 0 10.5px 0;
+        font-size: 28px;
+        line-height:  36.4px;
+        letter-spacing: -0.56px;
+    }
+
+    .blog-details-carousel-title-div .blog-details-carousel-sub-title {
+        font-size: 16.625px;
+        line-height: 24.938px;
+        letter-spacing: -0.332px;
+        margin: 0 0 48px 0;
+    }
+
+  .blog-details-carousel-card {
     width: 373.8px;
     padding: 12.6px 12.6px 16.8px 12.6px;
     border-radius: 16.8px;
     margin: 0 16.8px 0 0;
   }
 
-  .blogs-carousel-image-div {
+  .blog-details-carousel-image-div {
     width: 348.6px;
     height: 277.2px;
     margin-bottom: 16.8px;
   }
 
-  .blogs-carousel-image-div img {
-    border-radius: 8.4px;
-  }
+  .blog-details-carousel-image-div img {
+        border-radius: 8.4px;
+    }
 
-  .blogs-carousel-header {
+  .blog-details-carousel-header {
     margin: 0 0 16.8px 0;
   }
 
-  .blogs-carousel-tag-ui-ux {
+  .blog-details-carousel-tag-ui-ux {
     border-radius: 16.8px;
     font-size: 14.7px;
     line-height: 22.05px;
@@ -144,20 +178,20 @@
     margin-right: 12.6px;
   }
 
-  .blogs-carousel-date {
+  .blog-details-carousel-date {
     font-size: 16.8px;
     line-height: 25.2px;
     letter-spacing: -0.336px;
   }
 
-  .blogs-carousel-header-desc {
+  .blog-details-carousel-header-desc {
     margin: 0 0 6.3px 0;
     font-size: 23.1px;
     line-height:  34.65px;
     letter-spacing: -0.462px;
   }
 
-  .blogs-carousel-entry {
+  .blog-details-carousel-entry {
     font-size: 16.8px;
     line-height: 25.2px;
     letter-spacing: -0.336px;
@@ -165,30 +199,48 @@
 }
 
 @media screen and (min-width: 1440px) {
-  .blog-carousel-title-div .blogs-carousel-title {
-    margin: 0 0 32px 0;
-  }
-  .blogs-carousel-card {
+.blog-details-carousel-section {
+margin: 0 0 40px 0;
+}
+
+.blog-details-carousel-title-div {
+    padding: 0 60px;
+}
+
+.blog-details-carousel-title-div .blog-details-carousel-title {
+    margin: 0 0 12px 0;
+    font-size: 32px;
+    line-height: 41.6px;
+    letter-spacing: -0.64px;
+}
+
+.blog-details-carousel-title-div .blog-details-carousel-sub-title {
+    font-size: 19px;
+    line-height: 28.5px;
+    letter-spacing: -0.38px;
+    margin: 0 0 40px 0;
+}
+  .blog-details-carousel-card {
     width: 427.2px;
     padding: 14.4px 14.4px 19.2px 14.4px;
     margin: 0 19.2px 0 0;
     border-radius: 19.2px;
   }
 
-  .blogs-carousel-image-div {
+  .blog-details-carousel-image-div {
     width: 398.4px;
     height: 316.8px;
     margin-bottom: 19.2px;
   }
 
-  .blogs-carousel-image-div img {
-    border-radius: 9.6px;
-  }
-  .blogs-carousel-header {
+    .blog-details-carousel-image-div img {
+        border-radius: 9.6px;
+    }
+  .blog-details-carousel-header {
     margin: 0 0 19.2px 0;
   }
 
-  .blogs-carousel-tag-ui-ux {
+  .blog-details-carousel-tag-ui-ux {
     border-radius: 19.2px;
     font-size: 16.8px;
     line-height: 25.2px;
@@ -196,20 +248,20 @@
     margin-right: 14.4px;
   }
 
-  .blogs-carousel-date {
+  .blog-details-carousel-date {
     font-size: 19.2px;
     line-height: 28.8px;
     letter-spacing: -0.384px;
   }
 
-  .blogs-carousel-header-desc {
+  .blog-details-carousel-header-desc {
     margin: 0 0 7.2px 0;
     font-size: 26.4px;
     line-height:  39.6px;
     letter-spacing: -0.528px;
   }
 
-  .blogs-carousel-entry {
+  .blog-details-carousel-entry {
     font-size: 19.2px;
     line-height: 28.8px;
     letter-spacing: -0.384px;

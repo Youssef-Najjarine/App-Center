@@ -4,7 +4,7 @@ import blogImg2 from "../../../../assets/Blogs/2.png";
 import blogImg3 from "../../../../assets/Blogs/3.png";
 import blogImg4 from "../../../../assets/Blogs/12.jpg";
 import blogImg5 from "../../../../assets/Blogs/13.jpg";
-import './BlogsCarousel.css';
+import './BlogDetailsCarousel.css';
 
 const blogData = [
   {
@@ -48,26 +48,27 @@ const BlogCarousel = () => {
   const loopedBlogs = [...blogData, ...blogData];
 
   return (
-    <section className="blogs-carousel-section">
-        <div className="blog-carousel-title-div">
-          <h2 className="blogs-carousel-title">Trending Blogs</h2>
+    <section className="blog-details-carousel-section">
+        <div className="blog-details-carousel-title-div">
+          <h2 className="blog-details-carousel-title">Related Blogs</h2>
+          <h3 className='blog-details-carousel-sub-title'>Explore the best blogs related to apps and Partner app.</h3>
         </div>
-      <div className="blogs-carousel-container">
-        <div className="blogs-carousel-track">
+      <div className="blog-details-carousel-container">
+        <div className="blog-details-carousel-track">
           {loopedBlogs.map((blog, i) => (
-            <div className="blogs-carousel-card" key={i}>
-              <div className="blogs-carousel-image-div">
+            <div className="blog-details-carousel-card" key={i}>
+              <div className="blog-details-carousel-image-div">
                 <img src={blog.image} alt={blog.title} />
               </div>
-              <div className="blogs-carousel-info">
-                <div className="blogs-carousel-header">
-                  <ul className="blogs-carousel-list">
-                    <li className="blogs-carousel-tag-ui-ux">{blog.tag}</li>
-                    <li className="blogs-carousel-date">{blog.date}</li>
+              <div className="blog-details-carousel-info">
+                <div className="blog-details-carousel-header">
+                  <ul className="blog-details-carousel-list">
+                    <li className="blog-details-carousel-tag-ui-ux">{blog.tag}</li>
+                    <li className="blog-details-carousel-date">{blog.date}</li>
                   </ul>
                 </div>
-                <h4 className="blogs-carousel-header-desc">{blog.title}</h4>
-                <p className="blogs-carousel-entry">{blog.excerpt}</p>
+                <h4 className="blog-details-carousel-header-desc">{blog.title}</h4>
+                <p className="blog-details-carousel-entry">{blog.excerpt}</p>
               </div>
             </div>
           ))}

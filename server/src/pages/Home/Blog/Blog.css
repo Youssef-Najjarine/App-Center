@@ -88,7 +88,7 @@
   width: 335px;
   display: flex;
   flex-direction: column-reverse;
-  padding: 11.6px;
+  padding: 12px;
   border-radius: 15.467px;
   border: 0.967px solid #F5F5F5;
   background: #FCFCFC;
@@ -160,6 +160,9 @@
   letter-spacing: -0.309px;
 }
 
+.blogs-anchor-div {
+  display: flex;
+}
 .blogs-read-more {
   padding: 8px 16px;
   border-radius: 9.667px;
@@ -406,7 +409,7 @@
 
   .blogs-unique-card {
     width: 708px;
-    padding: 16px;
+    padding: 12px 16px;
     border-radius: 16.8px;
     border: 1.05px solid #F5F5F5;
   }

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 import searchIcon from "../../../assets/Blogs/search-normal.svg";
 import blogImg1 from "../../../assets/Blogs/1.png";
 import blogImg2 from "../../../assets/Blogs/2.png";
@@ -46,7 +47,9 @@ const Blog = () => {
                   the 1960s with the...
                 </p>
               </div>
-              <button className="blogs-read-more">Read More</button>
+              <div className="blogs-anchor-div">
+                <Link to="/blog/blogDetails" className="blogs-read-more">Read More</Link>
+              </div>
             </div>
             <div className="blogs-image-div">
               <img src={blogImg1} alt="Title of the Blog" />
@@ -73,7 +76,9 @@ const Blog = () => {
                   the 1960s with the...
                 </p>
               </div>
-              <button className="blogs-read-more">Read More</button>
+              <div className="blogs-anchor-div">
+                <Link to="/blog/blogDetails" className="blogs-read-more">Read More</Link>
+              </div>
             </div>
             <div className="blogs-image-div">
               <img src={blogImg2} alt="Title of the Blog" />
@@ -100,7 +105,9 @@ const Blog = () => {
                   the 1960s with the...
                 </p>
               </div>
-              <button className="blogs-read-more">Read More</button>
+              <div className="blogs-anchor-div">
+                <Link to="/blog/blogDetails" className="blogs-read-more">Read More</Link>
+              </div>
             </div>
             <div className="blogs-image-div">
               <img src={blogImg3} alt="Title of the Blog" />
@@ -127,7 +134,9 @@ const Blog = () => {
                   the 1960s with the...
                 </p>
               </div>
-              <button className="blogs-read-more">Read More</button>
+              <div className="blogs-anchor-div">
+                <Link to="/blog/blogDetails" className="blogs-read-more">Read More</Link>
+              </div>
             </div>
             <div className="blogs-image-div">
               <img src={blogImg4} alt="Title of the Blog" />
@@ -154,7 +163,9 @@ const Blog = () => {
                   the 1960s with the...
                 </p>
               </div>
-              <button className="blogs-read-more">Read More</button>
+              <div className="blogs-anchor-div">
+                <Link to="/blog/blogDetails" className="blogs-read-more">Read More</Link>
+              </div>
             </div>
             <div className="blogs-image-div">
               <img src={blogImg5} alt="Title of the Blog" />
@@ -181,7 +192,9 @@ const Blog = () => {
                   the 1960s with the...
                 </p>
               </div>
-              <button className="blogs-read-more">Read More</button>
+              <div className="blogs-anchor-div">
+                <Link to="/blog/blogDetails" className="blogs-read-more">Read More</Link>
+              </div>
             </div>
             <div className="blogs-image-div">
               <img src={blogImg6} alt="Title of the Blog" />
@@ -213,13 +226,15 @@ const Blog = () => {
                     the 1960s with the...
                   </p>
                 </div>
-                <button className="blogs-unique-read-more">Read More</button>
+                <div className="blogs-anchor-div">
+                  <Link to="/blog/blogDetails" className="blogs-unique-read-more">Read More</Link>
+                </div>
               </div>
               <div className="blogs-unique-image-div">
                 <img src={blogImg7} alt="Title of the Blog" />
               </div>
             </div>
-          </div>
+        </div>
       </div>
       <BlogCarousel/>
     </section>

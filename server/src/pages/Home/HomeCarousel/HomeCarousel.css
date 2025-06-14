@@ -12,7 +12,7 @@
 
 .carousel-track {
     display: flex;
-    animation: scroll 15s linear infinite;
+    animation: scroll-right 15s linear infinite;
 }
 
 .home-carousel-image {
@@ -25,7 +25,7 @@
     flex-shrink: 0;
 }
 
-@keyframes scroll {
+@keyframes scroll-right {
     0% {
         transform: translateX(-50%);
     }
