@@ -6,11 +6,12 @@
   padding: 0 20px 48px 20px;
 }
 
-.blog-title-div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+.blogs-title-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 0 0 40px 0;
 }
 
 /* Blog Title || Blog Header || Blog Serch */
@@ -33,15 +34,14 @@
   margin: 0 0 23.2px 0;
 }
 
-.blog-search-div {
-  width: 100%;
+.blogs-search-div {
+  width: 335px;
   height: 43.2px;
-  margin: 0 0 40px 0;
   cursor: pointer;
   position: relative;
 }
 
-.blog-search {
+.blogs-search {
   width: 100%;
   height: 100%;
   padding: 11.6px 15.467px;
@@ -56,7 +56,7 @@
   font-family: 'Poppins', sans-serif;
 }
 
-.blog-search::placeholder {
+.blogs-search::placeholder {
   color: #141522;
   font-size: 13.533px;
   font-style: normal;
@@ -65,7 +65,7 @@
   font-family: 'Poppins', sans-serif;
 }
 
-.blog-search-icon {
+.blogs-search-icon {
   position: absolute;
   top: 50%;
   right: 15px;
@@ -314,13 +314,16 @@
     margin: 0 0 25.2px 0;
   }
 
-  .blog-search-div {
-    height: 47.2px;
+  .blogs-title-div {
     margin: 0 0 48px 0;
+  }
+
+  .blogs-search-div {
+    height: 47.2px;
     width: 708px;
   }
 
-  .blog-search {
+  .blogs-search {
     padding: 12.6px 16.8px;
     border-radius: 10.5px;
     border: 1.05px solid #F5F5F5;
@@ -328,12 +331,12 @@
     line-height: 22.05px;
   }
 
-  .blog-search::placeholder {
+  .blogs-search::placeholder {
     font-size: 14.7px;
     line-height: 22.05px;
   }
 
-  .blog-search-icon {
+  .blogs-search-icon {
     width: 21px;
   }
   /* Blog Title || Blog Header || Blog Serch */
@@ -485,13 +488,16 @@
     margin: 0 0 28.8px 0;
   }
 
-  .blog-search-div {
-    height: 53.8px;
+  .blogs-title-div {
     margin: 0 0 57.6px 0;
+  }
+
+  .blogs-search-div {
+    height: 53.8px;
     width: 729.6px;
   }
 
-  .blog-search {
+  .blogs-search {
     padding: 14.4px 19.2px;
     border-radius: 12px;
     border: 1.2px solid #F5F5F5;
@@ -499,12 +505,12 @@
     line-height: 25.2px;
   }
 
-  .blog-search::placeholder {
+  .blogs-search::placeholder {
     font-size: 16.8px;
     line-height: 25.2px;
   }
 
-  .blog-search-icon {
+  .blogs-search-icon {
     width: 24px;
   }
   /* Blog Title || Blog Header || Blog Serch */

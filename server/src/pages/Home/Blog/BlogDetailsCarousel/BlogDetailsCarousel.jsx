@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 import blogImg1 from "../../../../assets/Blogs/1.png";
 import blogImg2 from "../../../../assets/Blogs/2.png";
 import blogImg3 from "../../../../assets/Blogs/3.png";
@@ -44,9 +45,12 @@ const blogData = [
   }
 ];
 
-const BlogCarousel = () => {
+const BlogDetailsCarousel = () => {
+  const navigate = useNavigate();
   const loopedBlogs = [...blogData, ...blogData];
-
+  const handleCardClick = () => {
+    navigate("/blog/blogDetails");
+  };
   return (
     <section className="blog-details-carousel-section">
         <div className="blog-details-carousel-title-div">
@@ -56,7 +60,13 @@ const BlogCarousel = () => {
       <div className="blog-details-carousel-container">
         <div className="blog-details-carousel-track">
           {loopedBlogs.map((blog, i) => (
-            <div className="blog-details-carousel-card" key={i}>
+            <div className="blog-details-carousel-card" 
+              key={i}
+              onClick={handleCardClick}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === "Enter" && handleCardClick()}
+            >
               <div className="blog-details-carousel-image-div">
                 <img src={blog.image} alt={blog.title} />
               </div>
@@ -78,4 +88,4 @@ const BlogCarousel = () => {
   );
 };
 
-export default BlogCarousel;
+export default BlogDetailsCarousel;

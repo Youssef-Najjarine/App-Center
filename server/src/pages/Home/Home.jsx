@@ -1,5 +1,4 @@
-// Home.jsx
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import introBg from "../../assets/intro-bg.jpeg";
 import Carousel from "./HomeCarousel/HomeCarousel";
@@ -7,6 +6,9 @@ import FeatureHighlight from "./FeatureHighlight/FeatureHighlight"; // Import Fe
 import "./Home.css";
 
 const Home = () => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   return (
     <>
       <div

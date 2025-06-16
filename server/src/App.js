@@ -6,7 +6,7 @@ import ProfileNavbar from "./components/ProfileNavbar";
 import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home/Home";
 import Applications from "./pages/Home/Applications/Applications";
-import Blog from "./pages/Home/Blog/Blog";
+import Blogs from "./pages/Home/Blog/Blogs";
 import BlogDetails from "./pages/Home/Blog/BlogDetails";
 import AboutUs from "./pages/Home/AboutUs/AboutUs";
 import ContactUs from "./components/ContactUs/ContactUs";
@@ -27,7 +27,7 @@ const HomeLayout = () => (
         <Route path="/" element={<Home />} />
         <Route path="/applications" element={<Applications />} />
         <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/blog" element={<Blog />} />
+        <Route path="/blogs" element={<Blogs />} />
         <Route path="/blog/blogDetails" element={<BlogDetails />} />
       </Routes>
       <ContactUs />

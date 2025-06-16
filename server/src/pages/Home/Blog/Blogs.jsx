@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import searchIcon from "../../../assets/Blogs/search-normal.svg";
 import blogImg1 from "../../../assets/Blogs/1.png";
@@ -9,20 +9,23 @@ import blogImg5 from "../../../assets/Blogs/5.png";
 import blogImg6 from "../../../assets/Blogs/6.png";
 import blogImg7 from "../../../assets/Blogs/7.png";
 import BlogCarousel from "./BlogsCarousel/BlogsCarousel";
-import "./Blog.css";
+import "./Blogs.css";
 
-const Blog = () => {
+const Blogs = () => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   return (
     <section id="blogs">
       <div className="blogs-main">
-        <div className="blog-title-div">
+        <div className="blogs-title-div">
             <h2 className="blogs-title">Blogs</h2>
             <h3 className="blogs-sub-header">
               Explore the best blogs related to apps and Partner app.
             </h3>
-            <div className="blog-search-div">
-              <input className="blog-search" placeholder="Search blogs..."/>
-              <img src={searchIcon} alt="Blog Search" className="blog-search-icon" />
+            <div className="blogs-search-div">
+              <input className="blogs-search" placeholder="Search..."/>
+              <img src={searchIcon} alt="Blog Search" className="blogs-search-icon" />
             </div>
         </div>
         <div className="blogs-cards">
@@ -241,4 +244,4 @@ const Blog = () => {
   );
 };
 
-export default Blog;
+export default Blogs;

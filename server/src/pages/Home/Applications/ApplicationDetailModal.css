@@ -1,4 +1,134 @@
-.modal-header {
+.appHome-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 21, 34, 0.15);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+}
+
+.appHome-modal-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.appHome-modal {
+  background: #FFF;
+  padding: 16px;
+  width: 315px;
+  border-radius: 12.889px;
+  z-index: 10000;
+}
+
+.appHome-close-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin: 0 0 19.33px 0;
+}
+
+.appHome-close-header h2 {
+  color: #141522;
+  font-size: 22.556px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 33.833px;
+  margin: 0;
+}
+
+.appHome-close-header .appHome-modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.appHome-close-header img {
+  width:  25.778px;
+}
+
+.appHome-modal-selected-image {
+  margin: 0 0 12.89px 0;
+}
+.appHome-modal-selected-image img {
+  width: 100%;
+  height: 307.244px;
+  border-radius: 6.07px;
+}
+
+.appHome-modal-github-header {
+  color: #141522;
+  font-size: 16.111px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24.167px;
+  margin: 0 0 9.67px 0;
+}
+
+.homeApp-modal-gitHub-div {
+  margin: 0 0 15.47px 0;
+  gap: 7.73px;
+  display: flex;
+  cursor: pointer;
+  margin: 0 0 32px 0;
+}
+
+.homeApp-modal-gitHub-div img {
+  width: 26.1px;
+}
+
+.homeApp-modal-gitHub-div a {
+  color: #5C6BC0;
+  font-size: 13.7px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 26.1px;
+  letter-spacing: -0.348px;
+}
+
+.appHome-modal-technology-used-div {
+  margin: 0 0 16px 0;
+}
+
+.appHome-modal-technology-header {
+  color: #141522;
+  font-size: 16.111px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24.167px;
+  margin: 0 0 6.4px 0;
+}
+
+.homeApp-modal-tech-stack {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 11.6px;
+}
+
+.homeApp-modal-tech-stack li {
+  padding: 5.8px 11.6px;
+  color: #5541D7;
+  background: rgba(85, 65, 215, 0.15);
+  border-radius: 15.467px;
+  font-size: 13.533px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20.3px;
+}
+
+.appHome-modal-line {
+  stroke: rgba(209, 213, 219, 0.30);
+  stroke-width: 0.967px;
+  width: 100%;
+
+
+
 }

@@ -21,7 +21,7 @@ const HomeNavbarDesktop = () => {
                 <Link to="/" className="home-navbar-link-desktop">Home</Link>
                 <Link to="/applications" className="home-navbar-link-desktop">Applications</Link>
                 <Link to="/about-us" className="home-navbar-link-desktop">About us</Link>
-                <Link to="/blog" className="home-navbar-link-desktop">Blogs</Link>
+                <Link to="/blogs" className="home-navbar-link-desktop">Blogs</Link>
             </div>
             <div className="home-navbar-actions-desktop">
                 <Link to="/auth/login" className="home-navbar-login-desktop">Login</Link>

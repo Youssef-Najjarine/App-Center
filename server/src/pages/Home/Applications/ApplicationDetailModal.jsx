@@ -1,54 +1,73 @@
-import React, { useState, useEffect } from "react";
-import { Button, Modal } from "antd";
-import applicationImg1 from "../../../assets/Applications/applicationImg-1.png";
+import React, { useEffect } from "react";
 import "./ApplicationDetailModal.css";
+import closeButton from "../../../assets/Applications/x-close.svg";
+import AppHomeModalCarousel from "./ApplicationModalCarousel/ApplicationModalCarousel";
+import placeholder from "../../../assets/AboutUs/aboutus_pc1.png";
+import githubIcon from "../../../assets/Applications/github-icon.png";
 
-const ApplicationDetailModal = (props) => {
-  const [modalIsOpen, setIsOpen] = useState(props.modalOpenState);
 
-  useEffect(() => {}, []);
+const ApplicationDetailModal = ({ modalOpenState, onClose, app }) => {
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
 
-  const app = {
-    id: 1,
-    name: "App One",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-    img: applicationImg1,
-    github: "https://github.com/my-name/repo...",
-    skills: ["UI/UX Design", "Mobile App", "Mobile App", "Github repo"],
-  };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
 
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
-  const afterOpenModal = () => {
-    // references are now sync'd and can be accessed.
-    subtitle.style.color = "#f00";
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
-  };
+  if (!modalOpenState || !app) return null;
 
   return (
-    <>
-      <Modal
-        style={{
-          width: "1440px",
-          height: "460px",
-          backgroundColor: "#fff",
-        }}
-        title="Toritube App"
-        open={modalIsOpen}
-        onOk={closeModal}
-        onCancel={closeModal}
+    <div className="appHome-modal-overlay" onClick={onClose}>
+      <div
+        className="appHome-modal"
+        onClick={(e) => e.stopPropagation()}
       >
-        <div className="modal-header">
-          <div>x</div>
+        <div className="appHome-close-header">
+          <div>
+            <h2>{app.title}</h2>
+          </div>
+          <div>
+          <button className="appHome-modal-close" onClick={onClose}>
+            <img src={closeButton} alt="Close Icon"/>
+          </button>
+          </div>
         </div>
-      </Modal>
-    </>
+        <div>
+          <div className="appHome-modal-selected-image">
+            <img src={placeholder}/>
+          </div>
+          <AppHomeModalCarousel/>
+        </div>
+        <div className="appHome-modal-description">
+          <h3 className="appHome-modal-github-header">GitHub Repo:</h3>
+          <div className="homeApp-modal-gitHub-div">
+            <div>
+              <a href={app.github} target="_blank" rel="noopener noreferrer">
+                <img src={githubIcon} alt="GitHub icon" />
+              </a>
+            </div>
+            <div>
+              <a href={app.github} target="_blank" rel="noopener noreferrer">
+                {app.github}
+              </a>
+            </div>
+          </div>
+          <div className="appHome-modal-technology-used-div">
+            <h4 className="appHome-modal-technology-header">Technology Used</h4>
+            <ul className="homeApp-modal-tech-stack">
+              {app.tech?.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
+              </ul>
+          </div>
+          <div className="appHome-modal-line"></div>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import ArrowBackIcon from "../../../assets/Blogs/arrow-left.svg";
 import BlogDetailsImg1 from "../../../assets/Blogs/8.png";
@@ -10,12 +10,18 @@ import BlogDetailsCarousel from "./BlogDetailsCarousel/BlogDetailsCarousel";
 import "./BlogDetails.css";
 
 const BlogDetails = () => {
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [location]);
   return (
     <section id="blog-details">
       <div className="blog-details-main">
         <div className="blog-details-title-div">
           <ul className="blog-details-list">
-            <img src={ArrowBackIcon} alt="Back Arrow" className="blog-details-back-arrow"/>
+            <Link to="/blogs">
+              <img src={ArrowBackIcon} alt="Back Arrow" className="blog-details-back-arrow"/>
+            </Link>
             <li className="blog-details-tag-ui-ux">UI/UX Design</li>
             <li className="blog-details-date">Aug 13, 2024</li>
           </ul>

@@ -1,309 +1,416 @@
-.mainSubDiv {
-  padding: 57.6px 60px;
-}
-.title-content {
-  display: flex;
-  flex-direction: column;
-  gap: 14.4px;
+#applications {
+  padding: 162px 20px 48px 20px;
 }
 
-.title-a {
-  text-align: center;
-  font-family: Satoshi;
-  font-size: 40.8px;
-  font-weight: 700;
-  line-height: 53.04px;
-  letter-spacing: -0.02em;
-  text-align: center;
+.applications-title-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 0 0 32px 0;
+}
+
+.applications-title {
   color: #141522;
-}
-.line-mf {
-  font-family: Satoshi;
-  font-size: 19.2px;
-  font-weight: 500;
-  line-height: 28.8px;
-  letter-spacing: -0.02em;
-  text-align: center;
+  font-size: 32.867px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 42.727px;
+  letter-spacing: -0.657px;
+  margin: 0 0 11.6px 0;
 }
 
-.search-bar {
-  width: 729.6px;
-  height: 53.8px;
-  padding: 14.4px 19.2px;
-  border-radius: 12px;
-  justify-content: space-between;
-  border: 0.97px solid #f5f5f5;
+.applications-sub-header {
+  color: rgba(0, 0, 0, 0.40);
+  font-size: 15.467px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 23.2px;
+  letter-spacing: -0.309px;
+  margin: 0 0 23.2px 0;
+}
+
+.applications-search-div {
+  width: 335px;
+  height: 43.2px;
+  cursor: pointer;
+  position: relative;
+}
+
+.applications-search {
+  width: 100%;
+  height: 100%;
+  padding: 11.6px 15.467px;
+  border-radius: 9.667px;
+  border: 0.967px solid #F5F5F5;
+  background: #FCFCFC;
+  color: #141522;
+  font-size: 13.533px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20.3px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.applications-search::placeholder {
+  color: #141522;
+  font-size: 13.533px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20.3px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.applications-search-icon {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  width: 19.33px;
+  height: auto;
+  cursor: pointer;
 }
 
 .applications-grid {
-  display: flex;
-  gap: 19.2px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  padding: 0px 60px;
-  justify-items: center;
+  gap: 15.47px;
+  grid-template-columns: repeat(auto-fit, 335px);
+  justify-content: center;
+  align-items: start;
+}
+
+.homeApp {
+  padding: 11.6px 11.6px 15.47px 11.6px;
+  border: 0.967px solid #F5F5F5;
+  background: #FCFCFC;
+  border-radius: 15.467px;
   cursor: pointer;
 }
-.application-card {
+
+.homeApp-image-div {
+  width: 311.8px;
+  height: 255.2px;
+  margin: 0 0 15.47px 0;
+}
+
+.homeApp-image-div img {
   width: 100%;
-  max-width: 427.2px;
-  height: 684px;
-  display: flex;
-  flex-direction: column;
-  padding: 14.4px 14.4px 19.2px 14.4px;
-  gap: 19.2px;
-  border-radius: 19.2px;
-  opacity: 0px;
-  background: #fcfcfc;
-  border: 1.2px solid #f5f5f5;
+  height: 100%;
+  border-radius: 7.733px;
 }
-.card-content {
+
+.homeApp-gitHub-div {
+  margin: 0 0 15.47px 0;
+  gap: 7.73px;
   display: flex;
-  flex-direction: column;
-  gap: 19.2px;
+  cursor: pointer;
 }
-.github {
-  display: flex;
-  align-items: center;
-  gap: 9.6px;
+
+.homeApp-gitHub-div img {
+  width: 26.1px;
 }
-.github-url {
-  font-family: Satoshi;
-  font-size: 21.6px;
+
+.homeApp-gitHub-div a {
+  color: #5C6BC0;
+  font-size: 15.1px;
+  font-style: normal;
   font-weight: 500;
-  line-height: 32.4px;
-  letter-spacing: -0.02em;
-  text-align: left;
-  color: #5c6bc0;
+  line-height: 26.1px;
+  letter-spacing: -0.348px;
 }
-.card-title {
-  font-family: Satoshi;
-  font-size: 26.4px;
-  font-weight: 700;
-  line-height: 39.6px;
-  letter-spacing: -0.02em;
-  text-align: left;
+
+.homeApp-app-title {
+  color: #141522;
+  font-size: 21.267px;
+  line-height: 31.9px;
+  letter-spacing: -0.425px;
+  margin: 0 0 11.6px 0;
+  font-style: normal;
+font-weight: 700;
 }
-.card-description {
-  font-family: Satoshi;
-  font-size: 21.6px;
+
+.homeApp-app-description {
+  color: #141522;
+  font-size: 15.1px;
+  font-style: normal;
   font-weight: 400;
-  line-height: 32.4px;
-  letter-spacing: -0.02em;
-  text-align: left;
-}
-.skills {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14.4px;
+  line-height: 26.1px;
+  letter-spacing: -0.348px;
+  margin: 0 0 15.47px 0;
 }
 
-.skill {
-  width: 131.8px;
-  height: 39.4px;
-  padding: 7.2px 14.4px;
-  gap: 14.4px;
-  border-radius: 19.2px;
-  opacity: 0px;
-  background: #5541d726;
-  font-family: Satoshi;
-  font-size: 16.8px;
+.homeApp-app-tech-stack {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 11.6px;
+}
+
+.homeApp-app-tech-stack li {
+  padding: 5.8px 11.6px;
+  color: #5541D7;
+  background: rgba(85, 65, 215, 0.15);
+  border-radius: 15.467px;
+  font-size: 13.533px;
+  font-style: normal;
   font-weight: 500;
-  line-height: 25.2px;
-  color: #5541d7;
+  line-height: 20.3px;
 }
 
-.load-more {
+.collapse-tech {
+  color: #888 !important;
+}
+
+.applications-load-more-div {
+  width: 100%;
   text-align: center;
-  margin: 57.6px auto;
-  width: 139.6px;
-  height: 53.8px;
-  padding: 14.4px 28.8px;
-  border-radius: 12px;
-  background: #5541d7;
-  font-family: Satoshi;
-  font-size: 16.8px;
-  font-weight: 500;
-  line-height: 25.2px;
-  color: #fff;
+  margin: 46.4px 0 0 0;
 }
-@media (max-width: 1440px) {
-  .mainSubDiv {
-    padding: 32px 30px;
+
+.applications-load-more {
+  border-radius: 9.667px;
+  background: #5541D7;
+  padding: 11.6px 23.2px;
+  color: #FFF;
+  font-size: 13.533px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20.3px;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (min-width: 768px) {
+  #applications {
+    padding: 172.19px 30px 30px 30px;
   }
-  .search-bar {
+
+  .applications-title {
+    font-size: 35.7px;
+    line-height: 46.41px;
+    letter-spacing: -0.714px;
+    margin: 0 0 12.6px 0;
+  }
+
+  .applications-sub-header {
+    font-size: 16.8px;
+    line-height: 25.2px;
+    letter-spacing: -0.336px;
+    margin: 0 0 25.2px 0;
+  }
+  .applications-title-div {
+    margin: 0 0 48px 0;
+  }
+
+  .applications-search-div {
     width: 708px;
     height: 47.2px;
+  }
+
+  .applications-search {
     padding: 12.6px 16.8px;
     border-radius: 10.5px;
-    border: 1.05px;
-    justify-content: space-between;
-    opacity: 0px;
-    border: 0.97px solid #f5f5f5;
+    border: 1.05px solid #F5F5F5;
+    font-size: 14.7px;
+    line-height: 22.05px;
   }
+
+  .applications-search::placeholder {
+    font-size: 14.7px;
+    line-height: 22.05px;
+  }
+
+  .applications-search-icon {
+    width: 21px;
+  }
+
   .applications-grid {
-    display: flex;
     gap: 16.8px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    padding: 0px 30px;
-    justify-items: center;
+    grid-template-columns: repeat(auto-fit, 345.5px);
   }
-  .application-card {
-    width: 100%;
-    max-width: 345.5px;
-    height: 538.55px;
-    display: flex;
-    flex-direction: column;
+
+  .homeApp {
     padding: 12.6px 12.6px 16.8px 12.6px;
-    gap: 16.8px;
+    border: 1.05px solid #F5F5F5;
     border-radius: 16.8px;
-    background: #fcfcfc;
-    border: 1.05px solid #f5f5f5;
   }
-  .card-content {
-    display: flex;
-    flex-direction: column;
-    gap: 16.8px;
+
+  .homeApp-image-div {
+    width: 320.3px;
+    height: 220px;
+    margin: 0 0 16.8px 0;
   }
-  .github {
-    display: flex;
-    align-items: center;
+
+  .homeApp-image-div img {
+    border-radius: 8.4px;
+  }
+
+  .homeApp-gitHub-div {
+    margin: 0 0 16.8px 0;
     gap: 8.4px;
   }
 
-  .github-url {
-    font-family: Satoshi;
-    font-size: 18.9px;
-    font-weight: 500;
+  .homeApp-gitHub-div img {
+    width: 28.35px;
+  }
+
+  .homeApp-gitHub-div a {
+    font-size: 15.54px;
     line-height: 28.35px;
-    letter-spacing: -0.02em;
-    text-align: left;
-    color: #5c6bc0;
+    letter-spacing: -0.378px;
   }
-  .card-title {
-    font-family: Satoshi;
+
+  .homeApp-app-title {
     font-size: 23.1px;
-    font-weight: 700;
     line-height: 34.65px;
-    letter-spacing: -0.02em;
-    text-align: left;
+    letter-spacing: -0.462px;
+    margin: 0 0 12.6px 0;
   }
-  .card-description {
-    font-family: Satoshi;
+
+  .homeApp-app-description {
     font-size: 18px;
-    font-weight: 400;
     line-height: 27px;
-    letter-spacing: -0.02em;
-    text-align: left;
+    letter-spacing: -0.36px;
+    margin: 0 0 16.8px 0;
   }
-  .skills {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+
+  .homeApp-app-tech-stack {
     gap: 12.6px;
   }
 
-  .skill {
-    width: 115.2px;
-    height: 34.6px;
+  .homeApp-app-tech-stack li {
     padding: 6.3px 12.6px;
-    gap: 12.6px;
     border-radius: 16.8px;
-    background: #5541d726;
-    font-family: Satoshi;
     font-size: 14.7px;
-    font-weight: 500;
     line-height: 22.05px;
-    color: #5541d7;
+  }
+
+  .applications-load-more-div {
+    margin: 50.4px 0 0 0;
+  }
+
+  .applications-load-more {
+    border-radius: 10.5px;
+    padding: 12.6px 25.2px;
+    font-size: 13.533px;
+    line-height: 22.05px;
   }
 }
+@media screen and (min-width: 1440px) {
+  #applications {
+    padding: 168.99px 60px 60px 60px;
+  }
 
-@media (max-width: 768px) {
-  .mainSubDiv {
-    padding: 40px 20px;
+  .applications-title {
+    font-size: 40.8px;
+    line-height: 53.04px;
+    letter-spacing: -0.816px;
+    margin: 0 0 14.4px 0;
   }
-  .search-bar {
-    width: 335px;
-    height: 43.2px;
-    padding: 11.6px 15.47px;
-    border-radius: 9.67px;
-    justify-content: space-between;
-    opacity: 0px;
-    border: 0.97px solid #f5f5f5;
+
+  .applications-sub-header {
+    font-size: 19.2px;
+    line-height: 28.8px;
+    letter-spacing: -0.384px;
+    margin: 0 0 28.8px 0;
   }
+  
+  .applications-title-div {
+    margin: 0 0 57.6px 0;
+  }
+
+  .applications-search-div {
+    width: 729.6px;
+    height: 53.8px;
+  }
+
+  .applications-search {
+    padding: 14.4px 19.2px;
+    border-radius: 12px;
+    border: 1.2px solid #F5F5F5;
+    font-size: 16.8px;
+    line-height: 25.2px;
+  }
+
+  .applications-search::placeholder {
+    font-size: 16.8px;
+    line-height: 25.2px;
+  }
+
+  .applications-search-icon {
+    width: 24px;
+  }
+
   .applications-grid {
-    display: flex;
-    gap: 15.47px;
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    padding: 0px 20px;
-    justify-items: center;
-  }
-  .application-card {
-    width: 100%;
-    max-width: 335px;
-    height: 551.17px;
-    display: flex;
-    flex-direction: column;
-    padding: 11.6px 11.6px 15.47px 11.6px;
-    gap: 15.47px;
-    border-radius: 15.47px;
-    background: #fcfcfc;
-    border: 0.97px solid #f5f5f5;
-  }
-  .card-content {
-    display: flex;
-    flex-direction: column;
-    gap: 11.6px;
-  }
-  .github {
-    display: flex;
-    align-items: center;
-    gap: 7.73px;
+    gap: 19.2px;
+    grid-template-columns: repeat(auto-fit, 427.2px);
   }
 
-  .github-url {
-    font-family: Satoshi;
-    font-size: 17.4px;
-    font-weight: 500;
-    line-height: 26.1px;
-    letter-spacing: -0.02em;
-    text-align: left;
-    color: #5c6bc0;
-  }
-  .card-title {
-    font-family: Satoshi;
-    font-size: 21.27px;
-    font-weight: 700;
-    line-height: 31.9px;
-    letter-spacing: -0.02em;
-    text-align: left;
-  }
-  .card-description {
-    font-family: Satoshi;
-    font-size: 17.4px;
-    font-weight: 400;
-    line-height: 26.1px;
-    letter-spacing: -0.02em;
-    text-align: left;
-  }
-  .skills {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 11.6px;
+  .homeApp {
+    padding: 14.4px 14.4px 19.2px 14.4px;
+    border: 1.2px solid #F5F5F5;
+    border-radius: 19.2px;
   }
 
-  .skill {
-    width: 106.2px;
-    height: 31.6px;
-    padding: 5.8px 11.6px;
-    gap: 11.6px;
-    border-radius: 15.47px;
-    background: #5541d726;
-    font-family: Satoshi;
-    font-size: 13.53px;
-    font-weight: 500;
-    line-height: 20.3px;
-    color: #5541d7;
+  .homeApp-image-div {
+    width: 398.4px;
+    height: 316.8px;
+    margin: 0 0 19.2px 0;
+  }
+
+  .homeApp-image-div img {
+    border-radius: 9.6px;
+  }
+
+  .homeApp-gitHub-div {
+    margin: 0 0 19.2px 0;
+    gap: 9.6px;
+  }
+
+  .homeApp-gitHub-div img {
+    width: 32.4px;
+  }
+
+  .homeApp-gitHub-div a {
+    font-size: 19.4px;
+    line-height: 32.4px;
+    letter-spacing: -0.432px;
+  }
+
+  .homeApp-app-title {
+    font-size: 26.4px;
+    line-height: 39.6px;
+    letter-spacing: -0.528px;
+    margin: 0 0 14.4px 0;
+  }
+
+  .homeApp-app-description {
+    font-size: 21.5px;
+    line-height: 32.4px;
+    letter-spacing: -0.432px;
+    margin: 0 0 19.2px 0;
+  }
+
+  .homeApp-app-tech-stack {
+    gap: 14.4px;
+  }
+
+  .homeApp-app-tech-stack li {
+    padding: 7.2px 14.4px;
+    border-radius: 19.2px;
+    font-size: 16.8px;
+    line-height: 25.2px;
+  }
+
+  .applications-load-more-div {
+    margin: 57.6px 0 0 0;
+  }
+
+  .applications-load-more {
+    border-radius: 12px;
+    padding: 14.4px 28.8px;
+    font-size: 16.8px;
+    line-height: 25.2px;
   }
 }

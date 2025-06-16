@@ -25,7 +25,7 @@ const HomeNavbar = () => {
         <Link to="/" className="home-navbar-link-mobile">Home</Link>
         <Link to="/applications" className="home-navbar-link-mobile">Applications</Link>
         <Link to="/about-us" className="home-navbar-link-mobile">About us</Link>
-        <Link to="/blog" className="home-navbar-link-mobile">Blogs</Link>
+        <Link to="/blogs" className="home-navbar-link-mobile">Blogs</Link>
       </div>
     </nav>
   );

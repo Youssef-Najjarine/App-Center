@@ -14,13 +14,6 @@ body {
   margin: 0 auto;
 }
 
-.grid {
-  display: grid;
-  gap: 1.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 360px));
-  justify-content: center;
-}
-
 .row {
   display: flex;
   flex-wrap: wrap;
@@ -32,10 +25,4 @@ body {
   right: 0;
   left: 0;
   z-index: 1030;
-}
-
-.div-with-bg {
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
 }
