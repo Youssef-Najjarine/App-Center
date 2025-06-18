@@ -8,6 +8,7 @@
   z-index: 9999;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .appHome-modal-overlay::before {
@@ -22,8 +23,10 @@
   background: #FFF;
   padding: 16px;
   width: 315px;
+  height: 95%;
   border-radius: 12.889px;
   z-index: 10000;
+  overflow-y: auto;
 }
 
 .appHome-close-header {
@@ -49,7 +52,7 @@
 }
 
 .appHome-close-header img {
-  width:  25.778px;
+  width: 25.778px;
 }
 
 .appHome-modal-selected-image {
@@ -59,6 +62,10 @@
   width: 100%;
   height: 307.244px;
   border-radius: 6.07px;
+}
+
+.appHome-modal-details {
+  margin: 0;
 }
 
 .appHome-modal-github-header {
@@ -71,11 +78,10 @@
 }
 
 .homeApp-modal-gitHub-div {
-  margin: 0 0 15.47px 0;
   gap: 7.73px;
   display: flex;
   cursor: pointer;
-  margin: 0 0 32px 0;
+  margin: 0;
 }
 
 .homeApp-modal-gitHub-div img {
@@ -92,7 +98,7 @@
 }
 
 .appHome-modal-technology-used-div {
-  margin: 0 0 16px 0;
+  margin: 0;
 }
 
 .appHome-modal-technology-header {
@@ -111,6 +117,9 @@
   display: flex;
   flex-wrap: wrap;
   gap: 11.6px;
+  min-height: 247.6px;
+  max-height: 247.6px;
+  overflow-y: auto;
 }
 
 .homeApp-modal-tech-stack li {
@@ -125,10 +134,280 @@
 }
 
 .appHome-modal-line {
-  stroke: rgba(209, 213, 219, 0.30);
-  stroke-width: 0.967px;
   width: 100%;
+  border-top: 0.967px solid rgba(209, 213, 219, 0.30);
+  margin: 16px 0;
+}
 
+.appHome-modal-description-header {
+  margin: 0 0 6.44px 0;
+  color: #141522;
+  font-size: 16.111px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24.167px;
+}
 
+.appHome-modal-description-entry {
+  color: #374151;
+  font-size: 16.111px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24.167px;
+  letter-spacing: 0.322px;
+  min-height: 360px;
+  max-height: 360px;
+  overflow-y: auto;
+  margin: 0 0 16px 0;
+}
 
+.appHome-modal-purchase-app-div {
+  width: 100%;
+}
+
+.appHome-modal-purchase-app-div button {
+  width: 100%;
+  border: none;
+  border-radius: 9.667px;
+  background: #5541D7;
+  padding: 12.889px 19.333px;
+  color: #FFF;
+  font-size: 14.5px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 21.75px;
+}
+
+@media screen and (min-width: 768px) {
+  .appHome-modal {
+    padding: 21px;
+    width: 728px;
+    border-radius: 14px;
+  }
+
+  .appHome-close-header {
+    margin: 0 0 21px 0;
+  }
+
+  .appHome-close-header h2 {
+    font-size: 24.5px;
+    line-height: 36.75px;
+  }
+  .appHome-close-header img {
+    width: 28px;
+  }
+
+  .appHome-modal-images-div {
+    display: flex;
+    gap: 14px;
+    margin: 0 0 14px 0;
+  }
+
+  .appHome-modal-selected-image {
+    margin: 0;
+  }
+  .appHome-modal-selected-image img {
+    width: 544px;
+    height: 544px;
+    border-radius: 10.5px;
+  }
+
+  .appHome-modal-details {
+    margin: 0;
+  }
+
+  .appHome-modal-github-section {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .appHome-modal-github-header {
+    font-size: 17.5px;
+    line-height: 26.25px;
+    margin: 0;
+  }
+
+  .homeApp-modal-gitHub-div {
+    gap: 8.4px;
+  }
+
+  .homeApp-modal-gitHub-div img {
+    width: 22px;
+  }
+
+  .homeApp-modal-gitHub-div a {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.32px;
+  }
+
+  .appHome-modal-technology-header {
+    font-size: 17.5px;
+    line-height: 26.25px;
+    margin: 0 0 7px 0;
+  }
+
+  .homeApp-modal-tech-stack {
+    gap: 12.6px;
+    max-height: 24;
+    min-height: 129px;
+    max-height: 129px;
+    
+  }
+
+  .homeApp-modal-tech-stack li {
+    padding: 6.3px 12.6px;
+    border-radius: 16.8px;
+    font-size: 14.7px;
+    line-height: 22.05px;
+  }
+
+  .appHome-modal-line {
+    border-top: 1.05px solid rgba(209, 213, 219, 0.30);
+    margin: 14px 0;
+  }
+
+  .appHome-modal-description-header {
+    margin: 0 0 7px 0;
+    font-size: 17.5px;
+    line-height: 26.25px;
+  }
+
+  .appHome-modal-description-entry {
+    font-size: 17.5px;
+    line-height: 26.25px;
+    letter-spacing: 0.35px;
+    min-height: 182px;
+    max-height: 182px;
+    margin: 0 0 14px 0;
+  }
+
+  .appHome-modal-purchase-app-div button {
+    border-radius: 10.5;
+    padding: 14px 21px;
+    font-size: 15.75px;
+    line-height: 23.625px;
+  }
+}
+@media screen and (min-width: 1440px) {
+  .appHome-modal {
+    padding: 24px;
+    width: 1376px;
+    border-radius: 16px;
+    height: 96.5%;
+  }
+
+  .appHome-close-header {
+    margin: 0 0 24px 0;
+  }
+
+  .appHome-close-header h2 {
+    font-size: 28px;
+    line-height: 42px;
+  }
+  .appHome-close-header img {
+    width: 32px;
+  }
+
+  .appHome-modal-content {
+    display: flex;
+    gap: 16px;
+  }
+
+  .appHome-modal-images-div {
+    display: flow-root;
+    gap: 0;
+    margin: 0;
+  }
+
+  .appHome-modal-selected-image {
+    margin: 0 0 16px 0;
+       width: 601px;
+    height: 601px;
+  }
+  .appHome-modal-selected-image img {
+    width: 601px;
+    height: 601px;
+    border-radius: 12px;
+  }
+
+  .appHome-modal-details {
+    margin: 0;
+  }
+
+  .appHome-modal-github-section {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .appHome-modal-github-header {
+    font-size: 20px;
+    line-height: 30px;
+    margin: 0;
+  }
+
+  .homeApp-modal-gitHub-div {
+    gap: 9.6px;
+  }
+
+  .homeApp-modal-gitHub-div img {
+    width: 32.4px;
+  }
+
+  .homeApp-modal-gitHub-div a {
+    font-size: 21.6px;
+    line-height: 32.4px;
+    letter-spacing: -0.432px;
+  }
+
+  .appHome-modal-technology-header {
+    font-size: 20px;
+    line-height: 30px;
+    margin: 0 0 8px 0;
+  }
+
+  .homeApp-modal-tech-stack {
+    gap: 14.4px;
+    min-height: 147px;
+    max-height: 147px;
+  }
+
+  .homeApp-modal-tech-stack li {
+    padding: 7.2px 14.4px;
+    border-radius: 19.2px;
+    font-size: 16.8px;
+    line-height: 25.2px;
+  }
+
+  .appHome-modal-line {
+    border-top: 1.05px solid rgba(209, 213, 219, 0.30);
+    margin: 16px 0;
+  }
+
+  .appHome-modal-description-button-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 505px;
+  }
+  .appHome-modal-description-header {
+    margin: 0 0 8px 0;
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  .appHome-modal-description-entry {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: 0.4px;
+      min-height: 387.6px;
+    max-height: 387.6px;
+  }
+
+  .appHome-modal-purchase-app-div button {
+    border-radius: 12;
+    padding: 16px 28px;
+    font-size: 18px;
+    line-height: 27px;
+  }
 }

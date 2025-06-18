@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomeNavbarMobile from "./components/HomeNavBar/HomeNavbarMobile";
 import HomeNavbarDesktop from "./components/HomeNavBar/HomeNavbarDesktop";
-import ProfileNavbar from "./components/ProfileNavbar";
+import MemberNavbarMobile from "./components/MemberNavbar/MemberNavbar";
 import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home/Home";
 import Applications from "./pages/Home/Applications/Applications";
@@ -36,8 +36,8 @@ const HomeLayout = () => (
 );
 
 const ProfileLayout = () => (
-  <>
-    <ProfileNavbar />
+  <section className="container">
+    <MemberNavbarMobile />
     <Routes>
       <Route path="/profile" element={<UserProfile />} />
       <Route path="/profile/apps" element={<AppList />} />
@@ -45,7 +45,7 @@ const ProfileLayout = () => (
       <Route path="/profile/apps/new" element={<CreateApp />} />
       <Route path="/profile/apps/edit/:appId" element={<EditApp />} />
     </Routes>
-  </>
+  </section>
 );
 
 const AuthLayout = () => (
@@ -62,8 +62,9 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/*" element={<HomeLayout />} />
-        <Route path="/profile/*" element={<ProfileLayout />} />
+        {/* <Route path="/*" element={<HomeLayout />} />
+        <Route path="/profile/*" element={<ProfileLayout />} /> */}
+        <Route path="/*" element={<ProfileLayout />} />
         <Route path="/auth/*" element={<AuthLayout />} />
       </Routes>
     </Router>
