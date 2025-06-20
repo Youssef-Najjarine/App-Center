@@ -27,7 +27,8 @@
   align-items: center;
 }
 .home-logo-image-mobile {
-  width: 32px;
+  width: 32.867px;
+height: 32.867px;
   margin-right: 4.86px;
 }
 
@@ -95,6 +96,7 @@ letter-spacing: -0.427px;
 
   .home-logo-image-mobile {
     width: 35.7px;
+    height: 35.701px;
     margin-right: 10.71px;
   }
   .home-logo-text-mobile {

@@ -24,64 +24,85 @@ const HomeNavbar = () => {
       <div className="member-navbar-container">
         <div className="member-navbar-logo">
           <Link to="/">
-            <img src={logoIcon} alt="Logo Icon" className="member-logo-image" />
+            <img src={logoIcon} alt="Logo Icon" className="member-navbar-logo-image" />
           </Link>
           <Link to="/">
             <span className="member-logo-text">Open App Partners</span>
           </Link>
         </div>
-
+        
         <div className="member-navbar-actions">
           <div className='member-nav-application-div'>
             <Link to="/">
               <img src={applications} className='member-nav-applications-icon'/>
+              <span>Applications</span>
             </Link>
           </div>
 
           <div className="member-profile-wrapper">
             <div className='member-profile-nav' onClick={toggleDropdown}>
-              <img src={profilePic} alt="Profile" />
+              <img src={profilePic} alt="member-icon" />
+              <div>
+                <p className='member-nav-name'>
+                  Youssef Najjarine
+                </p>
+                <p className='member-nav-email'>
+                  ynajjarine@gmail.com
+                </p>
+              </div>
+              <div className="member-navbar-caret">
+                {showDropdown ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className='member-navbar-up-arrow'>
+                    <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+                  </svg>
+                ) : (
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className='member-navbar-down-arrow'>
+                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
+                  </svg>
+                )}
+              </div>
             </div>
 
             <div className={`member-dropdown-menu ${showDropdown ? 'show' : ''}`}>
-              <Link to="/profile">
-              <div>
+              <Link to="/profile" onClick={() => setShowDropdown(false)}>
+              <div className='member-navbar-icon-div'>
                 <img src={profileIcon}/>
                 <span>Profile</span>
               </div>
               </Link>
-              <Link to="/apps">
+              <Link to="/apps" onClick={() => setShowDropdown(false)}>
                 <div className='member-navbar-icon-div'>
                   <img src={appManagementIcon}/>
                   <span>Apps Management</span>
                 </div>
               </Link>
-              <Link to="/purchases">
+              <Link to="/purchases" onClick={() => setShowDropdown(false)}>
               <div className='member-navbar-icon-div'>
                 <img src={myPurchasesIcon}/>
                 <span>My Purchases</span>
               </div>
               </Link>
-              <Link to="/history">
+              <Link to="/history" onClick={() => setShowDropdown(false)}>
                 <div className='member-navbar-icon-div'>
                   <img src={applicationHistoryIcon}/>
                   <span>Application History</span>
                 </div>
               </Link>
-              <Link to="/payouts">
+              <Link to="/payouts" onClick={() => setShowDropdown(false)}>
                 <div className='member-navbar-icon-div'>
                   <img src={earningsPayoutsIcon}/>
                   <span>Earning & Payouts</span>
                 </div>
               </Link>
-              <Link to="/payments">
+              <Link to="/payments" onClick={() => setShowDropdown(false)}>
                 <div className='member-navbar-icon-div'>
                   <img src={cardPaymentsIcon}/>
                   <span>Cards & Payments</span>
                 </div>
               </Link>
-              <Link to="/logout">
-                <div className='member-navbar-icon-div'>
+              <Link to="/logout" onClick={() => setShowDropdown(false)}>
+                <div className='member-navbar-icon-div member-navbar-logout-div'>
                   <img src={logoutIcon}/>
                   <span className="logout">Logout</span>
                 </div>
