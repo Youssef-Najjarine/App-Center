@@ -5,30 +5,44 @@ import image3 from "../../../../assets/HomeCarousel/laptop.png";
 import image4 from "../../../../assets/HomeCarousel/design.jpg";
 import image5 from "../../../../assets/HomeCarousel/verify-identity-desktop.jpeg";
 import image6 from "../../../../assets/HomeCarousel/AI-future.jpg";
+import sampleVideo from "../../../../assets/HomeCarousel/Senior-Full-Stack-Developer-Expertise.mp4";
+import sampleThumbnail from "../../../../assets/HomeCarousel/sampleThumbnail.png";
 import "./ApplicationModalCarousel.css";
 
-const images = [image1, image2, image3, image4, image5, image6];
+const images = [
+  {
+    type: "video",
+    src: sampleThumbnail,
+    videoType: "local",
+    videoFile: sampleVideo,
+    duration: "14:22"
+  },
+  { type: "image", src: image1 },
+  { type: "image", src: image2 },
+  { type: "image", src: image3 },
+  { type: "image", src: image4 },
+  { type: "image", src: image5 },
+  { type: "image", src: image6 },
+];
 
-const ApplicationModalCarousel = ({ selectedImage, onImageClick, onInitialImage }) => {
+const ApplicationModalCarousel = ({ selectedItem, onItemClick, onInitialItem }) => {
   useEffect(() => {
-    if (images.length > 0 && onInitialImage) {
-      onInitialImage(images[0]);
-    }
-  }, [onInitialImage]);
+    if (onInitialItem) onInitialItem(images);
+  }, [onInitialItem]);
 
   return (
     <section className="appHome-modal-carousel-section">
       <div className="appHome-modal-carousel-container">
         <div className="appHome-modal-carousel-track">
-          {images.map((img, i) => (
+          {images.map((item, i) => (
             <img
               key={i}
-              src={img}
+              src={item.src}
               alt={`carousel-${i}`}
               className={`appHome-modal-carousel-image ${
-                selectedImage === img ? "selected" : ""
+                selectedItem?.src === item.src ? "selected" : ""
               }`}
-              onClick={() => onImageClick(img)}
+              onClick={() => onItemClick(item)}
             />
           ))}
         </div>

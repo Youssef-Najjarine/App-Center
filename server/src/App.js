@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomeNavbarMobile from "./components/HomeNavBar/HomeNavbarMobile";
 import HomeNavbarDesktop from "./components/HomeNavBar/HomeNavbarDesktop";
-import MemberNavbarMobile from "./components/MemberNavbar/MemberNavbar";
+import MemberNavbar from "./components/MemberNavbar/MemberNavbar";
 import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home/Home";
 import Applications from "./pages/Home/Applications/Applications";
@@ -11,8 +11,8 @@ import BlogDetails from "./pages/Home/Blog/BlogDetails";
 import AboutUs from "./pages/Home/AboutUs/AboutUs";
 import ContactUs from "./components/ContactUs/ContactUs";
 import UserProfile from "./pages/Profile/userProfile/UserProfile";
-import AppList from "./pages/Profile/AppList";
-import EditProfile from "./pages/Profile/EditProfile";
+import AppList from "./pages/profile/AppList";
+import EditProfile from "./pages/Profile/userProfile/EditProfile";
 import CreateApp from "./pages/Profile/CreateApp";
 import EditApp from "./pages/Profile/EditApp";
 import Login from "./pages/Auth/Login/Login";
@@ -37,7 +37,7 @@ const HomeLayout = () => (
 
 const ProfileLayout = () => (
   <section className="container">
-    <MemberNavbarMobile />
+    <MemberNavbar/>
     <Routes>
       <Route path="/profile" element={<UserProfile />} />
       <Route path="/profile/apps" element={<AppList />} />
@@ -62,10 +62,10 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        {/* <Route path="/*" element={<HomeLayout />} />
-        <Route path="/profile/*" element={<ProfileLayout />} /> */}
-        <Route path="/*" element={<ProfileLayout />} />
-        <Route path="/auth/*" element={<AuthLayout />} />
+        <Route path="/*" element={<HomeLayout />} />
+        <Route path="/profile/*" element={<ProfileLayout />} />
+        {/* <Route path="/*" element={<ProfileLayout />} />
+        <Route path="/auth/*" element={<AuthLayout />} /> */}
       </Routes>
     </Router>
   );

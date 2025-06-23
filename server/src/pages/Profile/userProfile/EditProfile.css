@@ -1,0 +1,616 @@
+#member-edit-profile-bio {
+    padding: 95.72px 20px 24px 20px;
+}
+
+.member-edit-profile-bio-info {
+    padding: 15px;
+    border-radius: 12.889px;
+    border: 0.806px solid #F5F5F5;
+    background: #FFF;
+}
+
+.member-edit-profile-bio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 25.78px 0;
+
+}
+
+.member-edit-profile-bio-header h2 {
+    color: #141522;
+    font-size: 17.722px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 26.583px;
+    margin: 0;
+}
+
+.member-edit-profile-bio-info-cancel-save-div {
+    width: 92px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.member-edit-info-cancel-div span,
+.member-edit-info-save-div span {
+    display: none;
+}
+
+.member-edit-info-cancel-div {
+    padding: 9.667px 12.889px;
+    border-radius: 8.056px;
+    border: 0.806px solid #F5F5F5;
+    background: #FFF;
+    width: 41.9px;
+    height: 35.4px;
+    cursor: pointer;
+}
+
+.member-edit-info-cancel-div a,
+.member-edit-info-save-div a {
+    display: flex;
+    align-items: center;
+}
+
+.member-edit-info-cancel-div img {
+    width: 16.111px;
+    height: 16.111px;
+}
+
+.member-edit-info-save-div {
+    padding: 9.667px 12.889px;
+    border-radius: 8.056px;
+    background: #5541D7;
+        width: 41.9px;
+    height: 35.4px;
+    cursor: pointer;
+}
+
+.member-edit-info-save-div img {
+    width: 16.111px;
+    height: 16.111px;
+}
+
+.member-edit-profile-bio-info-profilePic {
+    margin: 0 0 12.89px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.member-edit-profile-bio-info-profilePic-sub-div {
+    margin: 0 24.17px 0 0;
+}
+
+.member-edit-profile-info-photo {
+    width: 120.833px;
+    height: 120.833px;
+    border-radius: 80.556px;
+    cursor: pointer;
+}
+
+.member-profile-photo-container {
+  position: relative;
+  width: fit-content;
+}
+
+.member-edit-profile-info-photo {
+  display: block;
+}
+
+.member-edit-profile-info-upload-background {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 28px;
+  height: 28px;
+  padding: 4.028px;
+  border-radius: 80.556px;
+  background: #FFF;
+  box-shadow: 0px 3.222px 16.111px 0px rgba(0, 0, 0, 0.10);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.member-edit-profile-info-upload-icon {
+    width: 16.111px;
+    height: 16.111px;
+}
+
+.member-edit-profile-bio-info-upload-photo {
+    margin: 0 0 8.06px 0;
+    color: #141522;
+    font-size: 12.889px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 19.333px; 
+}
+
+.member-edit-profile-bio-info-photo-size {
+    margin: 0;
+    color: #9C9CA4;
+    font-size: 11.278px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16.917px;
+}
+
+.member-edit-profile-bio-info-grid {
+  display: grid;
+  gap: 0;
+  grid-template-columns: repeat(auto-fit, 100%);
+  justify-content: center;
+  align-items: start;
+}
+
+.member-edit-profile-bio-info-name,
+.member-edit-profile-bio-info-email,
+.member-edit-profile-bio-info-username {
+    border-top: 0.806px solid #F5F5F5;
+    border-bottom: 0.806px solid #F5F5F5;
+    background-color: #fff;
+}
+
+.member-edit-profile-bio-info-name {
+    padding: 12.89px 0 16px 0;
+}
+
+.member-edit-profile-bio-info-email {
+    padding: 16px 0;
+}
+
+.member-edit-profile-bio-info-username {
+    padding: 16px 0 12.89px 0;
+}
+
+.member-edit-profile-bio-info-name label,
+.member-edit-profile-bio-info-email label,
+.member-edit-profile-bio-info-username label {
+    color: #141522;
+    font-size: 12.889px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 19.333px;
+    margin: 0 0 6.61px 0;
+}
+
+.member-edit-profile-bio-info-required-star {
+   color: #FF461D;
+    font-size: 12.889px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 21px;
+}
+
+.member-edit-profile-bio-info-name input,
+.member-edit-profile-bio-info-email input,
+.member-edit-profile-bio-info-username input {
+    width: 100%;
+    height: 40.278px;
+    padding: 12.889px 9.667px;
+    border-radius: 6.444px;
+    border: 0.806px solid #F5F5F5;
+    background: rgba(245, 245, 245, 0.50);
+    color: #141522;
+    font-size: 11.278px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16.917px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.member-edit-profile-bio-info-name input::placeholder,
+.member-edit-profile-bio-info-email input::placeholder,
+.member-edit-profile-bio-info-username input::placeholder,
+.member-edit-profile-bio-info-bio textarea::placeholder {
+    color: #141522;
+    font-size: 11.278px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16.917px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.member-edit-profile-bio-info-bio {
+    margin: 12.89px 0 0 0;
+}
+
+.member-edit-profile-bio-info-bio label {
+    color: #141522;
+    font-size: 12.889px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 19.333px;
+}
+
+.member-edit-profile-bio-info-bio textarea {
+    color: #141522;
+    font-size: 11.278px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16.917px;
+    padding: 12.889px 9.667px;
+    border-radius: 6.444px;
+    border: 0.806px solid #F5F5F5;
+    background: rgba(245, 245, 245, 0.50);
+    margin: 4.83px 0 0 0;
+    width: 100%;
+    height: 416.8px;
+    max-height: 416.8px;
+    overflow-y: auto;
+    resize: none;
+    font-family: 'Poppins', sans-serif;
+} 
+
+@media screen and (min-width: 768px) {
+    #member-edit-profile-bio {
+        padding: 107.75px 20px 21px 20px;
+    }
+
+    .member-edit-profile-bio-info {
+        padding: 16px;
+        border-radius: 14px;
+        border: 0.875px solid #F5F5F5;
+    }
+
+    .member-edit-profile-bio-header {
+        margin: 0 0 28px 0;
+    }
+
+    .member-edit-profile-bio-header h2 {
+        font-size: 19.25px;
+        line-height: 28.875px;
+    }
+
+    .member-edit-profile-bio-info-cancel-save-div {
+        width: 260px;
+    }
+
+    .member-edit-info-cancel-div span,
+    .member-edit-info-save-div span {
+        display: flow-root;
+    }
+
+    .member-edit-info-cancel-div {
+        padding: 10.5px 14px;
+        border-radius: 8.75px;
+        border: 0.875px solid #F5F5F5;
+        width: 100.5px;
+        height: 39px;
+    }
+
+    .member-edit-info-cancel-div img {
+        width: 17.5px;
+        height: 17.5px;
+        margin: 0 7px 0 0;
+    }
+
+    .member-edit-info-cancel-div span {
+        color: #141522;
+        font-size: 12.25px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 18.375px;
+    }
+
+    .member-edit-info-save-div {
+        padding: 10.5px 14px;
+        border-radius: 8.75px;
+        width: 145.5px;
+        height: 39px;
+    }
+
+    .member-edit-info-save-div img {
+        width: 17.5px;
+        height: 17.5px;
+        margin: 0 7px 0 0;
+    }
+
+    .member-edit-info-save-div span {
+        color: #FFF;
+        font-size: 12.25px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 18.375px;
+    }
+
+    .member-edit-profile-bio-info-profilePic {
+        margin: 0 0 14px 0;
+    }
+
+    .member-edit-profile-bio-info-profilePic-sub-div {
+        margin: 0 26.25px 0 0;
+    }
+
+    .member-edit-profile-info-photo {
+        width: 131.25px;
+        height: 131.25px;
+        border-radius: 87.5px;
+    }
+
+    .member-edit-profile-info-upload-background {
+        padding: 4.375px;
+        border-radius: 87.5px;
+        box-shadow: 0px 3.5px 17.5px 0px rgba(0, 0, 0, 0.10);
+    }
+
+    .member-edit-profile-info-upload-icon {
+        width: 17.5px;
+        height: 17.5px;
+    }
+
+    .member-edit-profile-bio-info-upload-photo {
+        margin: 0 0 8.75px 0;
+        font-size: 14px;
+        line-height: 21px; 
+    }
+
+    .member-edit-profile-bio-info-photo-size {
+        font-size: 12.25px;
+        line-height: 18.375px;
+    }
+
+    .member-edit-profile-bio-info-name,
+    .member-edit-profile-bio-info-email,
+    .member-edit-profile-bio-info-username {
+        border-top: 0.875px solid #F5F5F5;
+        border-bottom: 0.875px solid #F5F5F5;
+    }
+
+    .member-edit-profile-bio-info-name {
+        padding: 14px 0 12px 0;
+    }
+
+    .member-edit-profile-bio-info-email {
+        padding: 12px 0;
+    }
+
+    .member-edit-profile-bio-info-username {
+        padding: 14px 0 12px 0;
+    }
+
+    .member-edit-profile-bio-info-name label,
+    .member-edit-profile-bio-info-email label,
+    .member-edit-profile-bio-info-username label {
+        font-size: 14px;
+        line-height: 21px;
+        margin: 0 0 7px 0;
+    }
+
+    .member-edit-profile-bio-info-required-star {
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .member-edit-profile-bio-info-name input,
+    .member-edit-profile-bio-info-email input,
+    .member-edit-profile-bio-info-username input {
+        height: 43.75px;
+        padding: 14px 10.5px;
+        border-radius: 7px;
+        border: 0.875px solid #F5F5F5;
+        font-size: 12.25px;
+        line-height: 18.375px;
+    }
+
+    .member-edit-profile-bio-info-name input::placeholder,
+    .member-edit-profile-bio-info-email input::placeholder,
+    .member-edit-profile-bio-info-username input::placeholder,
+    .member-edit-profile-bio-info-bio textarea::placeholder {
+        font-size: 12.25px;
+        line-height: 18.375px;
+    }
+
+    .member-edit-profile-bio-info-bio {
+        margin: 14px 0 0 0;
+    }
+
+    .member-edit-profile-bio-info-bio label {
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .member-edit-profile-bio-info-bio textarea {
+        font-size: 12.25px;
+        line-height: 18.375px;
+        padding: 14px 10.5px;
+        border-radius: 7px;
+        border: 0.875px solid #F5F5F5;
+        margin: 7px 0 0 0;
+        height: 553.3px;
+        max-height: 553.3px;
+    } 
+}
+@media screen and (min-width: 1440px) {
+    #member-edit-profile-bio {
+        padding: 131px 32px 24px 32px;
+    }
+
+    .member-edit-profile-bio-info {
+        padding: 24px 32px 24px 32px;
+        border-radius: 16px;
+        border: 1px solid #F5F5F5;
+    }
+
+    .member-edit-profile-bio-header {
+        margin: 0 0 32px 0;
+    }
+
+    .member-edit-profile-bio-header h2 {
+        font-size: 22px;
+        line-height: 33px;
+    }
+
+    .member-edit-profile-bio-info-cancel-save-div {
+        width: 295px;
+    }
+
+    .member-edit-info-cancel-div {
+        padding: 12px 16px;
+        border-radius: 10px;
+        border: 1px solid #F5F5F5;
+        width: 105px;
+        height: 45px;
+    }
+
+    .member-edit-info-cancel-div img {
+        width: 20px;
+        height: 20px;
+        margin: 0 8px 0 0;
+    }
+
+    .member-edit-info-cancel-div span {
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .member-edit-info-save-div {
+        padding: 12px 18px;
+        border-radius: 10px;
+        width: 169px;
+        height: 45px;
+    }
+
+    .member-edit-info-save-div img {
+        width: 20px;
+        height: 20px;
+        margin: 0 8px 0 0;
+    }
+
+    .member-edit-info-save-div span {
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .member-edit-profile-bio-info-profilePic {
+        margin: 0 0 16px 0;
+    }
+
+    .member-edit-profile-bio-info-profilePic-sub-div {
+        margin: 0 30px 0 0;
+    }
+
+    .member-edit-profile-info-photo {
+        width: 150px;
+        height: 150px;
+        border-radius: 100px;
+    }
+
+    .member-edit-profile-info-upload-background {
+        padding: 5px;
+        border-radius: 100px;
+        box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10);
+    }
+
+    .member-edit-profile-info-upload-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .member-edit-profile-bio-info-upload-photo {
+        margin: 0 0 10px 0;
+        font-size: 16px;
+        line-height: 24px; 
+    }
+
+    .member-edit-profile-bio-info-photo-size {
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .member-edit-profile-bio-info-grid {
+        display: grid;
+        gap: 0;
+        grid-template-columns: repeat(auto-fit, calc(100% / 3));
+        justify-content: center;
+        align-items: start;
+    }
+    
+    .member-edit-profile-bio-info-name,
+    .member-edit-profile-bio-info-email,
+    .member-edit-profile-bio-info-username {
+        padding: 16px 32px;
+        border-top: 1px solid #F5F5F5;
+        border-bottom: 1px solid #F5F5F5;
+    }
+
+    .member-edit-profile-bio-info-name,
+    .member-edit-profile-bio-info-email {
+        position: relative;
+    }
+    .member-edit-profile-bio-info-name::after {
+        content: "";
+        position: absolute;
+        background-color: #F5F5F5;
+        right: 0;
+        top: 16px;                 
+        bottom: 16px;              
+        width: 1px;
+    }
+
+    .member-edit-profile-bio-info-email::after {
+        content: "";
+        position: absolute;
+        background-color: #F5F5F5;
+        right: 0;
+        top: 16px;                 
+        bottom: 16px;              
+        width: 1px;
+    }
+
+    .member-edit-profile-bio-info-name label,
+    .member-edit-profile-bio-info-email label,
+    .member-edit-profile-bio-info-username label {
+        font-size: 16px;
+        line-height: 24px;
+        margin: 0 0 8px 0;
+    }
+
+    .member-edit-profile-bio-info-required-star {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .member-edit-profile-bio-info-name input,
+    .member-edit-profile-bio-info-email input,
+    .member-edit-profile-bio-info-username input {
+        height: 50px;
+        padding: 16px 12px;
+        border-radius: 8px;
+        border: 1px solid #F5F5F5;
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .member-edit-profile-bio-info-name input::placeholder,
+    .member-edit-profile-bio-info-email input::placeholder,
+    .member-edit-profile-bio-info-username input::placeholder,
+    .member-edit-profile-bio-info-bio textarea::placeholder {
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .member-edit-profile-bio-info-bio {
+        margin: 16px 0 0 0;
+    }
+
+    .member-edit-profile-bio-info-bio label {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .member-edit-profile-bio-info-bio textarea {
+        font-size: 14px;
+        line-height: 21px;
+        padding: 16px 12px;
+        border-radius: 8px;
+        border: 1px solid #F5F5F5;
+        margin: 8px 0 0 0;
+        height: 553.3px;
+        max-height: 553.3px;
+    } 
+}

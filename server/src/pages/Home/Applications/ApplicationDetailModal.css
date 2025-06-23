@@ -1,3 +1,52 @@
+/* HEEEEEEEEEREEEEEEEEE */
+
+.video-thumbnail-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.video-thumbnail-wrapper img,
+.appHome-modal-selected-image .selected-video {
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+/* Overlay Container */
+.video-overlay {
+  position: absolute;
+  bottom: 15.31px;
+  left: 6.58px;
+  width: 73.65px;
+  height: 24.8px;
+  padding: 3.966px 7.931px;
+  border-radius: 6.07px;
+  background: rgba(255, 255, 255, 0.70);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7.93px;
+}
+
+/* Play icon inside overlay */
+.video-overlay .play-icon {
+  width: 16.854px;
+  height: 16.854px;
+  margin: 0;
+}
+
+/* Duration text */
+.video-overlay .video-duration {
+  color: #141522;
+  font-size: 13.88px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 15.268px;
+  letter-spacing: -0.278px;
+}
+
+/* HEEEEEEEEEREEEEEEEEE */
 .appHome-modal-overlay {
   position: fixed;
   top: 0;
@@ -58,7 +107,9 @@
 .appHome-modal-selected-image {
   margin: 0 0 12.89px 0;
 }
-.appHome-modal-selected-image img {
+
+.appHome-modal-selected-image .selected-image,
+.appHome-modal-selected-image .selected-video {
   width: 100%;
   height: 307.244px;
   border-radius: 6.07px;
@@ -176,6 +227,7 @@
   font-style: normal;
   font-weight: 700;
   line-height: 21.75px;
+  cursor: pointer;
 }
 
 @media screen and (min-width: 768px) {
@@ -206,7 +258,9 @@
   .appHome-modal-selected-image {
     margin: 0;
   }
-  .appHome-modal-selected-image img {
+
+  .appHome-modal-selected-image .selected-image,
+  .appHome-modal-selected-image .selected-video {
     width: 544px;
     height: 544px;
     border-radius: 10.5px;
@@ -320,12 +374,14 @@
     margin: 0;
   }
 
-  .appHome-modal-selected-image {
+  .appHome-modal-selected-image,
+  .appHome-modal-selected-image .selected-video {
     margin: 0 0 16px 0;
        width: 601px;
     height: 601px;
   }
-  .appHome-modal-selected-image img {
+
+  .appHome-modal-selected-image .selected-image {
     width: 601px;
     height: 601px;
     border-radius: 12px;

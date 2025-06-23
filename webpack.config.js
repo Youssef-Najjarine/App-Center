@@ -3,12 +3,12 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './server/src/AppEntry.js', // Entry point for React app
+  entry: './server/src/AppEntry.js',
   output: {
     path: path.resolve(__dirname, 'server/public_html/Js'),
     filename: 'bundle.js',
     publicPath: '/Js/',
-    clean: true, // Clean output dir before build
+    clean: true,
   },
   module: {
     rules: [
@@ -33,6 +33,13 @@ module.exports = {
           filename: 'assets/[name].[hash][ext]',
         },
       },
+      {
+        test: /\.(mp4|webm|ogg)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'videos/[name].[hash][ext]', // Saves to /videos directory
+        },
+      },
     ],
   },
   resolve: {
@@ -41,7 +48,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './server/public_html/index.html',
-      filename: '../index.html', // Output index.html to public_html root
+      filename: '../index.html',
       inject: 'body',
     }),
     new webpack.HotModuleReplacementPlugin(),

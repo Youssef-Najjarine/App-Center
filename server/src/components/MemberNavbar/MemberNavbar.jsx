@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import logoIcon from '../../assets/intro-bg.jpeg';
 import applications from '../../assets/Member/member-applications.svg';
@@ -14,10 +14,31 @@ import './MemberNavbar.css';
 
 const HomeNavbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const profileWrapperRef = useRef(null);
 
   const toggleDropdown = () => {
     setShowDropdown(prev => !prev);
   };
+
+  // Handle click outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        profileWrapperRef.current &&
+        !profileWrapperRef.current.contains(event.target)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+
+    if (showDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showDropdown]);
 
   return (
     <nav className="member-navbar fixed-top">
@@ -30,35 +51,30 @@ const HomeNavbar = () => {
             <span className="member-logo-text">Open App Partners</span>
           </Link>
         </div>
-        
+
         <div className="member-navbar-actions">
           <div className='member-nav-application-div'>
             <Link to="/">
-              <img src={applications} className='member-nav-applications-icon'/>
+              <img src={applications} className='member-nav-applications-icon' />
               <span>Applications</span>
             </Link>
           </div>
 
-          <div className="member-profile-wrapper">
+          <div className="member-profile-wrapper" ref={profileWrapperRef}>
             <div className='member-profile-nav' onClick={toggleDropdown}>
               <img src={profilePic} alt="member-icon" />
               <div>
-                <p className='member-nav-name'>
-                  Youssef Najjarine
-                </p>
-                <p className='member-nav-email'>
-                  ynajjarine@gmail.com
-                </p>
+                <p className='member-nav-name'>Youssef Najjarine</p>
+                <p className='member-nav-email'>ynajjarine@gmail.com</p>
               </div>
               <div className="member-navbar-caret">
                 {showDropdown ? (
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className='member-navbar-up-arrow'>
-                    <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+                    <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z" />
                   </svg>
                 ) : (
-
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className='member-navbar-down-arrow'>
-                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className='member-navbar-down-arrow'>
+                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z" />
                   </svg>
                 )}
               </div>
@@ -66,44 +82,44 @@ const HomeNavbar = () => {
 
             <div className={`member-dropdown-menu ${showDropdown ? 'show' : ''}`}>
               <Link to="/profile" onClick={() => setShowDropdown(false)}>
-              <div className='member-navbar-icon-div'>
-                <img src={profileIcon}/>
-                <span>Profile</span>
-              </div>
+                <div className='member-navbar-icon-div'>
+                  <img src={profileIcon} />
+                  <span>Profile</span>
+                </div>
               </Link>
               <Link to="/apps" onClick={() => setShowDropdown(false)}>
                 <div className='member-navbar-icon-div'>
-                  <img src={appManagementIcon}/>
+                  <img src={appManagementIcon} />
                   <span>Apps Management</span>
                 </div>
               </Link>
               <Link to="/purchases" onClick={() => setShowDropdown(false)}>
-              <div className='member-navbar-icon-div'>
-                <img src={myPurchasesIcon}/>
-                <span>My Purchases</span>
-              </div>
+                <div className='member-navbar-icon-div'>
+                  <img src={myPurchasesIcon} />
+                  <span>My Purchases</span>
+                </div>
               </Link>
               <Link to="/history" onClick={() => setShowDropdown(false)}>
                 <div className='member-navbar-icon-div'>
-                  <img src={applicationHistoryIcon}/>
+                  <img src={applicationHistoryIcon} />
                   <span>Application History</span>
                 </div>
               </Link>
               <Link to="/payouts" onClick={() => setShowDropdown(false)}>
                 <div className='member-navbar-icon-div'>
-                  <img src={earningsPayoutsIcon}/>
+                  <img src={earningsPayoutsIcon} />
                   <span>Earning & Payouts</span>
                 </div>
               </Link>
               <Link to="/payments" onClick={() => setShowDropdown(false)}>
                 <div className='member-navbar-icon-div'>
-                  <img src={cardPaymentsIcon}/>
+                  <img src={cardPaymentsIcon} />
                   <span>Cards & Payments</span>
                 </div>
               </Link>
               <Link to="/logout" onClick={() => setShowDropdown(false)}>
                 <div className='member-navbar-icon-div member-navbar-logout-div'>
-                  <img src={logoutIcon}/>
+                  <img src={logoutIcon} />
                   <span className="logout">Logout</span>
                 </div>
               </Link>
