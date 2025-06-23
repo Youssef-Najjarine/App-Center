@@ -11,7 +11,7 @@ import BlogDetails from "./pages/Home/Blog/BlogDetails";
 import AboutUs from "./pages/Home/AboutUs/AboutUs";
 import ContactUs from "./components/ContactUs/ContactUs";
 import UserProfile from "./pages/Profile/userProfile/UserProfile";
-import AppList from "./pages/profile/AppList";
+import ProfileApplications from "./pages/Profile/ProfileApplications/ProfileApplications";
 import EditProfile from "./pages/Profile/userProfile/EditProfile";
 import CreateApp from "./pages/Profile/CreateApp";
 import EditApp from "./pages/Profile/EditApp";
@@ -40,7 +40,7 @@ const ProfileLayout = () => (
     <MemberNavbar/>
     <Routes>
       <Route path="/profile" element={<UserProfile />} />
-      <Route path="/profile/apps" element={<AppList />} />
+      <Route path="/profile/apps" element={<ProfileApplications />} />
       <Route path="/profile/edit" element={<EditProfile />} />
       <Route path="/profile/apps/new" element={<CreateApp />} />
       <Route path="/profile/apps/edit/:appId" element={<EditApp />} />
@@ -62,10 +62,10 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/*" element={<HomeLayout />} />
-        <Route path="/profile/*" element={<ProfileLayout />} />
-        {/* <Route path="/*" element={<ProfileLayout />} />
-        <Route path="/auth/*" element={<AuthLayout />} /> */}
+        {/* <Route path="/*" element={<HomeLayout />} />
+        <Route path="/profile/*" element={<ProfileLayout />} /> */}
+        <Route path="/*" element={<ProfileLayout />} />
+        <Route path="/auth/*" element={<AuthLayout />} />
       </Routes>
     </Router>
   );

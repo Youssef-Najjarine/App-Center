@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import logoIcon from '../../assets/intro-bg.jpeg';
 import applications from '../../assets/Member/member-applications.svg';
 import profilePic from '../../assets/Member/member-profile-pic.JPG';
@@ -7,14 +7,15 @@ import profileIcon from '../../assets/Member/member-navbar-profile-icon.svg';
 import appManagementIcon from '../../assets/Member/member-application-management-navbar-icon.svg';
 import myPurchasesIcon from '../../assets/Member/member-navbar-purchases-icon.svg';
 import applicationHistoryIcon from '../../assets/Member/member-navbar-application-history-icon.svg';
-import earningsPayoutsIcon from '../../assets/Member/member-navbar-application-history-icon.svg';
+import earningsPayoutsIcon from '../../assets/Member/member-navbar-earnings-payouts-icon.svg';
 import cardPaymentsIcon from '../../assets/Member/member-navbar-cards-payments-icon.svg';
 import logoutIcon from '../../assets/Member/member-navbar-logout-icon.svg';
 import './MemberNavbar.css';
 
-const HomeNavbar = () => {
+const MemberNavbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const profileWrapperRef = useRef(null);
+  const location = useLocation();
 
   const toggleDropdown = () => {
     setShowDropdown(prev => !prev);
@@ -53,15 +54,15 @@ const HomeNavbar = () => {
         </div>
 
         <div className="member-navbar-actions">
-          <div className='member-nav-application-div'>
-            <Link to="/">
+          <div className={`member-nav-application-div ${location.pathname === "/profile/apps" ? "active-app-tab" : ""}`}>
+            <Link to="/profile/apps">
               <img src={applications} className='member-nav-applications-icon' />
               <span>Applications</span>
             </Link>
           </div>
 
           <div className="member-profile-wrapper" ref={profileWrapperRef}>
-            <div className='member-profile-nav' onClick={toggleDropdown}>
+            <div className={`member-profile-nav ${location.pathname === "/profile/apps" ? "inactive-profile-tab" : ""}`} onClick={toggleDropdown}>
               <img src={profilePic} alt="member-icon" />
               <div>
                 <p className='member-nav-name'>Youssef Najjarine</p>
@@ -131,4 +132,4 @@ const HomeNavbar = () => {
   );
 };
 
-export default HomeNavbar;
+export default MemberNavbar;

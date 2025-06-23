@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "./ApplicationDetailModal.css";
+import "./ProfileApplicationDetailModal.css";
 import closeButton from "../../../assets/Applications/x-close.svg";
-import AppHomeModalCarousel from "./ApplicationModalCarousel/ApplicationModalCarousel";
+import ProfileAppModalCarousel from "./ApplicationModalCarousel/ApplicationModalCarousel";
 import githubIcon from "../../../assets/Applications/github-icon.png";
 import playIcon from "../../../assets/Applications/play-icon.svg";
 import sampleVideo from "../../../assets/HomeCarousel/Senior-Full-Stack-Developer-Expertise.mp4";
@@ -71,7 +71,7 @@ const ApplicationDetailModal = ({ modalOpenState, onClose, app }) => {
                 <div className="image-placeholder">Select an image or video below</div>
               )}
             </div>
-            <AppHomeModalCarousel
+            <ProfileAppModalCarousel
               selectedItem={selectedItem}
               onItemClick={(item) => {
                 setSelectedItem(item);

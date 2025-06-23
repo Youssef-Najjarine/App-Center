@@ -151,6 +151,33 @@
 .member-dropdown-menu .logout {
   color: #FF461D;
 }
+
+/* HEEEEERRREEEEEEEEEEEEEEE */
+.active-app-tab {
+  background: #5541D7 !important;
+}
+
+.active-app-tab span {
+  color: #FFF !important;
+}
+
+.active-app-tab img {
+  filter: brightness(0) invert(1);
+}
+
+.inactive-profile-tab {
+  background: #F5F5F5 !important;
+  border: 0.806px solid #F5F5F5;
+}
+
+.inactive-profile-tab .member-nav-name,
+.inactive-profile-tab .member-nav-email,
+.inactive-profile-tab .member-navbar-up-arrow,
+.inactive-profile-tab .member-navbar-down-arrow {
+  color: #141522;
+  fill: #141522;
+}
+/* HEEEEERRREEEEEEEEEEEEEEE */
 @media screen and (min-width: 768px) {
   .member-navbar {
     padding: 20px;
@@ -243,6 +270,10 @@
   .member-dropdown-menu {
     top: 54.97px;
     width: 244.13px;
+  }
+
+  .inactive-profile-tab {
+    border: 0.875px solid #F5F5F5;
   }
 }
 @media screen and (min-width: 1440px) {
@@ -337,5 +368,9 @@
     font-size: 16px;
     line-height: 24px;
     letter-spacing: -0.64px;
+  }
+
+    .inactive-profile-tab {
+    border: 1px solid #F5F5F5;
   }
 }
