@@ -1,117 +1,263 @@
-#applications {
-  padding: 162px 20px 48px 20px;
+#profile-applications {
+  padding: 111.72px 20px 48px 20px;
 }
 
-.applications-title-div {
+.profile-applications-title-div {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
     margin: 0 0 32px 0;
 }
 
-.applications-title {
+.profile-applications-search-filter-add-div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.profile-applications-title {
   color: #141522;
-  font-size: 32.867px;
+  font-size: 22.556px;
   font-style: normal;
   font-weight: 700;
-  line-height: 42.727px;
-  letter-spacing: -0.657px;
-  margin: 0 0 11.6px 0;
+  line-height: 33.833px;
+  margin: 0 0 12px 0;
 }
 
-.applications-sub-header {
-  color: rgba(0, 0, 0, 0.40);
-  font-size: 15.467px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 23.2px;
-  letter-spacing: -0.309px;
-  margin: 0 0 23.2px 0;
-}
-
-.applications-search-div {
-  width: 335px;
-  height: 43.2px;
+.profile-applications-search-div {
+  width: 215.77779px;
+  height: 36.33334px;
   cursor: pointer;
   position: relative;
 }
 
-.applications-search {
+.profile-applications-search {
+
   width: 100%;
   height: 100%;
-  padding: 11.6px 15.467px;
-  border-radius: 9.667px;
-  border: 0.967px solid #F5F5F5;
-  background: #FCFCFC;
+  padding: 9.667px 35px 9.667px 12.889px;
+  border-radius: 8.056px;
+  border: 0.806px solid #F5F5F5;
+  background: #FFF;
   color: #141522;
-  font-size: 13.533px;
+  font-size: 11.278px;
   font-style: normal;
   font-weight: 500;
-  line-height: 20.3px;
+  line-height: 16.917px;
   font-family: 'Poppins', sans-serif;
 }
 
-.applications-search::placeholder {
+.profile-applications-search::placeholder {
   color: #141522;
-  font-size: 13.533px;
+  font-size: 11.278px;
   font-style: normal;
   font-weight: 500;
-  line-height: 20.3px;
+  line-height: 16.917px;
   font-family: 'Poppins', sans-serif;
 }
 
-.applications-search-icon {
+.profile-applications-search-icon {
   position: absolute;
   top: 50%;
   right: 15px;
   transform: translateY(-50%);
-  width: 19.33px;
+  width: 16.111px;
   height: auto;
   cursor: pointer;
 }
 
-.applications-grid {
+.profile-applications-sortby-div {
+  padding: 9.667px 12.889px;
+  border-radius: 8.056px;
+  border: 0.806px solid #F5F5F5;
+  background: #FFF;
+  width: 41.88889px;
+  height: 37.44444px;
+}
+
+.profile-applications-sortby-div a {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.profile-applications-sortby-div img {
+  width: 16.111px;
+  height: 16.111px;
+}
+
+.profile-applications-upload-new-div {
+  width: 41.88889px;
+  height: 37.44444px;
+  padding: 9.667px 12.889px;
+  border-radius: 8.056px;
+  background: #5541D7;
+}
+
+.profile-applications-upload-new-div a {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.profile-applications-sortby-div span,
+.profile-applications-upload-new-div span {
+    display: none;
+}
+
+.profile-applications-grid {
   display: grid;
-  gap: 15.47px;
+  gap: 12.889px;
   grid-template-columns: repeat(auto-fit, 335px);
   justify-content: center;
   align-items: start;
 }
 
-.homeApp {
-  padding: 11.6px 11.6px 15.47px 11.6px;
+.profileApp {
+  padding: 9.667px 9.667px 12.889px 9.667px;
   border: 0.967px solid #F5F5F5;
-  background: #FCFCFC;
-  border-radius: 15.467px;
+  background: #FFF;
+  border-radius: 12.889px;
   cursor: pointer;
 }
 
-.homeApp-image-div {
-  width: 311.8px;
-  height: 255.2px;
-  margin: 0 0 15.47px 0;
+.profileApp-image-div {
+  width: 315.7px;
+  height: 212.7px;
+  margin: 0 0 12.89px 0;
+  position: relative;
 }
 
-.homeApp-image-div img {
+.profileApp-image-div .profileApp-placeholder-img {
   object-fit: cover;
   width: 100%;
   height: 100%;
-  border-radius: 7.733px;
+  border-radius: 6.444px;
 }
 
-.homeApp-gitHub-div {
+.profileApp-expand-div {
+  position: absolute;
+  top: 12.89px;
+  right: 12.89px;
+  z-index: 3; 
+  padding: 9.667px;
+  border-radius: 8.056px;
+  border: 0.806px solid #F5F5F5;
+  background: #FFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38.7px;
+  height: 38.7px;
+  cursor: pointer;
+}
+
+.profileApp-expand-div button {
+   width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.profileApp-expand-div .profileApp-expand-icon {
+  width: 19.333px;
+  height: 19.333px;
+}
+
+/* HEEEEEEREEEEEEE */
+.profileApp-dropdown {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 4.83px;
+  top: 19.33px;
+  right: 15.64px;
+  border-radius: 10px;
+  width: 115.194px;
+  z-index: 10;
+  padding: 6.444px;
+  border-radius: 6.444px;
+  border: 0.806px solid #F5F5F5;
+  background: #FFF;
+  box-shadow: 9.667px 9.667px 24.167px 0px rgba(0, 0, 0, 0.10);
+}
+
+.profileApp-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 6.44px;
+  padding: 6.444px 9.667px;
+  font-size: 13px;
+  text-decoration: none;
+  border-radius: 6.444px;
+}
+
+.profileApp-dropdown-item.details,
+.profileApp-dropdown-item.edit {
+  background: rgba(96, 91, 255, 0.10);
+}
+
+.profileApp-dropdown-item.delete {
+  background: rgba(255, 70, 29, 0.10);
+}
+
+.profileApp-dropdown-item.delete span {
+  color: #FF461D;
+}
+
+.profileApp-dropdown-item span {
+  font-size: 12.889px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 19.333px;
+  letter-spacing: -0.516px;
+}
+
+.profileApp-dropdown-item.details span,
+.profileApp-dropdown-item.edit span {
+  color: #605BFF;
+}
+
+.profileApp-dropdown-item.delete span {
+  color: #FF461D;
+}
+
+.profileApp-dropdown-item img {
+  width: 16.111px;
+  height: 16.111px;
+}
+
+.profileApp-dropdown-item.details:hover,
+.profileApp-dropdown-item.edit:hover {
+  background: #605BFF;
+}
+.profileApp-dropdown-item:hover img {
+  filter: brightness(0) invert(1);
+}
+
+.profileApp-dropdown-item:hover span,
+.profileApp-dropdown-item:hover span {
+  color: #FFF;
+}
+
+.profileApp-dropdown-item.delete:hover {
+  background: #FF461D;
+}
+/* HEEEEEEREEEEEEE */
+.profileApp-gitHub-div {
   margin: 0 0 15.47px 0;
   gap: 7.73px;
   display: flex;
   cursor: pointer;
 }
 
-.homeApp-gitHub-div img {
+.profileApp-gitHub-div img {
   width: 26.1px;
 }
 
-.homeApp-gitHub-div a {
+.profileApp-gitHub-div a {
   color: #5C6BC0;
   font-size: 15.1px;
   font-style: normal;
@@ -120,7 +266,7 @@
   letter-spacing: -0.348px;
 }
 
-.homeApp-app-title {
+.profileApp-app-title {
   color: #141522;
   font-size: 21.267px;
   line-height: 31.9px;
@@ -130,7 +276,7 @@
 font-weight: 700;
 }
 
-.homeApp-app-description {
+.profileApp-app-description {
   color: #141522;
   font-size: 15.1px;
   font-style: normal;
@@ -140,7 +286,7 @@ font-weight: 700;
   margin: 0 0 15.47px 0;
 }
 
-.homeApp-app-tech-stack {
+.profileApp-app-tech-stack {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -152,7 +298,7 @@ font-weight: 700;
   overflow-y: auto;
 }
 
-.homeApp-app-tech-stack li {
+.profileApp-app-tech-stack li {
   padding: 5.8px 11.6px;
   color: #5541D7;
   background: rgba(85, 65, 215, 0.15);
@@ -163,11 +309,11 @@ font-weight: 700;
   line-height: 20.3px;
 }
 
-.collapse-tech {
+.profileApp-collapse-tech {
   color: #888 !important;
 }
 
-.applications-load-more-div {
+.profile-applications-load-more-div {
   width: 100%;
   text-align: center;
   margin: 46.4px 0 0 0;
@@ -186,33 +332,27 @@ font-weight: 700;
   cursor: pointer;
 }
 @media screen and (min-width: 768px) {
-  #applications {
+  #profile-applications {
     padding: 172.19px 30px 30px 30px;
   }
 
-  .applications-title {
+  .profile-applications-title {
     font-size: 35.7px;
     line-height: 46.41px;
     letter-spacing: -0.714px;
     margin: 0 0 12.6px 0;
   }
 
-  .applications-sub-header {
-    font-size: 16.8px;
-    line-height: 25.2px;
-    letter-spacing: -0.336px;
-    margin: 0 0 25.2px 0;
-  }
-  .applications-title-div {
+  .profile-applications-title-div {
     margin: 0 0 48px 0;
   }
 
-  .applications-search-div {
+  .profile-applications-search-div {
     width: 708px;
     height: 47.2px;
   }
 
-  .applications-search {
+  .profile-applications-search {
     padding: 12.6px 16.8px;
     border-radius: 10.5px;
     border: 1.05px solid #F5F5F5;
@@ -225,74 +365,74 @@ font-weight: 700;
     line-height: 22.05px;
   }
 
-  .applications-search-icon {
+  .profile-applications-search-icon {
     width: 21px;
   }
 
-  .applications-grid {
+  .profile-applications-grid {
     gap: 16.8px;
     grid-template-columns: repeat(auto-fit, 345.5px);
   }
 
-  .homeApp {
+  .profileApp {
     padding: 12.6px 12.6px 16.8px 12.6px;
     border: 1.05px solid #F5F5F5;
     border-radius: 16.8px;
   }
 
-  .homeApp-image-div {
+  .profileApp-image-div {
     width: 320.3px;
     height: 220px;
     margin: 0 0 16.8px 0;
   }
 
-  .homeApp-image-div img {
+  .profileApp-image-div img {
     border-radius: 8.4px;
   }
 
-  .homeApp-gitHub-div {
+  .profileApp-gitHub-div {
     margin: 0 0 16.8px 0;
     gap: 8.4px;
   }
 
-  .homeApp-gitHub-div img {
+  .profileApp-gitHub-div img {
     width: 28.35px;
   }
 
-  .homeApp-gitHub-div a {
+  .profileApp-gitHub-div a {
     font-size: 15.54px;
     line-height: 28.35px;
     letter-spacing: -0.378px;
   }
 
-  .homeApp-app-title {
+  .profileApp-app-title {
     font-size: 23.1px;
     line-height: 34.65px;
     letter-spacing: -0.462px;
     margin: 0 0 12.6px 0;
   }
 
-  .homeApp-app-description {
+  .profileApp-app-description {
     font-size: 18px;
     line-height: 27px;
     letter-spacing: -0.36px;
     margin: 0 0 16.8px 0;
   }
 
-  .homeApp-app-tech-stack {
+  .profileApp-app-tech-stack {
     gap: 12.6px;
     min-height: 81.88px;
     max-height: 245.64px;
   }
 
-  .homeApp-app-tech-stack li {
+  .profileApp-app-tech-stack li {
     padding: 6.3px 12.6px;
     border-radius: 16.8px;
     font-size: 14.7px;
     line-height: 22.05px;
   }
 
-  .applications-load-more-div {
+  .profile-applications-load-more-div {
     margin: 50.4px 0 0 0;
   }
 
@@ -304,34 +444,27 @@ font-weight: 700;
   }
 }
 @media screen and (min-width: 1440px) {
-  #applications {
+  #profile-applications {
     padding: 168.99px 60px 60px 60px;
   }
 
-  .applications-title {
+  .profile-applications-title {
     font-size: 40.8px;
     line-height: 53.04px;
     letter-spacing: -0.816px;
     margin: 0 0 14.4px 0;
   }
-
-  .applications-sub-header {
-    font-size: 19.2px;
-    line-height: 28.8px;
-    letter-spacing: -0.384px;
-    margin: 0 0 28.8px 0;
-  }
   
-  .applications-title-div {
+  .profile-applications-title-div {
     margin: 0 0 57.6px 0;
   }
 
-  .applications-search-div {
+  .profile-applications-search-div {
     width: 729.6px;
     height: 53.8px;
   }
 
-  .applications-search {
+  .profile-applications-search {
     padding: 14.4px 19.2px;
     border-radius: 12px;
     border: 1.2px solid #F5F5F5;
@@ -344,74 +477,74 @@ font-weight: 700;
     line-height: 25.2px;
   }
 
-  .applications-search-icon {
+  .profile-applications-search-icon {
     width: 24px;
   }
 
-  .applications-grid {
+  .profile-applications-grid {
     gap: 19.2px;
     grid-template-columns: repeat(auto-fit, 427.2px);
   }
 
-  .homeApp {
+  .profileApp {
     padding: 14.4px 14.4px 19.2px 14.4px;
     border: 1.2px solid #F5F5F5;
     border-radius: 19.2px;
   }
 
-  .homeApp-image-div {
+  .profileApp-image-div {
     width: 398.4px;
     height: 316.8px;
     margin: 0 0 19.2px 0;
   }
 
-  .homeApp-image-div img {
+  .profileApp-image-div img {
     border-radius: 9.6px;
   }
 
-  .homeApp-gitHub-div {
+  .profileApp-gitHub-div {
     margin: 0 0 19.2px 0;
     gap: 9.6px;
   }
 
-  .homeApp-gitHub-div img {
+  .profileApp-gitHub-div img {
     width: 32.4px;
   }
 
-  .homeApp-gitHub-div a {
+  .profileApp-gitHub-div a {
     font-size: 19.4px;
     line-height: 32.4px;
     letter-spacing: -0.432px;
   }
 
-  .homeApp-app-title {
+  .profileApp-app-title {
     font-size: 26.4px;
     line-height: 39.6px;
     letter-spacing: -0.528px;
     margin: 0 0 14.4px 0;
   }
 
-  .homeApp-app-description {
+  .profileApp-app-description {
     font-size: 21.5px;
     line-height: 32.4px;
     letter-spacing: -0.432px;
     margin: 0 0 19.2px 0;
   }
 
-  .homeApp-app-tech-stack {
+  .profileApp-app-tech-stack {
     gap: 14.4px;
     min-height: 93.55px;
     max-height: 280.65px;
   }
 
-  .homeApp-app-tech-stack li {
+  .profileApp-app-tech-stack li {
     padding: 7.2px 14.4px;
     border-radius: 19.2px;
     font-size: 16.8px;
     line-height: 25.2px;
   }
 
-  .applications-load-more-div {
+  .profile-applications-load-more-div {
     margin: 57.6px 0 0 0;
   }
 

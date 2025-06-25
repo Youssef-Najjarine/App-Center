@@ -27,17 +27,22 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(png|jpe?g|gif|svg)$/i,
+        test: /\.(png|jpe?g|gif)$/i, // Exclude SVG from this rule
         type: 'asset/resource',
         generator: {
           filename: 'assets/[name].[hash][ext]',
         },
       },
       {
+        test: /\.svg$/i,
+        issuer: /\.[jt]sx?$/, // Only apply to JS/JSX/TS/TSX files
+        use: ['@svgr/webpack', 'url-loader'], // Use @svgr/webpack for React components
+      },
+      {
         test: /\.(mp4|webm|ogg)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'videos/[name].[hash][ext]', // Saves to /videos directory
+          filename: 'videos/[name].[hash][ext]',
         },
       },
     ],
