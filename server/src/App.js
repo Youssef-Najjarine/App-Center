@@ -12,9 +12,7 @@ import AboutUs from "./pages/Home/AboutUs/AboutUs";
 import ContactUs from "./components/ContactUs/ContactUs";
 import UserProfile from "./pages/Profile/userProfile/UserProfile";
 import ProfileApplications from "./pages/Profile/ProfileApplications/ProfileApplications";
-import EditProfile from "./pages/Profile/userProfile/EditProfile";
-import CreateApp from "./pages/Profile/CreateApp";
-import EditApp from "./pages/Profile/EditApp";
+import EditProfile from "./pages/Profile/userProfile/EditProfile/EditProfile";
 import Login from "./pages/Auth/Login/Login";
 import SignUp from "./pages/Auth/SignUp/SignUp";
 import ForgotPassword from "./pages/Auth/ForgotPassword/ForgotPassword";
@@ -42,8 +40,6 @@ const ProfileLayout = () => (
       <Route path="/profile" element={<UserProfile />} />
       <Route path="/profile/apps" element={<ProfileApplications />} />
       <Route path="/profile/edit" element={<EditProfile />} />
-      <Route path="/profile/apps/new" element={<CreateApp />} />
-      <Route path="/profile/apps/edit/:appId" element={<EditApp />} />
     </Routes>
   </section>
 );

@@ -1,0 +1,814 @@
+.profile-app-details-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 21, 34, 0.15);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-app-details-modal-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.profile-app-details-modal {
+  background: #FFF;
+  padding: 16px;
+  width: 335px;
+  height: 95%;
+  border-radius: 12.889px;
+  z-index: 10000;
+  overflow-y: auto;
+}
+
+.profile-app-details-close-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 19.33px 0;
+}
+
+.profile-app-details-close-header h2 {
+  color: #141522;
+  font-size: 22.556px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 33.833px;
+  margin: 0;
+}
+
+.profile-app-details-modal-edit span,
+.profile-app-details-modal-delete span {
+  display: none;
+}
+
+.profile-app-details-modal-header-buttons {
+  width: 118px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-app-details-modal-edit,
+.profile-app-details-modal-delete,
+.profile-app-details-modal-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.profile-app-details-modal-edit button,
+.profile-app-details-modal-delete button,
+.profile-app-details-modal-close button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.profile-app-details-modal-edit,
+.profile-app-details-modal-delete {
+  width: 34px;
+  height: 34px;
+  border-radius: 6.444px;
+}
+
+.profile-app-details-modal-edit img,
+.profile-app-details-modal-delete img {
+  width: 16.111px;
+  height: 16.111px;
+}
+
+.profile-app-details-modal-edit {
+  background: rgba(96, 91, 255, 0.10);
+}
+
+.profile-app-details-modal-delete {
+  background: rgba(255, 70, 29, 0.10);
+}
+
+.profile-app-details-modal-close {
+  width: 25.778px;
+  height: 25.778px;
+}
+
+.profile-app-details-modal-close img {
+  width: 25.778px;
+  height: 25.778px;
+}
+
+.profile-app-details-modal-selected-image {
+  margin: 0 0 12.89px 0;
+  width: 100%;
+  height: 307.244px;
+
+}
+
+.profile-app-details-modal-selected-image .selected-image,
+.profile-app-details-modal-selected-image .selected-video {
+  width: 100%;
+  height: 307.244px;
+  border-radius: 6.07px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.video-thumbnail-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.video-thumbnail-wrapper img,
+.profile-app-details-modal-selected-image .selected-video {
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+.video-overlay {
+  position: absolute;
+  left: 6.58px;
+  bottom: 9.31px;
+  width: 73.65px;
+  height: 24.8px;
+  padding: 3.966px 7.931px;
+  border-radius: 6.07px;
+  background: rgba(255, 255, 255, 0.70);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7.93px;
+}
+
+.video-overlay .play-icon {
+  width: 16.854px;
+  height: 16.854px;
+  margin: 0;
+}
+
+.video-overlay .video-duration {
+  color: #141522;
+  font-size: 13.88px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 15.268px;
+  letter-spacing: -0.278px;
+}
+
+.profile-app-details-modal-details {
+  margin: 0;
+}
+
+.profile-app-details-modal-github-header {
+  color: #141522;
+  font-size: 16.111px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24.167px;
+  margin: 0 0 9.67px 0;
+}
+
+.profile-app-details-modal-gitHub-div {
+  gap: 7.73px;
+  display: flex;
+  cursor: pointer;
+  margin: 0;
+}
+
+.profile-app-details-modal-gitHub-div img {
+  width: 26.1px;
+}
+
+.profile-app-details-modal-gitHub-div a {
+  color: #5C6BC0;
+  font-size: 14.7px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 26.1px;
+  letter-spacing: -0.348px;
+}
+
+.profile-app-details-modal-line {
+  width: 100%;
+  border-top: 0.967px solid rgba(209, 213, 219, 0.30);
+  margin: 16px 0;
+}
+
+.profile-app-details-modal-technology-used-div {
+  margin: 0;
+}
+
+.profile-app-details-modal-technology-header {
+  color: #141522;
+  font-size: 16.111px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24.167px;
+  margin: 0 0 6.4px 0;
+}
+
+.profile-app-details-modal-tech-stack {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 11.6px;
+  max-height: 247.6px;
+  overflow-y: auto;
+}
+
+.profile-app-details-modal-tech-stack li {
+  padding: 5.8px 11.6px;
+  color: #5541D7;
+  background: rgba(85, 65, 215, 0.15);
+  border-radius: 15.467px;
+  font-size: 13.533px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20.3px;
+}
+
+.profile-app-details-modal-description-header {
+  margin: 0 0 6.44px 0;
+  color: #141522;
+  font-size: 16.111px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24.167px;
+}
+
+.profile-app-details-modal-description-entry {
+  color: #374151;
+  font-size: 16.111px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24.167px;
+  letter-spacing: 0.322px;
+  min-height: 360px;
+  max-height: 360px;
+  overflow-y: auto;
+  margin: 0 0 16px 0;
+}
+
+.profile-details-app-details {
+width: 100%;
+display: flex;
+flex-direction: column;
+gap: 12px;
+}
+
+.profile-details-app-impressions,
+.profile-details-app-clicks {
+  width: 100%;
+  height: 47px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9.667px 12.889px;
+  border-radius: 6.444px;
+  background: #F5F5F5;
+}
+
+.profile-details-app-impressions-label,
+.profile-details-app-clicks-label {
+  color: rgba(20, 21, 34, 0.70);
+  font-size: 12.889px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 19.333px;
+  letter-spacing: -0.129px;
+  margin: 0;
+}
+
+.profile-details-app-impressions-count,
+.profile-details-app-clicks-count {
+  color: #5541D7;
+  font-size: 12.889px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 19.333px;
+  letter-spacing: -0.129px;
+}
+
+.profile-details-app-boost-promotion {
+  width: 100%;
+  height: 47px;
+}
+
+.profile-details-app-boost-promotion button {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  gap: 6.44px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6.444px;
+background: #5541D7;
+padding: 9.667px 19.333px;
+  border: none;
+
+}
+
+.profile-details-app-boost-promotion button img {
+  width: 19.333px;
+  height: 19.333px;
+}
+
+.profile-details-app-boost-promotion button span {
+color: #FFF;
+font-size: 12.889px;
+font-style: normal;
+font-weight: 700;
+line-height: 19.333px;
+letter-spacing: -0.129px;
+}
+.profile-app-details-modal-purchase-app-div {
+  width: 100%;
+}
+
+.profile-app-details-modal-purchase-app-div button {
+  width: 100%;
+  border: none;
+  border-radius: 9.667px;
+  background: #5541D7;
+  padding: 12.889px 19.333px;
+  color: #FFF;
+  font-size: 14.5px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 21.75px;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 768px) {
+  .profile-app-details-modal {
+    padding: 21px;
+    width: 728px;
+    border-radius: 14px;
+  }
+
+  .profile-app-details-close-header {
+    margin: 0 0 21px 0;
+  }
+
+  .profile-app-details-close-header h2 {
+    font-size: 24.5px;
+    line-height: 36.75px;
+  }
+/* HEEEEEEEEREEEEEEEEE */
+  .profile-app-details-modal-edit span,
+  .profile-app-details-modal-delete span {
+    display: flow-root;
+  }
+
+  .profile-app-details-modal-edit button,
+  .profile-app-details-modal-delete button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+   .profile-app-details-modal-edit span {
+      color: #605BFF;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 21px;
+      letter-spacing: -0.56px;
+   }
+
+   .profile-app-details-modal-delete span {
+      color: #FF461D;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 21px;
+      letter-spacing: -0.56px;
+   }
+
+  .profile-app-details-modal-header-buttons {
+    width: 226.2px;
+  }
+
+  .profile-app-details-modal-edit {
+    width: 75.5px;
+    height: 37px;
+    border-radius: 7px;
+  }
+
+  .profile-app-details-modal-delete {
+    width: 90.5px;
+    height: 37px;
+    border-radius: 7px;
+  }
+
+  .profile-app-details-modal-edit img,
+  .profile-app-details-modal-delete img {
+    width: 17.5px;
+    height: 17.5px;
+  }
+
+  .profile-app-details-modal-close {
+    width: 28px;
+    height: 28px;
+  }
+  .profile-app-details-modal-close img {
+    width: 28px;
+    height: 28px;
+  }
+/* HEEEEEEERRRRREEEEEEEEEE */
+  .profile-app-details-modal-images-div {
+    display: flex;
+    gap: 14px;
+    margin: 0 0 14px 0;
+  }
+
+  .profile-app-details-modal-selected-image {
+    margin: 0;
+    width: 544px;
+    height: 544px;
+  }
+
+  .profile-app-details-modal-selected-image .selected-image,
+  .profile-app-details-modal-selected-image .selected-video {
+    width: 544px;
+    height: 544px;
+    border-radius: 10.5px;
+  }
+
+  .video-overlay {
+    left: 11.38px;
+    bottom: 15.34px;
+    width: 127.315px;
+    height: 42.875px;
+    padding: 6.86px 13.72px;
+    border-radius: 10.5px;
+    gap: 13.72px;
+  }
+
+  .video-overlay .play-icon {
+    width: 29.155px;
+    height: 29.155px;
+  }
+
+  .video-overlay .video-duration {
+    font-size: 24.01px;
+    line-height: 26.411px;
+    letter-spacing: -0.48px;
+  }
+
+  .profile-app-details-modal-github-section {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .profile-app-details-modal-github-header {
+    font-size: 17.5px;
+    line-height: 26.25px;
+    margin: 0;
+  }
+
+  .profile-app-details-modal-gitHub-div {
+    gap: 8.4px;
+  }
+
+  .profile-app-details-modal-gitHub-div img {
+    width: 22px;
+  }
+
+  .profile-app-details-modal-gitHub-div a {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.32px;
+  }
+
+  .profile-app-details-modal-technology-header {
+    font-size: 17.5px;
+    line-height: 26.25px;
+    margin: 0 0 7px 0;
+  }
+
+  .profile-app-details-modal-tech-stack {
+    gap: 12.6px;
+    max-height: 129px;
+    
+  }
+
+  .profile-app-details-modal-tech-stack li {
+    padding: 6.3px 12.6px;
+    border-radius: 16.8px;
+    font-size: 14.7px;
+    line-height: 22.05px;
+  }
+
+  .profile-app-details-modal-line {
+    border-top: 1.05px solid rgba(209, 213, 219, 0.30);
+    margin: 14px 0;
+  }
+
+  .profile-app-details-modal-description-header {
+    margin: 0 0 7px 0;
+    font-size: 17.5px;
+    line-height: 26.25px;
+  }
+
+  .profile-app-details-modal-description-entry {
+    font-size: 17.5px;
+    line-height: 26.25px;
+    letter-spacing: 0.35px;
+    min-height: 182px;
+    max-height: 182px;
+    margin: 0 0 14px 0;
+  }
+
+  /* HEEEEEEEEREEEEEEEEE 2*/
+  .profile-details-app-details {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .profile-details-app-impressions,
+  .profile-details-app-clicks {
+    width: 186.5px;
+    height: 52px;
+    padding: 10.5px 18px;
+    border-radius: 7px;
+  }
+
+  .profile-details-app-impressions-label,
+  .profile-details-app-clicks-label {
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.14px;
+  }
+
+  .profile-details-app-impressions-count,
+  .profile-details-app-clicks-count {
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.14px;
+  }
+
+  .profile-details-app-boost-promotion {
+    width: 271px;
+    height: 52px;
+  }
+
+  .profile-details-app-boost-promotion button {
+    gap: 7px;
+    border-radius: 7px;
+    padding: 10.5px 21px;
+
+  }
+
+  .profile-details-app-boost-promotion button img {
+    width: 21px;
+    height: 21px;
+  }
+
+  .profile-details-app-boost-promotion button span {
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: -0.14px;
+  }
+  /* HEEEEEEEEREEEEEEEEE 2*/
+  .profile-app-details-modal-purchase-app-div button {
+    border-radius: 10.5;
+    padding: 14px 21px;
+    font-size: 15.75px;
+    line-height: 23.625px;
+  }
+}
+@media screen and (min-width: 1440px) {
+  .profile-app-details-modal {
+    padding: 24px;
+    width: 1376px;
+    border-radius: 16px;
+    height: 96.5%;
+  }
+
+  .profile-app-details-close-header {
+    margin: 0 0 24px 0;
+  }
+
+  .profile-app-details-close-header h2 {
+    font-size: 28px;
+    line-height: 42px;
+  }
+/* HEEEEEEEEREEEEEEEEE */
+  .profile-app-details-modal-edit span,
+  .profile-app-details-modal-delete span  {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.64px;
+  }
+
+  .profile-app-details-modal-header-buttons {
+    width: 254px;
+  }
+
+  .profile-app-details-modal-edit {
+    width: 86px;
+    height: 42px;
+    border-radius: 8px;
+  }
+
+  .profile-app-details-modal-delete {
+    width: 104px;
+    height: 42px;
+    border-radius: 8px;
+  }
+
+  .profile-app-details-modal-edit img,
+  .profile-app-details-modal-delete img {
+    width: 17.5px;
+    height: 17.5px;
+  }
+
+  .profile-app-details-modal-close {
+    width: 32px;
+    height: 32px;
+  }
+  .profile-app-details-modal-close img {
+    width: 32px;
+    height: 32px;
+  }
+/* HEEEEEEERRRRREEEEEEEEEE */
+  .profile-app-details-modal-content {
+    display: flex;
+    gap: 16px;
+  }
+
+  .profile-app-details-modal-images-div {
+    display: flow-root;
+    gap: 0;
+    margin: 0;
+  }
+
+  .profile-app-details-modal-selected-image {
+    margin: 0 0 16px 0;
+    width: 601px;
+    height: 601px;
+  }
+
+  .profile-app-details-modal-selected-image .selected-image,
+  .profile-app-details-modal-selected-image .selected-video {
+    width: 601px;
+    height: 601px;
+    border-radius: 12px;
+  }
+
+  .video-overlay {
+    left: 13px;
+    bottom: 12px;
+    width: 146.36px;
+    height: 49px;
+    padding: 7.84px 15.68px;
+    border-radius: 12px;
+    gap: 15.68px;
+  }
+
+  .video-overlay .play-icon {
+    width: 33.32px;
+    height: 33.32px;
+  }
+
+  .video-overlay .video-duration {
+    font-size: 27.44px;
+    line-height: 30.184px;
+    letter-spacing: -0.549px;
+  }
+
+  .profile-app-details-modal-github-header {
+    font-size: 20px;
+    line-height: 30px;
+    margin: 0;
+  }
+
+  .profile-app-details-modal-gitHub-div {
+    gap: 9.6px;
+  }
+
+  .profile-app-details-modal-gitHub-div img {
+    width: 32.4px;
+  }
+
+  .profile-app-details-modal-gitHub-div a {
+    font-size: 21.6px;
+    line-height: 32.4px;
+    letter-spacing: -0.432px;
+  }
+
+   .profile-app-details-modal-technology-used-div {
+    height: 185px;
+  }
+  .profile-app-details-modal-technology-header {
+    font-size: 20px;
+    line-height: 30px;
+    margin: 0 0 8px 0;
+  }
+
+  .profile-app-details-modal-tech-stack {
+    gap: 14.4px;
+    max-height: 147px;
+  }
+
+  .profile-app-details-modal-tech-stack li {
+    padding: 7.2px 14.4px;
+    border-radius: 19.2px;
+    font-size: 16.8px;
+    line-height: 25.2px;
+  }
+
+  .profile-app-details-modal-line {
+    border-top: 1.05px solid rgba(209, 213, 219, 0.30);
+    margin: 16px 0;
+  }
+
+  .profile-app-details-modal-description-button-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 505px;
+  }
+  .profile-app-details-modal-description-header {
+    margin: 0 0 8px 0;
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  .profile-app-details-modal-description-entry {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: 0.4px;
+      min-height: 387.6px;
+    max-height: 387.6px;
+  }
+  /* HEEEEEEEEREEEEEEEEE 2*/
+  .profile-details-app-impressions,
+  .profile-details-app-clicks {
+    width: 190px;
+    height: 48px;
+    padding: 12px 16px;
+    border-radius: 8px;
+  }
+
+  .profile-details-app-impressions-label,
+  .profile-details-app-clicks-label {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.16px;
+  }
+
+  .profile-details-app-impressions-count,
+  .profile-details-app-clicks-count {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.16px;
+  }
+
+  .profile-details-app-boost-promotion {
+    width: 283px;
+    height: 48px;
+  }
+
+  .profile-details-app-boost-promotion button {
+    gap: 8px;
+    border-radius: 8px;
+    padding: 12px 24px;
+
+  }
+
+  .profile-details-app-boost-promotion button img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .profile-details-app-boost-promotion button span {
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.16px;
+  }
+  /* HEEEEEEEEREEEEEEEEE 2*/
+  .profile-app-details-modal-purchase-app-div button {
+    border-radius: 12;
+    padding: 16px 28px;
+    font-size: 18px;
+    line-height: 27px;
+  }
+}

@@ -22,7 +22,7 @@
 .appHome-modal {
   background: #FFF;
   padding: 16px;
-  width: 315px;
+  width: 335px;
   height: 95%;
   border-radius: 12.889px;
   z-index: 10000;
@@ -167,7 +167,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: 11.6px;
-  min-height: 247.6px;
   max-height: 247.6px;
   overflow-y: auto;
 }
@@ -321,8 +320,6 @@
 
   .homeApp-modal-tech-stack {
     gap: 12.6px;
-    max-height: 24;
-    min-height: 129px;
     max-height: 129px;
     
   }
@@ -446,6 +443,10 @@
     letter-spacing: -0.432px;
   }
 
+  .appHome-modal-technology-used-div {
+    height: 185px;
+  }
+
   .appHome-modal-technology-header {
     font-size: 20px;
     line-height: 30px;
@@ -454,7 +455,6 @@
 
   .homeApp-modal-tech-stack {
     gap: 14.4px;
-    min-height: 147px;
     max-height: 147px;
   }
 

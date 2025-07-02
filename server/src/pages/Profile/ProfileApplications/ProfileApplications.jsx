@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import {Link} from 'react-router-dom';
-import ProfileApplicationDetailModal from "./ProfileApplicationDetailModal";
+import { Link } from "react-router-dom";
+import ProfileApplicationDetailModal from "../ProfileApplicationDetailModal/ProfileApplicationDetailModal";
+import ProfileUploadEditAppModal from "../ProfileUploadEditAppModal/ProfileUploadEditAppModal";
 import searchIcon from "../../../assets/Member/member-applications-search-icon.svg";
 import applicationImg1 from "../../../assets/Member/member-applicationImg-1.png";
 import applicationImg2 from "../../../assets/Member/member-applicationImg-2.png";
@@ -18,15 +19,15 @@ const ProfileApplications = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
-  useEffect(() => {
-  const handleClickOutside = () => setSelectedApp(null);
-  document.addEventListener('click', handleClickOutside);
-  return () => document.removeEventListener('click', handleClickOutside);
-}, []);
+
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedApp, setSelectedApp] = useState(null);
+  const [modalSource, setModalSource] = useState("card");
   const [showAll, setShowAll] = useState(false);
   const [expandedTechStacks, setExpandedTechStacks] = useState({});
+  const [sortOption, setSortOption] = useState("Popular");
+  const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
+  const [showUploadEditModal, setShowUploadEditModal] = useState(false);
 
   const applications = [
     {
@@ -35,7 +36,7 @@ const ProfileApplications = () => {
       description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
       img: applicationImg1,
       github: "https://github.com/my-name/repo...",
-      tech: ["Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API"],
+      tech: ["Firebase", "JavaScript"],
     },
     {
       id: 2,
@@ -143,7 +144,7 @@ const ProfileApplications = () => {
     },
   ];
 
- const visibleApps = showAll ? applications : applications.slice(0, 12);
+   const visibleApps = showAll ? applications : applications.slice(0, 12);
 
   const toggleTechStack = (id) => {
     setExpandedTechStacks((prev) => ({
@@ -152,8 +153,9 @@ const ProfileApplications = () => {
     }));
   };
 
-  const openModalWithApp = (app) => {
+  const openModalWithApp = (app, source = "card") => {
     setSelectedApp(app);
+    setModalSource(source);
     setModalOpen(true);
   };
 
@@ -171,17 +173,39 @@ const ProfileApplications = () => {
             <input className="profile-applications-search" placeholder="Search..." />
             <img src={searchIcon} alt="Applications Search" className="profile-applications-search-icon" />
           </div>
-          <div className="profile-applications-sortby-div">
-            <Link to="/">
-              <img src={sortIcon}/>
-              <span>Sort By: Popular</span>
-            </Link>
-          </div>
-          <div className="profile-applications-upload-new-div">
-            <Link to="/">
-              <img src={addIcon}/>
-              <span>Upload New App</span>
-            </Link>
+          <div className="profile-applications-sortby-upload-div">
+            <div className="profile-applications-sortby-div">
+              <div onClick={() => setSortDropdownOpen(!sortDropdownOpen)}>
+                <img src={sortIcon} alt="Sort Icon" />
+                <span>Sort By: {sortOption}</span>
+              </div>
+              {sortDropdownOpen && (
+                <ul className="sortby-dropdown">
+                  {["Popular", "Latest", "A-Z", "Z-A"].map((option) => (
+                    <li
+                      key={option}
+                      className={sortOption === option ? "active" : ""}
+                      onClick={() => {
+                        setSortOption(option);
+                        setSortDropdownOpen(false);
+                      }}
+                    >
+                      {option}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            <div className="profileapplications-header-right-border"></div>
+            <div className="profile-applications-upload-new-div">
+              <div
+                className="profile-applications-upload-new-btn"
+                onClick={() => setShowUploadEditModal(true)}
+              >
+                <img src={addIcon} alt="Add App" />
+                <span>Upload New App</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -198,36 +222,54 @@ const ProfileApplications = () => {
               key={app.id}
               onClick={(e) => {
                 const target = e.target;
-                const isLink = target.closest("a");
-                const isToggle = target.classList.contains("expand-tech") || target.classList.contains("collapse-tech");
-                if (!isLink && !isToggle) {
-                  openModalWithApp(app);
+                const isInsideLink = target.closest("a");
+                const isInsideExpandDiv = target.closest(".profileApp-expand-div");
+                const isTechToggle =
+                  target.classList.contains("expand-tech") ||
+                  target.classList.contains("profileApp-collapse-tech");
+
+                if (!isInsideLink && !isInsideExpandDiv && !isTechToggle) {
+                  openModalWithApp(app, "card");
                 }
               }}
             >
               <div className="profileApp-image-div">
                 <img src={app.img} alt={app.title} className="profileApp-placeholder-img" />
-
+                <div className="profileApp-video-overlay">
+                  <img src={playIcon} alt="Play" className="profileApp-play-icon" />
+                  <span className="profileApp-video-duration">14:22</span>
+                </div>
                 <div className="profileApp-expand-div">
-                  <button onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedApp(app.id === selectedApp ? null : app.id);
-                  }}>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedApp(app.id === selectedApp ? null : app.id);
+                    }}
+                  >
                     <img src={expandIcon} className="profileApp-expand-icon" />
                   </button>
-
                   {selectedApp === app.id && (
                     <div className="profileApp-dropdown">
-                      <Link to={`/details/${app.id}`} className="profileApp-dropdown-item details">
+                      <div
+                        className="profileApp-dropdown-item details"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openModalWithApp(app, "details");
+                        }}
+                      >
                         <img src={detailsIcon} alt="Details" />
-                        <span>
-                          Details
-                        </span>
-                      </Link>
-                      <Link to={`/edit/${app.id}`} className="profileApp-dropdown-item edit">
+                        <span>Details</span>
+                      </div>
+                      <div
+                        className="profileApp-dropdown-item edit"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setShowUploadEditModal(true);
+                        }}
+                      >
                         <img src={editIcon} alt="Edit" />
                         <span>Edit</span>
-                      </Link>
+                      </div>
                       <Link to={`/delete/${app.id}`} className="profileApp-dropdown-item delete">
                         <img src={trashIcon} alt="Delete" />
                         <span>Delete</span>
@@ -255,18 +297,24 @@ const ProfileApplications = () => {
                   <li key={`${app.id}-tech-${index}`}>{techItem}</li>
                 ))}
                 {!isExpanded && remaining > 0 && (
-                  <li className="expand-tech" onClick={(e) => {
-                    e.stopPropagation();
-                    toggleTechStack(app.id);
-                  }}>
+                  <li
+                    className="expand-tech"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleTechStack(app.id);
+                    }}
+                  >
                     +{remaining}
                   </li>
                 )}
                 {isExpanded && remaining > 0 && (
-                  <li className="profileApp-collapse-tech" onClick={(e) => {
-                    e.stopPropagation();
-                    toggleTechStack(app.id);
-                  }}>
+                  <li
+                    className="profileApp-collapse-tech"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleTechStack(app.id);
+                    }}
+                  >
                     Show less
                   </li>
                 )}
@@ -276,22 +324,28 @@ const ProfileApplications = () => {
         })}
       </div>
 
-      {/* Load More */}
       <div className="profile-applications-load-more-div">
         <button
-          className="applications-load-more"
+          className="profile-applications-load-more"
           onClick={() => setShowAll(!showAll)}
         >
           {showAll ? "Show Less" : "Load More"}
         </button>
       </div>
 
-      {/* Modal */}
       {modalOpen && (
         <ProfileApplicationDetailModal
           modalOpenState={modalOpen}
           onClose={closeModal}
           app={selectedApp}
+          modalSource={modalSource}
+        />
+      )}
+
+      {showUploadEditModal && (
+        <ProfileUploadEditAppModal
+          modalOpenState={showUploadEditModal}
+          onClose={() => setShowUploadEditModal(false)}
         />
       )}
     </section>

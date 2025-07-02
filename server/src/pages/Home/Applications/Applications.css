@@ -147,7 +147,6 @@ font-weight: 700;
   display: flex;
   flex-wrap: wrap;
   gap: 11.6px;
-  min-height: 75.38px;
   max-height: 226.14px;
   overflow-y: auto;
 }
@@ -281,7 +280,6 @@ font-weight: 700;
 
   .homeApp-app-tech-stack {
     gap: 12.6px;
-    min-height: 81.88px;
     max-height: 245.64px;
   }
 
@@ -400,7 +398,6 @@ font-weight: 700;
 
   .homeApp-app-tech-stack {
     gap: 14.4px;
-    min-height: 93.55px;
     max-height: 280.65px;
   }
 

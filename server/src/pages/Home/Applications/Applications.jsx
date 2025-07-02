@@ -23,7 +23,7 @@ const HomeApplications = () => {
       description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
       img: applicationImg1,
       github: "https://github.com/my-name/repo...",
-      tech: ["Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API"],
+      tech: ["Firebase", "JavaScript"],
     },
     {
       id: 2,
