@@ -181,7 +181,6 @@ const EditProfile = () => {
           </div>
         </form>
 
-        {/* Bio */}
         <div className='member-edit-profile-bio-info-bio'>
           <label>Bio</label>
           <div>

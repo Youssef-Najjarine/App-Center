@@ -222,6 +222,7 @@
     font-weight: 500;
     line-height: 16.917px;
     font-family: 'Poppins', sans-serif;
+    opacity: 0.6;
 }
 
 .member-edit-profile-bio-info-bio {
@@ -255,7 +256,6 @@
     font-family: 'Poppins', sans-serif;
 } 
 
-/* heeeereeeeee */
 .edit-profile-error-banner {
   position: absolute;
   top: 79px;
@@ -336,7 +336,6 @@
     font-weight: 500;
     line-height: 16.92px;
 }
-/* heeeereeeeee */
 @media screen and (min-width: 768px) {
     #member-edit-profile-bio {
         padding: 107.75px 20px 21px 20px;
@@ -516,7 +515,6 @@
         max-height: 553.3px;
     } 
 
-    /* heeeereeeeee */
     .edit-profile-error-banner {
         top: 101px;
     }
@@ -557,7 +555,6 @@
         font-size: 12.25px;
         line-height: 18.375px;
     }
-    /* heeeereeeeee */
 }
 @media screen and (min-width: 1440px) {
     #member-edit-profile-bio {
@@ -748,7 +745,6 @@
         max-height: 553.3px;
     } 
 
-        /* heeeereeeeee */
     .edit-profile-error-banner {
         top: 111px;
         right: 32px;
@@ -790,5 +786,4 @@
         font-size: 21px;
         line-height: 21px;
     }
-    /* heeeereeeeee */
 }

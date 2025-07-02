@@ -21,8 +21,9 @@
 
 .upload-edit-app-modal {
   background: #FFF;
-  padding: 12.89px;
+  padding: 15px;
   width: 335px;
+  height: 95%;
   border-radius: 12.889px;
   z-index: 10000;
   overflow-y: auto;
@@ -54,18 +55,25 @@
     flex-direction: column;
 }
 
-.upload-edit-app-name-price {
+.upload-edit-app-name-price,
+.upload-edit-app-tech-desc-repo {
     display: flex;
     flex-direction: column;
     gap: 12.889px;
 }
 
+.upload-edit-app-tech-desc-repo {
+    margin: 12.889px 0 0 0;
+}
 .upload-edit-app-name div {
     margin: 6.61px 0 0 0;
 }
 
 .upload-edit-app-name label,
-.upload-edit-app-price label {
+.upload-edit-app-price label,
+.upload-edit-app-tech-stack .tech-used,
+.upload-edit-app-summary label,
+.upload-edit-app-repo label {
     color: #141522;
     font-size: 12.889px;
     font-style: normal;
@@ -73,8 +81,17 @@
     line-height: 19.333px;
 }
 
+.upload-edit-app-required {
+    color: #FF4D5E;
+    font-size: 12.889px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+}
+
 .upload-edit-app-name input,
-.upload-edit-app-price input {
+.upload-edit-app-price input,
+.upload-edit-app-repo input {
     width: 100%;
     height: 40.278px;
     padding: 12.889px 9.667px;
@@ -86,16 +103,387 @@
     font-style: normal;
     font-weight: 500;
     line-height: 16.917px;
+    font-family: 'Poppins', sans-serif;
 }
 
 .upload-edit-app-name input::placeholder,
-.upload-edit-app-price input::placeholder {
+.upload-edit-app-price input::placeholder,
+.upload-edit-app-tech-stack .techName::placeholder,
+.upload-edit-app-summary textarea::placeholder,
+.upload-edit-app-repo input::placeholder {
     color: #141522;
     font-size: 11.278px;
     font-style: normal;
     font-weight: 500;
     line-height: 16.917px;
+    font-family: 'Poppins', sans-serif;
+    opacity: 0.6;
 }
+
+.upload-edit-app-tech-stack-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.upload-edit-app-tech-stack-comma-separated {
+  color: #141522;
+  font-size: 11.278px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 16.917px;
+  letter-spacing: -0.338px;
+}
+
+.upload-edit-app-tech-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin: 6.61px 0 0 0;
+  list-style-type: none;
+  padding: 6.889px 9.667px;
+  border: 0.806px solid #F5F5F5;
+  border-radius: 6.444px;
+  background: rgba(245, 245, 245, 0.50);
+  min-height: 40.28px;
+}
+
+.upload-edit-app-tech-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 9.67px;
+  padding: 4.833px 4.833px 4.833px 9.667px;
+  border-radius: 12.889px;
+  background: rgba(85, 65, 215, 0.15);
+  color: #5541D7;
+  font-size: 11.278px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16.917px;
+}
+
+.upload-edit-app-tech-tag span {
+  max-width: 116px;
+  max-height: 17px;
+  overflow: hidden;
+  color: #5541D7;
+  font-size: 11.278px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16.917px;
+}
+
+.upload-edit-app-tech-delete {
+  width: 16.111px;
+  height: 16.111px;
+  cursor: pointer;
+}
+
+.upload-edit-app-tech-container .techName {
+  border: none;
+  outline: none;
+  flex: 1;
+  min-width: 131.72px;
+  background: transparent;
+  color: #141522;
+  font-size: 11.278px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16.917px;
+  font-family: 'Poppins', sans-serif;
+}
+
+
+.upload-edit-app-summary textarea {
+    color: #141522;
+    font-size: 11.278px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16.917px;
+    padding: 12.889px 9.667px;
+    border-radius: 6.444px;
+    border: 0.806px solid #F5F5F5;
+    background: rgba(245, 245, 245, 0.50);
+    margin: 6.44px 0 0 0;
+    width: 100%;
+    height: 133.1px;
+    max-height: 133.1px;
+    overflow-y: auto;
+    resize: none;
+    font-family: 'Poppins', sans-serif;
+}
+
+.upload-edit-app-repo div {
+    margin: 6.44px 0 0 0;
+    width: 100%;
+}
+
+.upload-edit-app-line {
+    border-bottom: 0.806px solid #F5F5F5;
+    margin: 12.89px 0;
+}
+
+.upload-edit-app-photos {
+    display: flex;
+    flex-direction: column;
+    gap: 12.889px;
+}
+
+.upload-edit-app-photos h3 {
+  color: #141522;
+  font-size: 12.889px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 19.333px;
+  margin: 0 0 6.44px 0;
+}
+
+.upload-edit-app-upload {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 9.67px;
+  width: 100%;
+  height: 45px;
+  padding: 12.889px 9.667px;
+  border-radius: 6.444px;
+  border: 1.208px dashed rgba(85, 65, 215, 0.30);
+  background: rgba(245, 245, 245, 0.50);
+  cursor: pointer;
+}
+.upload-edit-app-upload-img,
+.upload-edit-app-upload img {
+  width: 19.333px;
+  height: 19.333px;
+}
+
+.upload-edit-app-upload p {
+  color: #141522;
+  font-size: 12.889px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 19.333px;
+}
+
+.upload-edit-app-upload p span {
+  color: #5541D7;
+  text-align: center;
+  font-family: Satoshi;
+  font-size: 12.889px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 19.333px;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: none;
+  text-decoration-thickness: auto;
+  text-underline-offset: auto;
+}
+
+.upload-edit-app-photos-line {
+  border-bottom: 0.806px solid #F5F5F5;
+}
+
+.upload-edit-app-uploaded-images {
+  display: grid;
+  gap: 9.67px;
+  grid-template-columns: repeat(auto-fit, 147.5px);
+  align-items: start;
+  justify-content: center;
+}
+
+.upload-edit-app-uploaded-images .uploadedImageContainer {
+    width: 147.5px;
+    height: 109.556px;
+}
+
+.upload-edit-app-uploaded-images .uploadedImage {
+  position: relative;
+}
+
+.upload-edit-app-uploaded-images .uploadedImage .previewImg {
+  width: 147.5px;
+  height: 109.556px;
+  border-radius: 6.444px;
+  object-fit: cover;
+}
+
+.upload-edit-app-video-duration {
+  position: absolute;
+  top: 6.44px;
+  left: 6.44px;
+  display: flex;
+  align-items: center;
+  gap: 6.44px;
+  padding: 3.222px 6.444px;
+  border-radius: 8.056px;
+  background: rgba(255, 255, 255, 0.70);
+  width: 60.03px;
+  height: 20.14px;
+}
+
+.upload-edit-app-video-duration img {
+  width: 13.694px;
+  height: 13.694px;
+}
+
+.upload-edit-app-video-duration span {
+  color: #141522;
+  font-size: 11.278px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 12.406px;
+  letter-spacing: -0.226px;
+}
+
+.upload-edit-app-uploaded-images .upload-edit-app-uploaded-photo-trash {
+  position: absolute;
+  top: 6.44px;
+  right: 6.44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3.222px;
+  border-radius: 8.056px;
+  border: 0.806px solid #F5F5F5;
+  background: #FFF;
+  width: 25.8px;
+  height: 25.8px;
+  cursor: pointer;
+}
+
+.upload-edit-app-uploaded-images .upload-edit-app-uploaded-photo-trash img {
+  width: 19.333px;
+  height: 19.333px;
+}
+
+.upload-edit-app-uploaded-images .upload-edit-app-uploaded-photo-make-presentation {
+  position: absolute;
+  bottom: 13.44px;
+  right: 6.61px;
+  display: flex;
+  align-items: flex-end;
+  padding: 3.222px 6.444px;
+  border-radius: 8.056px;
+  border: 0.806px solid #F5F5F5;
+  background: #FFF;
+  width: 103.9px;
+  height: 26.6px;
+  cursor: pointer;
+}
+
+.upload-edit-app-uploaded-images .upload-edit-app-uploaded-photo-make-presentation span {
+  color: #141522;
+  font-size: 9.9px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16.917px;
+  letter-spacing: -0.226px;
+}
+
+.upload-edit-app-draft-cancel-save {
+  margin: 19.33px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.upload-edit-app-draft {
+  width: 100%;
+  height: 36.3px;
+}
+
+.upload-edit-app-draft button {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6.444px;
+  padding: 9.667px 12.889px;
+  border-radius: 8.056px;
+  border: 0.806px solid #F5F5F5;
+  background: #F5F5F5;
+  cursor: pointer;
+}
+
+.upload-edit-app-draft button  img {
+  width: 16.111px;
+  height: 16.111px;
+}
+
+.upload-edit-app-draft button  span {
+  color: #141522;
+  font-size: 11.278px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16.917px;
+}
+
+.upload-edit-app-cancel-save {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.upload-edit-app-cancel,
+.upload-edit-app-save {
+  width: 147.7px;
+  height: 36.3px;
+}
+
+.upload-edit-app-cancel button {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6.44px;
+  padding: 9.667px 12.889px;
+  border-radius: 8.056px;
+  border: 0.806px solid #F5F5F5;
+  background: #FFF;
+  cursor: pointer;
+}
+
+.upload-edit-app-cancel img,
+.upload-edit-app-save img {
+  width: 16.111px;
+  height: 16.111px;
+}
+
+.upload-edit-app-cancel span {
+  color: #141522;
+  font-size: 11.278px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16.917px;
+}
+
+.upload-edit-app-save button {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6.44px;
+  padding: 9.667px 12.889px;
+  border: none;
+  border-radius: 8.056px;
+  background: #5541D7;
+  cursor: pointer;
+}
+
+.upload-edit-app-save span {
+  color: #FFF;
+  font-size: 11.278px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16.917px;
+}
+
 @media screen and (min-width: 768px) {
 
 }
