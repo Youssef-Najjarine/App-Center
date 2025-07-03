@@ -87,7 +87,6 @@ const EditProfile = () => {
         </div>
 
         <form className='member-edit-profile-bio-info-grid' onSubmit={handleSaveAndRedirect}>
-          {/* Full Name */}
           <div className='member-edit-profile-bio-info-name'>
             <label>
               Full Name <span className='member-edit-profile-bio-info-required-star'>*</span>
