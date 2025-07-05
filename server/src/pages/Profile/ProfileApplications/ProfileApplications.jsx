@@ -35,7 +35,7 @@ const ProfileApplications = () => {
       title: "Toritube App",
       description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
       img: applicationImg1,
-      github: "https://github.com/my-name/repo...",
+      github: "https://github.com/Youssef-Najjarine/portfolio",
       tech: ["Firebase", "JavaScript"],
     },
     {
@@ -284,7 +284,7 @@ const ProfileApplications = () => {
                     <img src={githubIcon} alt="GitHub icon" />
                   </a>
                 </div>
-                <div>
+                <div className="profileApp-gitHub-anchor-div">
                   <a href={app.github} target="_blank" rel="noopener noreferrer">
                     {app.github}
                   </a>

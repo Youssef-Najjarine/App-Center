@@ -107,13 +107,20 @@
   cursor: pointer;
 }
 
+.homeApp-github-anchor-div {
+  max-width: 80%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .homeApp-gitHub-div img {
   width: 26.1px;
 }
 
 .homeApp-gitHub-div a {
   color: #5C6BC0;
-  font-size: 15.1px;
+  font-size: 17.4px;
   font-style: normal;
   font-weight: 500;
   line-height: 26.1px;
@@ -254,12 +261,16 @@ font-weight: 700;
     gap: 8.4px;
   }
 
+  .homeApp-github-anchor-div {
+    max-width: 79%;
+  }
+
   .homeApp-gitHub-div img {
     width: 28.35px;
   }
 
   .homeApp-gitHub-div a {
-    font-size: 15.54px;
+    font-size: 18.9px;
     line-height: 28.35px;
     letter-spacing: -0.378px;
   }
@@ -372,12 +383,16 @@ font-weight: 700;
     gap: 9.6px;
   }
 
+  .homeApp-github-anchor-div {
+    max-width: 78%;
+  }
+
   .homeApp-gitHub-div img {
     width: 32.4px;
   }
 
   .homeApp-gitHub-div a {
-    font-size: 19.4px;
+    font-size: 21.6px;
     line-height: 32.4px;
     letter-spacing: -0.432px;
   }

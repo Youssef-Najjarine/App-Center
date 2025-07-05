@@ -58,10 +58,10 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        {/* <Route path="/*" element={<HomeLayout />} />
-        <Route path="/profile/*" element={<ProfileLayout />} /> */}
-        <Route path="/*" element={<ProfileLayout />} />
-        <Route path="/auth/*" element={<AuthLayout />} />
+        <Route path="/*" element={<HomeLayout />} />
+        <Route path="/profile/*" element={<ProfileLayout />} />
+        {/* <Route path="/*" element={<ProfileLayout />} />
+        <Route path="/auth/*" element={<AuthLayout />} /> */}
       </Routes>
     </Router>
   );

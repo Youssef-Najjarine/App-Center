@@ -22,7 +22,7 @@ const HomeApplications = () => {
       title: "Toritube App",
       description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
       img: applicationImg1,
-      github: "https://github.com/my-name/repo...",
+      github: "https://github.com/my-name/repo",
       tech: ["Firebase", "JavaScript"],
     },
     {
@@ -30,7 +30,7 @@ const HomeApplications = () => {
       title: "Antidote App",
       description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
       img: applicationImg2,
-      github: "https://github.com/my-name/repo...",
+      github: "https://github.com/my-name/repo",
       tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
     },
     {
@@ -191,7 +191,7 @@ const HomeApplications = () => {
                     <img src={githubIcon} alt="GitHub icon" />
                   </a>
                 </div>
-                <div>
+                <div className="homeApp-github-anchor-div">
                   <a href={app.github} target="_blank" rel="noopener noreferrer">
                     {app.github}
                   </a>
@@ -225,7 +225,6 @@ const HomeApplications = () => {
         })}
       </div>
 
-      {/* Load More */}
       <div className="applications-load-more-div">
         <button
           className="applications-load-more"
@@ -235,7 +234,6 @@ const HomeApplications = () => {
         </button>
       </div>
 
-      {/* Modal */}
       {modalOpen && (
         <ApplicationDetailModal
           modalOpenState={modalOpen}

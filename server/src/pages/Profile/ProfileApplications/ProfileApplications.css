@@ -333,9 +333,15 @@
 .profileApp-gitHub-div {
   margin: 0 0 12.89px 0;
   gap: 6.444px;
-
   display: flex;
   cursor: pointer;
+}
+
+.profileApp-gitHub-anchor-div {
+  max-width: 253px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .profileApp-gitHub-div img {
@@ -625,6 +631,10 @@ font-weight: 700;
     gap: 7px;
   }
 
+  .profileApp-gitHub-anchor-div {
+    max-width: 275px;
+  }
+
   .profileApp-gitHub-div img {
     width: 23.625px;
     height: 23.625px;
@@ -871,6 +881,10 @@ font-weight: 700;
   .profileApp-gitHub-div {
     margin: 0 0 16px 0;
     gap: 8px;
+  }
+
+  .profileApp-gitHub-anchor-div {
+    max-width: 314px;
   }
 
   .profileApp-gitHub-div img {

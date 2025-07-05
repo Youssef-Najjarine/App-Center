@@ -22,7 +22,7 @@
 .appHome-modal {
   background: #FFF;
   padding: 16px;
-  width: 335px;
+  width: 89.3%;
   height: 95%;
   border-radius: 12.889px;
   z-index: 10000;
@@ -134,13 +134,20 @@
   margin: 0;
 }
 
+.appHome-modal-github-anchor-div {
+  max-width: 72%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .homeApp-modal-gitHub-div img {
   width: 26.1px;
 }
 
 .homeApp-modal-gitHub-div a {
   color: #5C6BC0;
-  font-size: 13.7px;
+  font-size: 17.4px;
   font-style: normal;
   font-weight: 500;
   line-height: 26.1px;
@@ -231,7 +238,7 @@
 @media screen and (min-width: 768px) {
   .appHome-modal {
     padding: 21px;
-    width: 728px;
+    width: 95%;
     border-radius: 14px;
   }
 
@@ -248,6 +255,7 @@
   }
 
   .appHome-modal-images-div {
+    width: 100%;
     display: flex;
     gap: 14px;
     margin: 0 0 14px 0;
@@ -255,14 +263,14 @@
 
   .appHome-modal-selected-image {
     margin: 0;
-    width: 544px;
+    width: 75%;
     height: 544px;
   }
 
   .appHome-modal-selected-image .selected-image,
   .appHome-modal-selected-image .selected-video {
-    width: 544px;
-    height: 544px;
+    width: 100%;
+    height: 100%;
     border-radius: 10.5px;
   }
 
@@ -300,6 +308,10 @@
 
   .homeApp-modal-gitHub-div {
     gap: 8.4px;
+  }
+
+  .appHome-modal-github-anchor-div {
+    max-width: 246px;
   }
 
   .homeApp-modal-gitHub-div img {
@@ -361,7 +373,7 @@
 @media screen and (min-width: 1440px) {
   .appHome-modal {
     padding: 24px;
-    width: 1376px;
+    width: 96%;
     border-radius: 16px;
     height: 96.5%;
   }
@@ -384,6 +396,7 @@
   }
 
   .appHome-modal-images-div {
+    width: 44%;
     display: flow-root;
     gap: 0;
     margin: 0;
@@ -391,13 +404,13 @@
 
   .appHome-modal-selected-image {
     margin: 0 0 16px 0;
-    width: 601px;
+    width: 100%;
     height: 601px;
   }
 
   .appHome-modal-selected-image .selected-image,
   .appHome-modal-selected-image .selected-video {
-    width: 601px;
+    width: 100%;
     height: 601px;
     border-radius: 12px;
   }
@@ -422,6 +435,9 @@
     line-height: 30.184px;
     letter-spacing: -0.549px;
   }
+  .appHome-modal-details {
+    width: 56%;
+  }
 
   .appHome-modal-github-header {
     font-size: 20px;
@@ -433,6 +449,9 @@
     gap: 9.6px;
   }
 
+  .appHome-modal-github-anchor-div {
+    max-width: 332px;
+  }
   .homeApp-modal-gitHub-div img {
     width: 32.4px;
   }

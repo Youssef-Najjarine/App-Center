@@ -22,7 +22,7 @@
 
 .profile-app-details-modal-carousel-image {
   cursor: pointer;
-    width: 109.442px;
+    width: 33%;
     height: 109.442px;
     border-radius: 7.256px;
     object-fit: cover;
@@ -41,18 +41,18 @@
 
 @media screen and (min-width: 768px) {
   .profile-app-details-modal-carousel-section {
-    width: 130px;
+    width: 25%;
     max-height: 544px;
     margin: 0;
 
   }
 
   .profile-app-details-modal-carousel-container {
-    width: 130px;
     height: 100%;
   }
 
   .profile-app-details-modal-carousel-track {
+    width: 100%;
     display: flex;
     flex-direction: column;
     animation: scroll-vertical 20s linear infinite;
@@ -63,7 +63,7 @@
     border: 3.5px solid #5541D7;
   }
   .profile-app-details-modal-carousel-image {
-    width: 130px;
+    width: 100%;
     height: 130px;
     border-radius: 10.5px;
     flex-shrink: 0;
@@ -81,13 +81,8 @@
 
 @media screen and (min-width: 1440px) {
   .profile-app-details-modal-carousel-section {
-    width: 601px;
-    height: 181px;
-  }
-
-  .profile-app-details-modal-carousel-container {
     width: 100%;
-    height: 100%;
+    height: 181px;
   }
 
   .profile-app-details-modal-carousel-track {
@@ -100,7 +95,7 @@
     border: 4px solid #5541D7;
   }
   .profile-app-details-modal-carousel-image {
-    width: 181px;
+    width: 30%;
     height: 181px;
     border-radius: 12px;
   }

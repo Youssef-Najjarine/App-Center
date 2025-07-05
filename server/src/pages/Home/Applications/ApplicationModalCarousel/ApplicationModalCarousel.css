@@ -22,12 +22,12 @@
 
 .appHome-modal-carousel-image {
   cursor: pointer;
-    width: 109.442px;
-    height: 109.442px;
-    border-radius: 7.256px;
-    object-fit: cover;
-    object-position: center;
-    flex-shrink: 0;
+  width: 36%;
+  height: 109.442px;
+  border-radius: 7.256px;
+  object-fit: cover;
+  object-position: center;
+  flex-shrink: 0;
 }
 
 @keyframes scroll-right {
@@ -41,18 +41,19 @@
 
 @media screen and (min-width: 768px) {
   .appHome-modal-carousel-section {
-    width: 130px;
+    width: 25%;
     max-height: 544px;
     margin: 0;
 
   }
 
   .appHome-modal-carousel-container {
-    width: 130px;
+    width: 100%;
     height: 100%;
   }
 
   .appHome-modal-carousel-track {
+    width: 100%;
     display: flex;
     flex-direction: column;
     animation: scroll-vertical 20s linear infinite;
@@ -63,7 +64,7 @@
     border: 3.5px solid #5541D7;
   }
   .appHome-modal-carousel-image {
-    width: 130px;
+    width: 100%;
     height: 130px;
     border-radius: 10.5px;
     flex-shrink: 0;
@@ -81,7 +82,7 @@
 
 @media screen and (min-width: 1440px) {
   .appHome-modal-carousel-section {
-    width: 601px;
+    width: 100%;
     height: 181px;
   }
 
@@ -100,7 +101,7 @@
     border: 4px solid #5541D7;
   }
   .appHome-modal-carousel-image {
-    width: 181px;
+    width: 30%;
     height: 181px;
     border-radius: 12px;
   }

@@ -125,9 +125,11 @@ const ProfileApplicationDetailModal = ({ modalOpenState, onClose, app, modalSour
                 <a href={app.github} target="_blank" rel="noopener noreferrer">
                   <img src={githubIcon} alt="GitHub icon" />
                 </a>
-                <a href={app.github} target="_blank" rel="noopener noreferrer">
-                  {app.github}
-                </a>
+                <div className="profile-app-details-github-anchor-div">
+                  <a href={app.github} target="_blank" rel="noopener noreferrer">
+                    {app.github}
+                  </a>
+                </div>
               </div>
             </div>
 
