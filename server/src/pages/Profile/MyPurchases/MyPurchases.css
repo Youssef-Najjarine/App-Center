@@ -1,0 +1,670 @@
+#profile-my-purchases {
+  padding: 111.72px 20px 48px 20px;
+}
+
+.profile-my-purchases-title-div {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 32px 0;
+}
+
+.profile-my-purchases-sortby-buy-more-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 36.33px;
+  width: 100%;
+}
+
+.profile-my-purchases-title {
+  color: #141522;
+  font-size: 22.556px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 33.833px;
+  margin: 0 0 12px 0;
+}
+
+.profile-my-purchases-sortby-div {
+  padding: 9.667px 12.889px;
+  border-radius: 8.056px;
+  border: 0.806px solid #F5F5F5;
+  background: #FFF;
+  width: 146px;
+  height: 36.3px;
+  position: relative;
+  cursor: pointer;
+}
+
+.profile-my-purchases-sortby-button {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 6.44px;
+}
+
+.profile-my-purchases-sortby-div img {
+  width: 16.111px;
+  height: 16.111px;
+}
+
+.profile-my-purchases-sort-option {
+    color: #141522;
+    font-size: 11.278px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16.917px;
+}
+
+.profile-my-purchases-sortby-dropdown {
+  position: absolute;
+  top: 39.51px;
+  right: 0px;
+  margin: 0;
+  padding: 4px;
+  border-radius: 6px;
+  border: 0.875px solid #F5F5F5;
+  background: #FFF;
+  box-shadow: 10.5px 10.5px 26.25px 0px rgba(0, 0, 0, 0.10);
+  list-style: none;
+  z-index: 1000;
+  width: 146px;
+  height: 112px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile-my-purchases-sortby-dropdown li {
+  padding: 3px 6px;
+  color: #141522;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16.5px;
+  letter-spacing: -0.44px;
+  border-radius: 3px;
+}
+
+.profile-my-purchases-sortby-dropdown li:hover {
+  background: #F6F5FD;
+  color: #5541D7;
+}
+
+.profile-my-purchases-sortby-dropdown li.active {
+  background: #F6F5FD;
+  color: #5541D7;
+}
+
+.profile-my-purchases-header-right-border {
+  border-right: .806px solid #F5F5F5;
+  height: calc(100% - 14.5px); /* 7.25px top + 7.25px bottom */
+}
+
+.profile-my-purchases-buy-more-div {
+  width: 176.5px;
+  height: 36.3px;
+  padding: 9.667px 12.889px;
+  border-radius: 8.056px;
+  background: #5541D7;
+  cursor: pointer;
+}
+
+.profile-my-purchases-buy-more-div .profile-my-purchases-buy-more-btn {
+  display: flex;
+  align-items: center;
+  gap: 6.44px;
+  width: 100%;
+  height: 100%;
+}
+
+.profile-my-purchases-buy-more-div img {
+  width: 16.111px;
+  height: 16.111px;
+}
+.profile-my-purchases-buy-more-btn span {
+color: #FFF;
+font-size: 11.278px;
+font-style: normal;
+font-weight: 500;
+line-height: 16.917px;
+}
+
+.profile-my-purchases-grid {
+    width: 100%;
+  display: grid;
+  gap: 12.889px;
+  grid-template-columns: repeat(auto-fit, 100%);
+  align-items: start;
+  justify-content: center;
+}
+
+.profile-my-purchases-app {
+  padding: 12px;
+  background: #FFF;
+  border-radius: 6.44px;
+}
+
+.profile-my-purchases-image-div {
+  width: 100%;
+  height: 235.054px;
+  margin: 0 0 16px 0;
+}
+
+.profile-my-purchases-image-div .profile-my-purchases-placeholder-img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+}
+
+.profile-my-purchases-body-part1-details {
+    display: flex;
+    flex-direction: column;
+    gap: 19.33px;
+}
+
+.profile-my-purchases-body-part1-details-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.profile-my-purchases-body-part1-details-sub-header h3 {
+    margin: 0 0 4.83px 0;
+    color: #141522;
+    font-size: 17.722px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 26.583px;
+    letter-spacing: -0.354px;
+}
+
+.profile-my-purchases-body-part1-details-sub-header p {
+    margin: 0;
+    color: #141522;
+    font-size: 11.278px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16.917px;
+}
+
+.profile-my-purchases-expand-div {
+  z-index: 3; 
+  padding: 9.667px;
+  border-radius: 8.056px;
+  border: 0.806px solid #F5F5F5;
+  background: #FFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38.7px;
+  height: 38.7px;
+  cursor: pointer;
+  position: relative;
+}
+
+.profile-my-purchases-expand-div button {
+   width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.profile-my-purchases-expand-div .profile-my-purchases-expand-icon {
+  width: 19.333px;
+  height: 19.333px;
+}
+
+.profile-my-purchases-dropdown {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  top: 19.33px;
+  right: 8.64px;
+  width: 163px;
+  z-index: 10;
+  padding: 6px;
+  border-radius: 8px;
+  border: 0.806px solid #F5F5F5;
+  background: #FFF;
+  box-shadow: 12px 12px 30px 0px rgba(0, 0, 0, 0.10);
+}
+
+.profile-my-purchases-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 6.44px;
+  padding: 6.444px 9.667px;
+  text-decoration: none;
+  border-radius: 8px;
+}
+
+.profile-my-purchases-dropdown-item.details,
+.profile-my-purchases-dropdown-item.download {
+  background: rgba(96, 91, 255, 0.10);
+}
+
+.profile-my-purchases-dropdown-item.report {
+  background: rgba(255, 70, 29, 0.10);
+}
+
+.profile-my-purchases-dropdown-item span {
+  color: #141522;
+  font-size: 12.89px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 19.335px;
+  letter-spacing: -0.516px;
+}
+
+.profile-my-purchases-dropdown-item img {
+  width: 16.11px;
+  height: 16.11px;
+}
+
+.profile-my-purchases-dropdown-item.details:hover,
+.profile-my-purchases-dropdown-item.download:hover {
+  background: #605BFF;
+}
+.profile-my-purchases-dropdown-item:hover img {
+  filter: brightness(0) invert(1);
+}
+
+.profile-my-purchases-dropdown-item:hover span {
+  color: #FFF;
+}
+
+.profile-my-purchases-dropdown-item.report:hover {
+  background: #FF461D;
+}
+
+.profile-my-purchases-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 5; /* adjust number of lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.profile-my-purchases-description p {
+    margin: 0;
+    color: #141522;
+    font-size: 12.889px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 19.333px;
+    letter-spacing: -0.129px;
+}
+
+.profile-my-purchases-gitHub-div {
+  gap: 6.44px;
+  display: flex;
+  cursor: pointer;
+  margin: 0;
+}
+
+.profile-my-purchases-github-anchor-div {
+  max-width: 76%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-my-purchases-gitHub-div img {
+  width: 21.75px;
+  height: 21.75px;
+}
+
+.profile-my-purchases-gitHub-div a {
+    color: #5C6BC0;
+    font-size: 14.5px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 21.75px;
+    letter-spacing: -0.29px;
+}
+
+.profile-my-purchases-body-part2 {
+    width: 100%;
+    margin: 19.33px 0 0 0;
+}
+
+.profile-my-purchases-seller-info {
+    display: flex;
+    flex-direction: column;
+    gap: 9.67px;
+}
+
+.profile-my-purchases-seller-name,
+.profile-my-purchases-seller-email,
+.profile-my-purchases-seller-amount {
+    width: 100%;
+    border-radius: 8.056px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #FCFCFC;
+    padding: 9.667px 12.889px;
+}
+
+.profile-my-purchases-seller-image-label {
+    display: flex;
+    align-items: center;
+    gap: 6.44px;
+}
+
+.profile-my-purchases-seller-image-label img {
+    width: 19.333px;
+    height: 19.333px;
+}
+
+.profile-my-purchases-seller-image-label label {
+    color: #141522;
+    font-size: 12.889px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 19.333px;
+}
+
+.profile-my-purchases-seller-value {
+    color: #141522;
+    font-size: 12.889px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 19.333px;
+    max-width: 148px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.profile-my-purchases-load-more-div {
+  width: 100%;
+  text-align: center;
+  margin: 46.4px 0 0 0;
+}
+
+.profile-my-purchases-load-more {
+  border-radius: 9.667px;
+  background: #5541D7;
+  padding: 11.6px 23.2px;
+  color: #FFF;
+  font-size: 13.533px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20.3px;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (min-width: 768px) {
+    #profile-my-purchases {
+    padding: 107.75px 20px 48px 20px;
+    }
+
+    .profile-my-purchases-title-div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 0 18px 0;
+    }
+
+    .profile-my-purchases-sortby-buy-more-div {
+        height: 39px;
+        width: 371.5px;
+    }
+
+    .profile-my-purchases-title {
+        font-size: 24.5px;
+        line-height: 36.75px;
+        margin: 0;
+    }
+
+    .profile-my-purchases-sortby-div {
+    padding: 10.5px 14px;
+    border-radius: 8.75px;
+    border: 0.875px solid #F5F5F5;
+    width: 151px;
+    height: 39px;
+    }
+
+    .profile-my-purchases-sortby-button {
+        gap: 7px;
+    }
+
+    .profile-my-purchases-sortby-div img {
+    width: 17.5px;
+    height: 17.5px;
+    }
+
+    .profile-my-purchases-sort-option {
+        font-size: 12.25px;
+        line-height: 18.375px;
+    }
+
+     .profile-my-purchases-sortby-dropdown {
+    top: 43px;
+    border-radius: 8px;
+    width: 151px;
+    height: 124px;
+    }
+
+    .profile-my-purchases-sortby-dropdown li {
+        padding: 4px 6px;
+        font-size: 12.25px;
+        line-height:  18.375px;
+        letter-spacing: -0.49px;
+    }
+
+    .profile-my-purchases-header-right-border {
+    border-right: .875px solid #F5F5F5;
+    height: calc(100% - 14.5px); /* 7.25px top + 7.25px bottom */
+    }
+
+    .profile-my-purchases-buy-more-div {
+        width: 192.5px;
+        height: 39px;
+        padding: 10.5px 14px;
+        border-radius: 8.75px;
+    }
+
+    .profile-my-purchases-buy-more-div .profile-my-purchases-buy-more-btn {
+        gap: 7px;
+    }
+
+    .profile-my-purchases-buy-more-div img {
+    width: 17.5px;
+    height: 17.5px;
+    }
+    .profile-my-purchases-buy-more-btn span {
+        font-size: 12.25px;
+        line-height: 18.375px;
+    }
+
+    .profile-my-purchases-grid {
+        gap: 14px;
+    }
+
+    .profile-my-purchases-app {
+        padding: 10.5px;
+        border-radius: 7px;
+    }
+
+    .profile-my-purchases-image-div {
+    width: 26%;
+    height: 144.375px;
+    margin: 0;
+    }
+
+    .profile-my-purchases-image-div .profile-my-purchases-placeholder-img {
+        border-radius: 7px;
+    }
+    .profile-my-purchases-body-part1 {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 0 14px 0;
+    }
+
+    .profile-my-purchases-body-part1-details {
+        margin: 16.69px 0 0 0;
+        width: 69%;
+        gap: 0;
+    }
+
+    .profile-my-purchases-body-part1-details-sub-header {
+        width: 90%;
+        height: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+    }
+
+    .profile-my-purchases-body-part1-details-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 0 7px 0;
+    }
+
+    .profile-my-purchases-body-part1-details-sub-header h3 {
+        margin: 0;
+        font-size: 15.75px;
+        line-height: 23.625px;
+        letter-spacing: -0.315px;
+    }
+
+    .profile-my-purchases-body-part1-details-sub-header p {
+        font-size: 12.25px;
+        line-height: 18.375px;
+    }
+
+    .profile-my-purchases-expand-div {
+    padding: 9.19px;
+    border-radius: 7.656px;
+    border: 0.766px solid #F5F5F5;
+    width: 36.75px;
+    height: 36.75px;
+    }
+
+    .profile-my-purchases-expand-div .profile-my-purchases-expand-icon {
+    width: 18.375px;
+    height: 18.375px;
+    }
+
+    .profile-my-purchases-dropdown {
+        right: 11.64px;
+        width: 169px;
+        border: 1px solid #F5F5F5;
+    }
+
+    .profile-my-purchases-dropdown-item {
+    gap: 8px;
+    padding: 7px 10.5px;
+    }
+
+    .profile-my-purchases-dropdown-item span {
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.56px;
+    }
+
+    .profile-my-purchases-dropdown-item img {
+    width: 17.5px;
+    height: 17.5px;
+    }
+
+    .profile-my-purchases-description {
+        max-width: 98%;
+        -webkit-line-clamp: 2; /* adjust number of lines */
+        margin: 0 0 14px 0;
+    }
+
+    .profile-my-purchases-description p {
+        font-size: 14px;
+        line-height: 21px;
+        letter-spacing: -0.28px;
+    }
+
+    .profile-my-purchases-gitHub-div {
+        gap: 7px;
+    }
+
+    .profile-my-purchases-github-anchor-div {
+        max-width: 56.5%;
+    }
+
+    .profile-my-purchases-gitHub-div img {
+        width: 23.625px;
+        height: 23.625px;
+    }
+
+    .profile-my-purchases-gitHub-div a {
+        font-size: 15.75px;
+        line-height: 23.625px;
+        letter-spacing: -0.315px;
+    }
+
+    .profile-my-purchases-body-part2 {
+        margin: 14px 0 0 0;
+    }
+
+    .profile-my-purchases-seller-info {
+        gap: 10.5px;
+    }
+
+    .profile-my-purchases-seller-name,
+    .profile-my-purchases-seller-email,
+    .profile-my-purchases-seller-amount {
+        border-radius: 8.75px;
+        padding: 10.5px 14px;
+    }
+
+    .profile-my-purchases-seller-image-label {
+        gap: 7px;
+    }
+
+    .profile-my-purchases-seller-image-label img {
+        width: 21px;
+        height: 21px;
+    }
+
+    .profile-my-purchases-seller-image-label label {
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .profile-my-purchases-seller-value {
+        font-size: 14px;
+        line-height: 21px;
+        max-width: 70%;
+    }
+  .profile-my-purchases-load-more-div {
+    margin: 50.4px 0 0 0;
+  }
+
+  .profile-my-purchases-load-more {
+    border-radius: 10.5px;
+    padding: 12.6px 25.2px;
+    font-size: 13.533px;
+    line-height: 22.05px;
+  }
+}
+@media screen and (min-width: 1440px) {
+  .profile-my-purchases-load-more-div {
+    margin: 57.6px 0 0 0;
+  }
+
+  .profile-my-purchases-load-more {
+    border-radius: 12px;
+    padding: 14.4px 28.8px;
+    font-size: 16.8px;
+    line-height: 25.2px;
+  }
+}

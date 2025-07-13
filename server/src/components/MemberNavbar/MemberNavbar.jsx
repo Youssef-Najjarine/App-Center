@@ -54,7 +54,7 @@ const MemberNavbar = () => {
         </div>
 
         <div className="member-navbar-actions">
-          <div className={`member-nav-application-div ${location.pathname === "/profile/apps" ? "active-app-tab" : ""}`}>
+          <div className={`member-nav-application-div ${["/profile/apps", "/profile/appManagement", "/profile/MyPurchases"].includes(location.pathname) ? "active-app-tab" : ""}`}>
             <Link to="/profile/apps">
               <img src={applications} className='member-nav-applications-icon' />
               <span>Applications</span>
@@ -62,7 +62,7 @@ const MemberNavbar = () => {
           </div>
 
           <div className="member-profile-wrapper" ref={profileWrapperRef}>
-            <div className={`member-profile-nav ${location.pathname === "/profile/apps" ? "inactive-profile-tab" : ""}`} onClick={toggleDropdown}>
+            <div className={`member-profile-nav ${["/profile/apps", "/profile/appManagement", "/profile/MyPurchases"].includes(location.pathname) ? "inactive-profile-tab" : ""}`} onClick={toggleDropdown}>
               <img src={profilePic} alt="member-icon" />
               <div>
                 <p className='member-nav-name'>Youssef Najjarine</p>
@@ -88,13 +88,13 @@ const MemberNavbar = () => {
                   <span>Profile</span>
                 </div>
               </Link>
-              <Link to="/apps" onClick={() => setShowDropdown(false)}>
+              <Link to="/profile/appManagement" onClick={() => setShowDropdown(false)}>
                 <div className='member-navbar-icon-div'>
                   <img src={appManagementIcon} />
-                  <span>Apps Management</span>
+                  <span>App Management</span>
                 </div>
               </Link>
-              <Link to="/purchases" onClick={() => setShowDropdown(false)}>
+              <Link to="/profile/MyPurchases" onClick={() => setShowDropdown(false)}>
                 <div className='member-navbar-icon-div'>
                   <img src={myPurchasesIcon} />
                   <span>My Purchases</span>

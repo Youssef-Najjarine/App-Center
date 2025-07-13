@@ -12,7 +12,9 @@ import AboutUs from "./pages/Home/AboutUs/AboutUs";
 import ContactUs from "./components/ContactUs/ContactUs";
 import UserProfile from "./pages/Profile/userProfile/UserProfile";
 import ProfileApplications from "./pages/Profile/ProfileApplications/ProfileApplications";
+import AppManagement from "./pages/Profile/AppManagement/AppManagement";
 import EditProfile from "./pages/Profile/userProfile/EditProfile/EditProfile";
+import MyPurchases from "./pages/Profile/MyPurchases/MyPurchases";
 import Login from "./pages/Auth/Login/Login";
 import SignUp from "./pages/Auth/SignUp/SignUp";
 import ForgotPassword from "./pages/Auth/ForgotPassword/ForgotPassword";
@@ -39,6 +41,8 @@ const ProfileLayout = () => (
     <Routes>
       <Route path="/profile" element={<UserProfile />} />
       <Route path="/profile/apps" element={<ProfileApplications />} />
+      <Route path="/profile/appManagement" element={<AppManagement/>}/>
+      <Route path="/profile/MyPurchases" element={<MyPurchases/>}/>
       <Route path="/profile/edit" element={<EditProfile />} />
     </Routes>
   </section>
@@ -58,10 +62,10 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/*" element={<HomeLayout />} />
-        <Route path="/profile/*" element={<ProfileLayout />} />
-        {/* <Route path="/*" element={<ProfileLayout />} />
-        <Route path="/auth/*" element={<AuthLayout />} /> */}
+        {/* <Route path="/*" element={<HomeLayout />} />
+        <Route path="/profile/*" element={<ProfileLayout />} /> */}
+        <Route path="/*" element={<ProfileLayout />} />
+        <Route path="/auth/*" element={<AuthLayout />} />
       </Routes>
     </Router>
   );

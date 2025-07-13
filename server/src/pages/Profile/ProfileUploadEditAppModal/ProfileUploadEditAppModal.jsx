@@ -41,7 +41,7 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
         clearTimeout(uploadTimeoutRef.current);
       }
     };
-}, []);
+  }, []);
 
   const [techInput, setTechInput] = useState("");
   const [technologies, setTechnologies] = useState([]);
@@ -53,6 +53,8 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
   const [uploadStage, setUploadStage] = useState("default");
   const [uploadZipName, setUploadZipName] = useState("");
   const [uploadZip, setUploadZip] = useState(null);
+  const [mediaFiles, setMediaFiles] = useState([]);
+  const [defaultPresentationIndex, setDefaultPresentationIndex] = useState(null);
   const [errors, setErrors] = useState({});
   const [showErrorBox, setShowErrorBox] = useState(false);
 
@@ -113,6 +115,7 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
 
   const fileInputRef = React.useRef(null);
   const uploadTimeoutRef = React.useRef(null);
+  const mediaInputRef = React.useRef(null);
 
   const handleFileUpload = (file) => {
     if (!file.name.endsWith(".zip")) {
@@ -162,47 +165,165 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
     fileInputRef.current.click();
   };
 
+  const handleMediaSelect = (e) => {
+    const files = Array.from(e.target.files);
+    handleMediaUpload(files);
+  };
+
+  const handleMediaDrop = (e) => {
+    e.preventDefault();
+    const files = Array.from(e.dataTransfer.files);
+    handleMediaUpload(files);
+  };
+
+  const handleMediaUpload = async (files) => {
+    const newFiles = [...mediaFiles];
+    const validMedia = [];
+    const seenKeys = new Set();
+    const existingKeys = new Set(
+      newFiles.map(f => `${f.originalName}-${f.originalSize}-${f.originalLastModified}`)
+    );
+
+    let imageCount = newFiles.filter(f => f.type.startsWith("image/") && f.type !== "image/gif").length;
+    let hasVideo = newFiles.some(f => f.type.startsWith("video/") || f.type === "image/gif");
+
+    let error = null;
+
+    for (const file of files) {
+      const key = `${file.name}-${file.size}-${file.lastModified}`;
+      const isGif = file.type === "image/gif";
+      const isVideo = file.type.startsWith("video/") || isGif;
+      const isImage = file.type.startsWith("image/") && !isGif;
+
+      if (!isImage && !isVideo) {
+        error = 'invalid-media-type';
+        continue;
+      }
+
+      if (existingKeys.has(key) || seenKeys.has(key)) {
+        error = 'duplicate-image';
+        continue;
+      }
+
+      seenKeys.add(key);
+
+      if (isVideo) {
+        if (hasVideo || validMedia.some(f => f.type.startsWith("video/") || f.type === "image/gif")) {
+          error = 'video-limit-exceeded';
+          continue;
+        }
+
+        const previewURL = URL.createObjectURL(file);
+        const duration = isGif ? null : await getVideoDuration(file);
+
+        validMedia.push({
+          file,
+          previewURL,
+          type: file.type,
+          duration,
+          originalName: file.name,
+          originalSize: file.size,
+          originalLastModified: file.lastModified
+        });
+
+        hasVideo = true;
+        continue;
+      }
+
+      if (isImage) {
+        if (imageCount >= 5) {
+          error = 'image-limit-exceeded';
+          continue;
+        }
+
+        const compressedFile = await compressImage(file);
+        const compressedURL = URL.createObjectURL(compressedFile);
+
+        validMedia.push({
+          file: compressedFile,
+          previewURL: compressedURL,
+          type: compressedFile.type,
+          originalName: file.name,
+          originalSize: file.size,
+          originalLastModified: file.lastModified
+        });
+
+        imageCount++;
+      }
+    }
+
+    setMediaFiles([...newFiles, ...validMedia]);
+
+    if (error) {
+      setErrors(prev => ({ ...prev, mediaUpload: error }));
+    } else {
+      setErrors(prev => ({ ...prev, mediaUpload: null }));
+    }
+  };
+
+  const getVideoDuration = (file) => {
+    return new Promise((resolve) => {
+      const video = document.createElement('video');
+      video.preload = 'metadata';
+      video.src = URL.createObjectURL(file);
+      video.onloadedmetadata = () => {
+        URL.revokeObjectURL(video.src);
+        const minutes = Math.floor(video.duration / 60);
+        const seconds = Math.floor(video.duration % 60);
+        resolve(`${minutes}:${seconds.toString().padStart(2, '0')}`);
+      };
+    });
+  };
+
+  const compressImage = (file, maxWidth = 1024, maxHeight = 1024, quality = 0.8) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.src = URL.createObjectURL(file);
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const scale = Math.min(maxWidth / img.width, maxHeight / img.height, 1);
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        canvas.toBlob((blob) => {
+          const compressedFile = new File([blob], file.name, {
+            type: 'image/jpeg',
+            lastModified: Date.now()
+          });
+          resolve(compressedFile);
+        }, 'image/jpeg', quality);
+      };
+    });
+  };
+  const handleDeleteMedia = (index) => {
+    const newFiles = [...mediaFiles];
+    URL.revokeObjectURL(newFiles[index].previewURL);
+    newFiles.splice(index, 1);
+    setMediaFiles(newFiles);
+  };
+
+  const triggerMediaDialog = () => {
+    mediaInputRef.current.click();
+  };
   const handleCloseErrorBox = () => {
     setShowErrorBox(false);
   };
-  const uploads = [
-    {
-      id: 1,
-      imageURL: PlaceHolderImg1
-    },
-    {
-      id: 2,
-      imageURL: PlaceHolderImg2,
-      videoDuration: "14:22"
-    },
-    {
-      id: 3,
-      imageURL: PlaceHolderImg3
-    },
-    {
-      id: 4,
-      imageURL: PlaceHolderImg4
-    },
-    {
-      id: 5,
-      imageURL: PlaceHolderImg5
-    },
-    {
-      id: 6,
-      imageURL: PlaceHolderImg6
-    }       
-  ];
+
+const handleMakePresentation = (index) => {
+  setDefaultPresentationIndex(index);
+};
+
   return (
     <div className="upload-edit-app-modal-overlay" onClick={onClose}>
       <div className="upload-edit-app-modal" onClick={(e) => e.stopPropagation()}>
         <div className="upload-edit-app-close-header">
           <h2>Upload New App</h2>
-          <div>
-            <div className="upload-edit-app-close-modal-div">
-              <button className="upload-edit-app-close-button" onClick={onClose}>
-                <img src={CloseModalIcon} alt="Close" />
-              </button>
-            </div>
+          <div className="upload-edit-app-close-modal-div">
+            <button className="upload-edit-app-close-button" onClick={onClose}>
+              <img src={CloseModalIcon} alt="Close" />
+            </button>
           </div>
         </div>
         <form>
@@ -327,12 +448,12 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
               <div>
                 <div className="upload-edit-app-label-div">
                   <h3>Upload Zip File <span className="upload-edit-app-required">*</span></h3>
-                    {errors.uploadZip === 'Field Missing' && (
-                      <span className="upload-edit-app-field-missing">*Field Missing*</span>
-                    )}             
-                    {errors.uploadZip === 'Invalid Type' && (
-                      <span className="upload-edit-app-field-missing">Error – Only ZIP files allowed</span>
-                    )}                          
+                  {errors.uploadZip === 'Field Missing' && (
+                    <span className="upload-edit-app-field-missing">*Field Missing*</span>
+                  )}             
+                  {errors.uploadZip === 'Invalid Type' && (
+                    <span className="upload-edit-app-field-missing">Error – Only ZIP files allowed</span>
+                  )}
                 </div>
                 {uploadStage === "default" && (
                   <div
@@ -358,23 +479,28 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
                     </div>
                   </div>
                 )}
+
                 {uploadStage === "uploading" && (
                   <div className="upload-edit-app-uploading">
-                    <div className="upload-edit-app-upload-img">
-                      <img src={FolderIcon} alt="Folder" />
+                    <div className="upload-edit-app-uploading-img-file">
+                      <div className="upload-edit-app-upload-img">
+                        <img src={FolderIcon} alt="Folder" />
+                      </div>
+                      <div className="upload-edit-app-uploading-text">
+                        {uploadZipName}
+                      </div>
                     </div>
-                    <div className="upload-edit-app-uploading-text">
-                      {uploadZipName}
-                    </div>
-                    <div className="upload-edit-app-uploading-text">
-                      Uploading...
-                    </div>
-                    <div
-                      className="upload-edit-app-upload-img"
-                      onClick={handleCancelUpload}
-                      style={{ cursor: "pointer" }}
-                    >
-                      <img src={CancelUploadIcon} alt="Cancel Upload" />
+                    <div className="upload-edit-app-uploading-upload-txt-close">
+                      <div className="upload-edit-app-uploading-text">
+                        Uploading... (24.5MB / 34.5MB)
+                      </div>
+                      <div
+                        className="upload-edit-app-upload-img"
+                        onClick={handleCancelUpload}
+                        style={{ cursor: "pointer" }}
+                      >
+                        <img src={CancelUploadIcon} alt="Cancel Upload" />
+                      </div>
                     </div>
                   </div>
                 )}
@@ -402,48 +528,80 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
               <div>
                 <div className="upload-edit-app-label-div">
                   <h3>Upload Image/Video</h3>
+                  {errors.mediaUpload === 'invalid-media-type' && (
+                    <span className="upload-edit-app-field-missing">Invalid image or video type</span>
+                  )}
+                  {errors.mediaUpload === 'image-limit-exceeded' && (
+                    <span className="upload-edit-app-field-missing">5 images max</span>
+                  )}
+                  {errors.mediaUpload === 'video-limit-exceeded' && (
+                    <span className="upload-edit-app-field-missing">1 video max</span>
+                  )}  
+                  {errors.mediaUpload === 'duplicate-image' && (
+                    <span className="upload-edit-app-field-missing">Duplicates found</span>
+                  )}                   
                 </div>
-                <div className="upload-edit-app-upload">
+                <div
+                  className="upload-edit-app-upload"
+                  onClick={triggerMediaDialog}
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={handleMediaDrop}
+                >
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*,video/*"
+                    ref={mediaInputRef}
+                    style={{ display: 'none' }}
+                    onChange={handleMediaSelect}
+                  />
                   <div className="upload-edit-app-upload-img">
                     <img src={UploadIcon} alt="Upload" />
                   </div>
                   <div>
                     <p><span>Click</span> or Drag here.</p>
                   </div>
-                </div>
+                </div>                
               </div>
               <div>
-                <div className="upload-edit-app-label-div">
-                  <h3>Uploaded Image/Video</h3>
-                </div>
-                <div className="upload-edit-app-uploaded-images">
-                  {uploads.map((image) => {
-                    return (
-                      <div
-                        key={image.id}
-                        className="uploadedImageContainer"
-                      >
-                        <div className="uploadedImage">
-                          {image.videoDuration && (
-                            <div className="upload-edit-app-video-duration">
-                              <img src={PlayIcon}/>
-                              <span>{image.videoDuration}</span>
+                {mediaFiles.length > 0 && (
+                  <>
+                    <div className="upload-edit-app-label-div">
+                      <h3>Uploaded Image/Video</h3>
+                    </div>
+                    <div className="upload-edit-app-uploaded-images">
+                      {mediaFiles.map((media, index) => (
+                        <div key={index} className="uploadedImageContainer">
+                          <div className="uploadedImage">
+                            {media.type.startsWith("video/") || media.type === "image/gif" ? (
+                              <div className="upload-edit-app-video-duration">
+                                  <img src={PlayIcon} alt="Play" />
+                                  <span>{media.type === "image/gif" ? "GIF" : media.duration || "Video"}</span>
+                              </div>
+                            ) : null}                        
+                            <div className="upload-edit-app-uploaded-photo-trash" onClick={() => handleDeleteMedia(index)}>
+                              <img src={TrashIcon} alt="Trash" />
                             </div>
-                          )}
-                            <div className="upload-edit-app-uploaded-photo-trash">
-                              <img src={TrashIcon}/>
+                            <div
+                              className={`upload-edit-app-uploaded-photo-make-presentation ${defaultPresentationIndex === index ? 'selected-presentation' : ''}`}
+                              onClick={() => handleMakePresentation(index)}
+                            >
+                              <span>{defaultPresentationIndex === index ? 'Default Presentation' : 'Make Presentation'}</span>
                             </div>
-                            <div className="upload-edit-app-uploaded-photo-make-presentation">
-                              <span>Make Presentation</span>
-                          </div>                      
-                          <img src={image.imageURL} className="previewImg"/> 
+                            {media.type.startsWith("image/") ? (
+                              <img src={media.previewURL} alt="Preview" className="previewImg" />
+                            ) : (
+                              <video src={media.previewURL} className="previewImg" controls />
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                </div>
+                      ))}                 
+                    </div>
+                  </>
+                )}
               </div>
             </div>
+          </div>
             <div className="upload-edit-app-draft-cancel-save">
               <div className="upload-edit-app-draft">
                 <button type="button">
@@ -469,8 +627,7 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
                   </button>
                 </div>  
               </div>            
-            </div>
-          </div>
+            </div>          
         </form>
         {showErrorBox && (
           <div className="upload-edit-app-error-banner">

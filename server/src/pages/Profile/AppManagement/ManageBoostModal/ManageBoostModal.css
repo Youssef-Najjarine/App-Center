@@ -1,0 +1,489 @@
+.profile-manage-boost-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 21, 34, 0.15);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-manage-boost-modal-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.profile-manage-boost-modal {
+  background: #FFF;
+  padding: 12.889px;
+  width: 89%;
+  height: 95%;
+  border-radius: 12.889px;
+  z-index: 10000;
+  overflow-y: auto;
+}
+
+.profile-manage-boost-close-header {
+  margin: 0 0 12.89px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-manage-boost-close-header h2 {
+  margin: 0;
+  color: #141522;
+  font-size: 17.722px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 26.583px;
+}
+
+.profile-manage-boost-close {
+  width: 25px;
+  height: 25px;
+}
+
+.profile-manage-boost-close button {
+  width: 100%;
+  height: 100%;
+  background: none;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.profile-manage-boost-close button img {
+  width: 25px;
+  height: 25px;
+}
+
+.profile-manage-boost-body {
+  width: 100%;
+}
+
+.manage-boost-preview {
+  width: 100%;
+  margin: 0 0 12.89px 0;
+}
+
+.manage-boost-preview img {
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+  border-radius: 6.444px;
+}
+
+.profile-manage-boost-header-budget h3 {
+  color: #141522;
+  font-size: 17.722px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 26.583px;
+  letter-spacing: -0.354px;
+  margin: 0;
+}
+
+.profile-manage-boost-budgets {
+  margin: 13.06px 0 12.89px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12.89px;
+}
+
+.profile-manage-boost-budgets label {
+  color: #141522;
+  font-size: 12.889px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 19.333px;
+}
+
+.profile-manage-boost-budgets input {
+  width: 100%;
+  margin: 6.61px 0 0 0;
+  height: 40.278px;
+  padding: 12.889px 23px 12.889px 9.667px;
+  color: #141522;
+  font-size: 11.278px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 16.917px;
+  border-radius: 6.444px;
+  border: 0.806px solid #F5F5F5;
+  background: rgba(245, 245, 245, 0.50);
+  font-family: 'Poppins', sans-serif;
+}
+
+.profile-manage-boost-budgets input::placeholder {
+  font-size: 11.278px;
+  font-style: normal;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  opacity: 0.6;
+}
+
+
+.boost-input-container {
+  position: relative;
+}
+
+.boost-dollar-suffix {
+  position: absolute;
+  top: 16px;
+  right: 9.667px;
+  color: #666;
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.profile-manage-boost-hint {
+  margin: 0 0 12.89px 0;
+  color: rgba(20, 21, 34, 0.70);
+  font-size: 12.889px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 19.333px;
+  letter-spacing: -0.129px;
+}
+
+.profile-manage-boost-metrics {
+  display: grid;
+  gap: 6.44px;
+  grid-template-columns: repeat(auto-fit, 100%);
+  margin: 0 0 12.89px 0;
+}
+
+.profile-manage-boost-metrics div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9.667px 12.889px;
+  border-radius: 6.444px;
+  background: #F5F5F5;
+
+}
+
+.profile-manage-boost-metrics div .profile-manage-boost-metric-label {
+  color: rgba(20, 21, 34, 0.70);
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 19.333px;
+  letter-spacing: -0.129px;
+}
+
+.profile-manage-boost-metrics div .profile-manage-boost-metric-amount {
+  color: #5541D7;
+  font-size: 12.889px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 19.333px;
+  letter-spacing: -0.129px;
+}
+
+.profile-manage-boost-save {
+  width: 100%;
+  height: 36.25px;
+}
+
+.profile-manage-boost-save button {
+  width: 100%;
+  height: 100%;
+  padding: 9.667px 12.889px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6.44px;
+  border-radius: 8.056px;
+  background: #5541D7;
+  border: none;
+  cursor: pointer;
+}
+
+.profile-manage-boost-save button img {
+  width: 16.111px;
+  height: 16.111px;
+}
+
+.profile-manage-boost-save button span {
+  color: #FFF;
+  font-size: 11.278px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16.917px;
+}
+@media screen and (min-width: 768px) {
+  .profile-manage-boost-modal {
+    padding: 14px;
+    width: 72.7%;
+    height: 55.2%;
+    border-radius: 14px;
+  }
+
+  .profile-manage-boost-close-header {
+    margin: 0 0 14px 0;
+  }
+
+  .profile-manage-boost-close-header h2 {
+    font-size: 19.25px;
+    line-height: 28.875px;
+  }
+
+  .profile-manage-boost-close {
+    width: 30px;
+    height: 30px;
+  }
+
+  .profile-manage-boost-close button img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .profile-manage-boost-part-1 {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 14px 0;
+  }
+
+  .manage-boost-preview {
+    width: 35.8%;
+    margin: 0;
+  }
+
+  .manage-boost-preview img {
+    height: 200.5px;
+    border-radius: 7px;
+  }
+
+  .profile-manage-boost-header-budget {
+    width: 61.54%;
+  }
+
+  .profile-manage-boost-header-budget h3 {
+    font-size: 19.25px;
+    line-height: 28.875px;
+    letter-spacing: -0.385px;
+  }
+
+  .profile-manage-boost-budgets {
+    margin: 14px 0 0px 0;
+    gap: 14px;
+  }
+
+  .profile-manage-boost-budgets label {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .profile-manage-boost-budgets input {
+    margin: 7px 0 0 0;
+    height: 43.75px;
+    padding: 14px 23px 14px 10.5px;
+    font-size: 12.25px;
+    line-height:  18.375px;
+    border-radius: 7px;
+    border: 0.875px solid #F5F5F5;
+  }
+
+  .profile-manage-boost-budgets input::placeholder {
+    font-size: 12.25px;
+  }
+
+  .boost-dollar-suffix {
+    top: 19px;
+    right: 12px;
+    font-size: 15px;
+  }
+
+  .profile-manage-boost-hint {
+      margin: 0 0 14px 0;
+      font-size: 14px;
+      line-height: 21px;
+      letter-spacing: -0.14px;
+  }
+
+  .profile-manage-boost-metrics {
+      gap: 7px;
+      grid-template-columns: repeat(auto-fit, 49%);
+      margin: 0 0 14px 0;
+  }
+
+  .profile-manage-boost-metrics div {
+      padding: 10.5px 14px;
+      border-radius: 7px;
+
+  }
+
+  .profile-manage-boost-metrics div .profile-manage-boost-metric-label {
+      font-size: 13px;
+      line-height: 21px;
+      letter-spacing: -0.14px;
+  }
+
+  .profile-manage-boost-metrics div .profile-manage-boost-metric-amount {
+      font-size: 14px;
+      line-height: 21px;
+      letter-spacing: -0.14px;
+  }
+
+  .profile-manage-boost-save {
+    height: 39.375px;
+  }
+
+  .profile-manage-boost-save button {
+    padding: 10.5px 14px;
+    gap: 7px;
+    border-radius: 8.75px;
+  }
+
+  .profile-manage-boost-save button img {
+    width: 17.5px;
+    height: 17.5px;
+  }
+
+  .profile-manage-boost-save button span {
+    font-size: 12.25px;
+    line-height: 18.375px;
+  }
+}
+@media screen and (min-width: 1440px) {
+  .profile-manage-boost-modal {
+    padding: 16px;
+    width: 44.31%;
+    height: 63%;
+    border-radius: 16px;
+  }
+
+  .profile-manage-boost-close-header {
+    margin: 0 0 16px 0;
+  }
+
+  .profile-manage-boost-close-header h2 {
+    font-size: 22px;
+    line-height: 33px;
+  }
+
+  .profile-manage-boost-close {
+    width: 35px;
+    height: 35px;
+  }
+
+  .profile-manage-boost-close button img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .profile-manage-boost-part-1 {
+    margin: 0 0 16px 0;
+  }
+
+  .manage-boost-preview {
+    width: 35.81%;
+  }
+
+  .manage-boost-preview img {
+    width: 100%;
+    height: 229px;
+    border-radius: 8px;
+  }
+
+  .profile-manage-boost-header-budget {
+    width: 61.6%;
+  }
+
+  .profile-manage-boost-header-budget h3 {
+    font-size: 22px;
+    line-height: 33px;
+    letter-spacing: -0.44px;
+  }
+
+  .profile-manage-boost-budgets {
+    margin: 16px 0 0px 0;
+    gap: 16px;
+  }
+
+  .profile-manage-boost-budgets label {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .profile-manage-boost-budgets input {
+    margin: 8px 0 0 0;
+    height: 50px;
+    padding: 16px 23px 16px 12px;
+    font-size: 14px;
+    line-height:  21px;
+    border-radius: 8px;
+    border: 1px solid #F5F5F5;
+  }
+
+  .profile-manage-boost-budgets input::placeholder {
+    font-size: 14px;
+  }
+
+  .boost-dollar-suffix {
+    top: 21px;
+    right: 14px;
+    font-size: 15px;
+  }
+
+  .profile-manage-boost-hint {
+      margin: 0 0 16px 0;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: -0.16px;
+  }
+
+  .profile-manage-boost-metrics {
+      gap: 8px;
+      grid-template-columns: repeat(auto-fit, 49.3%);
+      margin: 0 0 16px 0;
+  }
+
+  .profile-manage-boost-metrics div {
+      padding: 12px 16px;
+      border-radius: 8px;
+
+  }
+
+  .profile-manage-boost-metrics div .profile-manage-boost-metric-label {
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: -0.16px;
+  }
+
+  .profile-manage-boost-metrics div .profile-manage-boost-metric-amount {
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: -0.16px;
+  }
+
+  .profile-manage-boost-save {
+    height: 45px;
+  }
+
+  .profile-manage-boost-save button {
+    padding: 12px 16px;
+    gap: 8px;
+    border-radius: 10px;
+  }
+
+  .profile-manage-boost-save button img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .profile-manage-boost-save button span {
+    font-size: 14px;
+    line-height: 21px;
+  }
+}

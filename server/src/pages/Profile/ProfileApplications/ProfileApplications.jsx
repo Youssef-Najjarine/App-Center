@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef  } from "react";
 import { Link } from "react-router-dom";
 import ProfileApplicationDetailModal from "../ProfileApplicationDetailModal/ProfileApplicationDetailModal";
 import ProfileUploadEditAppModal from "../ProfileUploadEditAppModal/ProfileUploadEditAppModal";
+import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
 import searchIcon from "../../../assets/Member/member-applications-search-icon.svg";
 import applicationImg1 from "../../../assets/Member/member-applicationImg-1.png";
 import applicationImg2 from "../../../assets/Member/member-applicationImg-2.png";
@@ -28,8 +29,12 @@ const ProfileApplications = () => {
   const [sortOption, setSortOption] = useState("Popular");
   const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
   const [showUploadEditModal, setShowUploadEditModal] = useState(false);
-
-  const applications = [
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [appToDelete, setAppToDelete] = useState(null);
+  const dropdownRefs = useRef({});
+  const [expandedDropdownId, setExpandedDropdownId] = useState(null); // for dropdowns
+  const [modalApp, setModalApp] = useState(null); // for modal
+  const [applications, setApplications] = useState([
     {
       id: 1,
       title: "Toritube App",
@@ -142,26 +147,31 @@ const ProfileApplications = () => {
       github: "https://github.com/my-name/repo...",
       tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
     },
-  ];
+  ]);
 
    const visibleApps = showAll ? applications : applications.slice(0, 12);
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (
+          expandedDropdownId &&
+          dropdownRefs.current[expandedDropdownId] &&
+          !dropdownRefs.current[expandedDropdownId].current.contains(event.target)
+        ) {
+          setExpandedDropdownId(null);
+        }
+      };
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [expandedDropdownId]);
 
   const toggleTechStack = (id) => {
     setExpandedTechStacks((prev) => ({
       ...prev,
       [id]: !prev[id],
     }));
-  };
-
-  const openModalWithApp = (app, source = "card") => {
-    setSelectedApp(app);
-    setModalSource(source);
-    setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-    setSelectedApp(null);
   };
 
   return (
@@ -215,7 +225,9 @@ const ProfileApplications = () => {
           const isExpanded = expandedTechStacks[app.id];
           const visibleTech = isExpanded ? app.tech : app.tech.slice(0, 3);
           const remaining = app.tech.length - 3;
-
+          if (!dropdownRefs.current[app.id]) {
+            dropdownRefs.current[app.id] = React.createRef();
+          }
           return (
             <div
               className="profileApp"
@@ -229,7 +241,9 @@ const ProfileApplications = () => {
                   target.classList.contains("profileApp-collapse-tech");
 
                 if (!isInsideLink && !isInsideExpandDiv && !isTechToggle) {
-                  openModalWithApp(app, "card");
+                  setModalApp(app);
+                  setModalSource("card");
+                  setModalOpen(true);
                 }
               }}
             >
@@ -239,22 +253,26 @@ const ProfileApplications = () => {
                   <img src={playIcon} alt="Play" className="profileApp-play-icon" />
                   <span className="profileApp-video-duration">14:22</span>
                 </div>
-                <div className="profileApp-expand-div">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedApp(app.id === selectedApp ? null : app.id);
-                    }}
-                  >
+                <div className="profileApp-expand-div"
+                  ref={dropdownRefs.current[app.id]}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setExpandedDropdownId((prev) => (prev === app.id ? null : app.id));
+                  }}
+                >
+                  <button>
                     <img src={expandIcon} className="profileApp-expand-icon" />
                   </button>
-                  {selectedApp === app.id && (
+                  {expandedDropdownId === app.id &&  (
                     <div className="profileApp-dropdown">
                       <div
                         className="profileApp-dropdown-item details"
                         onClick={(e) => {
                           e.stopPropagation();
-                          openModalWithApp(app, "details");
+                          setModalApp(app);
+                          setModalSource("details");
+                          setModalOpen(true);
+                          setExpandedDropdownId(null);
                         }}
                       >
                         <img src={detailsIcon} alt="Details" />
@@ -265,17 +283,26 @@ const ProfileApplications = () => {
                         onClick={(e) => {
                           e.stopPropagation();
                           setShowUploadEditModal(true);
+                          setSelectedApp(null);
                         }}
                       >
                         <img src={editIcon} alt="Edit" />
                         <span>Edit</span>
                       </div>
-                      <Link to={`/delete/${app.id}`} className="profileApp-dropdown-item delete">
+                      <div
+                        className="profileApp-dropdown-item delete"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setAppToDelete(app);
+                          setShowDeleteModal(true);
+                          setSelectedApp(null);
+                        }}
+                      >
                         <img src={trashIcon} alt="Delete" />
                         <span>Delete</span>
-                      </Link>
+                      </div>
                     </div>
-                  )}
+                  )}                  
                 </div>
               </div>
               <div className="profileApp-gitHub-div">
@@ -336,8 +363,11 @@ const ProfileApplications = () => {
       {modalOpen && (
         <ProfileApplicationDetailModal
           modalOpenState={modalOpen}
-          onClose={closeModal}
-          app={selectedApp}
+          onClose={() => {
+            setModalOpen(false);
+            setModalApp(null);
+          }}
+          app={modalApp}
           modalSource={modalSource}
         />
       )}
@@ -346,6 +376,24 @@ const ProfileApplications = () => {
         <ProfileUploadEditAppModal
           modalOpenState={showUploadEditModal}
           onClose={() => setShowUploadEditModal(false)}
+        />
+      )}
+
+      {showDeleteModal && appToDelete && (
+        <DeleteConfirmationModal
+          modalOpenState={showDeleteModal}
+          onClose={() => {
+            setShowDeleteModal(false);
+            setAppToDelete(null);
+          }}
+          app={appToDelete}
+          onConfirmDelete={() => {
+            setApplications((prevApps) =>
+              prevApps.filter((app) => app.id !== appToDelete.id)
+            );
+            setShowDeleteModal(false);
+            setAppToDelete(null);
+          }}
         />
       )}
     </section>

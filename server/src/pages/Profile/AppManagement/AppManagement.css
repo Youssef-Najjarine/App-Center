@@ -1,0 +1,1013 @@
+#app-management-applications {
+  padding: 111.72px 20px 48px 20px;
+}
+
+.app-management-title-div {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 32px 0;
+}
+
+.app-management-search-filter-add-div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.app-management-sortby-upload-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 35.5px;
+  width: 111px;
+}
+
+.app-management-header-right-border {
+  border-right: .806px solid #F5F5F5;
+  height: calc(100% - 14.5px);
+}
+
+.app-management-title {
+  color: #141522;
+  font-size: 22.556px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 33.833px;
+  margin: 0 0 12px 0;
+}
+
+.app-management-search-div {
+  width: 215.77779px;
+  height: 36.33334px;
+  cursor: pointer;
+  position: relative;
+}
+
+.app-management-search {
+  width: 100%;
+  height: 100%;
+  padding: 9.667px 35px 9.667px 12.889px;
+  border-radius: 8.056px;
+  border: 0.806px solid #F5F5F5;
+  background: #FFF;
+  color: #141522;
+  font-size: 11.278px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16.917px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.app-management-search::placeholder {
+  color: #141522;
+  font-size: 11.278px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16.917px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.app-management-search-icon {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  width: 16.111px;
+  height: auto;
+  cursor: pointer;
+}
+
+.app-management-sortby-div {
+  padding: 9.667px 12.889px;
+  border-radius: 8.056px;
+  border: 0.806px solid #F5F5F5;
+  background: #FFF;
+  width: 41.88889px;
+  height: 35.4px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.app-management-sortby-div img {
+  width: 16.111px;
+  height: 16.111px;
+}
+
+.sortby-dropdown {
+  position: absolute;
+  top: 39.51px;
+  right: 0px;
+  margin: 0;
+  padding: 4px;
+  border-radius: 6px;
+  border: 0.875px solid #F5F5F5;
+  background: #FFF;
+  box-shadow: 10.5px 10.5px 26.25px 0px rgba(0, 0, 0, 0.10);
+  list-style: none;
+  z-index: 1000;
+  width: 79px;
+  height: 112px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sortby-dropdown li {
+  padding: 3px 6px;
+  color: #141522;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16.5px;
+  letter-spacing: -0.44px;
+  border-radius: 3px;
+}
+
+.sortby-dropdown li:hover {
+  background: #F6F5FD;
+  color: #5541D7;
+}
+
+.sortby-dropdown li.active {
+  background: #F6F5FD;
+  color: #5541D7;
+}
+
+.app-management-upload-new-div {
+  width: 41.88889px;
+  height: 37.44444px;
+  padding: 9.667px 12.889px;
+  border-radius: 8.056px;
+  background: #5541D7;
+  cursor: pointer;
+}
+
+.app-management-upload-new-div .app-management-upload-new-btn {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.app-management-upload-new-div img {
+  width: 16.111px;
+  height: 16.111px;
+}
+
+.app-management-sortby-div span,
+.app-management-upload-new-div span {
+    display: none;
+}
+
+.app-management-apps {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 19.33px;
+}
+
+.app-management-card {
+    width: 100%;
+    padding: 12px;
+    border-radius: 6.444px;
+    background: #FFF;
+
+}
+
+.app-management-display-image {
+    width: 100%; 
+    height: 351px;
+}
+
+.app-management-display-image img {
+    width: 100%; 
+    height: 100%;
+    border-radius: 6.444px;
+    object-fit: cover;
+}
+
+.app-management-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 16px 0 4.83px 0;
+}
+
+.app-management-title h4 {
+    margin: 0;
+    color: #141522;
+    font-size: 17.722px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 26.583px;
+    letter-spacing: -0.354px;
+}
+
+.app-management-description {
+    width: 76%;
+    margin: 0 0 19.33px 0;
+}
+
+.app-management-description p {
+    color: #141522;
+    font-size: 12.889px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 19.333px;
+    letter-spacing: -0.129px;
+    margin: 0;
+}
+
+ .app-management-expand-div {
+    width: 38.7px;
+    height: 38.7px;
+    position: relative;
+}
+
+
+.app-management-expand-div .app-management-expand-button {
+    border-radius: 8.056px;
+    border: 0.806px solid #F5F5F5;
+    background: #FFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.app-management-expand-div .app-management-expand-button img {
+    width: 19.333px;
+    height: 19.333px;
+}
+
+.app-management-dropdown {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 4.83px;
+  top: 19.33px;
+  right: 15.64px;
+  width: 115.194px;
+  z-index: 10;
+  padding: 6.444px;
+  border-radius: 6.444px;
+  border: 0.806px solid #F5F5F5;
+  background: #FFF;
+  box-shadow: 9.667px 9.667px 24.167px 0px rgba(0, 0, 0, 0.10);
+}
+
+.app-management-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 6.44px;
+  padding: 6.444px 9.667px;
+  font-size: 13px;
+  text-decoration: none;
+  border-radius: 6.444px;
+  cursor: pointer;
+}
+
+.app-management-dropdown-item.details,
+.app-management-dropdown-item.edit {
+  background: rgba(96, 91, 255, 0.10);
+}
+
+.app-management-dropdown-item.delete {
+  background: rgba(255, 70, 29, 0.10);
+}
+
+.app-management-dropdown-item.delete span {
+  color: #FF461D;
+}
+
+.app-management-dropdown-item span {
+  font-size: 12.889px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 19.333px;
+  letter-spacing: -0.516px;
+}
+
+.app-management-dropdown-item.details span,
+.app-management-dropdown-item.edit span {
+  color: #605BFF;
+}
+
+.app-management-dropdown-item.delete span {
+  color: #FF461D;
+}
+
+.app-management-dropdown-item img {
+  width: 16.111px;
+  height: 16.111px;
+}
+
+.app-management-dropdown-item.details:hover,
+.app-management-dropdown-item.edit:hover {
+  background: #605BFF;
+}
+.app-management-dropdown-item:hover img {
+  filter: brightness(0) invert(1);
+}
+
+.app-management-dropdown-item:hover span {
+  color: #FFF;
+}
+
+.app-management-dropdown-item.delete:hover {
+  background: #FF461D;
+}
+
+.app-management-chart {
+    margin: 0 0 19.33px 0;
+    max-width: 100%;
+    width: 100%;
+}
+
+.app-management-chart img {
+    width: 100%;
+    height: 217.8px;
+}
+
+.app-management-metrics {
+    display: grid;
+    gap: 6.44px;
+    grid-template-columns: repeat(auto-fit, 152px);
+    margin: 0 0 6.44px 0;
+}
+
+.app-management-metrics div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9.667px 12.889px;
+    border-radius: 6.444px;
+    background: #F5F5F5;
+
+}
+
+.app-management-metrics div .app-management-metric-label {
+    color: rgba(20, 21, 34, 0.70);
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 19.333px;
+    letter-spacing: -0.129px;
+}
+
+.app-management-metrics div .app-management-metric-amount {
+    color: #5541D7;
+    font-size: 12.889px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 19.333px;
+    letter-spacing: -0.129px;
+}
+
+.app-management-boosts {
+    width: 100%; 
+}
+
+.app-management-boosts div:nth-child(1) {
+    margin: 0 0 6.44px;
+}
+
+.app-management-boosts div {
+    width: 100%;
+    height: 38.7px;
+}
+
+.app-management-boosts button {
+    width: 100%;
+    height: 100%;
+    padding: 9.667px 12.889px;
+    border-radius: 6.444px;
+    background: rgba(85, 65, 215, 0.10);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6.44px;
+    cursor: pointer;
+
+}
+
+.app-management-boosts button img {
+    width: 19.333px;
+    height: 19.333px;
+}
+
+.app-management-boosts button span {
+    color: #5541D7;
+    font-size: 12.889px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 19.333px;
+    letter-spacing: -0.129px;
+}
+
+.app-management-load-more-div {
+  width: 100%;
+  text-align: center;
+  margin: 46.4px 0 0 0;
+}
+
+.app-management-load-more {
+  border-radius: 9.667px;
+  background: #5541D7;
+  padding: 11.6px 23.2px;
+  color: #FFF;
+  font-size: 13.533px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20.3px;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (min-width: 768px) {
+  #app-management-applications {
+    padding: 107.75px 20px 48px 20px;
+  }
+
+  .app-management-title-div {
+    margin: 0 0 16px 0;
+  }
+
+  .app-management-sortby-upload-div {
+    height: 39px;
+    width: 326px;
+  }
+
+    .app-management-header-right-border {
+        border-right: .875px solid #F5F5F5;
+        height: calc(100% - 16.24px);
+    }
+
+    .app-management-title {
+        font-size: 24.5px;
+        line-height: 36.75px;
+    }
+
+    .app-management-search-div {
+        width: 396.5px;
+        height: 39px;
+    }
+
+    .app-management-search {
+        padding: 10.5px 35px 10.5px 14px;
+        border-radius: 8.75px;
+        border: 0.875px solid #F5F5F5;
+        font-size: 12.25px;
+        line-height: 18.375px;
+    }
+
+    .app-management-search::placeholder {
+        font-size: 12.25px;
+        line-height: 18.375px;
+    }
+
+    .app-management-search-icon {
+        width: 17.5px;
+    }
+
+    .app-management-sortby-div span,
+    .app-management-upload-new-div span {
+        display: flow-root;
+    }
+
+    .app-management-sortby-div {
+        padding: 10.5px 14px;
+        border-radius: 8.75px;
+        border: 0.875px solid #F5F5F5;
+        width: 151px;
+        height: 39px;
+        display: flow-root;
+    }
+
+    .app-management-sortby-div div {
+        display: flex;
+        gap: 7px;
+    }
+
+    .app-management-sortby-div img {
+        width: 17.5px;
+        height: 17.5px;
+    }
+
+    .app-management-sortby-div span {
+        color: #141522;
+        font-size: 12.25px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 18.375px;
+    }
+
+    .sortby-dropdown {
+        top: 43px;
+        border: 0.875px solid #F5F5F5;
+        width: 151px;
+        height: 124px;
+    }
+
+    .sortby-dropdown li {
+        padding: 4px 6px;
+        font-size: 12.25px;
+        line-height:  18.375px;
+        letter-spacing: -0.49px;
+    }
+
+    .app-management-upload-new-div {
+        width: 155px;
+        height: 39px;
+        padding: 10.5px 14px;
+        border-radius: 8.75px;
+        display: flex;
+        gap: 7px;
+    }
+
+    .app-management-upload-new-div .app-management-upload-new-btn {
+        gap: 7px;
+    }
+
+    .app-management-upload-new-div span {
+        color: #FFF;
+        font-size: 12.25px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 18.375px;
+    }
+
+    .app-management-upload-new-div img {
+        width: 17.5px;
+        height: 17.5px;
+    }
+
+    .app-management-dropdown {
+        gap: 5.25px;
+        top: 22px;
+        right: 16.12px;
+        border-radius: 7px;
+        width: 125.125px;
+        padding: 7px;
+        border: 0.875px solid #F5F5F5;
+        box-shadow: 10.5px 10.5px 26.25px 0px rgba(0, 0, 0, 0.10);
+    }
+
+    .app-management-dropdown-item {
+        gap: 7px;
+        padding: 7px 10.5px;
+        font-size: 14px;
+        border-radius: 7px;
+    }
+
+    .app-management-dropdown-item span {
+        font-size: 14px;
+        line-height: 21px;
+        letter-spacing: -0.56px
+    }
+
+    .app-management-dropdown-item img {
+        width: 17.5px;
+        height: 17.5px;
+    }
+
+    .app-management-apps {
+        gap: 14px;
+    }
+
+    .app-management-card {
+        position: relative;
+        padding: 21px;
+        border-radius: 7px;
+        height: 613.25px;
+        display: flex;
+        justify-content: space-between;
+    }
+    .app-management-info {
+        width: 55%;
+    }
+
+    .app-management-display-image {
+        width: 39.7%; 
+        height: 285.25px;
+    }
+
+    .app-management-display-image img {
+        border-radius: 7px;
+    }
+
+    .app-management-title {
+        margin: 0 0 5.25px 0;
+    }
+
+    .app-management-title h4 {
+        font-size: 19.25px;
+        line-height: 28.875px;
+        letter-spacing: -0.385px;
+    }
+
+    .app-management-description {
+        width: 84%;
+        height: 105px;
+        max-height: 105px;
+        margin: 0 0 6px 0;
+        overflow-y: auto;
+    }
+
+    .app-management-description p {
+        font-size: 14px;
+        line-height: 21px;
+        letter-spacing: -0.14px;
+        margin: 0;
+    }
+
+    .app-management-expand-div {
+        width: 42px;
+        height: 42px;
+    }
+
+    .app-management-expand-div .app-management-expand-button {
+        border-radius: 8.75px;
+        border: 0.875px solid #F5F5F5;
+    }
+
+    .app-management-expand-div .app-management-expand-button img {
+        width: 21px;
+        height: 21px;
+    }
+
+    .app-management-chart {
+        position: absolute;
+        top: 54%;
+        left: 21px;
+        margin: 0;
+        max-width: 100%;
+        width: 95%;
+    }
+
+    .app-management-chart img {
+        width: 100%;
+        height: 262px;
+    }
+
+    .app-management-metrics {
+        gap: 6px;
+        grid-template-columns: repeat(auto-fit, 185px);
+        margin: 0 0 7px 0;
+    }
+
+    .app-management-metrics div {
+        padding: 8px 16px;
+        border-radius: 7px;
+
+    }
+
+    .app-management-metrics div .app-management-metric-label {
+        font-size: 14px;
+        line-height: 21px;
+        letter-spacing: -0.14px;
+    }
+
+    .app-management-metrics div .app-management-metric-amount {
+        font-size: 14px;
+        line-height: 21px;
+        letter-spacing: -0.14px;
+    }
+
+    .app-management-boosts {
+        width: 100%;
+        display: flex;
+        gap: 6px;
+    }
+
+    .app-management-boosts div:nth-child(1) {
+        margin: 0;
+    }
+
+    .app-management-boosts div {
+        width: 49%;
+        height: 42px;
+    }
+
+    .app-management-boosts button {
+        padding: 10.5px 14px;
+        border-radius: 7px;
+        gap: 7px;
+
+    }
+
+    .app-management-boosts button img {
+        width: 21px;
+        height: 21px;
+    }
+
+    .app-management-boosts button span {
+        font-size: 14px;
+        line-height: 21px;
+        letter-spacing: -0.14px;
+    }
+
+    .app-management-load-more-div {
+        margin: 50.4px 0 0 0;
+    }
+
+    .app-management-load-more {
+        border-radius: 10.5px;
+        padding: 12.6px 25.2px;
+        font-size: 13.533px;
+        line-height: 22.05px;
+    }
+}
+@media screen and (min-width: 1440px) {
+    #app-management-applications {
+        padding: 132.2px 32px 60px 32px;
+    }
+
+    .app-management-title-div {
+        margin: 0 0 25.5px 0;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .app-management-search-filter-add-div {
+        width: 780px;
+    }
+
+    .app-management-sortby-upload-div {
+    height: 45px;
+    width: 383px;
+    }
+
+    .app-management-header-right-border {
+    border-right: 1px solid #F5F5F5;
+    height: calc(100% - 19px);
+    }
+
+    .app-management-title {
+        font-size: 28px;
+        line-height: 42px;
+    }
+
+    .app-management-search-div {
+        width: 385px;
+        height: 45px;
+    }
+
+    .app-management-search {
+        padding: 12px 35px 12px 16px;
+        border-radius: 10px;
+        border: 1px solid #F5F5F5;
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .app-management-search::placeholder {
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .app-management-search-icon {
+        width: 20px;
+    }
+
+    .app-management-sortby-div {
+        padding: 12px 16px;
+        border-radius: 10px;
+        border: 1px solid #F5F5F5;
+        width: 173px;
+        height: 45px;
+    }
+
+    .app-management-sortby-div div {
+        gap: 8px;
+    }
+
+    .app-management-sortby-div img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .app-management-sortby-div span {
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .sortby-dropdown {
+        top: 51px;
+        width: 173px;
+        height: 144px;
+    }
+
+    .sortby-dropdown li {
+        padding: 5px 8px;
+        font-size: 14px;
+        line-height:  21px;
+        letter-spacing: -0.65px;
+    }
+
+    .app-management-upload-new-div {
+        width: 178px;
+        height: 45px;
+        padding: 12px 16px;
+        border-radius: 10px;
+        gap: 8px;
+    }
+
+    .app-management-upload-new-div .app-management-upload-new-btn {
+        gap: 8px;
+    }
+
+    .app-management-upload-new-div span {
+    font-size: 14px;
+    line-height: 21px;
+    }
+
+    .app-management-upload-new-div img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .app-management-dropdown {
+        gap: 6px;
+        top: 24px;
+        right: 19px;
+        border-radius: 8px;
+        width: 143px;
+        padding: 8px;
+        border: 1px solid #F5F5F5;
+        box-shadow: 12px 12px 30px 0px rgba(0, 0, 0, 0.10);
+    }
+
+    .app-management-dropdown-item {
+        gap: 8px;
+        padding: 8px 12px;
+        font-size: 16px;
+        border-radius: 8px;
+    }
+
+    .app-management-dropdown-item span {
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: -0.64px
+    }
+
+    .app-management-dropdown-item img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .app-management-apps {
+        gap: 16px;
+    }
+
+    .app-management-card {
+        position: static;
+        padding: 24px;
+        border-radius: 8px;
+        height: 431px;
+    }
+    .app-management-info {
+        width: 74.8%;
+    }
+
+    .app-management-display-image {
+        width: 23.45%; 
+        height: 383px;
+    }
+
+    .app-management-display-image img {
+        border-radius: 8px;
+    }
+
+    .app-management-title {
+        margin: 0 0 6px 0;
+    }
+
+    .app-management-title h4 {
+        font-size: 22px;
+        line-height: 33px;
+        letter-spacing: -0.44px;
+    }
+
+    .app-management-description {
+        width: 89%;
+        height: 48px;
+        max-height: 48px;
+        margin: 0 0 20px 0;
+    }
+
+    .app-management-description p {
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: -0.16px;
+        margin: 0;
+    }
+
+    .app-management-expand-div {
+        width: 48px;
+        height: 48px;
+    }
+
+    .app-management-expand-div .app-management-expand-button {
+        border-radius: 10px;
+        border: 1px solid #F5F5F5;
+    }
+
+    .app-management-expand-div .app-management-expand-button img {
+        width: 24px;
+        height: 24px;
+    }
+
+    .app-management-chart {
+        position: static;
+        margin: 0;
+        max-width: 71%;
+        width: 71%;
+    }
+
+    .app-management-chart img {
+        width: 100%;
+        height: 262px;
+    }
+
+    .app-management-chart-metrics {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .app-management-metrics-boosts {
+        width: 27%;
+    }
+
+    .app-management-metrics {
+        width: 100%;
+        gap: 6px;
+        grid-template-columns: repeat(auto-fit, 100%);
+        margin: 0 0 6px 0;
+    }
+
+    .app-management-metrics div {
+        padding: 12px 16px;
+        border-radius: 8px;
+
+    }
+
+    .app-management-metrics div .app-management-metric-label {
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: -0.16px;
+    }
+
+    .app-management-metrics div .app-management-metric-amount {
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: -0.16px;
+    }
+
+    .app-management-boosts {
+        width: 100%;
+        /* display: flow-root; */
+        gap: 8px;
+    }
+
+    .app-management-boost-txt {
+        display: none;
+    }
+
+    .app-management-boosts div {
+        width: 49%;
+        height: 48px;
+    }
+
+    .app-management-boosts button {
+        padding: 12px 10px;
+        border-radius: 8px;
+        gap: 7px;
+    }
+
+    .app-management-boosts button img {
+        width: 21px;
+        height: 21px;
+    }
+
+    .app-management-boosts button span {
+        font-size: 15px;
+        line-height: 24px;
+        letter-spacing: -0.16px;
+    }
+
+    .app-management-load-more-div {
+        margin: 57.6px 0 0 0;
+    }
+
+    .app-management-load-more {
+        border-radius: 12px;
+        padding: 14.4px 28.8px;
+        font-size: 16.8px;
+        line-height: 25.2px;
+    }
+}

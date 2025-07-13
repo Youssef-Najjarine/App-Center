@@ -26,11 +26,14 @@
   height: 95%;
   border-radius: 12.889px;
   z-index: 10000;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .upload-edit-app-close-header {
-  margin: 0 0 19.33px 0;
+  height: 5%;
+  margin: 0;
 }
 
 .upload-edit-app-close-modal-div {
@@ -48,11 +51,17 @@
 
 .upload-edit-app-modal form {
     width: 100%;
+    height: 91%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .upload-edit-app-body {
-    display: flex;
-    flex-direction: column;
+  height: 88%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .upload-edit-app-name-price,
@@ -72,10 +81,6 @@
   align-items: center;
 }
 
-.upload-edit-app-name div {
-    margin: 6.61px 0 0 0;
-}
-
 .upload-edit-app-name label,
 .upload-edit-app-price label,
 .upload-edit-app-tech-stack .tech-used,
@@ -93,7 +98,7 @@
     font-size: 12.889px;
     font-style: normal;
     font-weight: 700;
-    line-height: 150%;
+    line-height: 21px;
 }
 
 .upload-edit-app-name input,
@@ -141,6 +146,7 @@
   font-weight: 500;
   line-height: 16.917px;
   letter-spacing: -0.338px;
+  opacity: 0.8;
 }
 
 .upload-edit-app-tech-container {
@@ -225,7 +231,7 @@
 
 .upload-edit-app-line {
     border-bottom: 0.806px solid #F5F5F5;
-    margin: 12.89px 0;
+    margin: 19.33px 0;
 }
 
 .upload-edit-app-photos {
@@ -286,15 +292,21 @@
 
 .upload-edit-app-uploading {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 12px;
   width: 100%;
   height: 45px;
   padding: 16px 12px;
   border-radius: 8px;
   border: none;
   background: rgba(85, 65, 215, 0.10);
+}
+
+.upload-edit-app-uploading-img-file,
+.upload-edit-app-uploading-upload-txt-close {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .upload-edit-app-upload-img,
@@ -310,7 +322,7 @@
   font-style: normal;
   font-weight: 500;
   line-height: 19.333px;
-  max-width: 120.48px;
+  max-width: 78.48px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -359,7 +371,7 @@
 }
 
 .upload-edit-app-uploaded-images .uploadedImageContainer {
-    width: 147.5px;
+    width: 100%;
     height: 109.556px;
 }
 
@@ -367,8 +379,12 @@
   position: relative;
 }
 
+.upload-edit-app-uploaded-images .upload-edit-app-uploaded-photo-make-presentation {
+  z-index: 2;
+}
+
 .upload-edit-app-uploaded-images .uploadedImage .previewImg {
-  width: 147.5px;
+  width: 100%;
   height: 109.556px;
   border-radius: 6.444px;
   object-fit: cover;
@@ -379,13 +395,14 @@
   top: 6.44px;
   left: 6.44px;
   display: flex;
-  align-items: center;
+  align-items: self-end;
   gap: 6.44px;
   padding: 3.222px 6.444px;
   border-radius: 8.056px;
   background: rgba(255, 255, 255, 0.70);
   width: 60.03px;
   height: 20.14px;
+  z-index: 2;
 }
 
 .upload-edit-app-video-duration img {
@@ -416,6 +433,7 @@
   width: 25.8px;
   height: 25.8px;
   cursor: pointer;
+  z-index: 2;
 }
 
 .upload-edit-app-uploaded-images .upload-edit-app-uploaded-photo-trash img {
@@ -440,11 +458,21 @@
 
 .upload-edit-app-uploaded-images .upload-edit-app-uploaded-photo-make-presentation span {
   color: #141522;
-  font-size: 9.9px;
+  font-size: 9.1px;
   font-style: normal;
   font-weight: 500;
   line-height: 16.917px;
   letter-spacing: -0.226px;
+}
+
+.upload-edit-app-uploaded-photo-make-presentation.selected-presentation {
+  background: #5541D7;
+  border-color: #5541D7;
+  border: 0.806px solid #5541D7;
+}
+
+.upload-edit-app-uploaded-photo-make-presentation.selected-presentation span {
+  color: #FFF;
 }
 
 .upload-edit-app-draft-cancel-save {
@@ -494,7 +522,7 @@
 
 .upload-edit-app-cancel,
 .upload-edit-app-save {
-  width: 147.7px;
+  width: 48.5%;
   height: 36.3px;
 }
 
@@ -594,6 +622,7 @@
   font-size: 11.28px;
   font-weight: 500;
   line-height: 16.92px;
+  font-style: italic;
 }
 
 .upload-edit-app-close-banner-button img {
@@ -601,8 +630,716 @@
     height:  17.5px;
 }
 @media screen and (min-width: 768px) {
+  .upload-edit-app-modal {
+    padding: 14px;
+    width: 95%;
+    border-radius: 14px;
+  }
 
+  .upload-edit-app-close-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .upload-edit-app-close-modal-div {
+    display: flow-root;
+  }
+
+  .upload-edit-app-close-modal-div .upload-edit-app-close-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .upload-edit-app-close-modal-div .upload-edit-app-close-button img {
+    width: 21px;
+    height: 21px;
+  }
+
+  .upload-edit-app-close-header h2 {
+    font-size: 19.25px;
+    line-height: 28.875px;
+  }
+
+  .upload-edit-app-name-price {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .upload-edit-app-tech-desc-repo {
+    margin: 14px 0 0 0;
+    gap: 14px;
+  }
+
+  .upload-edit-app-name {
+    width: 74%;
+  }
+
+  .upload-edit-app-price {
+    width: 23.9%;
+  }
+
+  .upload-edit-app-name label,
+  .upload-edit-app-price label,
+  .upload-edit-app-tech-stack .tech-used,
+  .upload-edit-app-summary label,
+  .upload-edit-app-repo label {
+      font-size: 14px;
+      line-height: 21px;
+  }
+
+  .upload-edit-app-required {
+      font-size: 14px;
+      line-height: 21px;
+  }
+
+  .upload-edit-app-name input,
+  .upload-edit-app-price input,
+  .upload-edit-app-repo input {
+    margin: 7px 0 0 0;
+    height: 43.75px;
+    padding: 14px 10.5px;
+    border-radius: 7px;
+    border: 0.875px solid #F5F5F5;
+    font-size: 12.25px;
+    line-height: 18.375px;
+  }
+
+  .upload-edit-app-name input::placeholder,
+  .upload-edit-app-price input::placeholder,
+  .upload-edit-app-tech-stack .techName::placeholder,
+  .upload-edit-app-summary textarea::placeholder,
+  .upload-edit-app-repo input::placeholder {
+      font-size: 12.25px;
+      line-height: 18.375px;
+  }
+
+  .upload-edit-app-tech-stack-comma-separated {
+    font-size: 12.25px;
+    line-height: 18.375px;
+    letter-spacing: -0.367px;
+  }
+
+  .upload-edit-app-tech-container {
+    gap: 10.5px;
+    margin: 7px 0 0 0;
+    padding: 14px 10.5px;
+    border: 0.875px solid #F5F5F5;
+    border-radius: 7px;
+    min-height: 43.75px;
+  }
+
+  .upload-edit-app-tech-tag {
+    gap: 10.5px;
+    padding: 5.25px 5.25px 5.25px 10.5px;
+    border-radius: 14px;
+    font-size: 12.25px;
+    line-height: 18.375px;
+  }
+
+  .upload-edit-app-tech-tag span {
+    max-width: 126px;
+    max-height: 28.5px;
+    font-size: 12.25px;
+    line-height: 18.375px;
+  }
+
+  .upload-edit-app-tech-delete {
+    width: 17.5px;
+    height: 17.5px;
+  }
+
+  .upload-edit-app-tech-container .techName {
+    min-width: 511.75px;
+    font-size: 11.278px;
+    line-height: 16.917px;
+  }
+
+
+  .upload-edit-app-summary textarea {
+      font-size: 12.25px;
+      line-height: 18.375px;
+      padding: 14px 10.5px;
+      border-radius: 7px;
+      border: 0.875px solid #F5F5F5;
+      margin: 7px 0 0 0;
+      height: 170.625px;
+      max-height: 170.625px;
+  }
+
+  .upload-edit-app-line {
+      border-bottom: 0.875px solid #F5F5F5;
+      margin: 21px 0;
+  }
+
+  .upload-edit-app-photos {
+      gap: 14px;
+  }
+
+  .upload-edit-app-photos .upload-edit-app-label-div {
+    margin: 0 0 7px 0;
+  }
+
+  .upload-edit-app-photos h3 {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .upload-edit-app-upload {
+    gap: 15px;
+    height: 50px;
+  }
+
+  .upload-edit-app-upload p span,
+  .upload-edit-app-upload p {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .upload-edit-app-uploading {
+    height: 50px;
+  }
+
+  .upload-edit-app-uploading-img-file,
+  .upload-edit-app-uploading-upload-txt-close,
+  .upload-edit-app-uploaded-folder-file {
+    gap: 15px;
+  }
+
+  .upload-edit-app-uploading-text {
+    font-size: 14px;
+    line-height: 21px;
+    max-width: 217.48px;
+  }
+
+  .upload-edit-app-uploaded {
+    height: 50px;
+  }
+
+  .upload-edit-app-uploaded-text {
+    font-size: 14px;
+    line-height: 21px;
+    max-width: 156px;
+  }
+
+  .upload-edit-app-photos-line {
+    border-bottom: 0.875px solid #F5F5F5;
+  }
+
+  .upload-edit-app-uploaded-images {
+    gap: 10.5px;
+    grid-template-columns: repeat(auto-fit, 167px);
+  }
+
+  .upload-edit-app-uploaded-images .uploadedImageContainer {
+      height: 108px;
+  }
+
+  .upload-edit-app-uploaded-images .uploadedImage .previewImg {
+    height: 108px;
+    border-radius: 7px;
+  }
+
+  .upload-edit-app-video-duration {
+    top: auto;
+    left: 7.5px;
+    bottom: 12.62px;
+    gap: 6.44px;
+    padding: 3.5px 7px;
+    border-radius: 8.75px;
+    width: 65.875px;
+    height: 21.875px;
+  }
+
+  .upload-edit-app-video-duration img {
+    width: 14.875px;
+    height: 14.875px;
+  }
+
+  .upload-edit-app-video-duration span {
+    font-size: 12.25px;
+    line-height: 13.475px;
+    letter-spacing: -0.245px;
+  }
+
+  .upload-edit-app-uploaded-images .upload-edit-app-uploaded-photo-trash {
+    top: 7px;
+    right: 7px;
+    padding: 3.222px;
+    border-radius: 8.056px;
+    border: 0.875px solid #F5F5F5;
+    width: 28px;
+    height: 28px;
+  }
+
+  .upload-edit-app-uploaded-images .upload-edit-app-uploaded-photo-trash img {
+    width: 21px;
+    height: 21px;
+  }
+
+  .upload-edit-app-uploaded-images .upload-edit-app-uploaded-photo-make-presentation {
+    bottom: auto;
+    right: auto;
+    top: 7px;
+    left: 13.75px;
+    padding: 3.5px 7px;
+    border-radius: 8.75px;
+    border: 0.875px solid #F5F5F5;
+    width: 113px;
+    height: 28.875px;
+  }
+
+  .upload-edit-app-uploaded-images .upload-edit-app-uploaded-photo-make-presentation span {
+    font-size: 9.9px;
+    line-height: 18.375px;
+    letter-spacing: -0.245px;
+  }
+
+  .upload-edit-app-uploaded-photo-make-presentation.selected-presentation {
+    border: 0.875px solid #5541D7;
+  }
+
+  .upload-edit-app-draft-cancel-save {
+    margin: 21px 0 0 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .upload-edit-app-draft {
+    width: 19%;
+    height: 39px;
+  }
+
+  .upload-edit-app-draft button {
+    width: 100%;
+    height: 100%;
+    gap: 7px;
+    padding: 10.5px 14px;
+    border-radius: 8.75px;
+    border: 0.875px solid #F5F5F5;
+  }
+
+  .upload-edit-app-draft button  img {
+    width: 17.5px;
+    height: 17.5px;
+  }
+
+  .upload-edit-app-draft button  span {
+    font-size: 12.25px;
+    line-height:  18.375px;
+  }
+
+  .upload-edit-app-cancel-save {
+    width: 35%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .upload-edit-app-cancel {
+    width: 39%;
+    height: 39px;
+  }
+  .upload-edit-app-save {
+    width: 57%;
+    height: 39px;
+  }
+
+  .upload-edit-app-cancel button {
+    gap: 7px;
+    padding: 10.5px 14px;
+    border-radius: 8.75px;
+    border: 0.875px solid #F5F5F5;
+  }
+
+  .upload-edit-app-cancel img,
+  .upload-edit-app-save img {
+    width: 17.5px;
+    height: 17.5px;
+  }
+
+  .upload-edit-app-cancel span {
+    font-size: 12.25px;
+    line-height: 18.375px;
+  }
+
+  .upload-edit-app-save button {
+    gap: 7px;
+    padding: 10.5px 14px;
+    border-radius: 8.75px;
+  }
+
+  .upload-edit-app-save span {
+    font-size: 12.25px;
+    line-height: 18.375px;
+  }
+
+  .upload-edit-app-error-banner {
+    top: 88.19px;
+    right: 18.5px;
+  }
+
+  .upload-edit-app-error-icon-banner {
+    width: 21px;
+    height: 21px;
+  }
+
+  .upload-edit-app-error-box-message-banner {
+    font-size: 12.25px;
+    line-height: 18.375px;
+    letter-spacing: -0.367px;
+  }
+
+  .upload-edit-app-field-missing {
+    font-size: 12.25px;
+    line-height: 18.375px;
+  }
 }
 @media screen and (min-width: 1440px) {
+  .upload-edit-app-modal {
+    padding: 16px;
+    width: 96%;
+    border-radius: 16px;
+  }
 
+  .upload-edit-app-close-modal-div .upload-edit-app-close-button img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .upload-edit-app-close-header h2 {
+    font-size: 22px;
+    line-height: 33px;
+  }
+
+  .upload-edit-app-body {
+    height: 88%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .upload-edit-app-inputs {
+    width: 47%;
+  }
+
+  .upload-edit-app-tech-desc-repo {
+    margin: 16px 0 0 0;
+    gap: 16px;
+  }
+
+  .upload-edit-app-name {
+    width: 72%;
+  }
+
+  .upload-edit-app-price {
+    width: 25%;
+  }
+
+  .upload-edit-app-name label,
+  .upload-edit-app-price label,
+  .upload-edit-app-tech-stack .tech-used,
+  .upload-edit-app-summary label,
+  .upload-edit-app-repo label {
+      font-size: 16px;
+      line-height: 24px;
+  }
+
+  .upload-edit-app-required {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .upload-edit-app-name input,
+  .upload-edit-app-price input,
+  .upload-edit-app-repo input {
+    margin: 8px 0 0 0;
+    height: 50px;
+    padding: 16px 12px;
+    border-radius: 8px;
+    border: 1px solid #F5F5F5;
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .upload-edit-app-name input::placeholder,
+  .upload-edit-app-price input::placeholder,
+  .upload-edit-app-tech-stack .techName::placeholder,
+  .upload-edit-app-summary textarea::placeholder,
+  .upload-edit-app-repo input::placeholder {
+      font-size: 14px;
+      line-height: 21px;
+  }
+
+  .upload-edit-app-tech-stack-comma-separated {
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.42px;
+  }
+
+  .upload-edit-app-tech-container {
+    gap: 12px;
+    margin: 8px 0 0 0;
+    padding: 16px 12px;
+    border: 1px solid #F5F5F5;
+    border-radius: 8px;
+    min-height: 50px;
+  }
+
+  .upload-edit-app-tech-tag {
+    gap: 12px;
+    padding: 6px 6px 6px 12px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .upload-edit-app-tech-tag span {
+    max-width: 144px;
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .upload-edit-app-tech-delete {
+    width: 20px;
+    height: 20px;
+  }
+
+  .upload-edit-app-tech-container .techName {
+    min-width: 433px;
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+
+  .upload-edit-app-summary textarea {
+      font-size: 14px;
+      line-height: 21px;
+      padding: 16px 12px;
+      border-radius: 8px;
+      border: 1px solid #F5F5F5;
+      margin: 8px 0 0 0;
+      height: 202px;
+      max-height: 202px;
+  }
+
+  .upload-edit-app-line {
+    margin: 0;
+    border-left: 1px solid #F5F5F5;
+    min-height: 100%;
+  }
+
+  .upload-edit-app-photos {
+    width: 48%;
+    gap: 16px;
+  }
+
+  .upload-edit-app-photos .upload-edit-app-label-div {
+    margin: 0 0 8px 0;
+  }
+
+  .upload-edit-app-photos h3 {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .upload-edit-app-upload {
+    gap: 18px;
+    height: 50px;
+  }
+
+  .upload-edit-app-upload p span,
+  .upload-edit-app-upload p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .upload-edit-app-uploading {
+    height: 50px;
+  }
+
+  .upload-edit-app-uploading-img-file,
+  .upload-edit-app-uploading-upload-txt-close,
+  .upload-edit-app-uploaded-folder-file {
+    gap: 18px;
+  }
+
+  .upload-edit-app-uploading-text {
+    font-size: 16px;
+    line-height: 24px;
+    max-width: 247.48px;
+  }
+
+  .upload-edit-app-uploaded-text {
+    font-size: 18px;
+    line-height: 27px;
+    max-width: 198px;
+  }
+
+  .upload-edit-app-photos-line {
+    border-bottom: 1px solid #F5F5F5;
+  }
+
+  .upload-edit-app-uploaded-images {
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, 208px);
+  }
+
+  .upload-edit-app-uploaded-images .uploadedImageContainer {
+      height: 136px;
+  }
+
+  .upload-edit-app-uploaded-images .uploadedImage .previewImg {
+    height: 136px;
+    border-radius: 8px;
+  }
+
+  .upload-edit-app-video-duration {
+    left: 14px;
+    bottom: 19.12px;
+    gap: 8px;
+    padding: 4px 8px;
+    border-radius: 10px;
+    width: 75px;
+    height: 25px;
+  }
+
+  .upload-edit-app-video-duration img {
+    width: 17px;
+    height: 17px;
+  }
+
+  .upload-edit-app-video-duration span {
+    font-size: 14px;
+    line-height: 15.4px;
+    letter-spacing: -0.28px;
+  }
+
+  .upload-edit-app-uploaded-images .upload-edit-app-uploaded-photo-trash {
+    top: 8px;
+    right: 8px;
+    padding: 4px;
+    border-radius: 10px;
+    border: 1px solid #F5F5F5;
+    width: 32px;
+    height: 32px;
+  }
+
+  .upload-edit-app-uploaded-images .upload-edit-app-uploaded-photo-trash img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .upload-edit-app-uploaded-images .upload-edit-app-uploaded-photo-make-presentation {
+    top: 8px;
+    left: 33px;
+    padding: 4px 8px;
+    border-radius: 10px;
+    border: 1px solid #F5F5F5;
+    width: 129px;
+    height: 33px;
+  }
+
+  .upload-edit-app-uploaded-images .upload-edit-app-uploaded-photo-make-presentation span {
+    font-size: 11.3px;
+    line-height: 21px;
+    letter-spacing: -0.28px;
+  }
+
+  .upload-edit-app-uploaded-photo-make-presentation.selected-presentation {
+    border: 1px solid #5541D7;
+  }
+  
+  .upload-edit-app-draft-cancel-save {
+    margin: 24px 0 0 0;
+  }
+
+  .upload-edit-app-draft {
+    width: 10.9%;
+    height: 45px;
+  }
+
+  .upload-edit-app-draft button {
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid #F5F5F5;
+  }
+
+  .upload-edit-app-draft button  img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .upload-edit-app-draft button  span {
+    font-size: 14px;
+    line-height:  21px;
+  }
+
+  .upload-edit-app-cancel-save {
+    width: 20%;
+  }
+
+  .upload-edit-app-cancel {
+    width: 39%;
+    height: 45px;
+  }
+  .upload-edit-app-save {
+    width: 57%;
+    height: 45px;
+  }
+
+  .upload-edit-app-cancel button {
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid #F5F5F5;
+  }
+
+  .upload-edit-app-cancel img,
+  .upload-edit-app-save img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .upload-edit-app-cancel span {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .upload-edit-app-save button {
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: 10px;
+  }
+
+  .upload-edit-app-save span {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .upload-edit-app-error-banner {
+    top: 62.19px;
+    right: 33.5px;
+  }
+
+  .upload-edit-app-error-icon-banner {
+    width: 24px;
+    height: 24px;
+  }
+
+  .upload-edit-app-error-box-message-banner {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.48px;
+  }
+
+  .upload-edit-app-field-missing {
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.42px;
+  }
 }
