@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
 import HomeNavbarMobile from "./components/HomeNavBar/HomeNavbarMobile";
 import HomeNavbarDesktop from "./components/HomeNavBar/HomeNavbarDesktop";
 import MemberNavbar from "./components/MemberNavbar/MemberNavbar";
@@ -15,36 +15,25 @@ import ProfileApplications from "./pages/Profile/ProfileApplications/ProfileAppl
 import AppManagement from "./pages/Profile/AppManagement/AppManagement";
 import EditProfile from "./pages/Profile/userProfile/EditProfile/EditProfile";
 import MyPurchases from "./pages/Profile/MyPurchases/MyPurchases";
+import ApplicationHistory from "./pages/Profile/ApplicationHistory/ApplicationHistory";
 import Login from "./pages/Auth/Login/Login";
 import SignUp from "./pages/Auth/SignUp/SignUp";
 import ForgotPassword from "./pages/Auth/ForgotPassword/ForgotPassword";
 
 const HomeLayout = () => (
   <section className="container">
-      <HomeNavbarDesktop />
-      <HomeNavbarMobile />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/applications" element={<Applications />} />
-        <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/blogs" element={<Blogs />} />
-        <Route path="/blog/blogDetails" element={<BlogDetails />} />
-      </Routes>
-      <ContactUs />
-    <Footer/>
+    <HomeNavbarDesktop />
+    <HomeNavbarMobile />
+    <Outlet />
+    <ContactUs />
+    <Footer />
   </section>
 );
 
 const ProfileLayout = () => (
   <section className="container">
-    <MemberNavbar/>
-    <Routes>
-      <Route path="/profile" element={<UserProfile />} />
-      <Route path="/profile/apps" element={<ProfileApplications />} />
-      <Route path="/profile/appManagement" element={<AppManagement/>}/>
-      <Route path="/profile/MyPurchases" element={<MyPurchases/>}/>
-      <Route path="/profile/edit" element={<EditProfile />} />
-    </Routes>
+    <MemberNavbar />
+    <Outlet />
   </section>
 );
 
@@ -62,9 +51,26 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        {/* <Route path="/*" element={<HomeLayout />} />
-        <Route path="/profile/*" element={<ProfileLayout />} /> */}
-        <Route path="/*" element={<ProfileLayout />} />
+        {/* Home Layout */}
+        <Route path="/" element={<HomeLayout />}>
+          <Route index element={<Home />} />
+          <Route path="applications" element={<Applications />} />
+          <Route path="about-us" element={<AboutUs />} />
+          <Route path="blogs" element={<Blogs />} />
+          <Route path="blog/blogDetails" element={<BlogDetails />} />
+        </Route>
+
+        {/* Profile Layout */}
+        <Route path="/profile" element={<ProfileLayout />}>
+          <Route index element={<UserProfile />} />
+          <Route path="apps" element={<ProfileApplications />} />
+          <Route path="appManagement" element={<AppManagement />} />
+          <Route path="MyPurchases" element={<MyPurchases />} />
+          <Route path="ApplicationHistory" element={<ApplicationHistory/>}/>
+          <Route path="edit" element={<EditProfile />} />
+        </Route>
+
+        {/* Auth Layout */}
         <Route path="/auth/*" element={<AuthLayout />} />
       </Routes>
     </Router>

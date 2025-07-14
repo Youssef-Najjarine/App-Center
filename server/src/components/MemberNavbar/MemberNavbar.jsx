@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logoIcon from '../../assets/intro-bg.jpeg';
 import applications from '../../assets/Member/member-applications.svg';
 import profilePic from '../../assets/Member/member-profile-pic.JPG';
@@ -13,6 +13,7 @@ import logoutIcon from '../../assets/Member/member-navbar-logout-icon.svg';
 import './MemberNavbar.css';
 
 const MemberNavbar = () => {
+  const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
   const profileWrapperRef = useRef(null);
   const location = useLocation();
@@ -100,7 +101,7 @@ const MemberNavbar = () => {
                   <span>My Purchases</span>
                 </div>
               </Link>
-              <Link to="/history" onClick={() => setShowDropdown(false)}>
+              <Link to="/profile/ApplicationHistory" onClick={() => setShowDropdown(false)}>
                 <div className='member-navbar-icon-div'>
                   <img src={applicationHistoryIcon} />
                   <span>Application History</span>
@@ -118,12 +119,16 @@ const MemberNavbar = () => {
                   <span>Cards & Payments</span>
                 </div>
               </Link>
-              <Link to="/logout" onClick={() => setShowDropdown(false)}>
-                <div className='member-navbar-icon-div member-navbar-logout-div'>
-                  <img src={logoutIcon} />
-                  <span className="logout">Logout</span>
-                </div>
-              </Link>
+              <div
+                className='member-navbar-icon-div member-navbar-logout-div'
+                onClick={() => {
+                  setShowDropdown(false);
+                  navigate('/');
+                }}
+              >
+                <img src={logoutIcon} />
+                <span className="logout">Logout</span>
+              </div>              
             </div>
           </div>
         </div>

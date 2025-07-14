@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import signInPhotoDesktop from '../../../assets/log-in-desktop.jpeg';
 import logoIcon from '../../../assets/intro-bg.jpeg';
 import dangerIcon from '../../../assets/danger.svg';
@@ -24,7 +24,7 @@ const Login = () => {
   });
 
   const [showErrorBox, setShowErrorBox] = useState(false); // New state for showing error box
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -71,15 +71,15 @@ const Login = () => {
 
     setErrors(newErrors);
 
-    // Show error box if there are any errors
     if (Object.keys(newErrors).length > 0) {
-      setShowErrorBox(true); // Show error box
+      setShowErrorBox(true);
       return;
     }
 
-    // Form submission logic
     console.log('Form submitted:', formData);
+    navigate('/profile');
   };
+
 
   // Function to hide the error box when the close button is clicked
   const handleCloseErrorBox = () => {

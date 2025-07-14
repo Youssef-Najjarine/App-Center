@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef  } from "react";
 import { Link } from "react-router-dom";
 import ProfileApplicationDetailModal from "../ProfileApplicationDetailModal/ProfileApplicationDetailModal";
-import ProfileUploadEditAppModal from "../ProfileUploadEditAppModal/ProfileUploadEditAppModal";
-import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
 import applicationImg1 from "../../../assets/Member/member-applicationImg-1.png";
 import applicationImg2 from "../../../assets/Member/member-applicationImg-2.png";
 import githubIcon from "../../../assets/Member/member-applications-github-icon.png";
@@ -28,9 +26,6 @@ const ProfileApplications = () => {
   const [showAll, setShowAll] = useState(false);
   const [sortOption, setSortOption] = useState("Popular");
   const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
-  const [showUploadEditModal, setShowUploadEditModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [appToDelete, setAppToDelete] = useState(null);
   const dropdownRefs = useRef({});
   const [expandedDropdownId, setExpandedDropdownId] = useState(null); // for dropdowns
   const [modalApp, setModalApp] = useState(null); // for modal
@@ -42,6 +37,7 @@ const ProfileApplications = () => {
       description: "At Open App Partners, we are passionate innovators determined to change the way technology serves individuals and businesses. Founded with the vision of empowering users through high-quality, innovative, and accessible applications, we develop solutions th... At Open App Partners, we are passionate innovators determined to change the way technology serves individuals and businesses. Founded with the vision of empowering users through high-quality, innovative, and accessible applications, we develop solutions th...",
       img: applicationImg1,
       github: "https://github.com/Youssef-Najjarine/portfolio",
+      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
       seller: "Carlo Mercado",
       email: "muddassarhaseeb34@gmail.commuddassarhaseeb34@gmail.commuddassarhaseeb34@gmail.commuddassarhaseeb34@gmail.com",
       spent: "$500.00"
@@ -53,6 +49,7 @@ const ProfileApplications = () => {
       description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
       img: applicationImg2,
       github: "https://github.com/my-name/repo...",
+      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
       seller: "Youssef Najjarine",
       email: "ynajjarine@gmail.com",
       spent: "$500.00"
@@ -64,6 +61,7 @@ const ProfileApplications = () => {
       description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
       img: applicationImg1,
       github: "https://github.com/my-name/repo...",
+      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
       seller: "Abraham Najjarine",
       email: "an@najjarinestructures.com",
       spent: "$500.00"
@@ -75,6 +73,7 @@ const ProfileApplications = () => {
       description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
       img: applicationImg2,
       github: "https://github.com/my-name/repo...",
+      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
       seller: "Omar Najjarine",
       email: "omarnajjarine@gmail.com",
       spent: "$500.00"
@@ -86,6 +85,7 @@ const ProfileApplications = () => {
       description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
       img: applicationImg1,
       github: "https://github.com/my-name/repo...",
+      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
       seller: "Carlo Mercado",
       email: "muddassarhaseeb34@gmail.com",
       spent: "$500.00"
@@ -97,6 +97,7 @@ const ProfileApplications = () => {
       description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
       img: applicationImg2,
       github: "https://github.com/my-name/repo...",
+      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
       seller: "Carlo Mercado",
       email: "muddassarhaseeb34@gmail.com",
       spent: "$500.00"
@@ -108,6 +109,7 @@ const ProfileApplications = () => {
       description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
       img: applicationImg1,
       github: "https://github.com/my-name/repo...",
+      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
       seller: "Carlo Mercado",
       email: "muddassarhaseeb34@gmail.com",
       spent: "$500.00"
@@ -119,20 +121,22 @@ const ProfileApplications = () => {
       description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
       img: applicationImg2,
       github: "https://github.com/my-name/repo...",
+      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
       seller: "Carlo Mercado",
       email: "muddassarhaseeb34@gmail.com",
       spent: "$500.00"
     },
       {
-      id: 9,
-      title: "Toritube App",
-      date: "24 Jan, 2024 at 14:56",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg1,
-      github: "https://github.com/my-name/repo...",
-      seller: "Carlo Mercado",
-      email: "muddassarhaseeb34@gmail.com",
-      spent: "$500.00"
+        id: 9,
+        title: "Toritube App",
+        date: "24 Jan, 2024 at 14:56",
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
+        img: applicationImg1,
+        github: "https://github.com/my-name/repo...",
+        tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
+        seller: "Carlo Mercado",
+        email: "muddassarhaseeb34@gmail.com",
+        spent: "$500.00"
     },
     {
       id: 10,
@@ -141,6 +145,7 @@ const ProfileApplications = () => {
       description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
       img: applicationImg2,
       github: "https://github.com/my-name/repo...",
+      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
       seller: "Carlo Mercado",
       email: "muddassarhaseeb34@gmail.com",
       spent: "$500.00"
@@ -152,6 +157,7 @@ const ProfileApplications = () => {
       description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
       img: applicationImg1,
       github: "https://github.com/my-name/repo...",
+      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
       seller: "Carlo Mercado",
       email: "muddassarhaseeb34@gmail.com",
       spent: "$500.00"
@@ -163,6 +169,7 @@ const ProfileApplications = () => {
       description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
       img: applicationImg2,
       github: "https://github.com/my-name/repo...",
+      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
       seller: "Carlo Mercado",
       email: "muddassarhaseeb34@gmail.com",
       spent: "$500.00"
@@ -174,6 +181,7 @@ const ProfileApplications = () => {
       description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
       img: applicationImg1,
       github: "https://github.com/my-name/repo...",
+      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
       seller: "Carlo Mercado",
       email: "muddassarhaseeb34@gmail.com",
       spent: "$500.00"
@@ -185,6 +193,7 @@ const ProfileApplications = () => {
       description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
       img: applicationImg2,
       github: "https://github.com/my-name/repo...",
+      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
       seller: "Carlo Mercado",
       email: "muddassarhaseeb34@gmail.com",
       spent: "$500.00"
@@ -240,10 +249,11 @@ const ProfileApplications = () => {
                     <div className="profile-my-purchases-buy-more-div">
                         <div
                             className="profile-my-purchases-buy-more-btn"
-                            onClick={() => setShowUploadEditModal(true)}
                         >
-                            <img src={addIcon} alt="Buy App" />
-                            <span>Buy more Applications</span>
+                            <Link to="/applications">
+                                <img src={addIcon} alt="Buy App" />
+                                <span>Buy more Applications</span>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -257,16 +267,6 @@ const ProfileApplications = () => {
                     <div
                         className="profile-my-purchases-app"
                         key={app.id}
-                        onClick={(e) => {
-                            const target = e.target;
-                            const isInsideLink = target.closest("a");
-                            const isInsideExpandDiv = target.closest(".profile-my-purchases-expand-div");
-                            if (!isInsideLink && !isInsideExpandDiv) {
-                            setModalApp(app);
-                            setModalSource("card");
-                            setModalOpen(true);
-                            }
-                        }}
                     >
                         <div className="profile-my-purchases-body-part1">
                             <div className="profile-my-purchases-image-div">
@@ -295,7 +295,7 @@ const ProfileApplications = () => {
                                                     onClick={(e) => {
                                                     e.stopPropagation();
                                                     setModalApp(app);
-                                                    setModalSource("details");
+                                                    setModalSource("purchased");
                                                     setModalOpen(true);
                                                     setExpandedDropdownId(null);
                                                     }}
@@ -307,7 +307,6 @@ const ProfileApplications = () => {
                                                     className="profile-my-purchases-dropdown-item download"
                                                     onClick={(e) => {
                                                     e.stopPropagation();
-                                                    setShowUploadEditModal(true);
                                                     setSelectedApp(null);
                                                     }}
                                                 >
@@ -318,8 +317,6 @@ const ProfileApplications = () => {
                                                     className="profile-my-purchases-dropdown-item report"
                                                     onClick={(e) => {
                                                     e.stopPropagation();
-                                                    setAppToDelete(app);
-                                                    setShowDeleteModal(true);
                                                     setSelectedApp(null);
                                                     }}
                                                 >
@@ -401,31 +398,6 @@ const ProfileApplications = () => {
           }}
           app={modalApp}
           modalSource={modalSource}
-        />
-      )}
-
-      {showUploadEditModal && (
-        <ProfileUploadEditAppModal
-          modalOpenState={showUploadEditModal}
-          onClose={() => setShowUploadEditModal(false)}
-        />
-      )}
-
-      {showDeleteModal && appToDelete && (
-        <DeleteConfirmationModal
-          modalOpenState={showDeleteModal}
-          onClose={() => {
-            setShowDeleteModal(false);
-            setAppToDelete(null);
-          }}
-          app={appToDelete}
-          onConfirmDelete={() => {
-            setApplications((prevApps) =>
-              prevApps.filter((app) => app.id !== appToDelete.id)
-            );
-            setShowDeleteModal(false);
-            setAppToDelete(null);
-          }}
         />
       )}
     </section>

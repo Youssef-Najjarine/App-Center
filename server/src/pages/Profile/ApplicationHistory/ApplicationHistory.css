@@ -1,0 +1,847 @@
+#profile-applications {
+  padding: 111.72px 20px 48px 20px;
+}
+
+.profile-applications-title-div {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 32px 0;
+}
+
+.profile-applications-search-filter-add-div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profile-applications-sortby-upload-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 35.5px;
+  width: 111px;
+}
+
+.profile-applications-title {
+  color: #141522;
+  font-size: 22.556px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 33.833px;
+  margin: 0 0 12px 0;
+}
+
+.profile-applications-search-div {
+  width: 215.77779px;
+  height: 36.33334px;
+  cursor: pointer;
+  position: relative;
+}
+
+.profile-applications-search {
+  width: 100%;
+  height: 100%;
+  padding: 9.667px 35px 9.667px 12.889px;
+  border-radius: 8.056px;
+  border: 0.806px solid #F5F5F5;
+  background: #FFF;
+  color: #141522;
+  font-size: 11.278px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16.917px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.profile-applications-search::placeholder {
+  color: #141522;
+  font-size: 11.278px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16.917px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.profile-applications-search-icon {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  width: 16.111px;
+  height: auto;
+  cursor: pointer;
+}
+
+.profile-applications-sortby-div {
+  padding: 9.667px 12.889px;
+  border-radius: 8.056px;
+  border: 0.806px solid #F5F5F5;
+  background: #FFF;
+  width: 41.88889px;
+  height: 35.4px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.profile-applications-sortby-div img {
+  width: 16.111px;
+  height: 16.111px;
+}
+
+.sortby-dropdown {
+  position: absolute;
+  top: 39.51px;
+  right: 0px;
+  margin: 0;
+  padding: 4px;
+  border-radius: 6px;
+  border: 0.875px solid #F5F5F5;
+  background: #FFF;
+  box-shadow: 10.5px 10.5px 26.25px 0px rgba(0, 0, 0, 0.10);
+  list-style: none;
+  z-index: 1000;
+  width: 79px;
+  height: 112px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sortby-dropdown li {
+  padding: 3px 6px;
+  color: #141522;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16.5px;
+  letter-spacing: -0.44px;
+  border-radius: 3px;
+}
+
+.sortby-dropdown li:hover {
+  background: #F6F5FD;
+  color: #5541D7;
+}
+
+.sortby-dropdown li.active {
+  background: #F6F5FD;
+  color: #5541D7;
+}
+
+.profile-applications-grid {
+  display: grid;
+  gap: 12.889px;
+  grid-template-columns: repeat(auto-fit, 335px);
+  align-items: start;
+  justify-content: center;
+}
+
+.profileApp {
+  padding: 9.667px 9.667px 12.889px 9.667px;
+  border: 0.967px solid #F5F5F5;
+  background: #FFF;
+  border-radius: 12.889px;
+  cursor: pointer;
+}
+
+.profileApp-image-div {
+  width: 315.7px;
+  height: 212.7px;
+  margin: 0 0 12.89px 0;
+  position: relative;
+}
+
+.profileApp-image-div .profileApp-placeholder-img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 6.444px;
+}
+
+.profileApp-expand-div {
+  position: absolute;
+  top: 12.89px;
+  right: 12.89px;
+  z-index: 3; 
+  padding: 9.667px;
+  border-radius: 8.056px;
+  border: 0.806px solid #F5F5F5;
+  background: #FFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38.7px;
+  height: 38.7px;
+  cursor: pointer;
+}
+
+.profileApp-expand-div button {
+   width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.profileApp-expand-div .profileApp-expand-icon {
+  width: 19.333px;
+  height: 19.333px;
+}
+
+.profileApp-dropdown {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 4.83px;
+  top: 19.33px;
+  right: 15.64px;
+  width: 115.194px;
+  z-index: 10;
+  padding: 6.444px;
+  border-radius: 6.444px;
+  border: 0.806px solid #F5F5F5;
+  background: #FFF;
+  box-shadow: 9.667px 9.667px 24.167px 0px rgba(0, 0, 0, 0.10);
+}
+
+.profileApp-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 6.44px;
+  padding: 6.444px 9.667px;
+  font-size: 13px;
+  text-decoration: none;
+  border-radius: 6.444px;
+}
+
+.profileApp-dropdown-item.details,
+.profileApp-dropdown-item.edit {
+  background: rgba(96, 91, 255, 0.10);
+}
+
+.profileApp-dropdown-item.delete {
+  background: rgba(255, 70, 29, 0.10);
+}
+
+.profileApp-dropdown-item.delete span {
+  color: #FF461D;
+}
+
+.profileApp-dropdown-item span {
+  font-size: 12.889px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 19.333px;
+  letter-spacing: -0.516px;
+}
+
+.profileApp-dropdown-item.details span,
+.profileApp-dropdown-item.edit span {
+  color: #605BFF;
+}
+
+.profileApp-dropdown-item.delete span {
+  color: #FF461D;
+}
+
+.profileApp-dropdown-item img {
+  width: 16.111px;
+  height: 16.111px;
+}
+
+.profileApp-dropdown-item.details:hover,
+.profileApp-dropdown-item.edit:hover {
+  background: #605BFF;
+}
+.profileApp-dropdown-item:hover img {
+  filter: brightness(0) invert(1);
+}
+
+.profileApp-dropdown-item:hover span {
+  color: #FFF;
+}
+
+.profileApp-dropdown-item.delete:hover {
+  background: #FF461D;
+}
+
+.profileApp-video-overlay {
+  position: absolute;
+  bottom: 9.67px;
+  left: 9.67px; 
+  display: flex;
+  gap: 6.444px;
+  padding: 9.667px;
+  border-radius: 8.056px;
+  background: rgba(255, 255, 255, 0.70);
+  width: 80.1px;
+  height: 38.7px;
+}
+
+.profileApp-play-icon {
+  width: 19.333px;
+  height: 19.333px;
+  margin-right: 0;
+}
+
+.profileApp-video-duration {
+  color: #141522;
+  font-size: 14.5px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21.75px;
+  letter-spacing: -0.29px;
+}
+
+.profileApp-gitHub-div {
+  margin: 0 0 12.89px 0;
+  gap: 6.444px;
+  display: flex;
+  cursor: pointer;
+}
+
+.profileApp-gitHub-anchor-div {
+  max-width: 253px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profileApp-gitHub-div img {
+  width: 21.75px;
+  height: 21.75px;
+}
+
+.profileApp-gitHub-div a {
+  color: #5C6BC0;
+  font-size: 14.5px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21.75px;
+  letter-spacing: -0.29px;
+}
+
+.profileApp-app-title {
+  color: #141522;
+  font-size: 17.722px;
+  line-height: 26.583px;
+  letter-spacing: -0.354px;
+  margin: 0 0 9.67px 0;
+  font-style: normal;
+font-weight: 700;
+}
+
+.profileApp-app-description {
+  color: #141522;
+  font-size: 14.5px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21.75px;
+  letter-spacing: -0.29px;
+  margin: 0 0 12.89px 0;
+}
+
+.profileApp-app-tech-stack {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9.67px;
+  max-height: 226.14px;
+  overflow-y: auto;
+}
+
+.profileApp-app-tech-stack li {
+  padding: 4.833px 9.667px;
+  color: #5541D7;
+  background: rgba(85, 65, 215, 0.15);
+  border-radius: 12.889px;
+  font-size: 11.278px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16.917px;
+}
+
+.profileApp-collapse-tech {
+  color: #888 !important;
+}
+
+.profile-applications-load-more-div {
+  width: 100%;
+  text-align: center;
+  margin: 46.4px 0 0 0;
+}
+
+.profile-applications-load-more {
+  border-radius: 9.667px;
+  background: #5541D7;
+  padding: 11.6px 23.2px;
+  color: #FFF;
+  font-size: 13.533px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20.3px;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (min-width: 768px) {
+  #profile-applications {
+    padding: 107.75px 20px 48px 20px;
+  }
+
+  .profile-applications-title-div {
+      margin: 0 0 26.5px 0;
+  }
+
+  .profile-applications-sortby-upload-div {
+  height: 39px;
+  width: 326px;
+}
+
+  .profile-applications-title {
+    font-size: 24.5px;
+    line-height: 36.75px;
+  }
+
+  .profile-applications-search-div {
+    width: 396.5px;
+    height: 39px;
+  }
+
+  .profile-applications-search {
+    padding: 10.5px 35px 10.5px 14px;
+    border-radius: 8.75px;
+    border: 0.875px solid #F5F5F5;
+    font-size: 12.25px;
+    line-height: 18.375px;
+  }
+
+  .profile-applications-search::placeholder {
+    font-size: 12.25px;
+    line-height: 18.375px;
+  }
+
+  .profile-applications-search-icon {
+    width: 17.5px;
+  }
+
+  .profile-applications-sortby-div span {
+      display: flow-root;
+  }
+
+  .profile-applications-sortby-div {
+    padding: 10.5px 14px;
+    border-radius: 8.75px;
+    border: 0.875px solid #F5F5F5;
+    width: 151px;
+    height: 39px;
+    display: flow-root;
+  }
+
+  .profile-applications-sortby-div div {
+    display: flex;
+    gap: 7px;
+  }
+
+  .profile-applications-sortby-div img {
+    width: 17.5px;
+    height: 17.5px;
+  }
+
+  .profile-applications-sortby-div span {
+    color: #141522;
+    font-size: 12.25px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18.375px;
+  }
+
+  .sortby-dropdown {
+    top: 43px;
+    border: 0.875px solid #F5F5F5;
+    width: 151px;
+    height: 124px;
+  }
+
+  .sortby-dropdown li {
+    padding: 4px 6px;
+    font-size: 12.25px;
+    line-height:  18.375px;
+    letter-spacing: -0.49px;
+  }
+
+  .profile-applications-grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(auto-fit, 357px);
+  }
+
+  .profileApp {
+    padding: 10.5px 10.5px 14px 10.5px;
+    border-radius: 14px;
+  }
+
+  .profileApp-image-div {
+    width: 336px;
+    height: 231px;
+    margin: 0 0 14px 0;
+  }
+
+  .profileApp-image-div .profileApp-placeholder-img {
+    border-radius: 7px;
+  }
+
+  .profileApp-expand-div {
+    top: 14px;
+    right: 14px;
+    padding: 10.5px;
+    border-radius: 8.75px;
+    border: 0.875px solid #F5F5F5;
+    width: 42px;
+    height: 42px;
+  }
+
+  .profileApp-expand-div .profileApp-expand-icon {
+    width: 21px;
+    height: 21px;
+  }
+
+  .profileApp-dropdown {
+    gap: 5.25px;
+    top: 22px;
+    right: 16.12px;
+    border-radius: 7px;
+    width: 125.125px;
+    padding: 7px;
+    border: 0.875px solid #F5F5F5;
+    box-shadow: 10.5px 10.5px 26.25px 0px rgba(0, 0, 0, 0.10);
+  }
+
+  .profileApp-dropdown-item {
+    gap: 7px;
+    padding: 7px 10.5px;
+    font-size: 14px;
+    border-radius: 7px;
+  }
+
+  .profileApp-dropdown-item span {
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.56px
+  }
+
+  .profileApp-dropdown-item img {
+    width: 17.5px;
+    height: 17.5px;
+  }
+
+  .profileApp-video-overlay {
+    bottom: 10.5px;
+    left: 10.5px; 
+    gap: 7px;
+    padding: 10.5px;
+    border-radius: 8.75px;
+    width: 87px;
+    height: 42px;
+  }
+
+  .profileApp-play-icon {
+    width: 21px;
+    height: 21px;
+  }
+
+  .profileApp-video-duration {
+    font-size: 15.75px;
+    line-height: 23.625px;
+    letter-spacing: -0.315px;
+  }
+
+  .profileApp-gitHub-div {
+    margin: 0 0 14px 0;
+    gap: 7px;
+  }
+
+  .profileApp-gitHub-anchor-div {
+    max-width: 275px;
+  }
+
+  .profileApp-gitHub-div img {
+    width: 23.625px;
+    height: 23.625px;
+  }
+
+  .profileApp-gitHub-div a {
+    font-size: 15.75px;
+    line-height: 23.625px;
+    letter-spacing: -0.315px;
+  }
+
+  .profileApp-app-title {
+    font-size: 19.25px;
+    line-height: 28.875px;
+    letter-spacing:  -0.385px;
+    margin: 0 0 10.5px 0;
+  }
+
+  .profileApp-app-description {
+    font-size: 15.75px;
+    line-height: 23.625px;
+    letter-spacing: -0.315px;
+    margin: 0 0 14px 0;
+  }
+
+  .profileApp-app-tech-stack {
+    gap: 10.5px;
+    max-height: 226.14px;
+  }
+
+  .profileApp-app-tech-stack li {
+    padding: 5.25px 10.5px;
+    border-radius: 14px;
+    font-size: 12.25px;
+    line-height: 18.375px;
+  }
+
+  .profile-applications-load-more-div {
+    margin: 50.4px 0 0 0;
+  }
+
+  .profile-applications-load-more {
+    border-radius: 10.5px;
+    padding: 12.6px 25.2px;
+    font-size: 13.533px;
+    line-height: 22.05px;
+  }
+}
+@media screen and (min-width: 1440px) {
+  #profile-applications {
+    padding: 131px 32px 60px 32px;
+  }
+
+  .profile-applications-title-div {
+    margin: 0 0 25.5px 0;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .profile-applications-search-filter-add-div {
+    width: 780px;
+  }
+
+  .profile-applications-sortby-upload-div {
+  height: 45px;
+  width: 383px;
+}
+
+  .profile-applications-title {
+    font-size: 28px;
+    line-height: 42px;
+  }
+
+  .profile-applications-search-div {
+    width: 385px;
+    height: 45px;
+  }
+
+  .profile-applications-search {
+    padding: 12px 35px 12px 16px;
+    border-radius: 10px;
+    border: 1px solid #F5F5F5;
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .profile-applications-search::placeholder {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .profile-applications-search-icon {
+    width: 20px;
+  }
+
+  .profile-applications-sortby-div {
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid #F5F5F5;
+    width: 173px;
+    height: 45px;
+  }
+
+  .profile-applications-sortby-div div {
+    gap: 8px;
+  }
+
+  .profile-applications-sortby-div img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .profile-applications-sortby-div span {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .sortby-dropdown {
+    top: 51px;
+    width: 173px;
+    height: 144px;
+  }
+
+  .sortby-dropdown li {
+    padding: 5px 8px;
+    font-size: 14px;
+    line-height:  21px;
+    letter-spacing: -0.65px;
+  }
+
+  .profile-applications-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, 448px);
+  }
+
+  .profileApp {
+    padding: 12px 12px 16px 12px;
+    border-radius: 16px;
+  }
+
+  .profileApp-image-div {
+    width: 424px;
+    height: 264px;
+    margin: 0 0 16px 0;
+  }
+
+  .profileApp-image-div .profileApp-placeholder-img {
+    border-radius: 8px;
+  }
+
+  .profileApp-expand-div {
+    top: 16px;
+    right: 16px;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #F5F5F5;
+    width: 48px;
+    height: 48px;
+  }
+
+  .profileApp-expand-div .profileApp-expand-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .profileApp-dropdown {
+    gap: 6px;
+    top: 24px;
+    right: 19px;
+    border-radius: 8px;
+    width: 143px;
+    padding: 8px;
+    border: 1px solid #F5F5F5;
+    box-shadow: 12px 12px 30px 0px rgba(0, 0, 0, 0.10);
+  }
+
+  .profileApp-dropdown-item {
+    gap: 8px;
+    padding: 8px 12px;
+    font-size: 16px;
+    border-radius: 8px;
+  }
+
+  .profileApp-dropdown-item span {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.64px
+  }
+
+  .profileApp-dropdown-item img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .profileApp-video-overlay {
+    bottom: 12px;
+    left: 12px; 
+    gap: 8px;
+    padding: 12px;
+    border-radius: 10px;
+    width: 99px;
+    height: 48px;
+  }
+
+  .profileApp-play-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .profileApp-video-duration {
+    font-size: 18px;
+    line-height: 27px;
+    letter-spacing: -0.36px;
+  }
+
+  .profileApp-gitHub-div {
+    margin: 0 0 16px 0;
+    gap: 8px;
+  }
+
+  .profileApp-gitHub-anchor-div {
+    max-width: 314px;
+  }
+
+  .profileApp-gitHub-div img {
+    width: 27px;
+    height: 27px;
+  }
+
+  .profileApp-gitHub-div a {
+    font-size: 18px;
+    line-height: 27px;
+    letter-spacing: -0.36px;
+  }
+
+  .profileApp-app-title {
+    font-size: 22px;
+    line-height: 33px;
+    letter-spacing:  -0.44px;
+    margin: 0 0 12px 0;
+  }
+
+  .profileApp-app-description {
+    font-size: 18px;
+    line-height: 27px;
+    letter-spacing: -0.36px;
+    margin: 0 0 16px 0;
+  }
+
+  .profileApp-app-tech-stack {
+    gap: 12px;
+    max-height: 226.14px;
+  }
+
+  .profileApp-app-tech-stack li {
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .profile-applications-load-more-div {
+    margin: 57.6px 0 0 0;
+  }
+
+  .profile-applications-load-more {
+    border-radius: 12px;
+    padding: 14.4px 28.8px;
+    font-size: 16.8px;
+    line-height: 25.2px;
+  }
+}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import signUpPhotoDesktop from '../../../assets/sign-up-desktop.jpeg';
 import signUpPhotoTablet from '../../../assets/sign-up-tablet.jpeg';
 import logoIcon from '../../../assets/intro-bg.jpeg';
@@ -10,6 +10,7 @@ import eyeIcon from '../../../assets/eye.svg';
 import './SignUp.css';
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -79,7 +80,9 @@ const SignUp = () => {
 
     // Form submission logic
     console.log('Form submitted:', formData);
+    navigate('/profile');
   };
+
 
   return (
     <div className="sign-up-container">

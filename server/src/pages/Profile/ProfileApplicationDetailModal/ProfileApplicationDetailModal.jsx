@@ -177,7 +177,9 @@ const ProfileApplicationDetailModal = ({ modalOpenState, onClose, app, modalSour
                     </button>
                   </div>
                 </div>
-              ) : (
+              ) : 
+              modalSource === "purchased" ? ("")
+              : (
                 <div className="profile-app-details-modal-purchase-app-div">
                   <button>Purchase the Application - $500</button>
                 </div>

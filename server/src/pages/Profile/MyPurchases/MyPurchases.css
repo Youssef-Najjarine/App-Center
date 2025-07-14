@@ -111,7 +111,8 @@
   cursor: pointer;
 }
 
-.profile-my-purchases-buy-more-div .profile-my-purchases-buy-more-btn {
+.profile-my-purchases-buy-more-div .profile-my-purchases-buy-more-btn,
+.profile-my-purchases-buy-more-div .profile-my-purchases-buy-more-btn a {
   display: flex;
   align-items: center;
   gap: 6.44px;
@@ -132,11 +133,11 @@ line-height: 16.917px;
 }
 
 .profile-my-purchases-grid {
-    width: 100%;
+  width: 100%;
   display: grid;
   gap: 12.889px;
   grid-template-columns: repeat(auto-fit, 100%);
-  align-items: start;
+  /* align-items: start; */
   justify-content: center;
 }
 
@@ -449,10 +450,10 @@ line-height: 16.917px;
     }
 
      .profile-my-purchases-sortby-dropdown {
-    top: 43px;
-    border-radius: 8px;
-    width: 151px;
-    height: 124px;
+        top: 43px;
+        border-radius: 8px;
+        width: 151px;
+        height: 124px;
     }
 
     .profile-my-purchases-sortby-dropdown li {
@@ -474,7 +475,7 @@ line-height: 16.917px;
         border-radius: 8.75px;
     }
 
-    .profile-my-purchases-buy-more-div .profile-my-purchases-buy-more-btn {
+    .profile-my-purchases-buy-more-div .profile-my-purchases-buy-more-btn a {
         gap: 7px;
     }
 
@@ -645,26 +646,257 @@ line-height: 16.917px;
         line-height: 21px;
         max-width: 70%;
     }
-  .profile-my-purchases-load-more-div {
-    margin: 50.4px 0 0 0;
-  }
 
-  .profile-my-purchases-load-more {
-    border-radius: 10.5px;
-    padding: 12.6px 25.2px;
-    font-size: 13.533px;
-    line-height: 22.05px;
-  }
+    .profile-my-purchases-load-more-div {
+        margin: 50.4px 0 0 0;
+    }
+
+    .profile-my-purchases-load-more {
+        border-radius: 10.5px;
+        padding: 12.6px 25.2px;
+        font-size: 13.533px;
+        line-height: 22.05px;
+    }
 }
 @media screen and (min-width: 1440px) {
-  .profile-my-purchases-load-more-div {
-    margin: 57.6px 0 0 0;
-  }
+    #profile-my-purchases {
+        padding: 132.5px 32px 48px 32px;
+    }
 
-  .profile-my-purchases-load-more {
-    border-radius: 12px;
-    padding: 14.4px 28.8px;
-    font-size: 16.8px;
-    line-height: 25.2px;
-  }
+    .profile-my-purchases-title-div {
+        margin: 0 0 25.5px 0;
+    }
+
+    .profile-my-purchases-sortby-buy-more-div {
+        height: 45px;
+        width: 426px;
+    }
+
+    .profile-my-purchases-title {
+        font-size: 28px;
+        line-height: 42px;
+    }
+
+    .profile-my-purchases-sortby-div {
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid #F5F5F5;
+    width: 173px;
+    height: 45px;
+    }
+
+    .profile-my-purchases-sortby-button {
+        gap: 8px;
+    }
+
+    .profile-my-purchases-sortby-div img {
+    width: 20px;
+    height: 20px;
+    }
+
+    .profile-my-purchases-sort-option {
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+     .profile-my-purchases-sortby-dropdown {
+        top: 51px;
+        border-radius: 10px;
+        width: 173px;
+        height: 144px;
+    }
+
+    .profile-my-purchases-sortby-dropdown li {
+        padding: 5px 8px;
+        font-size: 14px;
+        line-height: 21px;
+        letter-spacing: -0.65px;
+    }
+
+    .profile-my-purchases-header-right-border {
+    border-right: 1px solid #F5F5F5;
+    height: calc(100% - 14.5px); /* 7.25px top + 7.25px bottom */
+    }
+
+    .profile-my-purchases-buy-more-div {
+        width: 220px;
+        height: 45px;
+        padding: 12px 16px;
+        border-radius: 10px;
+    }
+
+    .profile-my-purchases-buy-more-div .profile-my-purchases-buy-more-btn a {
+        gap: 8px;
+    }
+
+    .profile-my-purchases-buy-more-div img {
+    width: 20px;
+    height: 20px;
+    }
+    .profile-my-purchases-buy-more-btn span {
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .profile-my-purchases-grid {
+        gap: 16px;
+        grid-template-columns: repeat(auto-fit, 49.419%);
+    }
+
+    .profile-my-purchases-app {
+        padding: 12px;
+        border-radius: 8px;
+    }
+
+    .profile-my-purchases-image-div {
+    width: 34.44%;
+    height: 165px;
+    }
+
+    .profile-my-purchases-image-div .profile-my-purchases-placeholder-img {
+        border-radius: 8px;
+    }
+    .profile-my-purchases-body-part1 {
+        margin: 0 0 16px 0;
+    }
+
+    .profile-my-purchases-body-part1-details {
+        margin: 7.5px 0 0 0;
+        width: 64.33%;
+        gap: 0;
+    }
+
+    .profile-my-purchases-body-part1-details-sub-header {
+        width: 86.26%;
+        height: 27px;
+    }
+
+    .profile-my-purchases-body-part1-details-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 0 8px 0;
+    }
+
+    .profile-my-purchases-body-part1-details-sub-header h3 {
+        font-size: 18px;
+        line-height: 27px;
+        letter-spacing: -0.36px;
+    }
+
+    .profile-my-purchases-body-part1-details-sub-header p {
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .profile-my-purchases-expand-div {
+    padding: 10.5px;
+    border-radius: 8.75px;
+    border: 0.875px solid #F5F5F5;
+    width: 42px;
+    height: 42px;
+    }
+
+    .profile-my-purchases-expand-div .profile-my-purchases-expand-icon {
+    width: 21px;
+    height: 21px;
+    }
+
+    .profile-my-purchases-dropdown {
+        padding: 8px;
+        right: 12px;
+        width: 204px;
+    }
+
+    .profile-my-purchases-dropdown-item {
+    padding: 8px 12px;
+    }
+
+    .profile-my-purchases-dropdown-item span {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.64px;
+    }
+
+    .profile-my-purchases-dropdown-item img {
+    width: 20px;
+    height: 20px;
+    }
+
+    .profile-my-purchases-description {
+        max-width: 95%;
+        -webkit-line-clamp: 3; /* adjust number of lines */
+        margin: 0 0 8px 0;
+        min-height: 70px;
+    }
+
+    .profile-my-purchases-description p {
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: -0.32px;
+    }
+
+    .profile-my-purchases-gitHub-div {
+        gap: 8px;
+    }
+
+    .profile-my-purchases-github-anchor-div {
+        max-width: 75%;
+    }
+
+    .profile-my-purchases-gitHub-div img {
+        width: 27px;
+        height: 27px;
+    }
+
+    .profile-my-purchases-gitHub-div a {
+        font-size: 18px;
+        line-height: 27px;
+        letter-spacing: -0.36px;
+    }
+
+    .profile-my-purchases-body-part2 {
+        margin: 16px 0 0 0;
+    }
+
+    .profile-my-purchases-seller-info {
+        gap: 12px;
+    }
+
+    .profile-my-purchases-seller-name,
+    .profile-my-purchases-seller-email,
+    .profile-my-purchases-seller-amount {
+        border-radius: 10px;
+        padding: 12px 16px;
+    }
+
+    .profile-my-purchases-seller-image-label {
+        gap: 8px;
+    }
+
+    .profile-my-purchases-seller-image-label img {
+        width: 24px;
+        height: 24px;
+    }
+
+    .profile-my-purchases-seller-image-label label {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .profile-my-purchases-seller-value {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .profile-my-purchases-load-more-div {
+        margin: 57.6px 0 0 0;
+    }
+
+    .profile-my-purchases-load-more {
+        border-radius: 12px;
+        padding: 14.4px 28.8px;
+        font-size: 16.8px;
+        line-height: 25.2px;
+    }
 }
