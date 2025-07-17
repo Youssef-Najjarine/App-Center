@@ -51,7 +51,7 @@ const ApplicationHistory = () => {
         cost: 500,
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ... Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ... Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
         img: applicationImg1,
-        github: "https://github.com/Youssef-Najjarine/portfolio",
+        github: "https://github.com/Youssef-Najjarine/portfoliohttps://github.com/Youssef-Najjarine/portfoliohttps://github.com/Youssef-Najjarine/portfolio",
         tech: ["Firebase", "JavaScript"],
       },
       {
@@ -475,10 +475,8 @@ const ApplicationHistory = () => {
                         {app.github}
                         </a>
                     </div>
-                  </div>                
-                </div>
-              </div>
-              <div className="profile-app-history-buyer-info">
+                  </div>
+                  <div className="profile-app-history-buyer-info">
                     <div className="profile-app-history-buyer-info-buyer">
                       <img src={buyerIcon}/>
                       <p>{app.buyer}</p>
@@ -491,6 +489,8 @@ const ApplicationHistory = () => {
                       <img src={priceIcon}/>
                       <p>${app.cost}</p>
                     </div>
+                  </div>                                 
+                </div>
               </div>
             </div>
           );

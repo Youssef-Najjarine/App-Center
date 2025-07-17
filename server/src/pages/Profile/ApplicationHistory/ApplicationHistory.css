@@ -534,8 +534,8 @@
 
 .profile-app-history-description {
   max-width: 100%;
-   display: -webkit-box;
   -webkit-line-clamp: 3;
+   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
   margin: 0 0 12.89px 0;
@@ -826,6 +826,9 @@
   .profile-app-history {
     padding: 10.5px;
     border-radius: 7px;
+    position: relative;
+    min-height: 220.75px;
+    height: 220.75px;
   }
 
   .profile-app-history-row {
@@ -842,8 +845,6 @@
   }
 
   .profile-app-history-placeholder-image img {
-    width: 100%;
-    height: 100%;
     border-radius: 7px;
   }
 
@@ -960,8 +961,10 @@
 
   .profile-app-history-buyer-info {
     flex-direction: row;
-    gap: 0;
-    justify-content: space-between;
+    gap: 14px;
+    position: absolute;
+    left: 10.5px;
+    bottom: 10.5px;
   }
 
   .profile-app-history-buyer-info div {
@@ -971,15 +974,15 @@
   }
 
   .profile-app-history-buyer-info-buyer {
-    width: 27.73% !important;
+    width: 26.925% !important;
   }
 
   .profile-app-history-buyer-info-email {
-    width: 49.1% !important;
+    width: 47.665% !important;
   }
 
   .profile-app-history-buyer-info-price {
-    width: 19.25% !important;
+    width: 18.683% !important;
   }
 
   .profile-app-history-buyer-info div img {
@@ -1147,7 +1150,7 @@
     padding: 12px 16px;
     border-radius: 10px;
     border: 1px solid #F5F5F5;
-    width: 33.34%;
+    width: 201.64px;
     height: 45px;
     gap: 8px;
   }
@@ -1165,7 +1168,6 @@
 
   .profile-application-history-sortby-dropdown {
     top: 45px;
-    width: 100%;
   }
 
   .profile-application-history-sortby-dropdown li {
@@ -1176,181 +1178,169 @@
   }
 
   .profile-application-history-grid {
-    display: grid;
-    gap: 14px;
-    grid-template-columns: repeat(auto-fit, 100%);
-    align-items: start;
-    justify-content: center;
+    gap: 16px;
   }
 
   .profile-app-history {
-    padding: 10.5px;
-    border-radius: 7px;
+    padding: 12px;
+    border-radius: 8px;
+    min-height: 205px;
+    height: 205px;
   }
 
   .profile-app-history-row {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin: 0 0 16px 0;
+    margin: 0;
   }
 
   .profile-app-history-placeholder-image {
-    width: 27.6%;
-    height: 141.75px;
+    width: 16.125%;
+    height: 181px;
     margin: 0;
   }
 
   .profile-app-history-placeholder-image img {
-    width: 100%;
-    height: 100%;
-    border-radius: 7px;
+    border-radius: 8px;
   }
 
   .profile-app-history-body {
-    width: 70.2%;
-    margin: 0;
+    width: 82.693%;
   }
 
   .profile-app-history-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 0 0 6px 0;
+    margin: 0 0 8px 0;
   }
 
   .app-history-title {
-    gap: 7px;
+    gap: 8px;
   }
 
   .app-history-title h3 {
-    font-size: 15.75px;
-    line-height: 23.625px;
-    letter-spacing: -0.315px;
+    font-size: 18px;
+    line-height: 27px;
+    letter-spacing: -0.36px;
   }
 
   .app-history-title .app-history-status {
-    font-size: 10.719px;
-    line-height: 16.078px;
-    padding: 3.5px 9.187px;
-    border-radius: 12.25px;
+    font-size: 12.25px;
+    line-height:  18.375px;
+    padding: 4px 10.5px;
+    border-radius: 14px;
   }
 
   .app-history-date-expand {
-    display: flex;
-    justify-content: flex-start;
-    gap: 14px;
-    height: 36.75px;
+    gap: 16px;
+    height: 42px;
   }
 
   .app-history-date-expand .app-history-date {
-    font-size: 12.25px;
-    line-height: 18.375px;
+    font-size: 14px;
+    line-height: 21px;
   }
 
   .profile-app-history-expand-div {
-    padding: 9.187px 9.188px 9.188px 9.188px;
-    border-radius: 7.656px;
-    border: 0.766px solid #F5F5F5;
-    width: 36.75px;
-    height: 36.75px;
+    padding: 10.5px;
+    border-radius: 8.75px;
+    border: 0.875px solid #F5F5F5;
+    width: 42px;
+    height: 42px;
   }
 
   .profile-app-history-expand-div .profile-app-history-expand-icon {
-    width: 18.375px;
-    height: 18.375px;
-  }
-
-  .profile-app-history-dropdown {
-    gap: 3.5px;
-    top: 17.5px;
-    width: 178.5px;
-    padding: 6.444px;
-    border-radius: 7px;
-    border: 0.875px solid #F5F5F5;
-  }
-
-  .profile-app-history-dropdown-item {
-    gap: 7px;
-    padding: 7px 10.5px;
-    border-radius: 7px;
-  }
-
-  .profile-app-history-dropdown-item span {
-    font-size: 14px;
-    line-height: 21px;
-    letter-spacing: -0.56px;
-  }
-
-  .profile-app-history-dropdown-item img {
-    width: 17.5px;
-    height: 17.5px;
-  }
-
-  .profile-app-history-description {
-    margin: 0 0 12px 0;
-    min-height: 63px;
-  }
-
-  .profile-app-history-description p {
-    font-size: 14px;
-    line-height: 21px;
-    letter-spacing: -0.28px;
-  }
-
-  .profile-app-history-gitHub-div {
-    gap: 7px;
-    margin: 0;
-  }
-
-  .profile-app-history-github-anchor-div {
-    max-width: 59%;
-  }
-
-  .profile-app-history-gitHub-div img {
-    width: 23.625px;
-    height: 23.625px;
-  }
-
-  .profile-app-history-gitHub-div a {
-      font-size: 15.75px;
-      line-height: 23.625px;
-      letter-spacing: -0.315px;
-  }
-
-  .profile-app-history-buyer-info {
-    flex-direction: row;
-    gap: 0;
-    justify-content: space-between;
-  }
-
-  .profile-app-history-buyer-info div {
-    width: auto;
-    padding: 10.5px 14px;
-    border-radius: 8.75px;
-  }
-
-  .profile-app-history-buyer-info-buyer {
-    width: 27.73% !important;
-  }
-
-  .profile-app-history-buyer-info-email {
-    width: 49.1% !important;
-  }
-
-  .profile-app-history-buyer-info-price {
-    width: 19.25% !important;
-  }
-
-  .profile-app-history-buyer-info div img {
     width: 21px;
     height: 21px;
   }
 
+  .profile-app-history-dropdown {
+    gap: 4px;
+    top: 19.5px;
+    width: 204px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #F5F5F5;
+  }
+
+  .profile-app-history-dropdown-item {
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+  }
+
+  .profile-app-history-dropdown-item span {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.64px;
+  }
+
+  .profile-app-history-dropdown-item img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .profile-app-history-description {
+    -webkit-line-clamp: 1;
+    margin: 0 0 10px 0;
+    max-width: 94%;
+    min-height: 24px;
+  }
+
+  .profile-app-history-description p {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.32px;
+  }
+
+  .profile-app-history-gitHub-div {
+    gap: 8px;
+    margin: 0 0 10px 0;
+  }
+
+  .profile-app-history-github-anchor-div {
+    max-width: 70%;
+  }
+
+  .profile-app-history-gitHub-div img {
+    width: 27px;
+    height: 27px;
+  }
+
+  .profile-app-history-gitHub-div a {
+      font-size: 18px;
+      line-height: 27px;
+      letter-spacing: -0.36px;
+  }
+
+  .profile-app-history-buyer-info {
+    gap: 0;
+    position: static;
+    justify-content: space-between;
+  }
+
+  .profile-app-history-buyer-info div {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 10px;
+  }
+
+  .profile-app-history-buyer-info-buyer {
+    width: 31.396% !important;
+  }
+
+  .profile-app-history-buyer-info-email {
+    width: 44.366% !important;
+  }
+
+  .profile-app-history-buyer-info-price {
+    width: 21.378% !important;
+  }
+
+  .profile-app-history-buyer-info div img {
+    width: 24px;
+    height: 24px;
+  }
+
   .profile-app-history-buyer-info div p {
-    font-size: 14px;
-    line-height: 21px;
-    max-width: 80%;
+    font-size: 16px;
+    line-height: 24px;
   }
   .profile-applications-history-load-more-div {
     margin: 57.6px 0 0 0;
