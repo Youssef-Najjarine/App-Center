@@ -478,15 +478,24 @@ const ApplicationHistory = () => {
                   </div>
                   <div className="profile-app-history-buyer-info">
                     <div className="profile-app-history-buyer-info-buyer">
-                      <img src={buyerIcon}/>
+                      <div>
+                        <img src={buyerIcon}/>
+                        <label>Buyer Name:</label>
+                      </div>
                       <p>{app.buyer}</p>
                     </div>
                     <div className="profile-app-history-buyer-info-email">
-                      <img src={emailIcon}/>
+                      <div>
+                        <img src={emailIcon}/>
+                        <label>Email Address:</label>
+                      </div>
                       <p>{app.email}</p>
                     </div>
                     <div className="profile-app-history-buyer-info-price">
-                      <img src={priceIcon}/>
+                      <div>
+                        <img src={priceIcon}/>
+                        <label>Price:</label>
+                      </div>
                       <p>${app.cost}</p>
                     </div>
                   </div>                                 

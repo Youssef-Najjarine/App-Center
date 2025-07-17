@@ -587,7 +587,9 @@
   width: 100%;
 }
 
-.profile-app-history-buyer-info div {
+  .profile-app-history-buyer-info .profile-app-history-buyer-info-buyer,
+  .profile-app-history-buyer-info .profile-app-history-buyer-info-email,
+  .profile-app-history-buyer-info .profile-app-history-buyer-info-price {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -595,6 +597,10 @@
   padding: 9.667px 12.889px;
   border-radius: 8.056px;
   background: #FCFCFC;
+}
+
+.profile-app-history-buyer-info label {
+  display: none;
 }
 
 .profile-app-history-buyer-info div img {
@@ -835,7 +841,7 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
-    margin: 0 0 16px 0;
+    margin: 0;
   }
 
   .profile-app-history-placeholder-image {
@@ -929,7 +935,7 @@
   }
 
   .profile-app-history-description {
-    margin: 0 0 12px 0;
+    margin: 0 0 4px 0;
     min-height: 63px;
   }
 
@@ -967,7 +973,9 @@
     bottom: 10.5px;
   }
 
-  .profile-app-history-buyer-info div {
+   .profile-app-history-buyer-info .profile-app-history-buyer-info-buyer,
+  .profile-app-history-buyer-info .profile-app-history-buyer-info-email,
+  .profile-app-history-buyer-info .profile-app-history-buyer-info-price {
     width: auto;
     padding: 10.5px 14px;
     border-radius: 8.75px;
@@ -1316,7 +1324,24 @@
   }
 
   .profile-app-history-buyer-info div {
-    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .profile-app-history-buyer-info label {
+    display: flow-root;
+    color: #141522;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    opacity: 0.7;
+  }
+
+  .profile-app-history-buyer-info .profile-app-history-buyer-info-buyer,
+  .profile-app-history-buyer-info .profile-app-history-buyer-info-email,
+  .profile-app-history-buyer-info .profile-app-history-buyer-info-price {
     padding: 12px 16px;
     border-radius: 10px;
   }
@@ -1341,6 +1366,7 @@
   .profile-app-history-buyer-info div p {
     font-size: 16px;
     line-height: 24px;
+    max-width: 54%;
   }
   .profile-applications-history-load-more-div {
     margin: 57.6px 0 0 0;
