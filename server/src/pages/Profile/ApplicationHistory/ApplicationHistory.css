@@ -1,28 +1,218 @@
-#profile-applications {
+#profile-application-history {
   padding: 111.72px 20px 48px 20px;
 }
 
-.profile-applications-title-div {
+.profile-application-history-title1-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 32px 0;
+}
+
+.profile-application-history-title1-div .profile-application-history-title {
+  color: #141522;
+  font-size: 22.556px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 33.833px;
+  margin: 0;
+}
+
+.profile-application-history-calendar-sort-div {
+  padding: 9.667px 12.889px;
+  border-radius: 8.056px;
+  border: 0.806px solid #F5F5F5;
+  background: #FFF;
+  width: 150px;
+  z-index: 1000;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.profile-application-history-calendar-sort-div span {
+  color: #141522;
+  font-size: 11.278px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16.917px;
+}
+
+.profile-application-history-calendar-sortby-dropdown {
+  position: absolute;
+  top: 41.18px;
+  right: 0px;
+  width: 150px;
+  padding: 4px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  gap: 4px;
+  border-radius: 6px;
+  border: 0.875px solid #F5F5F5;
+  background: #FFF;
+  box-shadow: 10.5px 10.5px 26.25px 0px rgba(0, 0, 0, 0.10);
+}
+
+.profile-application-history-calendar-sortby-dropdown li {
+  padding: 3px 6px;
+  border-radius: 3px;
+  background: #FCFCFC;
+  color: #141522;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16.5px;
+  letter-spacing: -0.44px;
+}
+
+.profile-application-history-calendar-sortby-dropdown li:hover {
+  background: #F6F5FD;
+  color: #5541D7;
+}
+
+.profile-application-history-calendar-sortby-dropdown li.active {
+  background: #F6F5FD;
+  color: #5541D7;
+}
+
+.profile-application-history-calendar-sort-div .app-history-arrow-div {
+  display: flex;
+  align-items: center;
+}
+
+.app-history-arrow-div {
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.app-history-arrow-div.arrow-open {
+  transform: rotate(180deg);
+}
+
+.app-history-arrow-div.arrow-hover img {
+  filter: brightness(0) saturate(100%) invert(29%) sepia(37%) saturate(2136%) hue-rotate(225deg) brightness(95%) contrast(94%);
+}
+
+.profile-application-history-totals {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0 0 32px 0;
+}
+
+.profile-application-history-total {
+  width: 100%;
+  padding: 9.667px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 6.444px;
+  background: #FFF;
+
+}
+
+.profile-application-history-revenue,
+.profile-application-history-sold,
+.profile-application-history-disputed {
+  display: flex;
+  align-items: center;
+  gap: 9.667px;
+}
+
+.profile-application-history-total .profile-application-history-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 49.1px;
+  height: 49.1px;  
+  padding: 9.667px 12.889px;
+  border-radius: 8.056px;
+}
+
+.profile-application-history-total .profile-application-history-image img {
+  width: 26.58px;
+  height: 26.58px;
+}
+
+.profile-application-history-revenue .profile-application-history-image,
+.profile-application-history-sold .profile-application-history-image {
+  background: rgba(85, 65, 215, 0.15);
+
+}
+
+.profile-application-history-disputed .profile-application-history-image {
+  background: rgba(255, 70, 29, 0.10);
+}
+
+.profile-application-history-total .profile-application-history-total-amount {
+  margin: 0;
+  color: #141522;
+  font-size: 19.333px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 29px;
+  letter-spacing: -0.387px;
+}
+
+.profile-application-history-total .profile-application-history-label {
+  margin: 0;
+  color: #141522;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 19.333px;
+  letter-spacing: -0.129px;
+  opacity: 0.8;
+}
+
+.profile-application-history-total .profile-application-history-total-down span,
+.profile-application-history-total .profile-application-history-total-up span {
+  font-size: 9.868px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 14.802px;
+}
+
+.profile-application-history-total .profile-application-history-total-up span {
+  color: #5541D7;
+}
+
+.profile-application-history-total .profile-application-history-total-up {
+  padding: 3.222px 8.458px;
+  border-radius: 11.278px;
+  background: rgba(85, 65, 215, 0.15);
+  width: 106px;
+  height: 21.4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-application-history-total .profile-application-history-total-down span {
+  color: #FF461D;
+}
+
+.profile-application-history-total .profile-application-history-total-down {
+  padding: 3.222px 8.458px;
+  border-radius: 11.278px;
+  background: rgba(255, 70, 29, 0.15);
+  width: 106px;
+  height: 21.4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-application-history-title2-div {
     display: flex;
     flex-direction: column;
     margin: 0 0 32px 0;
 }
 
-.profile-applications-search-filter-add-div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.profile-applications-sortby-upload-div {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 35.5px;
-  width: 111px;
-}
-
-.profile-applications-title {
+.profile-application-history-title2-div .profile-application-history-title {
   color: #141522;
   font-size: 22.556px;
   font-style: normal;
@@ -31,14 +221,20 @@
   margin: 0 0 12px 0;
 }
 
-.profile-applications-search-div {
-  width: 215.77779px;
+.profile-application-history-search-filter-div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profile-application-history-search-div {
+  width: 84.5%;
   height: 36.33334px;
   cursor: pointer;
   position: relative;
 }
 
-.profile-applications-search {
+.profile-application-history-search {
   width: 100%;
   height: 100%;
   padding: 9.667px 35px 9.667px 12.889px;
@@ -53,7 +249,7 @@
   font-family: 'Poppins', sans-serif;
 }
 
-.profile-applications-search::placeholder {
+.profile-application-history-search::placeholder {
   color: #141522;
   font-size: 11.278px;
   font-style: normal;
@@ -62,37 +258,44 @@
   font-family: 'Poppins', sans-serif;
 }
 
-.profile-applications-search-icon {
+.profile-application-history-search-icon {
   position: absolute;
   top: 50%;
   right: 15px;
   transform: translateY(-50%);
   width: 16.111px;
+  height: 16.111px;
   height: auto;
   cursor: pointer;
 }
 
-.profile-applications-sortby-div {
+.profile-application-history-sortby-div {
   padding: 9.667px 12.889px;
   border-radius: 8.056px;
   border: 0.806px solid #F5F5F5;
   background: #FFF;
-  width: 41.88889px;
+  width: 41.9px;
   height: 35.4px;
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
   cursor: pointer;
 }
 
-.profile-applications-sortby-div img {
+.profile-application-history-sortby-div span {
+  display: none;
+}
+
+.profile-application-history-calendar-sort-div img,
+.profile-application-history-sortby-div img {
   width: 16.111px;
   height: 16.111px;
 }
 
-.sortby-dropdown {
+.profile-application-history-sortby-dropdown {
   position: absolute;
-  top: 39.51px;
+  top: 38.04px;
   right: 0px;
   margin: 0;
   padding: 4px;
@@ -102,14 +305,13 @@
   box-shadow: 10.5px 10.5px 26.25px 0px rgba(0, 0, 0, 0.10);
   list-style: none;
   z-index: 1000;
-  width: 79px;
-  height: 112px;
+  width: 99px;
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.sortby-dropdown li {
+.profile-application-history-sortby-dropdown li {
   padding: 3px 6px;
   color: #141522;
   font-size: 11px;
@@ -120,17 +322,17 @@
   border-radius: 3px;
 }
 
-.sortby-dropdown li:hover {
+.profile-application-history-sortby-dropdown li:hover {
   background: #F6F5FD;
   color: #5541D7;
 }
 
-.sortby-dropdown li.active {
+.profile-application-history-sortby-dropdown li.active {
   background: #F6F5FD;
   color: #5541D7;
 }
 
-.profile-applications-grid {
+.profile-application-history-grid {
   display: grid;
   gap: 12.889px;
   grid-template-columns: repeat(auto-fit, 335px);
@@ -138,46 +340,107 @@
   justify-content: center;
 }
 
-.profileApp {
-  padding: 9.667px 9.667px 12.889px 9.667px;
-  border: 0.967px solid #F5F5F5;
+.profile-app-history {
+  padding: 9.667px;
   background: #FFF;
-  border-radius: 12.889px;
-  cursor: pointer;
-}
-
-.profileApp-image-div {
-  width: 315.7px;
-  height: 212.7px;
-  margin: 0 0 12.89px 0;
-  position: relative;
-}
-
-.profileApp-image-div .profileApp-placeholder-img {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
   border-radius: 6.444px;
 }
 
-.profileApp-expand-div {
-  position: absolute;
-  top: 12.89px;
-  right: 12.89px;
+.profile-app-history-placeholder-image {
+  width: 100%;
+  height: 250px;
+  margin: 0 0 8px 0;
+}
+
+.profile-app-history-placeholder-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6.444px;
+}
+
+.profile-app-history-body {
+  margin: 0 0 12.89px 0;
+}
+
+.profile-app-history-header {
+  display: flex;
+  flex-direction: column-reverse;
+  margin: 0 0 6.44px 0;
+}
+
+.app-history-title {
+  display: flex;
+  align-items: center;
+  gap: 6.45px;
+}
+
+.app-history-title h3 {
+  margin: 0;
+  color: #141522;
+  font-size: 14.5px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 21.75px;
+  letter-spacing: -0.29px;
+}
+
+.app-history-title .app-history-status {
+  font-size: 9.868px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 14.802px;
+  padding: 3.222px 8.458px;
+  border-radius: 11.278px;
+}
+
+.app-history-status.request-refund {
+  color: #FF461D;
+  background: rgba(255, 70, 29, 0.15);
+}
+
+.app-history-status.under-processing {
+  color: #E89B00;
+  background: rgba(255, 180, 29, 0.15);
+}
+
+.app-history-status.sold {
+  color: #5541D7;
+  background: rgba(85, 65, 215, 0.15);
+}
+.app-history-date-expand {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 33.8px;
+  margin: 0 0 6.44px 0;
+}
+
+.app-history-date-expand .app-history-date {
+  color: #141522;
+  font-size: 11.278px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16.917px;
+  margin: 0;
+}
+
+.profile-app-history-expand-div {
+  position: relative;
   z-index: 3; 
-  padding: 9.667px;
-  border-radius: 8.056px;
-  border: 0.806px solid #F5F5F5;
-  background: #FFF;
+  padding: 8.458px 8.458px 8.459px 8.459px;
+  border-radius: 7.049px;
+  border: 0.705px solid #F5F5F5;
+  background: #FCFCFC;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 38.7px;
-  height: 38.7px;
+  width: 33.8px;
+  height: 33.8px;
   cursor: pointer;
 }
 
-.profileApp-expand-div button {
+.profile-app-history-expand-div button {
    width: 100%;
   height: 100%;
   display: flex;
@@ -189,19 +452,19 @@
   cursor: pointer;
 }
 
-.profileApp-expand-div .profileApp-expand-icon {
-  width: 19.333px;
-  height: 19.333px;
+.profile-app-history-expand-div .profile-app-history-expand-icon {
+  width: 16.917px;
+  height: 16.917px;
 }
 
-.profileApp-dropdown {
+.profile-app-history-dropdown {
   position: absolute;
   display: flex;
   flex-direction: column;
-  gap: 4.83px;
-  top: 19.33px;
-  right: 15.64px;
-  width: 115.194px;
+  gap: 3.222px;
+  top: 17.5px;
+  right: 5px;
+  width: 164.333px;
   z-index: 10;
   padding: 6.444px;
   border-radius: 6.444px;
@@ -210,30 +473,28 @@
   box-shadow: 9.667px 9.667px 24.167px 0px rgba(0, 0, 0, 0.10);
 }
 
-.profileApp-dropdown-item {
+.profile-app-history-dropdown-item {
   display: flex;
   align-items: center;
   gap: 6.44px;
   padding: 6.444px 9.667px;
-  font-size: 13px;
   text-decoration: none;
   border-radius: 6.444px;
 }
 
-.profileApp-dropdown-item.details,
-.profileApp-dropdown-item.edit {
+.profile-app-history-dropdown-item.details {
   background: rgba(96, 91, 255, 0.10);
 }
 
-.profileApp-dropdown-item.delete {
+.profile-app-history-dropdown-item.refund {
   background: rgba(255, 70, 29, 0.10);
 }
 
-.profileApp-dropdown-item.delete span {
+.profile-app-history-dropdown-item.refund span {
   color: #FF461D;
 }
 
-.profileApp-dropdown-item span {
+.profile-app-history-dropdown-item span {
   font-size: 12.889px;
   font-style: normal;
   font-weight: 500;
@@ -241,145 +502,126 @@
   letter-spacing: -0.516px;
 }
 
-.profileApp-dropdown-item.details span,
-.profileApp-dropdown-item.edit span {
+.profile-app-history-dropdown-item.details span,
+.profile-app-history-dropdown-item.edit span {
   color: #605BFF;
 }
 
-.profileApp-dropdown-item.delete span {
+.profile-app-history-dropdown-item.refund span {
   color: #FF461D;
 }
 
-.profileApp-dropdown-item img {
+.profile-app-history-dropdown-item img {
   width: 16.111px;
   height: 16.111px;
 }
 
-.profileApp-dropdown-item.details:hover,
-.profileApp-dropdown-item.edit:hover {
+.profile-app-history-dropdown-item.details:hover,
+.profile-app-history-dropdown-item.edit:hover {
   background: #605BFF;
 }
-.profileApp-dropdown-item:hover img {
+.profile-app-history-dropdown-item:hover img {
   filter: brightness(0) invert(1);
 }
 
-.profileApp-dropdown-item:hover span {
+.profile-app-history-dropdown-item:hover span {
   color: #FFF;
 }
 
-.profileApp-dropdown-item.delete:hover {
+.profile-app-history-dropdown-item.refund:hover {
   background: #FF461D;
 }
 
-.profileApp-video-overlay {
-  position: absolute;
-  bottom: 9.67px;
-  left: 9.67px; 
-  display: flex;
-  gap: 6.444px;
-  padding: 9.667px;
-  border-radius: 8.056px;
-  background: rgba(255, 255, 255, 0.70);
-  width: 80.1px;
-  height: 38.7px;
-}
-
-.profileApp-play-icon {
-  width: 19.333px;
-  height: 19.333px;
-  margin-right: 0;
-}
-
-.profileApp-video-duration {
-  color: #141522;
-  font-size: 14.5px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 21.75px;
-  letter-spacing: -0.29px;
-}
-
-.profileApp-gitHub-div {
+.profile-app-history-description {
+  max-width: 100%;
+   display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   margin: 0 0 12.89px 0;
-  gap: 6.444px;
+  min-height: 57px;
+}
+
+.profile-app-history-description p {
+  margin: 0;
+  color: #141522;
+  font-size: 12.889px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 19.333px;
+  letter-spacing: -0.258px;
+}
+
+.profile-app-history-gitHub-div {
+  gap: 6.44px;
   display: flex;
   cursor: pointer;
+  margin: 0 0 12.89px 0;
 }
 
-.profileApp-gitHub-anchor-div {
-  max-width: 253px;
+.profile-app-history-github-anchor-div {
+  max-width: 81%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.profileApp-gitHub-div img {
+.profile-app-history-gitHub-div img {
   width: 21.75px;
   height: 21.75px;
 }
 
-.profileApp-gitHub-div a {
-  color: #5C6BC0;
-  font-size: 14.5px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 21.75px;
-  letter-spacing: -0.29px;
+.profile-app-history-gitHub-div a {
+    color: #5C6BC0;
+    font-size: 14.5px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 21.75px;
+    letter-spacing: -0.29px;
 }
 
-.profileApp-app-title {
-  color: #141522;
-  font-size: 17.722px;
-  line-height: 26.583px;
-  letter-spacing: -0.354px;
-  margin: 0 0 9.67px 0;
-  font-style: normal;
-font-weight: 700;
-}
-
-.profileApp-app-description {
-  color: #141522;
-  font-size: 14.5px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 21.75px;
-  letter-spacing: -0.29px;
-  margin: 0 0 12.89px 0;
-}
-
-.profileApp-app-tech-stack {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+.profile-app-history-buyer-info {
   display: flex;
-  flex-wrap: wrap;
-  gap: 9.67px;
-  max-height: 226.14px;
-  overflow-y: auto;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
 }
 
-.profileApp-app-tech-stack li {
-  padding: 4.833px 9.667px;
-  color: #5541D7;
-  background: rgba(85, 65, 215, 0.15);
-  border-radius: 12.889px;
-  font-size: 11.278px;
+.profile-app-history-buyer-info div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9.667px 12.889px;
+  border-radius: 8.056px;
+  background: #FCFCFC;
+}
+
+.profile-app-history-buyer-info div img {
+  width: 19.333px;
+  height: 19.333px;
+}
+
+.profile-app-history-buyer-info div p {
+  margin: 0;
+  color: #141522;
+  font-size: 12.889px;
   font-style: normal;
   font-weight: 500;
-  line-height: 16.917px;
+  line-height: 19.333px;
+  max-width: 225px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.profileApp-collapse-tech {
-  color: #888 !important;
-}
-
-.profile-applications-load-more-div {
+.profile-applications-history-load-more-div {
   width: 100%;
   text-align: center;
   margin: 46.4px 0 0 0;
 }
 
-.profile-applications-load-more {
+.profile-applications-history-load-more {
   border-radius: 9.667px;
   background: #5541D7;
   padding: 11.6px 23.2px;
@@ -392,30 +634,133 @@ font-weight: 700;
   cursor: pointer;
 }
 @media screen and (min-width: 768px) {
-  #profile-applications {
-    padding: 107.75px 20px 48px 20px;
+  #profile-application-history {
+    padding: 109.25px 20px 48px 20px;
   }
 
-  .profile-applications-title-div {
-      margin: 0 0 26.5px 0;
+  .profile-application-history-title1-div {
+    margin: 0 0 17.5px 0;
   }
 
-  .profile-applications-sortby-upload-div {
-  height: 39px;
-  width: 326px;
-}
+  .profile-application-history-title1-div .profile-application-history-title {
+    font-size: 24px;
+    line-height: 36px;
+  }
 
-  .profile-applications-title {
+  .profile-application-history-calendar-sort-div {
+    padding: 10.5px 14px;
+    border-radius: 8.75px;
+    width: 163px;
+  }
+
+  .profile-application-history-calendar-sort-div span {
+    font-size: 12.25px;
+    line-height: 18.375px;
+  }
+
+  .profile-application-history-calendar-sortby-dropdown {
+    top: 41.48px;
+    width: 163px;
+  }
+
+  .profile-application-history-calendar-sortby-dropdown li {
+    padding: 4px 6px;
+    font-size: 12.25px;
+    line-height: 18.375px;
+    letter-spacing: -0.49px;
+  }
+
+  .profile-application-history-totals {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    margin: 0 0 16px 0;
+  }
+
+  .profile-application-history-total {
+    width: calc(100% / 3);
+    padding: 10.5px;
+    display: flow-root;
+    border-radius: 7px;
+    background: #FFF;
+
+  }
+
+  .profile-application-history-revenue,
+  .profile-application-history-sold,
+  .profile-application-history-disputed {
+    gap: 11px;
+    margin: 0 0 12px 0;
+  }
+
+  .profile-application-history-total .profile-application-history-image {
+    width: 53.375px;
+    height: 53.375px;  
+    padding: 10.5px 14px;
+    border-radius: 8.75px;
+  }
+
+  .profile-application-history-total .profile-application-history-image img {
+    width: 28.88px;
+    height: 28.88px;
+  }
+
+  .profile-application-history-total .profile-application-history-total-amount {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.4px;
+  }
+
+  .profile-application-history-total .profile-application-history-label {
+    font-size: 13px;
+    line-height: 19.5px;
+    letter-spacing: -0.13px;
+    opacity: 0.8;
+  }
+
+  .profile-application-history-total .profile-application-history-total-down span,
+  .profile-application-history-total .profile-application-history-total-up span {
+    font-size: 10.719px;
+    line-height: 16.078px;
+  }
+
+  .profile-application-history-total .profile-application-history-total-up {
+    padding: 6px 12px;
+    border-radius: 12.25px;
+    width: 100%;
+    height: 28px;
+  }
+
+  .profile-application-history-total .profile-application-history-total-down {
+    padding: 6px 12px;
+    border-radius: 12.25px;
+    width: 100%;
+    height: 28px;
+  }
+
+  .profile-application-history-title2-div {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin: 0 0 16px 0;
+  }
+
+  .profile-application-history-title2-div .profile-application-history-title {
     font-size: 24.5px;
     line-height: 36.75px;
+    margin: 0;
   }
 
-  .profile-applications-search-div {
-    width: 396.5px;
+  .profile-application-history-search-filter-div {
+    width: 83%;
+  }
+
+  .profile-application-history-search-div {
+    width: 68%;
     height: 39px;
   }
 
-  .profile-applications-search {
+  .profile-application-history-search {
     padding: 10.5px 35px 10.5px 14px;
     border-radius: 8.75px;
     border: 0.875px solid #F5F5F5;
@@ -423,39 +768,28 @@ font-weight: 700;
     line-height: 18.375px;
   }
 
-  .profile-applications-search::placeholder {
+  .profile-application-history-search::placeholder {
     font-size: 12.25px;
     line-height: 18.375px;
   }
 
-  .profile-applications-search-icon {
-    width: 17.5px;
-  }
-
-  .profile-applications-sortby-div span {
-      display: flow-root;
-  }
-
-  .profile-applications-sortby-div {
-    padding: 10.5px 14px;
-    border-radius: 8.75px;
-    border: 0.875px solid #F5F5F5;
-    width: 151px;
-    height: 39px;
-    display: flow-root;
-  }
-
-  .profile-applications-sortby-div div {
-    display: flex;
-    gap: 7px;
-  }
-
-  .profile-applications-sortby-div img {
+  .profile-application-history-search-icon {
     width: 17.5px;
     height: 17.5px;
   }
 
-  .profile-applications-sortby-div span {
+  .profile-application-history-sortby-div {
+    padding: 10.5px 14px;
+    border-radius: 8.75px;
+    border: 0.875px solid #F5F5F5;
+    width: 30%;
+    height: 39px;
+    justify-content: flex-start;
+    gap: 7px;
+  }
+
+  .profile-application-history-sortby-div span {
+    display: flow-root;
     color: #141522;
     font-size: 12.25px;
     font-style: normal;
@@ -463,157 +797,206 @@ font-weight: 700;
     line-height: 18.375px;
   }
 
-  .sortby-dropdown {
-    top: 43px;
-    border: 0.875px solid #F5F5F5;
-    width: 151px;
-    height: 124px;
-  }
-
-  .sortby-dropdown li {
-    padding: 4px 6px;
-    font-size: 12.25px;
-    line-height:  18.375px;
-    letter-spacing: -0.49px;
-  }
-
-  .profile-applications-grid {
-    display: grid;
-    gap: 14px;
-    grid-template-columns: repeat(auto-fit, 357px);
-  }
-
-  .profileApp {
-    padding: 10.5px 10.5px 14px 10.5px;
-    border-radius: 14px;
-  }
-
-  .profileApp-image-div {
-    width: 336px;
-    height: 231px;
-    margin: 0 0 14px 0;
-  }
-
-  .profileApp-image-div .profileApp-placeholder-img {
-    border-radius: 7px;
-  }
-
-  .profileApp-expand-div {
-    top: 14px;
-    right: 14px;
-    padding: 10.5px;
-    border-radius: 8.75px;
-    border: 0.875px solid #F5F5F5;
-    width: 42px;
-    height: 42px;
-  }
-
-  .profileApp-expand-div .profileApp-expand-icon {
-    width: 21px;
-    height: 21px;
-  }
-
-  .profileApp-dropdown {
-    gap: 5.25px;
-    top: 22px;
-    right: 16.12px;
-    border-radius: 7px;
-    width: 125.125px;
-    padding: 7px;
-    border: 0.875px solid #F5F5F5;
-    box-shadow: 10.5px 10.5px 26.25px 0px rgba(0, 0, 0, 0.10);
-  }
-
-  .profileApp-dropdown-item {
-    gap: 7px;
-    padding: 7px 10.5px;
-    font-size: 14px;
-    border-radius: 7px;
-  }
-
-  .profileApp-dropdown-item span {
-    font-size: 14px;
-    line-height: 21px;
-    letter-spacing: -0.56px
-  }
-
-  .profileApp-dropdown-item img {
+  .profile-application-history-calendar-sort-div img,
+  .profile-application-history-sortby-div img {
     width: 17.5px;
     height: 17.5px;
   }
 
-  .profileApp-video-overlay {
-    bottom: 10.5px;
-    left: 10.5px; 
-    gap: 7px;
+  .profile-application-history-sortby-dropdown {
+    top: 38.28px;
+    width: 100%;
+  }
+
+  .profile-application-history-sortby-dropdown li {
+    padding: 4px 6px;
+    font-size: 12.25px;
+    line-height: 18.375px;
+    letter-spacing: -0.49px;
+  }
+
+  .profile-application-history-grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(auto-fit, 100%);
+    align-items: start;
+    justify-content: center;
+  }
+
+  .profile-app-history {
     padding: 10.5px;
-    border-radius: 8.75px;
-    width: 87px;
-    height: 42px;
+    border-radius: 7px;
   }
 
-  .profileApp-play-icon {
-    width: 21px;
-    height: 21px;
+  .profile-app-history-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0 0 16px 0;
   }
 
-  .profileApp-video-duration {
-    font-size: 15.75px;
-    line-height: 23.625px;
-    letter-spacing: -0.315px;
+  .profile-app-history-placeholder-image {
+    width: 27.6%;
+    height: 141.75px;
+    margin: 0;
   }
 
-  .profileApp-gitHub-div {
-    margin: 0 0 14px 0;
+  .profile-app-history-placeholder-image img {
+    width: 100%;
+    height: 100%;
+    border-radius: 7px;
+  }
+
+  .profile-app-history-body {
+    width: 70.2%;
+    margin: 0;
+  }
+
+  .profile-app-history-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 0 6px 0;
+  }
+
+  .app-history-title {
     gap: 7px;
   }
 
-  .profileApp-gitHub-anchor-div {
-    max-width: 275px;
-  }
-
-  .profileApp-gitHub-div img {
-    width: 23.625px;
-    height: 23.625px;
-  }
-
-  .profileApp-gitHub-div a {
+  .app-history-title h3 {
     font-size: 15.75px;
     line-height: 23.625px;
     letter-spacing: -0.315px;
   }
 
-  .profileApp-app-title {
-    font-size: 19.25px;
-    line-height: 28.875px;
-    letter-spacing:  -0.385px;
-    margin: 0 0 10.5px 0;
+  .app-history-title .app-history-status {
+    font-size: 10.719px;
+    line-height: 16.078px;
+    padding: 3.5px 9.187px;
+    border-radius: 12.25px;
   }
 
-  .profileApp-app-description {
-    font-size: 15.75px;
-    line-height: 23.625px;
-    letter-spacing: -0.315px;
-    margin: 0 0 14px 0;
+  .app-history-date-expand {
+    display: flex;
+    justify-content: flex-start;
+    gap: 14px;
+    height: 36.75px;
   }
 
-  .profileApp-app-tech-stack {
-    gap: 10.5px;
-    max-height: 226.14px;
-  }
-
-  .profileApp-app-tech-stack li {
-    padding: 5.25px 10.5px;
-    border-radius: 14px;
+  .app-history-date-expand .app-history-date {
     font-size: 12.25px;
     line-height: 18.375px;
   }
 
-  .profile-applications-load-more-div {
+  .profile-app-history-expand-div {
+    padding: 9.187px 9.188px 9.188px 9.188px;
+    border-radius: 7.656px;
+    border: 0.766px solid #F5F5F5;
+    width: 36.75px;
+    height: 36.75px;
+  }
+
+  .profile-app-history-expand-div .profile-app-history-expand-icon {
+    width: 18.375px;
+    height: 18.375px;
+  }
+
+  .profile-app-history-dropdown {
+    gap: 3.5px;
+    top: 17.5px;
+    width: 178.5px;
+    padding: 6.444px;
+    border-radius: 7px;
+    border: 0.875px solid #F5F5F5;
+  }
+
+  .profile-app-history-dropdown-item {
+    gap: 7px;
+    padding: 7px 10.5px;
+    border-radius: 7px;
+  }
+
+  .profile-app-history-dropdown-item span {
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.56px;
+  }
+
+  .profile-app-history-dropdown-item img {
+    width: 17.5px;
+    height: 17.5px;
+  }
+
+  .profile-app-history-description {
+    margin: 0 0 12px 0;
+    min-height: 63px;
+  }
+
+  .profile-app-history-description p {
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.28px;
+  }
+
+  .profile-app-history-gitHub-div {
+    gap: 7px;
+    margin: 0;
+  }
+
+  .profile-app-history-github-anchor-div {
+    max-width: 59%;
+  }
+
+  .profile-app-history-gitHub-div img {
+    width: 23.625px;
+    height: 23.625px;
+  }
+
+  .profile-app-history-gitHub-div a {
+      font-size: 15.75px;
+      line-height: 23.625px;
+      letter-spacing: -0.315px;
+  }
+
+  .profile-app-history-buyer-info {
+    flex-direction: row;
+    gap: 0;
+    justify-content: space-between;
+  }
+
+  .profile-app-history-buyer-info div {
+    width: auto;
+    padding: 10.5px 14px;
+    border-radius: 8.75px;
+  }
+
+  .profile-app-history-buyer-info-buyer {
+    width: 27.73% !important;
+  }
+
+  .profile-app-history-buyer-info-email {
+    width: 49.1% !important;
+  }
+
+  .profile-app-history-buyer-info-price {
+    width: 19.25% !important;
+  }
+
+  .profile-app-history-buyer-info div img {
+    width: 21px;
+    height: 21px;
+  }
+
+  .profile-app-history-buyer-info div p {
+    font-size: 14px;
+    line-height: 21px;
+    max-width: 80%;
+  }
+  .profile-applications-history-load-more-div {
     margin: 50.4px 0 0 0;
   }
 
-  .profile-applications-load-more {
+  .profile-applications-history-load-more {
     border-radius: 10.5px;
     padding: 12.6px 25.2px;
     font-size: 13.533px;
@@ -621,36 +1004,128 @@ font-weight: 700;
   }
 }
 @media screen and (min-width: 1440px) {
-  #profile-applications {
-    padding: 131px 32px 60px 32px;
+  #profile-application-history {
+    padding: 132.5px 32px 48px 32px;
   }
 
-  .profile-applications-title-div {
+  .profile-application-history-title1-div {
     margin: 0 0 25.5px 0;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .profile-applications-search-filter-add-div {
-    width: 780px;
   }
 
-  .profile-applications-sortby-upload-div {
-  height: 45px;
-  width: 383px;
-}
-
-  .profile-applications-title {
+  .profile-application-history-title1-div .profile-application-history-title {
     font-size: 28px;
     line-height: 42px;
+    letter-spacing: -0.56px;
   }
 
-  .profile-applications-search-div {
-    width: 385px;
+  .profile-application-history-calendar-sort-div {
+    padding: 12px 16px;
+    border-radius: 10px;
+    width: 187px;
+  }
+
+  .profile-application-history-calendar-sort-div span {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .profile-application-history-calendar-sortby-dropdown {
+    top: 47.23px;
+    width: 187px;
+  }
+
+  .profile-application-history-calendar-sortby-dropdown li {
+    padding: 5px 8px;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.56px;
+  }
+
+  .profile-application-history-totals {
+    gap: 24px;
+    margin: 0 0 24px 0;
+  }
+
+  .profile-application-history-total {
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 8px;
+  }
+
+  .profile-application-history-revenue,
+  .profile-application-history-sold,
+  .profile-application-history-disputed {
+    gap: 12px;
+    margin: 0;
+  }
+
+  .profile-application-history-total .profile-application-history-image {
+    width: 61px;
+    height: 61px;
+    padding: 12px 16px;
+    border-radius: 10px;
+  }
+
+  .profile-application-history-total .profile-application-history-image img {
+    width: 33px;
+    height: 33px;
+  }
+
+  .profile-application-history-total .profile-application-history-total-amount {
+    font-size: 24px;
+    line-height: 36px;
+    letter-spacing: -0.48px;
+  }
+
+  .profile-application-history-total .profile-application-history-label {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.16px;
+    opacity: 0.8;
+  }
+
+  .profile-application-history-total .profile-application-history-total-down span,
+  .profile-application-history-total .profile-application-history-total-up span {
+    font-size: 12.25px;
+    line-height: 18.375px;
+  }
+
+  .profile-application-history-total .profile-application-history-total-up {
+    padding: 4px 10.5px;
+    border-radius: 14px;
+    width: 33%;
+    height: 26px;
+  }
+
+  .profile-application-history-total .profile-application-history-total-down {
+    padding: 4px 10.5px;
+    border-radius: 14px;
+    width: 32.3%;
+    height: 26px;
+  }
+
+  .profile-application-history-title2-div {
+      margin: 0 0 25.5px 0;
+  }
+
+  .profile-application-history-title2-div .profile-application-history-title {
+    font-size: 28px;
+    line-height: 42px;
+    margin: 0;
+  }
+
+  .profile-application-history-search-filter-div {
+    width: 45%;
+  }
+
+  .profile-application-history-search-div {
+    width: 63%;
     height: 45px;
   }
 
-  .profile-applications-search {
+  .profile-application-history-search {
     padding: 12px 35px 12px 16px;
     border-radius: 10px;
     border: 1px solid #F5F5F5;
@@ -658,187 +1133,230 @@ font-weight: 700;
     line-height: 21px;
   }
 
-  .profile-applications-search::placeholder {
+  .profile-application-history-search::placeholder {
     font-size: 14px;
     line-height: 21px;
   }
 
-  .profile-applications-search-icon {
+  .profile-application-history-search-icon {
     width: 20px;
+    height: 20px;
   }
 
-  .profile-applications-sortby-div {
+  .profile-application-history-sortby-div {
     padding: 12px 16px;
     border-radius: 10px;
     border: 1px solid #F5F5F5;
-    width: 173px;
+    width: 33.34%;
     height: 45px;
-  }
-
-  .profile-applications-sortby-div div {
     gap: 8px;
   }
 
-  .profile-applications-sortby-div img {
-    width: 20px;
-    height: 20px;
-  }
-
-  .profile-applications-sortby-div span {
+  .profile-application-history-sortby-div span {
     font-size: 14px;
     line-height: 21px;
   }
 
-  .sortby-dropdown {
-    top: 51px;
-    width: 173px;
-    height: 144px;
+  .profile-application-history-calendar-sort-div img,
+  .profile-application-history-sortby-div img {
+    width: 20px;
+    height: 20px;
   }
 
-  .sortby-dropdown li {
+  .profile-application-history-sortby-dropdown {
+    top: 45px;
+    width: 100%;
+  }
+
+  .profile-application-history-sortby-dropdown li {
     padding: 5px 8px;
     font-size: 14px;
-    line-height:  21px;
-    letter-spacing: -0.65px;
+    line-height: 21px;
+    letter-spacing: -0.56px;
   }
 
-  .profile-applications-grid {
+  .profile-application-history-grid {
     display: grid;
-    gap: 16px;
-    grid-template-columns: repeat(auto-fit, 448px);
+    gap: 14px;
+    grid-template-columns: repeat(auto-fit, 100%);
+    align-items: start;
+    justify-content: center;
   }
 
-  .profileApp {
-    padding: 12px 12px 16px 12px;
-    border-radius: 16px;
+  .profile-app-history {
+    padding: 10.5px;
+    border-radius: 7px;
   }
 
-  .profileApp-image-div {
-    width: 424px;
-    height: 264px;
+  .profile-app-history-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
     margin: 0 0 16px 0;
   }
 
-  .profileApp-image-div .profileApp-placeholder-img {
-    border-radius: 8px;
+  .profile-app-history-placeholder-image {
+    width: 27.6%;
+    height: 141.75px;
+    margin: 0;
   }
 
-  .profileApp-expand-div {
-    top: 16px;
-    right: 16px;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid #F5F5F5;
-    width: 48px;
-    height: 48px;
+  .profile-app-history-placeholder-image img {
+    width: 100%;
+    height: 100%;
+    border-radius: 7px;
   }
 
-  .profileApp-expand-div .profileApp-expand-icon {
-    width: 24px;
-    height: 24px;
+  .profile-app-history-body {
+    width: 70.2%;
+    margin: 0;
   }
 
-  .profileApp-dropdown {
-    gap: 6px;
-    top: 24px;
-    right: 19px;
-    border-radius: 8px;
-    width: 143px;
-    padding: 8px;
-    border: 1px solid #F5F5F5;
-    box-shadow: 12px 12px 30px 0px rgba(0, 0, 0, 0.10);
+  .profile-app-history-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 0 6px 0;
   }
 
-  .profileApp-dropdown-item {
-    gap: 8px;
-    padding: 8px 12px;
-    font-size: 16px;
-    border-radius: 8px;
+  .app-history-title {
+    gap: 7px;
   }
 
-  .profileApp-dropdown-item span {
-    font-size: 16px;
-    line-height: 24px;
-    letter-spacing: -0.64px
+  .app-history-title h3 {
+    font-size: 15.75px;
+    line-height: 23.625px;
+    letter-spacing: -0.315px;
   }
 
-  .profileApp-dropdown-item img {
-    width: 20px;
-    height: 20px;
+  .app-history-title .app-history-status {
+    font-size: 10.719px;
+    line-height: 16.078px;
+    padding: 3.5px 9.187px;
+    border-radius: 12.25px;
   }
 
-  .profileApp-video-overlay {
-    bottom: 12px;
-    left: 12px; 
-    gap: 8px;
-    padding: 12px;
-    border-radius: 10px;
-    width: 99px;
-    height: 48px;
+  .app-history-date-expand {
+    display: flex;
+    justify-content: flex-start;
+    gap: 14px;
+    height: 36.75px;
   }
 
-  .profileApp-play-icon {
-    width: 24px;
-    height: 24px;
+  .app-history-date-expand .app-history-date {
+    font-size: 12.25px;
+    line-height: 18.375px;
   }
 
-  .profileApp-video-duration {
-    font-size: 18px;
-    line-height: 27px;
-    letter-spacing: -0.36px;
+  .profile-app-history-expand-div {
+    padding: 9.187px 9.188px 9.188px 9.188px;
+    border-radius: 7.656px;
+    border: 0.766px solid #F5F5F5;
+    width: 36.75px;
+    height: 36.75px;
   }
 
-  .profileApp-gitHub-div {
-    margin: 0 0 16px 0;
-    gap: 8px;
+  .profile-app-history-expand-div .profile-app-history-expand-icon {
+    width: 18.375px;
+    height: 18.375px;
   }
 
-  .profileApp-gitHub-anchor-div {
-    max-width: 314px;
+  .profile-app-history-dropdown {
+    gap: 3.5px;
+    top: 17.5px;
+    width: 178.5px;
+    padding: 6.444px;
+    border-radius: 7px;
+    border: 0.875px solid #F5F5F5;
   }
 
-  .profileApp-gitHub-div img {
-    width: 27px;
-    height: 27px;
+  .profile-app-history-dropdown-item {
+    gap: 7px;
+    padding: 7px 10.5px;
+    border-radius: 7px;
   }
 
-  .profileApp-gitHub-div a {
-    font-size: 18px;
-    line-height: 27px;
-    letter-spacing: -0.36px;
-  }
-
-  .profileApp-app-title {
-    font-size: 22px;
-    line-height: 33px;
-    letter-spacing:  -0.44px;
-    margin: 0 0 12px 0;
-  }
-
-  .profileApp-app-description {
-    font-size: 18px;
-    line-height: 27px;
-    letter-spacing: -0.36px;
-    margin: 0 0 16px 0;
-  }
-
-  .profileApp-app-tech-stack {
-    gap: 12px;
-    max-height: 226.14px;
-  }
-
-  .profileApp-app-tech-stack li {
-    padding: 6px 12px;
-    border-radius: 16px;
+  .profile-app-history-dropdown-item span {
     font-size: 14px;
     line-height: 21px;
+    letter-spacing: -0.56px;
   }
 
-  .profile-applications-load-more-div {
+  .profile-app-history-dropdown-item img {
+    width: 17.5px;
+    height: 17.5px;
+  }
+
+  .profile-app-history-description {
+    margin: 0 0 12px 0;
+    min-height: 63px;
+  }
+
+  .profile-app-history-description p {
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.28px;
+  }
+
+  .profile-app-history-gitHub-div {
+    gap: 7px;
+    margin: 0;
+  }
+
+  .profile-app-history-github-anchor-div {
+    max-width: 59%;
+  }
+
+  .profile-app-history-gitHub-div img {
+    width: 23.625px;
+    height: 23.625px;
+  }
+
+  .profile-app-history-gitHub-div a {
+      font-size: 15.75px;
+      line-height: 23.625px;
+      letter-spacing: -0.315px;
+  }
+
+  .profile-app-history-buyer-info {
+    flex-direction: row;
+    gap: 0;
+    justify-content: space-between;
+  }
+
+  .profile-app-history-buyer-info div {
+    width: auto;
+    padding: 10.5px 14px;
+    border-radius: 8.75px;
+  }
+
+  .profile-app-history-buyer-info-buyer {
+    width: 27.73% !important;
+  }
+
+  .profile-app-history-buyer-info-email {
+    width: 49.1% !important;
+  }
+
+  .profile-app-history-buyer-info-price {
+    width: 19.25% !important;
+  }
+
+  .profile-app-history-buyer-info div img {
+    width: 21px;
+    height: 21px;
+  }
+
+  .profile-app-history-buyer-info div p {
+    font-size: 14px;
+    line-height: 21px;
+    max-width: 80%;
+  }
+  .profile-applications-history-load-more-div {
     margin: 57.6px 0 0 0;
   }
 
-  .profile-applications-load-more {
+  .profile-applications-history-load-more {
     border-radius: 12px;
     padding: 14.4px 28.8px;
     font-size: 16.8px;

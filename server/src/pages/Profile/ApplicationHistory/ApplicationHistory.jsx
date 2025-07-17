@@ -1,155 +1,231 @@
 import React, { useState, useEffect, useRef  } from "react";
 import { Link } from "react-router-dom";
 import ProfileApplicationDetailModal from "../ProfileApplicationDetailModal/ProfileApplicationDetailModal";
-import ProfileUploadEditAppModal from "../ProfileUploadEditAppModal/ProfileUploadEditAppModal";
-import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
+import calendarIcon from "../../../assets/Member/profile-applications-history-calendar-icon.svg";
+import arrowIcon from "../../../assets/Member/profile-applications-history-arrow-icon.svg";
+import appSoldIcon from "../../../assets/Member/profile-applications-history-app-sold-icon.svg";
+import disputedIcon from "../../../assets/Member/profile-applications-history-disputed-icon.svg";
 import searchIcon from "../../../assets/Member/member-applications-search-icon.svg";
 import applicationImg1 from "../../../assets/Member/member-applicationImg-1.png";
 import applicationImg2 from "../../../assets/Member/member-applicationImg-2.png";
 import githubIcon from "../../../assets/Member/member-applications-github-icon.png";
 import expandIcon from "../../../assets/Member/member-applications-more-icon.svg";
-import detailsIcon from "../../../assets/Member/member-applications-details-icon.svg";
-import editIcon from "../../../assets/Member/member-applications-edit-icon.svg";
-import trashIcon from "../../../assets/Member/member-applications-trash-icon.svg";
-import addIcon from "../../../assets/Member/member-applications-add-circle-icon.svg";
+import detailIcon from "../../../assets/Member/profile-applications-history-detail-icon.svg";
+import resendIcon from "../../../assets/Member/profile-applications-history-resend-icon.svg";
+import inquiryIssueIcon from "../../../assets/Member/profile-applications-history-inquiry-issue-icon.svg";
+import refundIcon from "../../../assets/Member/profile-applications-history-give-refund-icon.svg";
+import buyerIcon from "../../../assets/Member/profile-applications-history-buyer-icon.svg";
+import emailIcon from "../../../assets/Member/profile-applications-history-email-icon.svg";
+import priceIcon from "../../../assets/Member/profile-applications-history-price-icon.svg";
 import sortIcon from "../../../assets/Member/member-applications-sort-icon.svg";
-import playIcon from "../../../assets/Member/member-applications-play-icon.svg";
 import "./ApplicationHistory.css";
 
 const ApplicationHistory = () => {
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+    useEffect(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, []);
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedApp, setSelectedApp] = useState(null);
-  const [modalSource, setModalSource] = useState("card");
-  const [showAll, setShowAll] = useState(false);
-  const [expandedTechStacks, setExpandedTechStacks] = useState({});
-  const [sortOption, setSortOption] = useState("Popular");
-  const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
-  const [showUploadEditModal, setShowUploadEditModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [appToDelete, setAppToDelete] = useState(null);
-  const dropdownRefs = useRef({});
-  const [expandedDropdownId, setExpandedDropdownId] = useState(null); // for dropdowns
-  const [modalApp, setModalApp] = useState(null); // for modal
-  const [applications, setApplications] = useState([
-    {
-      id: 1,
-      title: "Toritube App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg1,
-      github: "https://github.com/Youssef-Najjarine/portfolio",
-      tech: ["Firebase", "JavaScript"],
-    },
-    {
-      id: 2,
-      title: "Antidote App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg2,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
-    },
-    {
-      id: 3,
-      title: "Toritube App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg1,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API"],
-    },
-    {
-      id: 4,
-      title: "Antidote App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg2,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
-    },
-    {
-      id: 5,
-      title: "Toritube App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg1,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API"],
-    },
-    {
-      id: 6,
-      title: "Antidote App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg2,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
-    },
-    {
-      id: 7,
-      title: "Toritube App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg1,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API"],
-    },
-    {
-      id: 8,
-      title: "Antidote App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg2,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
-    },
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalSource, setModalSource] = useState("card");
+    const [showAll, setShowAll] = useState(false);
+    const [isHoveringCalendarItem, setIsHoveringCalendarItem] = useState(false);
+    const [calendarSortOption, setCalendarSortOption] = useState("This Month");
+    const [calendarDropdownOpen, setCalendarDropdownOpen] = useState(false);
+    const sortByRef = useRef(null);
+    const [sortOption, setSortOption] = useState("Popular");
+    const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
+    const dropdownRefs = useRef({});
+    const [expandedDropdownId, setExpandedDropdownId] = useState(null); // for dropdowns
+    const [modalApp, setModalApp] = useState(null); // for modal
+    const totalRevenue = "12,560";
+    const applicationsSold = 17;
+    const disputedApplications = 2;
+    const [applications, setApplications] = useState([
       {
-      id: 9,
-      title: "Toritube App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg1,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API"],
-    },
-    {
-      id: 10,
-      title: "Antidote App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg2,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
-    },
-    {
-      id: 11,
-      title: "Toritube App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg1,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API"],
-    },
-    {
-      id: 12,
-      title: "Antidote App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg2,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
-    },
-    {
-      id: 13,
-      title: "Toritube App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg1,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API"],
-    },
-    {
-      id: 14,
-      title: "Antidote App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg2,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
-    },
-  ]);
+        id: 1,
+        title: "Toritube App",
+        date: "24 Jan, 2024 at 14:56",
+        status: "Request Refund",
+        buyer: "Muddassar Haseeb",
+        email: "muddassarhaseeb34@gmail.com",
+        cost: 500,
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ... Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ... Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
+        img: applicationImg1,
+        github: "https://github.com/Youssef-Najjarine/portfolio",
+        tech: ["Firebase", "JavaScript"],
+      },
+      {
+        id: 2,
+        title: "Antidote App",
+        date: "24 Jan, 2024 at 14:56",
+        status: "Under Processing",
+        buyer: "Youssef Najjarine",
+        email: "ynajjarine@gmail.com",
+        cost: 500,      
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
+        img: applicationImg2,
+        github: "https://github.com/my-name/repo...",
+        tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
+      },
+      {
+        id: 3,
+        title: "Toritube App",
+        date: "24 Jan, 2024 at 14:56",
+        status: "Sold",
+      buyer: "Youssef Najjarine Youssef Najjarine Youssef Najjarine Youssef Najjarine Youssef Najjarine",
+        email: "ynajjarine@gmail.comynajjarine@gmail.comynajjarine@gmail.comynajjarine@gmail.comynajjarine@gmail.comynajjarine@gmail.com",        
+        cost: 500, 
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
+        img: applicationImg1,
+        github: "https://github.com/my-name/repo...",
+        tech: ["Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API"],
+      },
+      {
+        id: 4,
+        title: "Antidote App",
+        date: "24 Jan, 2024 at 14:56",
+        status: "Request Refund",
+        buyer: "Youssef Najjarine",
+        email: "ynajjarine@gmail.com",        
+        cost: 500,       
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
+        img: applicationImg2,
+        github: "https://github.com/my-name/repo...",
+        tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
+      },
+      {
+        id: 5,
+        title: "Toritube App",
+        date: "24 Jan, 2024 at 14:56",
+        status: "Under Processing",
+        buyer: "Youssef Najjarine",
+        email: "ynajjarine@gmail.com",        
+        cost: 500,       
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
+        img: applicationImg1,
+        github: "https://github.com/my-name/repo...",
+        tech: ["Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API"],
+      },
+      {
+        id: 6,
+        title: "Antidote App",
+        date: "24 Jan, 2024 at 14:56",
+        status: "Sold",
+        buyer: "Youssef Najjarine",
+        email: "ynajjarine@gmail.com",        
+        cost: 500,        
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
+        img: applicationImg2,
+        github: "https://github.com/my-name/repo...",
+        tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
+      },
+      {
+        id: 7,
+        title: "Toritube App",
+        date: "24 Jan, 2024 at 14:56",
+        status: "Request Refund",
+        buyer: "Youssef Najjarine",
+        email: "ynajjarine@gmail.com",        
+        cost: 500,       
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
+        img: applicationImg1,
+        github: "https://github.com/my-name/repo...",
+        tech: ["Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API"],
+      },
+      {
+        id: 8,
+        title: "Antidote App",
+        date: "24 Jan, 2024 at 14:56",
+        status: "Under Processing",
+        buyer: "Youssef Najjarine",
+        email: "ynajjarine@gmail.com",        
+        cost: 500,
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
+        img: applicationImg2,
+        github: "https://github.com/my-name/repo...",
+        tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
+      },
+        {
+        id: 9,
+        title: "Toritube App",
+        date: "24 Jan, 2024 at 14:56",
+        status: "Sold",
+        buyer: "Youssef Najjarine",
+        email: "ynajjarine@gmail.com",        
+        cost: 500,
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
+        img: applicationImg1,
+        github: "https://github.com/my-name/repo...",
+        tech: ["Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API"],
+      },
+      {
+        id: 10,
+        title: "Antidote App",
+        date: "24 Jan, 2024 at 14:56",
+        status: "Request Refund",
+        buyer: "Youssef Najjarine",
+        email: "ynajjarine@gmail.com",        
+        cost: 500,
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
+        img: applicationImg2,
+        github: "https://github.com/my-name/repo...",
+        tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
+      },
+      {
+        id: 11,
+        title: "Toritube App",
+        date: "24 Jan, 2024 at 14:56",
+        status: "Sold",
+        buyer: "Youssef Najjarine",
+        email: "ynajjarine@gmail.com",        
+        cost: 500,      
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
+        img: applicationImg1,
+        github: "https://github.com/my-name/repo...",
+        tech: ["Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API"],
+      },
+      {
+        id: 12,
+        title: "Antidote App",
+        date: "24 Jan, 2024 at 14:56",
+        status: "Under Processing",
+        buyer: "Youssef Najjarine",
+        email: "ynajjarine@gmail.com",        
+        cost: 500,        
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
+        img: applicationImg2,
+        github: "https://github.com/my-name/repo...",
+        tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
+      },
+      {
+        id: 13,
+        title: "Toritube App",
+        date: "24 Jan, 2024 at 14:56",
+        status: "Request Refund",
+        buyer: "Youssef Najjarine",
+        email: "ynajjarine@gmail.com",        
+        cost: 500,         
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
+        img: applicationImg1,
+        github: "https://github.com/my-name/repo...",
+        tech: ["Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API"],
+      },
+      {
+        id: 14,
+        title: "Antidote App",
+        date: "24 Jan, 2024 at 14:56",
+        status: "Sold",
+        buyer: "Youssef Najjarine",
+        email: "ynajjarine@gmail.com",        
+        cost: 500,         
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
+        img: applicationImg2,
+        github: "https://github.com/my-name/repo...",
+        tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
+      },
+    ]);
 
-   const visibleApps = showAll ? applications : applications.slice(0, 12);
+    const visibleApps = showAll ? applications : applications.slice(0, 12);
     useEffect(() => {
       const handleClickOutside = (event) => {
         if (
@@ -159,191 +235,271 @@ const ApplicationHistory = () => {
         ) {
           setExpandedDropdownId(null);
         }
+
+        if (
+          calendarDropdownOpen &&
+          !event.target.closest(".profile-application-history-calendar-sort-div")
+        ) {
+          setCalendarDropdownOpen(false);
+        }
+
+        if (
+          sortDropdownOpen &&
+          sortByRef.current &&
+          !sortByRef.current.contains(event.target)
+        ) {
+          setSortDropdownOpen(false);
+        }
       };
 
       document.addEventListener("mousedown", handleClickOutside);
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
       };
-    }, [expandedDropdownId]);
+}, [expandedDropdownId, calendarDropdownOpen, sortDropdownOpen]);
 
-  const toggleTechStack = (id) => {
-    setExpandedTechStacks((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        expandedDropdownId &&
+        dropdownRefs.current[expandedDropdownId] &&
+        !dropdownRefs.current[expandedDropdownId].current.contains(event.target)
+      ) {
+        setExpandedDropdownId(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [expandedDropdownId]);
 
   return (
-    <section id="profile-applications">
-      <div className="profile-applications-title-div">
-        <h2 className="profile-applications-title">History</h2>
-        <div className="profile-applications-search-filter-add-div">
-          <div className="profile-applications-search-div">
-            <input className="profile-applications-search" placeholder="Search..." />
-            <img src={searchIcon} alt="Applications Search" className="profile-applications-search-icon" />
+    <section id="profile-application-history">
+      <div className="profile-application-history-title1-div">
+        <h2 className="profile-application-history-title">Applications</h2>
+        <div 
+          className="profile-application-history-calendar-sort-div" 
+          onClick={() => setCalendarDropdownOpen(!calendarDropdownOpen)}
+        >
+          <img src={calendarIcon} alt="Calendar Icon" />
+          <span>{calendarSortOption}</span>
+          <div
+            className={`app-history-arrow-div ${calendarDropdownOpen ? "arrow-open" : ""} ${isHoveringCalendarItem ? "arrow-hover" : ""}`}
+          >
+            <img src={arrowIcon} alt="Arrow Icon" />
           </div>
-          <div className="profile-applications-sortby-upload-div">
-            <div className="profile-applications-sortby-div">
-              <div onClick={() => setSortDropdownOpen(!sortDropdownOpen)}>
-                <img src={sortIcon} alt="Sort Icon" />
-                <span>Sort By: {sortOption}</span>
+          {calendarDropdownOpen && (
+            <ul className="profile-application-history-calendar-sortby-dropdown">
+              {["All Time", "This Week", "This Month", "Last Month", "Last 6 Months", "This Year"].map((option) => (
+                <li
+                  key={option}
+                  className={calendarSortOption === option ? "active" : ""}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCalendarSortOption(option);
+                    setCalendarDropdownOpen(false);
+                  }}
+                  onMouseEnter={() => setIsHoveringCalendarItem(true)}
+                  onMouseLeave={() => setIsHoveringCalendarItem(false)}
+                >
+                  {option}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>     
+      </div>
+      <div className="profile-application-history-totals">
+          <div className="profile-application-history-total">
+              <div className="profile-application-history-revenue">
+                <div className="profile-application-history-image">
+                  <img src={priceIcon}/>
+                </div>
+                <div className="profile-application-history-details">
+                  <p className="profile-application-history-total-amount">${totalRevenue}</p>
+                  <p className="profile-application-history-label">Total Revenue</p>
+                </div>
               </div>
-              {sortDropdownOpen && (
-                <ul className="sortby-dropdown">
-                  {["Popular", "Latest", "A-Z", "Z-A"].map((option) => (
-                    <li
-                      key={option}
-                      className={sortOption === option ? "active" : ""}
-                      onClick={() => {
-                        setSortOption(option);
-                        setSortDropdownOpen(false);
-                      }}
-                    >
-                      {option}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
+              <div className="profile-application-history-total-down">
+                <span>-12% / last month</span>
+              </div>
           </div>
+          <div className="profile-application-history-total">
+              <div className="profile-application-history-sold">
+                <div className="profile-application-history-image">
+                  <img src={appSoldIcon}/>
+                </div>
+                <div className="profile-application-history-details">
+                  <p className="profile-application-history-total-amount">{applicationsSold}</p>
+                  <p className="profile-application-history-label">No. of Applications Sold</p>
+                </div>
+              </div>
+              <div className="profile-application-history-total-up">
+                <span>+8% / last month</span>
+              </div>
+          </div>
+          <div className="profile-application-history-total">
+              <div className="profile-application-history-disputed">
+                <div className="profile-application-history-image">
+                  <img src={disputedIcon}/>
+                </div>
+                <div className="profile-application-history-details">
+                  <p className="profile-application-history-total-amount">{disputedApplications}</p>
+                  <p className="profile-application-history-label">Disputed Applications</p>
+                </div>
+              </div>
+              <div className="profile-application-history-total-up">
+                <span>-10% / last month</span>
+              </div>
+          </div>
+      </div>
+      <div className="profile-application-history-title2-div">
+        <h2 className="profile-application-history-title">History</h2>
+        <div className="profile-application-history-search-filter-div">
+          <div className="profile-application-history-search-div">
+            <input className="profile-application-history-search" placeholder="Search..." />
+            <img src={searchIcon} alt="Applications Search" className="profile-application-history-search-icon" />
+          </div>
+          <div
+            className="profile-application-history-sortby-div"
+            ref={sortByRef}
+            onClick={(e) => {
+              e.stopPropagation();
+              setSortDropdownOpen((prev) => !prev);
+            }}
+          >
+            <img src={sortIcon} alt="Sort Icon" />
+            <span>Sort By: {sortOption}</span>
+            {sortDropdownOpen && (
+              <ul className="profile-application-history-sortby-dropdown">
+                {["Popular", "Recent Sold","Latest", "A-Z", "Z-A"].map((option) => (
+                  <li
+                    key={option}
+                    className={sortOption === option ? "active" : ""}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSortOption(option);
+                      setSortDropdownOpen(false);
+                    }}
+                  >
+                    {option}
+                  </li>
+                ))}
+              </ul>
+            )}
+            </div>
         </div>
       </div>
-
-      <div className="profile-applications-grid">
+      <div className="profile-application-history-grid">
         {visibleApps.map((app) => {
-          const isExpanded = expandedTechStacks[app.id];
-          const visibleTech = isExpanded ? app.tech : app.tech.slice(0, 3);
-          const remaining = app.tech.length - 3;
           if (!dropdownRefs.current[app.id]) {
             dropdownRefs.current[app.id] = React.createRef();
           }
           return (
             <div
-              className="profileApp"
+              className="profile-app-history"
               key={app.id}
               onClick={(e) => {
                 const target = e.target;
                 const isInsideLink = target.closest("a");
                 const isInsideExpandDiv = target.closest(".profileApp-expand-div");
-                const isTechToggle =
-                  target.classList.contains("expand-tech") ||
-                  target.classList.contains("profileApp-collapse-tech");
-
-                if (!isInsideLink && !isInsideExpandDiv && !isTechToggle) {
-                  setModalApp(app);
-                  setModalSource("card");
-                  setModalOpen(true);
-                }
               }}
             >
-              <div className="profileApp-image-div">
-                <img src={app.img} alt={app.title} className="profileApp-placeholder-img" />
-                <div className="profileApp-video-overlay">
-                  <img src={playIcon} alt="Play" className="profileApp-play-icon" />
-                  <span className="profileApp-video-duration">14:22</span>
+              <div className="profile-app-history-row">
+                <div className="profile-app-history-placeholder-image">
+                  <img src={app.img}/>
                 </div>
-                <div className="profileApp-expand-div"
-                  ref={dropdownRefs.current[app.id]}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setExpandedDropdownId((prev) => (prev === app.id ? null : app.id));
-                  }}
-                >
-                  <button>
-                    <img src={expandIcon} className="profileApp-expand-icon" />
-                  </button>
-                  {expandedDropdownId === app.id &&  (
-                    <div className="profileApp-dropdown">
-                      <div
-                        className="profileApp-dropdown-item details"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setModalApp(app);
-                          setModalSource("details");
-                          setModalOpen(true);
-                          setExpandedDropdownId(null);
-                        }}
-                      >
-                        <img src={detailsIcon} alt="Details" />
-                        <span>Details</span>
-                      </div>
-                      <div
-                        className="profileApp-dropdown-item edit"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setShowUploadEditModal(true);
-                          setSelectedApp(null);
-                        }}
-                      >
-                        <img src={editIcon} alt="Edit" />
-                        <span>Edit</span>
-                      </div>
-                      <div
-                        className="profileApp-dropdown-item delete"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setAppToDelete(app);
-                          setShowDeleteModal(true);
-                          setSelectedApp(null);
-                        }}
-                      >
-                        <img src={trashIcon} alt="Delete" />
-                        <span>Delete</span>
+                <div className="profile-app-history-body">
+                  <div className="profile-app-history-header">
+                    <div className="app-history-title">
+                      <h3>{app.title}</h3>
+                      <div className={`app-history-status ${app.status.replace(/\s+/g, '-').toLowerCase()}`}>
+                        {app.status}
                       </div>
                     </div>
-                  )}                  
+                    <div className="app-history-date-expand">
+                      <p className="app-history-date">{app.date}</p>
+                      <div className="profile-app-history-expand-div"
+                        ref={dropdownRefs.current[app.id]}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setExpandedDropdownId((prev) => (prev === app.id ? null : app.id));
+                        }}
+                      >
+                        <button>
+                          <img src={expandIcon} className="profile-app-history-expand-icon" />
+                        </button>
+                        {expandedDropdownId === app.id &&  (
+                          <div className="profile-app-history-dropdown">
+                            <div
+                              className="profile-app-history-dropdown-item details"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setModalApp(app);
+                                setModalSource("details");
+                                setModalOpen(true);
+                                setExpandedDropdownId(null);
+                              }}
+                            >
+                              <img src={detailIcon} alt="Details" />
+                              <span>Details</span>
+                            </div>
+                            <div className="profile-app-history-dropdown-item details">
+                              <img src={resendIcon} alt="Resend" />
+                              <span>Resend Details</span>
+                            </div>
+                            <div className="profile-app-history-dropdown-item details">
+                              <img src={inquiryIssueIcon} alt="Inquiry Issue" />
+                              <span>Inquiry Issue</span>
+                            </div>  
+                            <div className="profile-app-history-dropdown-item refund">
+                              <img src={refundIcon} alt="Inquiry Issue" />
+                              <span>Give Refund</span>
+                            </div>                                                                              
+                          </div>
+                        )}                  
+                      </div>
+                    </div>                  
+                  </div>
+                  <div className="profile-app-history-description">
+                    <p>{app.description}</p>
+                  </div>
+                  <div className="profile-app-history-gitHub-div">
+                    <a href={app.github} target="_blank" rel="noopener noreferrer">
+                        <img src={githubIcon} alt="GitHub icon" />
+                    </a>
+                    <div className="profile-app-history-github-anchor-div">
+                        <a href={app.github} target="_blank" rel="noopener noreferrer">
+                        {app.github}
+                        </a>
+                    </div>
+                  </div>                
                 </div>
               </div>
-              <div className="profileApp-gitHub-div">
-                <div>
-                  <a href={app.github} target="_blank" rel="noopener noreferrer">
-                    <img src={githubIcon} alt="GitHub icon" />
-                  </a>
-                </div>
-                <div className="profileApp-gitHub-anchor-div">
-                  <a href={app.github} target="_blank" rel="noopener noreferrer">
-                    {app.github}
-                  </a>
-                </div>
+              <div className="profile-app-history-buyer-info">
+                    <div className="profile-app-history-buyer-info-buyer">
+                      <img src={buyerIcon}/>
+                      <p>{app.buyer}</p>
+                    </div>
+                    <div className="profile-app-history-buyer-info-email">
+                      <img src={emailIcon}/>
+                      <p>{app.email}</p>
+                    </div>
+                    <div className="profile-app-history-buyer-info-price">
+                      <img src={priceIcon}/>
+                      <p>${app.cost}</p>
+                    </div>
               </div>
-              <h6 className="profileApp-app-title">{app.title}</h6>
-              <p className="profileApp-app-description">{app.description}</p>
-              <ul className="profileApp-app-tech-stack">
-                {visibleTech.map((techItem, index) => (
-                  <li key={`${app.id}-tech-${index}`}>{techItem}</li>
-                ))}
-                {!isExpanded && remaining > 0 && (
-                  <li
-                    className="expand-tech"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleTechStack(app.id);
-                    }}
-                  >
-                    +{remaining}
-                  </li>
-                )}
-                {isExpanded && remaining > 0 && (
-                  <li
-                    className="profileApp-collapse-tech"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleTechStack(app.id);
-                    }}
-                  >
-                    Show less
-                  </li>
-                )}
-              </ul>
             </div>
           );
         })}
       </div>
 
-      <div className="profile-applications-load-more-div">
+      <div className="profile-applications-history-load-more-div">
         <button
-          className="profile-applications-load-more"
+          className="profile-applications-history-load-more"
           onClick={() => setShowAll(!showAll)}
         >
           {showAll ? "Show Less" : "Load More"}
@@ -359,31 +515,6 @@ const ApplicationHistory = () => {
           }}
           app={modalApp}
           modalSource={modalSource}
-        />
-      )}
-
-      {showUploadEditModal && (
-        <ProfileUploadEditAppModal
-          modalOpenState={showUploadEditModal}
-          onClose={() => setShowUploadEditModal(false)}
-        />
-      )}
-
-      {showDeleteModal && appToDelete && (
-        <DeleteConfirmationModal
-          modalOpenState={showDeleteModal}
-          onClose={() => {
-            setShowDeleteModal(false);
-            setAppToDelete(null);
-          }}
-          app={appToDelete}
-          onConfirmDelete={() => {
-            setApplications((prevApps) =>
-              prevApps.filter((app) => app.id !== appToDelete.id)
-            );
-            setShowDeleteModal(false);
-            setAppToDelete(null);
-          }}
         />
       )}
     </section>

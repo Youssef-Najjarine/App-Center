@@ -194,6 +194,7 @@ color: #5541D7;
     border-radius: 8.056px;
     background: #5541D7;
     border: none;
+    cursor: pointer;
   }
 
   .error-input {

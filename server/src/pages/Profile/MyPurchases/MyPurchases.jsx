@@ -24,6 +24,7 @@ const ProfileApplications = () => {
   const [selectedApp, setSelectedApp] = useState(null);
   const [modalSource, setModalSource] = useState("card");
   const [showAll, setShowAll] = useState(false);
+  const sortByRef = useRef(null);
   const [sortOption, setSortOption] = useState("Popular");
   const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
   const dropdownRefs = useRef({});
@@ -210,40 +211,56 @@ const ProfileApplications = () => {
         ) {
           setExpandedDropdownId(null);
         }
+
+        if (
+          sortDropdownOpen &&
+          sortByRef.current &&
+          !sortByRef.current.contains(event.target)
+        ) {
+          setSortDropdownOpen(false);
+        }
       };
 
       document.addEventListener("mousedown", handleClickOutside);
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
       };
-    }, [expandedDropdownId]);
+    }, [expandedDropdownId, sortDropdownOpen]);
+
 
   return (
     <section id="profile-my-purchases">
         <div className="profile-my-purchases-title-div">
             <h2 className="profile-my-purchases-title">My Purchases</h2>
                 <div className="profile-my-purchases-sortby-buy-more-div">
-                    <div className="profile-my-purchases-sortby-div">
-                        <div onClick={() => setSortDropdownOpen(!sortDropdownOpen)} className="profile-my-purchases-sortby-button">
+                    <div className="profile-my-purchases-sortby-div" ref={sortByRef}>
+                      <div
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSortDropdownOpen((prev) => !prev);
+                        }}
+                        className="profile-my-purchases-sortby-button"
+                      >
                         <img src={sortIcon} alt="Sort Icon" />
                         <span className="profile-my-purchases-sort-option">Sort By: {sortOption}</span>
-                        </div>
-                        {sortDropdownOpen && (
+                      </div>
+                      {sortDropdownOpen && (
                         <ul className="profile-my-purchases-sortby-dropdown">
-                            {["Popular", "Latest", "A-Z", "Z-A"].map((option) => (
+                          {["Popular", "Latest", "A-Z", "Z-A"].map((option) => (
                             <li
-                                key={option}
-                                className={sortOption === option ? "active" : ""}
-                                onClick={() => {
+                              key={option}
+                              className={sortOption === option ? "active" : ""}
+                              onClick={(e) => {
+                                e.stopPropagation();
                                 setSortOption(option);
                                 setSortDropdownOpen(false);
-                                }}
+                              }}
                             >
-                                {option}
+                              {option}
                             </li>
-                            ))}
+                          ))}
                         </ul>
-                        )}
+                      )}
                     </div>
                     <div className="profile-my-purchases-header-right-border"></div>
                     <div className="profile-my-purchases-buy-more-div">
@@ -332,14 +349,14 @@ const ProfileApplications = () => {
                                 </div>
                                 <div>
                                 <div className="profile-my-purchases-gitHub-div">
-                                <a href={app.github} target="_blank" rel="noopener noreferrer">
-                                    <img src={githubIcon} alt="GitHub icon" />
-                                </a>
-                                <div className="profile-my-purchases-github-anchor-div">
-                                    <a href={app.github} target="_blank" rel="noopener noreferrer">
-                                    {app.github}
-                                    </a>
-                                </div>
+                                  <a href={app.github} target="_blank" rel="noopener noreferrer">
+                                      <img src={githubIcon} alt="GitHub icon" />
+                                  </a>
+                                  <div className="profile-my-purchases-github-anchor-div">
+                                      <a href={app.github} target="_blank" rel="noopener noreferrer">
+                                      {app.github}
+                                      </a>
+                                  </div>
                                 </div>
                                 </div>
                             </div>                           

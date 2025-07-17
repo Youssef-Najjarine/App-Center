@@ -29,6 +29,7 @@ const AppManagement = () => {
   const [showAll, setShowAll] = useState(false);
   const [expandedTechStacks, setExpandedTechStacks] = useState({});
   const [sortOption, setSortOption] = useState("Popular");
+  const sortByRef = useRef(null);
   const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
   const [showUploadEditModal, setShowUploadEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -101,22 +102,30 @@ const [boostApp, setBoostApp] = useState(null);
     }
   ]);
   const visibleApps = showAll ? applications : applications.slice(0, 3);
-    useEffect(() => {
-      const handleClickOutside = (event) => {
-        if (
-          expandedDropdownId &&
-          dropdownRefs.current[expandedDropdownId] &&
-          !dropdownRefs.current[expandedDropdownId].current.contains(event.target)
-        ) {
-          setExpandedDropdownId(null);
-        }
-      };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        expandedDropdownId &&
+        dropdownRefs.current[expandedDropdownId] &&
+        !dropdownRefs.current[expandedDropdownId].current.contains(event.target)
+      ) {
+        setExpandedDropdownId(null);
+      }
 
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }, [expandedDropdownId]);
+      if (
+        sortDropdownOpen &&
+        sortByRef.current &&
+        !sortByRef.current.contains(event.target)
+      ) {
+        setSortDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [expandedDropdownId, sortDropdownOpen]);
 
   return (
     <section id="app-management-applications">
@@ -128,18 +137,26 @@ const [boostApp, setBoostApp] = useState(null);
             <img src={searchIcon} alt="Applications Search" className="app-management-search-icon" />
           </div>
           <div className="app-management-sortby-upload-div">
-            <div className="app-management-sortby-div">
-              <div onClick={() => setSortDropdownOpen(!sortDropdownOpen)}>
+            <div className="app-management-sortby-div" ref={sortByRef}>
+              <div
+                className="app-management-sortby-toggle"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSortDropdownOpen((prev) => !prev);
+                }}
+              >
                 <img src={sortIcon} alt="Sort Icon" />
                 <span>Sort By: {sortOption}</span>
               </div>
+
               {sortDropdownOpen && (
                 <ul className="sortby-dropdown">
                   {["Popular", "Latest", "A-Z", "Z-A"].map((option) => (
                     <li
                       key={option}
                       className={sortOption === option ? "active" : ""}
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         setSortOption(option);
                         setSortDropdownOpen(false);
                       }}
