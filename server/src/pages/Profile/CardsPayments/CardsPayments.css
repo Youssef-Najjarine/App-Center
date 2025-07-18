@@ -1,0 +1,490 @@
+#profile-cards-payments {
+  padding: 111.72px 20px 48px 20px;
+}
+
+.profile-cards-payments-title-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 32px 0;
+}
+
+.profile-cards-payments-title-div .profile-cards-payments-arrow-title {
+    display: flex;
+    align-items: center;
+    gap: 12.89px;
+}
+
+.profile-cards-payments-arrow-title,
+.profile-cards-payments-contact-support,
+.profile-cards-payments-contact-support button,
+.profile-cards-payments-payment-linked-delete,
+.profile-cards-payments-payment-linked-delete button,
+.profile-cards-payments-payment-not-linked,
+.profile-cards-payments-payment-not-linked button {
+    cursor: pointer;
+}
+
+.profile-cards-payments-arrow-title img {
+    width: 29px;
+    height: 29px;
+}
+
+.profile-cards-payments-arrow-title h2 {
+    margin: 0;
+    color: #141522;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 30px;
+    letter-spacing: -0.4px;
+}
+
+.profile-cards-payments-contact-support {
+    padding: 9.667px 12.889px;
+    width: 41.9px;
+    height: 35.4px;
+    background: #5541D7;
+    border-radius: 8.056px;
+}
+
+.profile-cards-payments-contact-support button img {
+    width: 16.111px;
+    height: 16.111px;
+}
+
+.profile-cards-payments-contact-support span {
+    display: none;
+}
+
+.profile-cards-payments-grid {
+  width: 100%;
+  display: grid;
+  gap: 12.889px;
+  grid-template-columns: repeat(auto-fit, 335px);
+  align-items: start;
+  justify-content: center;
+}
+
+.profile-cards-payments-payment {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 6.444px;
+    background: #FFF;
+    padding: 19.333px;
+}
+
+.profile-cards-payments-payment-details {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+.profile-cards-payments-payment-image {
+    width: 44.306px;
+    height: 44.306px;
+    border-radius: 8.861px;
+}
+
+.profile-cards-payments-payment-account {
+    color: #141522;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 27px;
+    letter-spacing: -0.36px;
+    margin: 0 0 4.83px 0;
+}
+
+.profile-cards-payments-payment-withdrawl {
+    margin: 0;
+}
+
+.profile-cards-payments-payment-withdrawl-label {
+    color: rgba(20, 21, 34, 0.70);
+    font-size: 12.25px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18.375px;
+    letter-spacing: -0.122px;
+}
+
+.profile-cards-payments-payment-withdrawl-amount {
+    color: #141522;
+    font-size: 12.25px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18.375px;
+    letter-spacing: -0.122px;
+}
+
+.profile-cards-payments-payment-link-withdrawl {
+    color: rgba(20, 21, 34, 0.70);
+    font-size: 12.25px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18.375px ;
+    letter-spacing: -0.122px;
+    margin: 0;
+}
+
+.profile-cards-payments-payment-linked {
+    display: flex;
+    justify-content: space-between;
+}
+
+.profile-cards-payments-payment-linked-label {
+    border-radius: 19.333px;
+    background: rgba(85, 65, 215, 0.15);
+    padding: 6.444px 12.889px;
+    width: 243.5px;
+    height: 34px;
+}
+
+.profile-cards-payments-payment-linked-label button {
+    color: #5541D7;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 21px;
+}
+
+.profile-cards-payments-contact-support button,
+.profile-cards-payments-payment-linked-label button,
+.profile-cards-payments-payment-linked-delete button,
+.profile-cards-payments-payment-not-linked  button {
+    width: 100%;
+    height: 100%;
+    background: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-cards-payments-payment-linked-delete button  {
+    color: #5541D7;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 21px;
+}
+
+.profile-cards-payments-payment-linked-delete {
+    width: 33.833px;
+    height: 33.833px;
+    padding: 8.458px;
+    border-radius: 7.049px;
+    background: rgba(255, 0, 0, 0.05);
+}
+
+.profile-cards-payments-payment-linked-delete img {
+    width: 19.333px;
+    height: 19.333px;
+}
+
+.profile-cards-payments-payment-not-linked {
+    border-radius: 8.056px;
+    background: #5541D7;
+    padding: 9.667px 12.889px;
+    width: 100%;
+    height: 40.3px;
+}
+
+.profile-cards-payments-payment-not-linked  button {
+    gap: 6.44px;
+}
+
+.profile-cards-payments-payment-not-linked img {
+    width: 16.111px;
+    height: 16.111px;
+}
+
+.profile-cards-payments-payment-not-linked span {
+    color: #FFF;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 21px;
+    letter-spacing: -0.28px;  
+}
+@media screen and (min-width: 768px) {
+    #profile-cards-payments {
+    padding: 107.75px 20px 48px 20px;
+    }
+
+    .profile-cards-payments-title-div {
+        margin: 0 0 17px 0;
+    }
+
+    .profile-cards-payments-title-div .profile-cards-payments-arrow-title {
+        gap: 12.89px;
+    }
+
+    .profile-cards-payments-arrow-title img {
+        width: 31.5px;
+        height: 31.5px;
+    }
+
+    .profile-cards-payments-arrow-title h2 {
+        font-size: 24.5px;
+        line-height: 36.75px;
+        letter-spacing: -0.49px;
+    }
+
+    .profile-cards-payments-contact-support {
+        padding: 10.5px 14px;
+        width: 149.5px;
+        height: 39px;
+        border-radius: 8.75px;
+    }
+
+    .profile-cards-payments-contact-support button {
+        gap: 7px;
+    }
+
+    .profile-cards-payments-contact-support button img {
+        width: 17.5px;
+        height: 17.5px;
+    }
+
+    .profile-cards-payments-contact-support span {
+        display: flow-root;
+        color: #FFF;
+        font-size: 12.25px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 18.375px;
+        letter-spacing: -0.245px; 
+    }
+
+    .profile-cards-payments-grid {
+        gap: 14px;
+        grid-template-columns: repeat(auto-fit, 100%);
+    }
+
+    .profile-cards-payments-payment {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0;
+        border-radius: 7px;
+        padding: 21px;
+    }
+
+    .profile-cards-payments-payment-details {
+        gap: 21px;
+    }
+    .profile-cards-payments-payment-image {
+        width: 48.125px;
+        height: 48.125px;
+        border-radius: 9.625px;
+    }
+
+    .profile-cards-payments-payment-account {
+        font-size: 19.25px;
+        line-height: 28.875px;
+        letter-spacing: -0.385px;
+        margin: 0 0 5.25px 0;
+    }
+
+    .profile-cards-payments-payment-withdrawl-label,
+    .profile-cards-payments-payment-withdrawl-amount {
+        font-size: 14px;
+        line-height: 21px;
+        letter-spacing: -0.14px;
+    }
+
+    .profile-cards-payments-payment-link-withdrawl {
+        font-size: 14px;
+        line-height: 21px;
+        letter-spacing: -0.14px;
+        margin: 0;
+    }
+
+    .profile-cards-payments-payment-linked {
+        justify-content: start;
+        gap: 21px;
+    }
+
+    .profile-cards-payments-payment-linked-label {
+        border-radius: 21px;
+        padding: 7px 14px;
+        width: 209px;
+        height: 32px;
+    }
+
+    .profile-cards-payments-payment-linked-delete button  {
+        font-size: 12.25px;
+        line-height: 18.375px;
+    }
+
+    .profile-cards-payments-payment-linked-delete {
+        width: 36.75px;
+        height: 36.75px;
+        padding: 9.187px;
+        border-radius: 7.656px;
+    }
+
+    .profile-cards-payments-payment-linked-delete img {
+        width: 21px;
+        height: 21px;
+    }
+
+    .profile-cards-payments-payment-not-linked {
+        border-radius: 8.75px;
+        padding: 10.5px 14px;
+        width: 153.5px;
+        height: 39px;
+    }
+
+    .profile-cards-payments-payment-not-linked  button {
+        gap: 7px;
+    }
+
+    .profile-cards-payments-payment-not-linked img {
+        width: 17.5px;
+        height: 17.5px;
+    }
+
+    .profile-cards-payments-payment-not-linked span {
+        font-size: 12.25px;
+        line-height: 18.375px;
+        letter-spacing: -0.245px;
+    }
+}
+@media screen and (min-width: 1440px) {
+    #profile-cards-payments {
+    padding: 132.5px 32px 48px 32px;
+    }
+
+    .profile-cards-payments-title-div {
+        margin: 0 0 25.5px 0;
+    }
+
+    .profile-cards-payments-title-div .profile-cards-payments-arrow-title {
+        gap: 16px;
+    }
+
+    .profile-cards-payments-arrow-title img {
+        width: 36px;
+        height: 36px;
+    }
+
+    .profile-cards-payments-arrow-title h2 {
+        font-size: 28px;
+        line-height: 42px;
+        letter-spacing: -0.56px;
+    }
+
+    .profile-cards-payments-contact-support {
+        padding: 12px 16px;
+        width: 169px;
+        height: 45px;
+        border-radius: 10px;
+    }
+
+    .profile-cards-payments-contact-support button {
+        gap: 8px;
+    }
+
+    .profile-cards-payments-contact-support button img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .profile-cards-payments-contact-support span {
+        font-size: 14px;
+        line-height: 21px;
+        letter-spacing: -0.28px; 
+    }
+
+    .profile-cards-payments-grid {
+        gap: 16px;
+    }
+
+    .profile-cards-payments-payment {
+        border-radius: 8px;
+        padding: 24px;
+    }
+
+    .profile-cards-payments-payment-details {
+        gap: 24px;
+    }
+    .profile-cards-payments-payment-image {
+        width: 55px;
+        height: 55px;
+        border-radius: 11px;
+    }
+
+    .profile-cards-payments-payment-account {
+        font-size: 22px;
+        line-height: 33px;
+        letter-spacing: -0.44px;
+        margin: 0 0 6px 0;
+    }
+
+    .profile-cards-payments-payment-withdrawl-label,
+    .profile-cards-payments-payment-withdrawl-amount {
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: -0.16px;
+    }
+
+    .profile-cards-payments-payment-link-withdrawl {
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: -0.16px;
+    }
+
+    .profile-cards-payments-payment-linked {
+        gap: 24px;
+    }
+
+    .profile-cards-payments-payment-linked-label {
+        border-radius: 24px;
+        padding: 8px 16px;
+        width: 213px;
+        height: 37px;
+    }
+
+    .profile-cards-payments-payment-linked-delete button  {
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .profile-cards-payments-payment-linked-delete {
+        width: 42px;
+        height: 42px;
+        padding: 10.5px;
+        border-radius: 8.75px;
+    }
+
+    .profile-cards-payments-payment-linked-delete img {
+        width: 24px;
+        height: 24px;
+    }
+
+    .profile-cards-payments-payment-not-linked {
+        border-radius: 10px;
+        padding: 12px 16px;
+        width: 174px;
+        height: 45px;
+    }
+
+    .profile-cards-payments-payment-not-linked  button {
+        gap: 8px;
+    }
+
+    .profile-cards-payments-payment-not-linked img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .profile-cards-payments-payment-not-linked span {
+        font-size: 14px;
+        line-height: 21px;
+        letter-spacing: -0.28px;
+    }
+}

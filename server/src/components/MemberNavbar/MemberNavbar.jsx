@@ -55,7 +55,7 @@ const MemberNavbar = () => {
         </div>
 
         <div className="member-navbar-actions">
-          <div className={`member-nav-application-div ${["/profile/apps", "/profile/appManagement", "/profile/MyPurchases"].includes(location.pathname) ? "active-app-tab" : ""}`}>
+          <div className={`member-nav-application-div ${["/profile/apps", "/profile/appManagement", "/profile/MyPurchases", "/profile/ApplicationHistory"].includes(location.pathname) ? "active-app-tab" : ""}`}>
             <Link to="/profile/apps">
               <img src={applications} className='member-nav-applications-icon' />
               <span>Applications</span>
@@ -63,7 +63,7 @@ const MemberNavbar = () => {
           </div>
 
           <div className="member-profile-wrapper" ref={profileWrapperRef}>
-            <div className={`member-profile-nav ${["/profile/apps", "/profile/appManagement", "/profile/MyPurchases"].includes(location.pathname) ? "inactive-profile-tab" : ""}`} onClick={toggleDropdown}>
+            <div className={`member-profile-nav ${["/profile/apps", "/profile/appManagement", "/profile/MyPurchases", "/profile/ApplicationHistory"].includes(location.pathname) ? "inactive-profile-tab" : ""}`} onClick={toggleDropdown}>
               <img src={profilePic} alt="member-icon" />
               <div>
                 <p className='member-nav-name'>Youssef Najjarine</p>
@@ -106,14 +106,14 @@ const MemberNavbar = () => {
                   <img src={applicationHistoryIcon} />
                   <span>Application History</span>
                 </div>
-              </Link>
+              </Link>             
               <Link to="/payouts" onClick={() => setShowDropdown(false)}>
                 <div className='member-navbar-icon-div'>
                   <img src={earningsPayoutsIcon} />
                   <span>Earning & Payouts</span>
                 </div>
               </Link>
-              <Link to="/payments" onClick={() => setShowDropdown(false)}>
+              <Link to="/profile/CardsPayments" onClick={() => setShowDropdown(false)}>
                 <div className='member-navbar-icon-div'>
                   <img src={cardPaymentsIcon} />
                   <span>Cards & Payments</span>
