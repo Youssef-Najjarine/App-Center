@@ -17,6 +17,7 @@ import EditProfile from "./pages/Profile/userProfile/EditProfile/EditProfile";
 import MyPurchases from "./pages/Profile/MyPurchases/MyPurchases";
 import ApplicationHistory from "./pages/Profile/ApplicationHistory/ApplicationHistory";
 import CardsPayments from "./pages/Profile/CardsPayments/CardsPayments";
+import EarningsPayouts from "./pages/Profile/Earnings&Payouts/Earnings&Payouts";
 import Login from "./pages/Auth/Login/Login";
 import SignUp from "./pages/Auth/SignUp/SignUp";
 import ForgotPassword from "./pages/Auth/ForgotPassword/ForgotPassword";
@@ -68,6 +69,7 @@ const App = () => {
           <Route path="appManagement" element={<AppManagement />} />
           <Route path="MyPurchases" element={<MyPurchases />} />
           <Route path="ApplicationHistory" element={<ApplicationHistory/>}/>
+          <Route path="Earnings&Payouts" element={<EarningsPayouts/>}/>
           <Route path="CardsPayments" element={<CardsPayments/>}/>
           <Route path="edit" element={<EditProfile />} />
         </Route>

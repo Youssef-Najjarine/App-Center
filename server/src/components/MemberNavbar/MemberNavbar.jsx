@@ -63,7 +63,7 @@ const MemberNavbar = () => {
           </div>
 
           <div className="member-profile-wrapper" ref={profileWrapperRef}>
-            <div className={`member-profile-nav ${["/profile/apps", "/profile/appManagement", "/profile/MyPurchases", "/profile/ApplicationHistory"].includes(location.pathname) ? "inactive-profile-tab" : ""}`} onClick={toggleDropdown}>
+            <div className={`member-profile-nav ${["/profile/apps", "/profile/appManagement", "/profile/MyPurchases", "/profile/ApplicationHistory", "/profile/Earnings&Payouts"].includes(location.pathname) ? "inactive-profile-tab" : ""}`} onClick={toggleDropdown}>
               <img src={profilePic} alt="member-icon" />
               <div>
                 <p className='member-nav-name'>Youssef Najjarine</p>
@@ -107,10 +107,10 @@ const MemberNavbar = () => {
                   <span>Application History</span>
                 </div>
               </Link>             
-              <Link to="/payouts" onClick={() => setShowDropdown(false)}>
+              <Link to="/profile/Earnings&Payouts" onClick={() => setShowDropdown(false)}>
                 <div className='member-navbar-icon-div'>
                   <img src={earningsPayoutsIcon} />
-                  <span>Earning & Payouts</span>
+                  <span>Earnings & Payouts</span>
                 </div>
               </Link>
               <Link to="/profile/CardsPayments" onClick={() => setShowDropdown(false)}>
