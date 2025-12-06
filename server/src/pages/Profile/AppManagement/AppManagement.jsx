@@ -186,7 +186,7 @@ const [boostApp, setBoostApp] = useState(null);
             dropdownRefs.current[app.id] = React.createRef();
           }
           return (
-            <div className="app-management-card">
+            <div key={app.id} className="app-management-card">
               <div className="app-management-display-image">
                 <img src={app.preview} alt="App preview" />
               </div>

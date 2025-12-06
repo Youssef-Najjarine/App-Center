@@ -80,7 +80,7 @@ const SignUp = () => {
 
     // Form submission logic
     console.log('Form submitted:', formData);
-    navigate('/profile');
+    navigate('/auth/verify-identity', { state: { email: formData.email } });
   };
 
 

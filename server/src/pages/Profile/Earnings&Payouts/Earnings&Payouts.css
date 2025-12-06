@@ -1,302 +1,65 @@
-#profile-application-history {
+#profile-earnings-payouts {
   padding: 111.72px 20px 48px 20px;
 }
 
-.profile-application-history-title1-div {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.profile-earnings-payouts-title-div {
   margin: 0 0 32px 0;
 }
 
-.profile-application-history-title1-div .profile-application-history-title {
+.profile-earnings-payouts-title-div .profile-earnings-payouts-title {
   color: #141522;
   font-size: 22.556px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 33.833px;
-  margin: 0;
-}
-
-.profile-application-history-calendar-sort-div {
-  padding: 9.667px 12.889px;
-  border-radius: 8.056px;
-  border: 0.806px solid #F5F5F5;
-  background: #FFF;
-  width: 150px;
-  z-index: 1000;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-}
-
-.profile-application-history-calendar-sort-div span {
-  color: #141522;
-  font-size: 11.278px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 16.917px;
-}
-
-.profile-application-history-calendar-sortby-dropdown {
-  position: absolute;
-  top: 41.18px;
-  right: 0px;
-  width: 150px;
-  padding: 4px;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  gap: 4px;
-  border-radius: 6px;
-  border: 0.875px solid #F5F5F5;
-  background: #FFF;
-  box-shadow: 10.5px 10.5px 26.25px 0px rgba(0, 0, 0, 0.10);
-}
-
-.profile-application-history-calendar-sortby-dropdown li {
-  padding: 3px 6px;
-  border-radius: 3px;
-  background: #FCFCFC;
-  color: #141522;
-  font-size: 11px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 16.5px;
-  letter-spacing: -0.44px;
-}
-
-.profile-application-history-calendar-sortby-dropdown li:hover {
-  background: #F6F5FD;
-  color: #5541D7;
-}
-
-.profile-application-history-calendar-sortby-dropdown li.active {
-  background: #F6F5FD;
-  color: #5541D7;
-}
-
-.profile-application-history-calendar-sort-div .app-history-arrow-div {
-  display: flex;
-  align-items: center;
-}
-
-.app-history-arrow-div {
-  transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-.app-history-arrow-div.arrow-open {
-  transform: rotate(180deg);
-}
-
-.app-history-arrow-div.arrow-hover img {
-  filter: brightness(0) saturate(100%) invert(29%) sepia(37%) saturate(2136%) hue-rotate(225deg) brightness(95%) contrast(94%);
-}
-
-.profile-application-history-totals {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin: 0 0 32px 0;
-}
-
-.profile-application-history-total {
-  width: 100%;
-  padding: 9.667px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 6.444px;
-  background: #FFF;
-
-}
-
-.profile-application-history-revenue,
-.profile-application-history-sold,
-.profile-application-history-disputed {
-  display: flex;
-  align-items: center;
-  gap: 9.667px;
-}
-
-.profile-application-history-total .profile-application-history-image {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 49.1px;
-  height: 49.1px;  
-  padding: 9.667px 12.889px;
-  border-radius: 8.056px;
-}
-
-.profile-application-history-total .profile-application-history-image img {
-  width: 26.58px;
-  height: 26.58px;
-}
-
-.profile-application-history-revenue .profile-application-history-image,
-.profile-application-history-sold .profile-application-history-image {
-  background: rgba(85, 65, 215, 0.15);
-
-}
-
-.profile-application-history-disputed .profile-application-history-image {
-  background: rgba(255, 70, 29, 0.10);
-}
-
-.profile-application-history-total .profile-application-history-total-amount {
-  margin: 0;
-  color: #141522;
-  font-size: 19.333px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 29px;
-  letter-spacing: -0.387px;
-}
-
-.profile-application-history-total .profile-application-history-label {
-  margin: 0;
-  color: #141522;
-  font-size: 11px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 19.333px;
-  letter-spacing: -0.129px;
-  opacity: 0.8;
-}
-
-.profile-application-history-total .profile-application-history-total-down span,
-.profile-application-history-total .profile-application-history-total-up span {
-  font-size: 9.868px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 14.802px;
-}
-
-.profile-application-history-total .profile-application-history-total-up span {
-  color: #5541D7;
-}
-
-.profile-application-history-total .profile-application-history-total-up {
-  padding: 3.222px 8.458px;
-  border-radius: 11.278px;
-  background: rgba(85, 65, 215, 0.15);
-  width: 106px;
-  height: 21.4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.profile-application-history-total .profile-application-history-total-down span {
-  color: #FF461D;
-}
-
-.profile-application-history-total .profile-application-history-total-down {
-  padding: 3.222px 8.458px;
-  border-radius: 11.278px;
-  background: rgba(255, 70, 29, 0.15);
-  width: 106px;
-  height: 21.4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.profile-application-history-title2-div {
-    display: flex;
-    flex-direction: column;
-    margin: 0 0 32px 0;
-}
-
-.profile-application-history-title2-div .profile-application-history-title {
-  color: #141522;
-  font-size: 22.556px;
-  font-style: normal;
   font-weight: 700;
   line-height: 33.833px;
   margin: 0 0 12px 0;
 }
 
-.profile-application-history-search-filter-div {
+.profile-earnings-payouts-sort-export-activity-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-earnings-payouts-sortby-div {
+  padding: 9.667px 5px;
+  border-radius: 8.056px;
+  border: 0.806px solid #F5F5F5;
+  background: #FFF;
+  width: 42.3%;
+  height: 36.333px;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-.profile-application-history-search-div {
-  width: 84.5%;
-  height: 36.33334px;
   cursor: pointer;
-  position: relative;
 }
 
-.profile-application-history-search {
-  width: 100%;
-  height: 100%;
-  padding: 9.667px 35px 9.667px 12.889px;
-  border-radius: 8.056px;
-  border: 0.806px solid #F5F5F5;
-  background: #FFF;
-  color: #141522;
-  font-size: 11.278px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 16.917px;
-  font-family: 'Poppins', sans-serif;
-}
-
-.profile-application-history-search::placeholder {
-  color: #141522;
-  font-size: 11.278px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 16.917px;
-  font-family: 'Poppins', sans-serif;
-}
-
-.profile-application-history-search-icon {
-  position: absolute;
-  top: 50%;
-  right: 15px;
-  transform: translateY(-50%);
+.profile-earnings-payouts-icons {
   width: 16.111px;
   height: 16.111px;
-  height: auto;
-  cursor: pointer;
 }
 
-.profile-application-history-sortby-div {
-  padding: 9.667px 12.889px;
-  border-radius: 8.056px;
-  border: 0.806px solid #F5F5F5;
-  background: #FFF;
-  width: 41.9px;
-  height: 35.4px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.profile-application-history-sortby-div span {
+.earnings-payouts-export-activity-report-div span,
+.profile-earnings-payouts-sortby-div .sort-by-label,
+.profile-earnings-payouts-details-tablet,
+.profile-earnings-payouts-details-desktop {
   display: none;
 }
 
-.profile-application-history-calendar-sort-div img,
-.profile-application-history-sortby-div img {
-  width: 16.111px;
-  height: 16.111px;
-}
 
-.profile-application-history-sortby-dropdown {
+.profile-earnings-payouts-sortby-div .sort-by-value,
+.profile-earnings-payouts-calendar-sort-div span {
+color: #141522;
+font-size: 11.278px;
+font-weight: 500;
+line-height: 16.917px;
+}
+.profile-earnings-payouts-sortby-dropdown,
+.profile-earnings-payouts-calendar-sortby-dropdown {
   position: absolute;
-  top: 38.04px;
-  right: 0px;
+  top: 40.003px;
+  right: 0;
+  width: 100%;
   margin: 0;
   padding: 4px;
   border-radius: 6px;
@@ -305,15 +68,16 @@
   box-shadow: 10.5px 10.5px 26.25px 0px rgba(0, 0, 0, 0.10);
   list-style: none;
   z-index: 1000;
-  width: 99px;
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.profile-application-history-sortby-dropdown li {
+.profile-earnings-payouts-sortby-dropdown li,
+.profile-earnings-payouts-calendar-sortby-dropdown li {
   padding: 3px 6px;
   color: #141522;
+  background: #FCFCFC;
   font-size: 11px;
   font-style: normal;
   font-weight: 500;
@@ -322,1060 +86,908 @@
   border-radius: 3px;
 }
 
-.profile-application-history-sortby-dropdown li:hover {
+.profile-earnings-payouts-sortby-dropdown li:hover,
+.profile-earnings-payouts-sortby-dropdown li.active,
+.profile-earnings-payouts-calendar-sortby-dropdown li:hover,
+.profile-earnings-payouts-calendar-sortby-dropdown li.active {
   background: #F6F5FD;
   color: #5541D7;
 }
 
-.profile-application-history-sortby-dropdown li.active {
-  background: #F6F5FD;
-  color: #5541D7;
-}
-
-.profile-application-history-grid {
-  display: grid;
-  gap: 12.889px;
-  grid-template-columns: repeat(auto-fit, 335px);
-  align-items: start;
-  justify-content: center;
-}
-
-.profile-app-history {
-  padding: 9.667px;
-  background: #FFF;
-  border-radius: 6.444px;
-}
-
-.profile-app-history-placeholder-image {
-  width: 100%;
-  height: 250px;
-  margin: 0 0 8px 0;
-}
-
-.profile-app-history-placeholder-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 6.444px;
-}
-
-.profile-app-history-body {
-  margin: 0 0 12.89px 0;
-}
-
-.profile-app-history-header {
-  display: flex;
-  flex-direction: column-reverse;
-  margin: 0 0 6.44px 0;
-}
-
-.app-history-title {
-  display: flex;
-  align-items: center;
-  gap: 6.45px;
-}
-
-.app-history-title h3 {
-  margin: 0;
-  color: #141522;
-  font-size: 14.5px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 21.75px;
-  letter-spacing: -0.29px;
-}
-
-.app-history-title .app-history-status {
-  font-size: 9.868px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 14.802px;
-  padding: 3.222px 8.458px;
-  border-radius: 11.278px;
-}
-
-.app-history-status.request-refund {
-  color: #FF461D;
-  background: rgba(255, 70, 29, 0.15);
-}
-
-.app-history-status.under-processing {
-  color: #E89B00;
-  background: rgba(255, 180, 29, 0.15);
-}
-
-.app-history-status.sold {
-  color: #5541D7;
-  background: rgba(85, 65, 215, 0.15);
-}
-.app-history-date-expand {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 33.8px;
-  margin: 0 0 6.44px 0;
-}
-
-.app-history-date-expand .app-history-date {
-  color: #141522;
-  font-size: 11.278px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 16.917px;
-  margin: 0;
-}
-
-.profile-app-history-expand-div {
-  position: relative;
-  z-index: 3; 
-  padding: 8.458px 8.458px 8.459px 8.459px;
-  border-radius: 7.049px;
-  border: 0.705px solid #F5F5F5;
-  background: #FCFCFC;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 33.8px;
-  height: 33.8px;
-  cursor: pointer;
-}
-
-.profile-app-history-expand-div button {
-   width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
-
-.profile-app-history-expand-div .profile-app-history-expand-icon {
-  width: 16.917px;
-  height: 16.917px;
-}
-
-.profile-app-history-dropdown {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  gap: 3.222px;
-  top: 17.5px;
-  right: 5px;
-  width: 164.333px;
-  z-index: 10;
-  padding: 6.444px;
-  border-radius: 6.444px;
+.profile-earnings-payouts-calendar-sort-div {
+  padding: 9.667px 5px;
+  border-radius: 8.056px;
   border: 0.806px solid #F5F5F5;
   background: #FFF;
-  box-shadow: 9.667px 9.667px 24.167px 0px rgba(0, 0, 0, 0.10);
-}
-
-.profile-app-history-dropdown-item {
+  width: 40.2%;
+  height: 36.333px;
+  z-index: 1000;
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 6.44px;
-  padding: 6.444px 9.667px;
-  text-decoration: none;
-  border-radius: 6.444px;
-}
-
-.profile-app-history-dropdown-item.details {
-  background: rgba(96, 91, 255, 0.10);
-}
-
-.profile-app-history-dropdown-item.refund {
-  background: rgba(255, 70, 29, 0.10);
-}
-
-.profile-app-history-dropdown-item.refund span {
-  color: #FF461D;
-}
-
-.profile-app-history-dropdown-item span {
-  font-size: 12.889px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 19.333px;
-  letter-spacing: -0.516px;
-}
-
-.profile-app-history-dropdown-item.details span,
-.profile-app-history-dropdown-item.edit span {
-  color: #605BFF;
-}
-
-.profile-app-history-dropdown-item.refund span {
-  color: #FF461D;
-}
-
-.profile-app-history-dropdown-item img {
-  width: 16.111px;
-  height: 16.111px;
-}
-
-.profile-app-history-dropdown-item.details:hover,
-.profile-app-history-dropdown-item.edit:hover {
-  background: #605BFF;
-}
-.profile-app-history-dropdown-item:hover img {
-  filter: brightness(0) invert(1);
-}
-
-.profile-app-history-dropdown-item:hover span {
-  color: #FFF;
-}
-
-.profile-app-history-dropdown-item.refund:hover {
-  background: #FF461D;
-}
-
-.profile-app-history-description {
-  max-width: 100%;
-  -webkit-line-clamp: 3;
-   display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  margin: 0 0 12.89px 0;
-  min-height: 57px;
-}
-
-.profile-app-history-description p {
-  margin: 0;
-  color: #141522;
-  font-size: 12.889px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 19.333px;
-  letter-spacing: -0.258px;
-}
-
-.profile-app-history-gitHub-div {
-  gap: 6.44px;
-  display: flex;
+  justify-content: space-between;
   cursor: pointer;
-  margin: 0 0 12.89px 0;
 }
 
-.profile-app-history-github-anchor-div {
-  max-width: 81%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.profile-earnings-payouts-sortby-div .earnings-payouts-arrow-div,
+.profile-earnings-payouts-calendar-sort-div .earnings-payouts-arrow-div {
+  display: flex;
+  align-items: center;
 }
 
-.profile-app-history-gitHub-div img {
-  width: 21.75px;
-  height: 21.75px;
+.earnings-payouts-arrow-div {
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-.profile-app-history-gitHub-div a {
-    color: #5C6BC0;
-    font-size: 14.5px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 21.75px;
-    letter-spacing: -0.29px;
+.earnings-payouts-arrow-div.arrow-open {
+  transform: rotate(180deg);
 }
 
-.profile-app-history-buyer-info {
+.earnings-payouts-arrow-div.arrow-hover img {
+  filter: brightness(0) saturate(100%) invert(29%) sepia(37%) saturate(2136%) hue-rotate(225deg) brightness(95%) contrast(94%);
+}
+
+.earnings-payouts-export-activity-report-div {
+  width: 41.88889px;
+  height: 36.333px;
+  padding: 9.667px 12.889px;
+  border-radius: 8.056px;
+  background: #5541D7;
+  cursor: pointer;
+}
+
+.profile-earnings-payouts-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; 
+}
+
+.profile-earnings-payouts-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;  
+}
+.profile-earnings-payouts-total-balances-and-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 12.89px;
+  width: 100%;
+  border-radius: 6.444px;
+  background: #5541D7;
+}
+
+.profile-earnings-payouts-balance-availables-div,
+.profile-earnings-payouts-balance-available {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: 100%;
 }
 
-  .profile-app-history-buyer-info .profile-app-history-buyer-info-buyer,
-  .profile-app-history-buyer-info .profile-app-history-buyer-info-email,
-  .profile-app-history-buyer-info .profile-app-history-buyer-info-price {
-  width: 100%;
+.profile-earnings-payouts-balance-available-label {
+  color: #FFF;
+  font-size: 12.889px;
+  font-weight: 500;
+  line-height: 19.333px;
+  letter-spacing: -0.129px;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.profile-earnings-payouts-total-balance {
+  color: #FFF;
+  font-size: 22.556px;
+  font-weight: 700;
+  line-height: 33.833px;
+  letter-spacing: -0.451px;
+  margin: 0;
+}
+
+.profile-earnings-payouts-withdrawal-to-date {
+  display: flex;
+  flex-direction: column;
+  gap: 3.22px;
+}
+
+.profile-earnings-payouts-withdrawal-to-date-label,
+.profile-earnings-payouts-total-withdrawal-to-date {
+  color: #FFF;
+  font-size: 12.889px;
+  font-weight: 500;
+  line-height: 19.333px;
+  letter-spacing: -0.129px;
+  opacity: 0.7;
+  margin: 0;
+}
+
+.profile-earnings-payouts-balance-available-buttons-div {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.profile-earnings-payouts-withdrawal-balance-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6.44px;
+  width: 54.1%;
   padding: 9.667px 12.889px;
   border-radius: 8.056px;
-  background: #FCFCFC;
-}
-
-.profile-app-history-buyer-info label {
-  display: none;
-}
-
-.profile-app-history-buyer-info div img {
-  width: 19.333px;
-  height: 19.333px;
-}
-
-.profile-app-history-buyer-info div p {
-  margin: 0;
-  color: #141522;
-  font-size: 12.889px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 19.333px;
-  max-width: 225px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.profile-applications-history-load-more-div {
-  width: 100%;
-  text-align: center;
-  margin: 46.4px 0 0 0;
-}
-
-.profile-applications-history-load-more {
-  border-radius: 9.667px;
-  background: #5541D7;
-  padding: 11.6px 23.2px;
-  color: #FFF;
-  font-size: 13.533px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 20.3px;
+  background: #FFF;
   border: none;
   cursor: pointer;
 }
+
+.profile-earnings-payouts-withdrawal-balance-btn span {
+  color: #5541D7;
+  font-size: 11.278px;
+  font-weight: 500;
+  line-height: 16.917px;
+  letter-spacing: -0.226px;
+}
+
+.profile-earnings-payouts-manage-payout-methods-btn {
+  color: #FFF;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 19.333px;
+  letter-spacing: -0.129px;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: none;
+  text-decoration-thickness: auto;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
+}
+
+.profile-earnings-payouts-total-balances-details {
+  padding: 12px;
+  width: 100%;
+  border-radius: 6.444px;
+  background: #FFF;
+}
+
+.profile-earnings-payouts-payment-under-clearance-div,
+.profile-earnings-payouts-total-revenue-earned-div,
+.profile-earnings-payouts-payment-for-active-applications-div,
+.profile-earnings-payouts-payment-promotion-expenses-div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.profile-earnings-payouts-payment-under-clearance-div {
+  border-bottom: 0.705px solid #F5F5F5;
+  padding: 0 0 12px 0;
+}
+
+.profile-earnings-payouts-total-revenue-earned-div,
+.profile-earnings-payouts-payment-for-active-applications-div {
+  border-bottom: 0.705px solid #F5F5F5;
+  padding: 12px 0 12px 0;
+}
+
+.profile-earnings-payouts-payment-promotion-expenses-div {
+  padding: 12px 0 0 0;
+}
+
+.profile-earnings-payouts-total-balances-detail-label {
+  color: #141522;
+  font-size: 12.889px;
+  font-weight: 500;
+  line-height: 19.333px;
+  letter-spacing: -0.129px;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.profile-earnings-payouts-total-balances-detail-amount {
+  color: #141522;
+  font-size: 17.722px;
+  font-weight: 700;
+  line-height: 26.583px;
+  letter-spacing: -0.354px;
+  margin: 0;
+}
+
+.profile-earnings-payouts-total-balances-detail-description {
+  color: #141522;
+  font-size: 12.889px;
+  font-weight: 500;
+  line-height: 19.333px;
+  letter-spacing: -0.129px;
+  opacity: 0.7;
+  margin: 0;
+}
+
+.profile-earnings-payouts-details-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12.89px;
+  background: #FFF;
+  border-radius: 6.444px;
+  width: 100%;
+}
+
+.profile-earnings-payouts-details-mobile-card {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 8.75px;
+  background: rgba(245, 245, 247, 0.50);
+}
+
+.profile-earnings-payouts-details-colored-activity {
+  padding: 4px 7px 4px 5px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.profile-earnings-payouts-details-purple-activity-background {
+  background: rgba(85, 65, 215, 0.10);
+  max-width: 75px;
+}
+
+.profile-earnings-payouts-details-grey-activity-background {
+  background: rgba(20, 21, 34, 0.10);
+  max-width: 96px;
+}
+
+.profile-earnings-payouts-details-red-activity-background {
+  background: rgba(255, 70, 29, 0.10);
+  max-width: 86px;
+}
+
+.profile-earnings-payouts-details-label {
+  color: #141522;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 13.75px;
+  margin: 0;
+}
+
+.profile-earnings-payouts-details-red-label {
+  color: #FF461D;
+}
+
+.profile-earnings-payouts-order-number-date-time-mobile-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-earnings-payouts-from-amount-clear-on-mobile-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.profile-earnings-payouts-from-amount-clear-on-mobile-rows div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.profile-earnings-payouts-description-label {
+  color: #141522;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 17.5px;
+  margin: 0;
+}
+
 @media screen and (min-width: 768px) {
-  #profile-application-history {
-    padding: 109.25px 20px 48px 20px;
+  #profile-earnings-payouts {
+    padding: 106.75px 20px 48px 20px;
   }
 
-  .profile-application-history-title1-div {
-    margin: 0 0 17.5px 0;
-  }
-
-  .profile-application-history-title1-div .profile-application-history-title {
-    font-size: 24px;
-    line-height: 36px;
-  }
-
-  .profile-application-history-calendar-sort-div {
-    padding: 10.5px 14px;
-    border-radius: 8.75px;
-    width: 163px;
-  }
-
-  .profile-application-history-calendar-sort-div span {
-    font-size: 12.25px;
-    line-height: 18.375px;
-  }
-
-  .profile-application-history-calendar-sortby-dropdown {
-    top: 41.48px;
-    width: 163px;
-  }
-
-  .profile-application-history-calendar-sortby-dropdown li {
-    padding: 4px 6px;
-    font-size: 12.25px;
-    line-height: 18.375px;
-    letter-spacing: -0.49px;
-  }
-
-  .profile-application-history-totals {
+  .profile-earnings-payouts-title-div {
+    margin: 0 8px 16px 8px;
     display: flex;
-    flex-direction: row;
-    gap: 8px;
-    margin: 0 0 16px 0;
+    align-items: center;
+    justify-content: space-between;
   }
 
-  .profile-application-history-total {
-    width: calc(100% / 3);
-    padding: 10.5px;
-    display: flow-root;
-    border-radius: 7px;
-    background: #FFF;
-
-  }
-
-  .profile-application-history-revenue,
-  .profile-application-history-sold,
-  .profile-application-history-disputed {
-    gap: 11px;
-    margin: 0 0 12px 0;
-  }
-
-  .profile-application-history-total .profile-application-history-image {
-    width: 53.375px;
-    height: 53.375px;  
-    padding: 10.5px 14px;
-    border-radius: 8.75px;
-  }
-
-  .profile-application-history-total .profile-application-history-image img {
-    width: 28.88px;
-    height: 28.88px;
-  }
-
-  .profile-application-history-total .profile-application-history-total-amount {
-    font-size: 20px;
-    line-height: 30px;
-    letter-spacing: -0.4px;
-  }
-
-  .profile-application-history-total .profile-application-history-label {
-    font-size: 13px;
-    line-height: 19.5px;
-    letter-spacing: -0.13px;
-    opacity: 0.8;
-  }
-
-  .profile-application-history-total .profile-application-history-total-down span,
-  .profile-application-history-total .profile-application-history-total-up span {
-    font-size: 10.719px;
-    line-height: 16.078px;
-  }
-
-  .profile-application-history-total .profile-application-history-total-up {
-    padding: 6px 12px;
-    border-radius: 12.25px;
-    width: 100%;
-    height: 28px;
-  }
-
-  .profile-application-history-total .profile-application-history-total-down {
-    padding: 6px 12px;
-    border-radius: 12.25px;
-    width: 100%;
-    height: 28px;
-  }
-
-  .profile-application-history-title2-div {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      margin: 0 0 16px 0;
-  }
-
-  .profile-application-history-title2-div .profile-application-history-title {
+  .profile-earnings-payouts-title-div .profile-earnings-payouts-title {
     font-size: 24.5px;
     line-height: 36.75px;
     margin: 0;
   }
 
-  .profile-application-history-search-filter-div {
-    width: 83%;
+  .profile-earnings-payouts-sort-export-activity-div {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  .profile-application-history-search-div {
-    width: 68%;
+  .profile-earnings-payouts-sortby-div {
+    padding: 10.5px 14px;
+    border-radius: 8.75px;
+    border: 0.875px solid #F5F5F5;
+    width: 37.7%;
     height: 39px;
   }
 
-  .profile-application-history-search {
-    padding: 10.5px 35px 10.5px 14px;
-    border-radius: 8.75px;
-    border: 0.875px solid #F5F5F5;
-    font-size: 12.25px;
-    line-height: 18.375px;
-  }
-
-  .profile-application-history-search::placeholder {
-    font-size: 12.25px;
-    line-height: 18.375px;
-  }
-
-  .profile-application-history-search-icon {
+  .profile-earnings-payouts-icons {
     width: 17.5px;
     height: 17.5px;
   }
 
-  .profile-application-history-sortby-div {
-    padding: 10.5px 14px;
-    border-radius: 8.75px;
-    border: 0.875px solid #F5F5F5;
-    width: 30%;
-    height: 39px;
-    justify-content: flex-start;
-    gap: 7px;
+  .earnings-payouts-export-activity-report-div span,
+  .profile-earnings-payouts-sortby-div .sort-by-label {
+    display: contents;
   }
 
-  .profile-application-history-sortby-div span {
-    display: flow-root;
+  .profile-earnings-payouts-sortby-div .sort-by-label {
     color: #141522;
-    font-size: 12.25px;
-    font-style: normal;
+    font-size: 12px;
     font-weight: 500;
     line-height: 18.375px;
   }
 
-  .profile-application-history-calendar-sort-div img,
-  .profile-application-history-sortby-div img {
-    width: 17.5px;
-    height: 17.5px;
+  .earnings-payouts-export-activity-report-div span {
+    color: #FFF;
+    font-size: 11.1px;
+    font-weight: 500;
+    line-height: 18.375px;
+    letter-spacing: -0.245px;
   }
 
-  .profile-application-history-sortby-dropdown {
-    top: 38.28px;
-    width: 100%;
+  .profile-earnings-payouts-sortby-div .sort-by-value,
+  .profile-earnings-payouts-calendar-sort-div span {
+  font-size: 12px;
+  line-height: 18.375px;
   }
 
-  .profile-application-history-sortby-dropdown li {
+  .profile-earnings-payouts-sortby-dropdown,
+  .profile-earnings-payouts-calendar-sortby-dropdown {
+    top: 40.583px;
+  }
+
+  .profile-earnings-payouts-sortby-dropdown li,
+  .profile-earnings-payouts-calendar-sortby-dropdown li {
     padding: 4px 6px;
     font-size: 12.25px;
     line-height: 18.375px;
-    letter-spacing: -0.49px;
+    letter-spacing: -0.49px;  
   }
 
-  .profile-application-history-grid {
-    display: grid;
-    gap: 14px;
-    grid-template-columns: repeat(auto-fit, 100%);
-    align-items: start;
+  .profile-earnings-payouts-calendar-sort-div {
+    padding: 10.5px 14px;
+    border-radius: 8.75px;
+    border: 0.875px solid #F5F5F5;
+    width: 28.8%;
+    height: 39px;
+  }
+
+  .earnings-payouts-export-activity-report-div {
+    width: 28.6%;
+    height: 39px;
+    padding: 10.5px 14px;
+    border-radius: 8.75px;
+    display: flex;
+    align-items: center;
     justify-content: center;
   }
 
-  .profile-app-history {
-    padding: 10.5px;
-    border-radius: 7px;
-    position: relative;
-    min-height: 220.75px;
-    height: 220.75px;
-  }
-
-  .profile-app-history-row {
+  .earnings-payouts-export-activity-report-sub-div {
     display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin: 0;
+    align-items: center;
+    gap: 7px;
   }
 
-  .profile-app-history-placeholder-image {
-    width: 27.6%;
-    height: 141.75px;
-    margin: 0;
+  .profile-earnings-payouts-summary {
+    gap: 16px;
   }
 
-  .profile-app-history-placeholder-image img {
-    border-radius: 7px;
-  }
-
-  .profile-app-history-body {
-    width: 70.2%;
-    margin: 0;
-  }
-
-  .profile-app-history-header {
-    display: flex;
+  .profile-earnings-payouts-total-balances-and-buttons {
     flex-direction: row;
     justify-content: space-between;
-    margin: 0 0 6px 0;
-  }
-
-  .app-history-title {
-    gap: 7px;
-  }
-
-  .app-history-title h3 {
-    font-size: 15.75px;
-    line-height: 23.625px;
-    letter-spacing: -0.315px;
-  }
-
-  .app-history-title .app-history-status {
-    font-size: 10.719px;
-    line-height: 16.078px;
-    padding: 3.5px 9.187px;
-    border-radius: 12.25px;
-  }
-
-  .app-history-date-expand {
-    display: flex;
-    justify-content: flex-start;
-    gap: 14px;
-    height: 36.75px;
-  }
-
-  .app-history-date-expand .app-history-date {
-    font-size: 12.25px;
-    line-height: 18.375px;
-  }
-
-  .profile-app-history-expand-div {
-    padding: 9.187px 9.188px 9.188px 9.188px;
-    border-radius: 7.656px;
-    border: 0.766px solid #F5F5F5;
-    width: 36.75px;
-    height: 36.75px;
-  }
-
-  .profile-app-history-expand-div .profile-app-history-expand-icon {
-    width: 18.375px;
-    height: 18.375px;
-  }
-
-  .profile-app-history-dropdown {
-    gap: 3.5px;
-    top: 17.5px;
-    width: 178.5px;
-    padding: 6.444px;
-    border-radius: 7px;
-    border: 0.875px solid #F5F5F5;
-  }
-
-  .profile-app-history-dropdown-item {
-    gap: 7px;
-    padding: 7px 10.5px;
+    gap: 0px;
+    padding: 16px 24px;
     border-radius: 7px;
   }
 
-  .profile-app-history-dropdown-item span {
+  .profile-earnings-payouts-balance-availables-div,
+  .profile-earnings-payouts-balance-available {
+    gap: 6px;
+  }
+
+  .profile-earnings-payouts-balance-available-label {
     font-size: 14px;
     line-height: 21px;
-    letter-spacing: -0.56px;
+    letter-spacing: -0.14px;
   }
 
-  .profile-app-history-dropdown-item img {
-    width: 17.5px;
-    height: 17.5px;
+  .profile-earnings-payouts-total-balance {
+    font-size: 24.5px;
+    line-height: 36.75px;
+    letter-spacing: -0.49px;
   }
 
-  .profile-app-history-description {
-    margin: 0 0 4px 0;
-    min-height: 63px;
+  .profile-earnings-payouts-withdrawal-to-date {
+    gap: 2px;
   }
 
-  .profile-app-history-description p {
+  .profile-earnings-payouts-withdrawal-to-date-label,
+  .profile-earnings-payouts-total-withdrawal-to-date {
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.14px;
+  }
+
+  .profile-earnings-payouts-balance-available-buttons-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: baseline;
+    gap: 21px;
+    width: 26%;
+  }
+
+  .profile-earnings-payouts-withdrawal-balance-btn {
+    gap: 7px;
+    width: 100%;
+    padding: 10.5px 14px;
+    border-radius: 8.75px;
+  }
+
+  .profile-earnings-payouts-withdrawal-balance-btn span {
+    font-size: 12.25px;
+    line-height: 18.375px;
+    letter-spacing: -0.245px;
+  }
+
+  .profile-earnings-payouts-manage-payout-methods-btn {
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.14px;
+  }
+
+  .profile-earnings-payouts-total-balances-details {
+    padding: 14px;
+    border-radius: 7px;
+    display: flex;
+  }
+
+  .profile-earnings-payouts-total-balances-details-column {
+    width: 50%;
+  }
+
+  .profile-earnings-payouts-payment-under-clearance-div,
+  .profile-earnings-payouts-total-revenue-earned-div,
+  .profile-earnings-payouts-payment-for-active-applications-div,
+  .profile-earnings-payouts-payment-promotion-expenses-div {
+    gap: 8.03px;
+  }
+
+  .profile-earnings-payouts-payment-under-clearance-div {
+    position: relative;
+    border-bottom: 0.766px solid #F5F5F5;
+    padding: 0 28px 14px 0;
+    width: 100%;
+  }
+
+  .profile-earnings-payouts-payment-under-clearance-div::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 14px;
+    right: 0;
+    width: 0.766px;
+    background-color: #F5F5F5;
+  }
+
+  .profile-earnings-payouts-total-revenue-earned-div {
+    border-bottom: 0.766px solid #F5F5F5;
+    padding: 0 0 14px 28px;
+  }
+
+  .profile-earnings-payouts-payment-for-active-applications-div {
+    position: relative;
+    border-bottom: none;
+    padding: 14px 28px 0 0;
+    width: 100%;
+  }
+
+  .profile-earnings-payouts-payment-for-active-applications-div::after {
+    content: "";
+    position: absolute;
+    top: 14px;
+    bottom: 0;
+    right: 0;
+    width: 0.766px;
+    background-color: #F5F5F5;
+
+  }
+  .profile-earnings-payouts-payment-promotion-expenses-div {
+    padding: 14px 0 0 28px;
+  }
+
+  .profile-earnings-payouts-total-balances-detail-label {
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.14px;
+  }
+
+  .profile-earnings-payouts-total-balances-detail-amount {
+    font-size: 19.25px;
+    line-height: 28.875px;
+    letter-spacing: -0.385px;
+  }
+
+  .profile-earnings-payouts-total-balances-detail-description {
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.14px;
+  }
+
+  .profile-earnings-payouts-details-mobile {
+    display: none;
+  }
+
+  .profile-earnings-payouts-details-tablet {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px;
+    background: #FFF;
+    border-radius: 7px;
+    width: 100%;
+  }
+
+  .profile-earnings-payouts-details-tablet-card {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-radius: 8.75px;
+    background: rgba(245, 245, 247, 0.50);
+  }
+
+  .profile-earnings-payouts-details-colored-activity {
+    padding: 4px 8px 4px 6px;
+    gap: 7px;
+  }
+
+  .profile-earnings-payouts-details-purple-activity-background {
+    max-width: 85px;
+  }
+
+  .profile-earnings-payouts-details-grey-activity-background {
+    max-width: 109px;
+  }
+
+  .profile-earnings-payouts-details-red-activity-background {
+    max-width: 98px;
+  }
+
+  .profile-earnings-payouts-details-label {
+    font-size: 12.25px;
+    line-height: 15.313px;
+  }
+
+  .profile-earnings-payouts-order-number-date-time-label-tablet-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .profile-earnings-payouts-order-number-date-time-label-table-sub-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .profile-earnings-payouts-from-amount-clear-on-tablet-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .profile-earnings-payouts-from-amount-clear-on-tablet-sub-rows {
+  display: flex;
+  justify-content: space-between;
+  }
+
+  .profile-earnings-payouts-from-tablet-column,
+  .profile-earnings-payouts-amount-tablet-column,
+  .profile-earnings-payouts-clear-on-tablet-column {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .profile-earnings-payouts-description-label {
+    font-size: 16px;
+    line-height: 20px;
+  }
+}
+@media screen and (min-width: 1440px) {
+  #profile-earnings-payouts {
+    padding: 130px 32px 48px 32px;
+  }
+
+  .profile-earnings-payouts-title-div {
+    margin: 0 0 25.5px 0;
+  }
+
+  .profile-earnings-payouts-title-div .profile-earnings-payouts-title {
+    font-size: 28px;
+    line-height: 42px;
+  }
+
+  .profile-earnings-payouts-sort-export-activity-div {
+    width: 51%;
+  }
+
+  .profile-earnings-payouts-sortby-div {
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid #F5F5F5;
+    height: 45px;
+  }
+
+  .profile-earnings-payouts-icons {
+    width: 20px;
+    height: 20px;
+  }
+
+  .profile-earnings-payouts-sortby-div .sort-by-label {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .earnings-payouts-export-activity-report-div span {
     font-size: 14px;
     line-height: 21px;
     letter-spacing: -0.28px;
   }
 
-  .profile-app-history-gitHub-div {
-    gap: 7px;
-    margin: 0;
+  .profile-earnings-payouts-sortby-div .sort-by-value,
+  .profile-earnings-payouts-calendar-sort-div span {
+  font-size: 14px;
+  line-height: 21px;
   }
 
-  .profile-app-history-github-anchor-div {
-    max-width: 59%;
+  .profile-earnings-payouts-sortby-dropdown,
+  .profile-earnings-payouts-calendar-sortby-dropdown {
+    top: 50px;
   }
 
-  .profile-app-history-gitHub-div img {
-    width: 23.625px;
-    height: 23.625px;
+  .profile-earnings-payouts-sortby-dropdown li,
+  .profile-earnings-payouts-calendar-sortby-dropdown li {
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.56px;  
   }
 
-  .profile-app-history-gitHub-div a {
-      font-size: 15.75px;
-      line-height: 23.625px;
-      letter-spacing: -0.315px;
+  .profile-earnings-payouts-calendar-sort-div {
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid #F5F5F5;
+    width: 28.8%;
+    height: 45px;
   }
 
-  .profile-app-history-buyer-info {
+  .earnings-payouts-export-activity-report-div {
+    width: 28.64%;
+    height: 45px;
+    padding: 12px 16px;
+    border-radius: 10px;
+  }
+
+  .earnings-payouts-export-activity-report-sub-div {
+    gap: 8px;
+  }
+
+  .profile-earnings-payouts-summary {
+    gap: 0;
     flex-direction: row;
-    gap: 14px;
-    position: absolute;
-    left: 10.5px;
-    bottom: 10.5px;
-  }
-
-   .profile-app-history-buyer-info .profile-app-history-buyer-info-buyer,
-  .profile-app-history-buyer-info .profile-app-history-buyer-info-email,
-  .profile-app-history-buyer-info .profile-app-history-buyer-info-price {
-    width: auto;
-    padding: 10.5px 14px;
-    border-radius: 8.75px;
-  }
-
-  .profile-app-history-buyer-info-buyer {
-    width: 26.925% !important;
-  }
-
-  .profile-app-history-buyer-info-email {
-    width: 47.665% !important;
-  }
-
-  .profile-app-history-buyer-info-price {
-    width: 18.683% !important;
-  }
-
-  .profile-app-history-buyer-info div img {
-    width: 21px;
-    height: 21px;
-  }
-
-  .profile-app-history-buyer-info div p {
-    font-size: 14px;
-    line-height: 21px;
-    max-width: 80%;
-  }
-  .profile-applications-history-load-more-div {
-    margin: 50.4px 0 0 0;
-  }
-
-  .profile-applications-history-load-more {
-    border-radius: 10.5px;
-    padding: 12.6px 25.2px;
-    font-size: 13.533px;
-    line-height: 22.05px;
-  }
-}
-@media screen and (min-width: 1440px) {
-  #profile-application-history {
-    padding: 132.5px 32px 48px 32px;
-  }
-
-  .profile-application-history-title1-div {
-    margin: 0 0 25.5px 0;
-  }
-
-  .profile-application-history-title1-div .profile-application-history-title {
-    font-size: 28px;
-    line-height: 42px;
-    letter-spacing: -0.56px;
-  }
-
-  .profile-application-history-calendar-sort-div {
-    padding: 12px 16px;
-    border-radius: 10px;
-    width: 187px;
-  }
-
-  .profile-application-history-calendar-sort-div span {
-    font-size: 14px;
-    line-height: 21px;
-  }
-
-  .profile-application-history-calendar-sortby-dropdown {
-    top: 47.23px;
-    width: 187px;
-  }
-
-  .profile-application-history-calendar-sortby-dropdown li {
-    padding: 5px 8px;
-    font-size: 14px;
-    line-height: 21px;
-    letter-spacing: -0.56px;
-  }
-
-  .profile-application-history-totals {
-    gap: 24px;
-    margin: 0 0 24px 0;
-  }
-
-  .profile-application-history-total {
-    padding: 12px;
-    display: flex;
-    align-items: center;
     justify-content: space-between;
+  }
+
+  .profile-earnings-payouts-total-balances-and-buttons {
+    flex-direction: column;
+    gap: 36px;
+    padding: 16px;
     border-radius: 8px;
+    width: 33.3%;
   }
 
-  .profile-application-history-revenue,
-  .profile-application-history-sold,
-  .profile-application-history-disputed {
-    gap: 12px;
-    margin: 0;
+  .profile-earnings-payouts-balance-availables-div,
+  .profile-earnings-payouts-balance-available {
+    gap: 16px;
   }
 
-  .profile-application-history-total .profile-application-history-image {
-    width: 61px;
-    height: 61px;
-    padding: 12px 16px;
-    border-radius: 10px;
-  }
-
-  .profile-application-history-total .profile-application-history-image img {
-    width: 33px;
-    height: 33px;
-  }
-
-  .profile-application-history-total .profile-application-history-total-amount {
-    font-size: 24px;
-    line-height: 36px;
-    letter-spacing: -0.48px;
-  }
-
-  .profile-application-history-total .profile-application-history-label {
+  .profile-earnings-payouts-balance-available-label {
     font-size: 16px;
     line-height: 24px;
     letter-spacing: -0.16px;
-    opacity: 0.8;
   }
 
-  .profile-application-history-total .profile-application-history-total-down span,
-  .profile-application-history-total .profile-application-history-total-up span {
-    font-size: 12.25px;
-    line-height: 18.375px;
-  }
-
-  .profile-application-history-total .profile-application-history-total-up {
-    padding: 4px 10.5px;
-    border-radius: 14px;
-    width: 33%;
-    height: 26px;
-  }
-
-  .profile-application-history-total .profile-application-history-total-down {
-    padding: 4px 10.5px;
-    border-radius: 14px;
-    width: 32.3%;
-    height: 26px;
-  }
-
-  .profile-application-history-title2-div {
-      margin: 0 0 25.5px 0;
-  }
-
-  .profile-application-history-title2-div .profile-application-history-title {
+  .profile-earnings-payouts-total-balance {
     font-size: 28px;
     line-height: 42px;
-    margin: 0;
-  }
-
-  .profile-application-history-search-filter-div {
-    width: 45%;
-  }
-
-  .profile-application-history-search-div {
-    width: 63%;
-    height: 45px;
-  }
-
-  .profile-application-history-search {
-    padding: 12px 35px 12px 16px;
-    border-radius: 10px;
-    border: 1px solid #F5F5F5;
-    font-size: 14px;
-    line-height: 21px;
-  }
-
-  .profile-application-history-search::placeholder {
-    font-size: 14px;
-    line-height: 21px;
-  }
-
-  .profile-application-history-search-icon {
-    width: 20px;
-    height: 20px;
-  }
-
-  .profile-application-history-sortby-div {
-    padding: 12px 16px;
-    border-radius: 10px;
-    border: 1px solid #F5F5F5;
-    width: 201.64px;
-    height: 45px;
-    gap: 8px;
-  }
-
-  .profile-application-history-sortby-div span {
-    font-size: 14px;
-    line-height: 21px;
-  }
-
-  .profile-application-history-calendar-sort-div img,
-  .profile-application-history-sortby-div img {
-    width: 20px;
-    height: 20px;
-  }
-
-  .profile-application-history-sortby-dropdown {
-    top: 45px;
-  }
-
-  .profile-application-history-sortby-dropdown li {
-    padding: 5px 8px;
-    font-size: 14px;
-    line-height: 21px;
     letter-spacing: -0.56px;
   }
 
-  .profile-application-history-grid {
-    gap: 16px;
-  }
-
-  .profile-app-history {
-    padding: 12px;
-    border-radius: 8px;
-    min-height: 205px;
-    height: 205px;
-  }
-
-  .profile-app-history-row {
-    margin: 0;
-  }
-
-  .profile-app-history-placeholder-image {
-    width: 16.125%;
-    height: 181px;
-    margin: 0;
-  }
-
-  .profile-app-history-placeholder-image img {
-    border-radius: 8px;
-  }
-
-  .profile-app-history-body {
-    width: 82.693%;
-  }
-
-  .profile-app-history-header {
-    margin: 0 0 8px 0;
-  }
-
-  .app-history-title {
-    gap: 8px;
-  }
-
-  .app-history-title h3 {
-    font-size: 18px;
-    line-height: 27px;
-    letter-spacing: -0.36px;
-  }
-
-  .app-history-title .app-history-status {
-    font-size: 12.25px;
-    line-height:  18.375px;
-    padding: 4px 10.5px;
-    border-radius: 14px;
-  }
-
-  .app-history-date-expand {
-    gap: 16px;
-    height: 42px;
-  }
-
-  .app-history-date-expand .app-history-date {
-    font-size: 14px;
-    line-height: 21px;
-  }
-
-  .profile-app-history-expand-div {
-    padding: 10.5px;
-    border-radius: 8.75px;
-    border: 0.875px solid #F5F5F5;
-    width: 42px;
-    height: 42px;
-  }
-
-  .profile-app-history-expand-div .profile-app-history-expand-icon {
-    width: 21px;
-    height: 21px;
-  }
-
-  .profile-app-history-dropdown {
+  .profile-earnings-payouts-withdrawal-to-date {
     gap: 4px;
-    top: 19.5px;
-    width: 204px;
-    padding: 8px;
-    border-radius: 8px;
-    border: 1px solid #F5F5F5;
   }
 
-  .profile-app-history-dropdown-item {
-    gap: 8px;
-    padding: 8px 12px;
-    border-radius: 8px;
-  }
-
-  .profile-app-history-dropdown-item span {
+  .profile-earnings-payouts-withdrawal-to-date-label,
+  .profile-earnings-payouts-total-withdrawal-to-date {
     font-size: 16px;
     line-height: 24px;
-    letter-spacing: -0.64px;
+    letter-spacing: -0.16px;
   }
 
-  .profile-app-history-dropdown-item img {
-    width: 20px;
-    height: 20px;
-  }
-
-  .profile-app-history-description {
-    -webkit-line-clamp: 1;
-    margin: 0 0 10px 0;
-    max-width: 94%;
-    min-height: 24px;
-  }
-
-  .profile-app-history-description p {
-    font-size: 16px;
-    line-height: 24px;
-    letter-spacing: -0.32px;
-  }
-
-  .profile-app-history-gitHub-div {
-    gap: 8px;
-    margin: 0 0 10px 0;
-  }
-
-  .profile-app-history-github-anchor-div {
-    max-width: 70%;
-  }
-
-  .profile-app-history-gitHub-div img {
-    width: 27px;
-    height: 27px;
-  }
-
-  .profile-app-history-gitHub-div a {
-      font-size: 18px;
-      line-height: 27px;
-      letter-spacing: -0.36px;
-  }
-
-  .profile-app-history-buyer-info {
-    gap: 0;
-    position: static;
-    justify-content: space-between;
-  }
-
-  .profile-app-history-buyer-info div {
+  .profile-earnings-payouts-balance-available-buttons-div {
     display: flex;
+    flex-direction: row;
+    justify-content: left;
     align-items: center;
+    gap: 24px;
+    width: 100%;
+  }
+
+  .profile-earnings-payouts-withdrawal-balance-btn {
     gap: 8px;
-  }
-
-  .profile-app-history-buyer-info label {
-    display: flow-root;
-    color: #141522;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 24px;
-    opacity: 0.7;
-  }
-
-  .profile-app-history-buyer-info .profile-app-history-buyer-info-buyer,
-  .profile-app-history-buyer-info .profile-app-history-buyer-info-email,
-  .profile-app-history-buyer-info .profile-app-history-buyer-info-price {
+    width: 46.5%;
     padding: 12px 16px;
     border-radius: 10px;
   }
 
-  .profile-app-history-buyer-info-buyer {
-    width: 31.396% !important;
+  .profile-earnings-payouts-withdrawal-balance-btn span {
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.28px;
   }
 
-  .profile-app-history-buyer-info-email {
-    width: 44.366% !important;
+  .profile-earnings-payouts-manage-payout-methods-btn {
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.14px;
   }
 
-  .profile-app-history-buyer-info-price {
-    width: 21.378% !important;
+  .profile-earnings-payouts-total-balances-details {
+    padding: 16px;
+    border-radius: 8px;
+    width: 65%;
   }
 
-  .profile-app-history-buyer-info div img {
-    width: 24px;
-    height: 24px;
+  .profile-earnings-payouts-payment-under-clearance-div,
+  .profile-earnings-payouts-total-revenue-earned-div,
+  .profile-earnings-payouts-payment-for-active-applications-div,
+  .profile-earnings-payouts-payment-promotion-expenses-div {
+    gap: 9.25px;
   }
 
-  .profile-app-history-buyer-info div p {
+  .profile-earnings-payouts-payment-under-clearance-div {
+    border-bottom: 0.875px solid #F5F5F5;
+    padding: 0 32px 16px 0;
+  }
+
+  .profile-earnings-payouts-payment-under-clearance-div::after {
+    bottom: 16px;
+    width: 0.875px;
+  }
+
+  .profile-earnings-payouts-total-revenue-earned-div {
+    border-bottom: 0.875px solid #F5F5F5;
+    padding: 0 0 16px 32px;
+  }
+
+  .profile-earnings-payouts-payment-for-active-applications-div {
+    padding: 16px 32px 0 0;
+  }
+
+  .profile-earnings-payouts-payment-for-active-applications-div::after {
+    top: 16px;
+    width: 0.875px;
+
+  }
+  .profile-earnings-payouts-payment-promotion-expenses-div {
+    padding: 16px 0 0 32px;
+  }
+
+  .profile-earnings-payouts-total-balances-detail-label {
     font-size: 16px;
     line-height: 24px;
-    max-width: 54%;
-  }
-  .profile-applications-history-load-more-div {
-    margin: 57.6px 0 0 0;
+    letter-spacing: -0.16px;
   }
 
-  .profile-applications-history-load-more {
-    border-radius: 12px;
-    padding: 14.4px 28.8px;
-    font-size: 16.8px;
-    line-height: 25.2px;
+  .profile-earnings-payouts-total-balances-detail-amount {
+    font-size: 22px;
+    line-height: 33px;
+    letter-spacing: -0.44px;
+  }
+
+  .profile-earnings-payouts-total-balances-detail-description {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.16px;
+  }
+
+  .profile-earnings-payouts-details-tablet {
+    display: none;
+  }
+
+  .profile-earnings-payouts-details-desktop {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    background: #FFF;
+    border-radius: 8px;
+    width: 100%;
+  }
+
+  .profile-earnings-payouts-details-desktop-row .profile-earnings-payouts-details-label {
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .profile-earnings-payouts-details-desktop-card-headers {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 16px;
+  }
+
+  .profile-earnings-payouts-details-desktop-card-column-seven-six-five {
+    width: 7.65%;
+    max-width: 7.65%;
+  }
+
+  .profile-earnings-payouts-details-desktop-card-column-four-six {
+    width: 4.6%;
+    max-width: 4.6%;
+  }
+
+  .profile-earnings-payouts-details-desktop-card-column-twelve-two {
+    width: 12.2%;
+    max-width: 12.2%;
+  }
+
+  .profile-earnings-payouts-details-desktop-card-column-twenty-five-one-six {
+    width: 25.16%;
+    max-width: 25.16%;
+  }
+
+  .profile-earnings-payouts-details-desktop-card-column-eleven-five {
+    width: 11.5%;
+    max-width: 11.5%;
+  }
+
+  .profile-earnings-payouts-details-desktop-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;  
+  }
+  .profile-earnings-payouts-details-desktop-row {
+    padding: 24px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+    background: rgba(245, 245, 247, 0.50);
+    width: 100%;
+  }
+  .profile-earnings-payouts-details-desktop-activity-detail {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  } 
+
+  .profile-earnings-payouts-details-label {
+    font-size: 14px;
+    line-height: 17.5px;
   }
 }

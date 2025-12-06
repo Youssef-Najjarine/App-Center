@@ -1,0 +1,190 @@
+import React, { useState, useRef, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import verifyIdentityPhoto from '../../../assets/verify-identity-photo.jpg';
+import passwordCheckIcon from '../../../assets/password-check.svg';
+import logoIcon from '../../../assets/intro-bg.jpeg';
+import dangerFilledIcon from '../../../assets/danger-filled.svg';
+import closeIcon from '../../../assets/close.svg';
+import './VerifyIdentity.css';
+
+const VerifyIdentity = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const passedEmail = location.state?.email || '';
+  const [code, setCode] = useState(['', '', '', '']);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [showErrorBox, setShowErrorBox] = useState(false);
+  const inputRefs = useRef([]);
+
+  const maskEmail = (email) => {
+    if (!email || !email.includes('@')) return email;
+    const [name, domain] = email.split('@');
+    if (name.length <= 2) return email;
+    const first = name.slice(0, 3);
+    const last = name.slice(-2);
+    const masked = first + '*'.repeat(6) + last;
+    return masked + '@' + domain;
+  };
+
+  const maskedEmail = maskEmail(passedEmail);
+
+  useEffect(() => {
+    if (inputRefs.current[0]) {
+      inputRefs.current[0].focus();
+    }
+  }, []);
+
+  const handleCodeChange = (e, index) => {
+    let { value } = e.target;
+    value = value.replace(/\D/g, '');
+
+    if (value.length > 1) value = value[0];
+
+    const newCode = [...code];
+    newCode[index] = value;
+    setCode(newCode);
+
+    // Auto-focus next input
+    if (value && index < 3) {
+      inputRefs.current[index + 1]?.focus();
+      setActiveIndex(index + 1);
+    }
+  };
+
+  const handleCodeKeyDown = (e, index) => {
+    if (e.key === 'Backspace') {
+      if (!code[index] && index > 0) {
+        inputRefs.current[index - 1]?.focus();
+        setActiveIndex(index - 1);
+      }
+      if (code[index]) {
+        const newCode = [...code];
+        newCode[index] = '';
+        setCode(newCode);
+      }
+    } else if (e.key === 'ArrowLeft' && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+      setActiveIndex(index - 1);
+    } else if (e.key === 'ArrowRight' && index < 3) {
+      inputRefs.current[index + 1]?.focus();
+      setActiveIndex(index + 1);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const isAnyEmpty = code.some(digit => digit.trim() === '');
+
+    if (isAnyEmpty) {
+      setShowErrorBox(true);
+      return;
+    }
+
+    setShowErrorBox(false);
+    const fullCode = code.join('');
+    console.log('Verification code:', fullCode);
+  };
+
+  const handleCloseErrorBox = () => {
+    setShowErrorBox(false);
+  };
+
+  return (
+    <div className="verify-identity-container">
+      <div className="verify-identity-form-div">
+        <div className="verify-identity-logo-container">
+          <Link to="/" className="verify-identity-logo-link">
+            <img src={logoIcon} alt="Logo" className="verify-identity-logo-icon" />
+          </Link>
+          <Link to="/" className="home-navbar-logo-link">
+            <span className="verify-identity-logo-text">Open App Partners</span>
+          </Link>
+        </div>
+
+        <div className="verify-identity-password-check-div">
+          <img src={passwordCheckIcon} alt="Secure" />
+        </div>
+
+        <h2>Verify your Identity!</h2>
+
+        <div className="verify-identity-already-enter-code-sent-message-div">
+          <p className="verify-identity-already-enter-code-sent-message-label">
+            Enter the code sent to your email
+          </p>
+          <p className="verify-identity-already-enter-code-sent-message-value">
+            {maskedEmail}
+          </p>
+        </div>
+
+        <form onSubmit={handleSubmit}>
+          <div className="verify-identity-codes-div">
+            {[0, 1, 2, 3].map((idx) => (
+              <div className="verify-identity-code-div" key={idx}>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  maxLength={1}
+                  value={code[idx]}
+                  onChange={(e) => handleCodeChange(e, idx)}
+                  onKeyDown={(e) => handleCodeKeyDown(e, idx)}
+                  onFocus={() => setActiveIndex(idx)}
+                  ref={(el) => (inputRefs.current[idx] = el)}
+                  className={`verify-identity-code-input ${
+                    activeIndex === idx ? 'verify-identity-code-highlighted' : ''
+                  }`}
+                />
+              </div>
+            ))}
+          </div>
+
+          <div className="verify-identity-links-div">
+            <Link to="/" className="verify-identity-back-link">Back</Link>
+            <Link to="/" className="verify-identity-didnt-receive-link">
+              Didn't receive the code?
+            </Link>
+          </div>
+
+          <div className="verify-identity-confirm-div">
+            <button type="submit" className="verify-identity-confirm">
+              Confirm
+            </button>
+          </div>
+        </form>
+        <div className="verify-identity-greyLine"></div>
+        <div className='verify-identity-privacy-policy-terms-of-service'>
+          <p className='verify-identity-policy-terms-of-service-text'>Protected by reCAPTCHA and subject to the Google <Link to="/privacy-policy" className='verify-identity-privacy-policy-text'>Privacy Policy</Link> and <Link to="/terms-of-service" className='verify-identity-terms-of-service-text'>Terms of Service</Link>.</p>
+        </div>
+        {showErrorBox && (
+          <div className='verify-identity-error-box-column'>
+            <div className="verify-identity-error-box">
+              <img
+                src={dangerFilledIcon}
+                alt="Error"
+                className="verify-identity-error-box-icon"
+              />
+              <span className="verify-identity-error-box-message">
+                Wrong Password! Please type the correct code.
+              </span>
+              <img
+                src={closeIcon}
+                alt="Close"
+                onClick={handleCloseErrorBox}
+                className="verify-identity-close-error-box-icon"
+              />
+            </div>
+          </div>
+        )}        
+      </div>
+      <div className='verify-identity-photo-div'>
+        <img
+          src={verifyIdentityPhoto}
+          alt="verify-identity-background"
+          className="verify-identity-photo"
+        />
+      </div>
+    </div>
+  );
+};
+
+export default VerifyIdentity;

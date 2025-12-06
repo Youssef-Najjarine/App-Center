@@ -18,9 +18,12 @@ import MyPurchases from "./pages/Profile/MyPurchases/MyPurchases";
 import ApplicationHistory from "./pages/Profile/ApplicationHistory/ApplicationHistory";
 import CardsPayments from "./pages/Profile/CardsPayments/CardsPayments";
 import EarningsPayouts from "./pages/Profile/Earnings&Payouts/Earnings&Payouts";
+import ManagePayoutMethods from "./pages/Profile/Earnings&Payouts/ManagePayoutMethods/ManagePayoutMethods";
 import Login from "./pages/Auth/Login/Login";
 import SignUp from "./pages/Auth/SignUp/SignUp";
+import VerifyIdentity from "./pages/Auth/VerifyIdentity/VerifyIdentity";
 import ForgotPassword from "./pages/Auth/ForgotPassword/ForgotPassword";
+import CreateNewPassword from "./pages/Auth/CreateNewPassword/CreateNewPassword";
 
 const HomeLayout = () => (
   <section className="container">
@@ -44,7 +47,9 @@ const AuthLayout = () => (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/sign-up" element={<SignUp />} />
+      <Route path="/verify-identity" element={<VerifyIdentity />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/create-new-password" element={<CreateNewPassword />} />
     </Routes>
   </div>
 );
@@ -70,6 +75,7 @@ const App = () => {
           <Route path="MyPurchases" element={<MyPurchases />} />
           <Route path="ApplicationHistory" element={<ApplicationHistory/>}/>
           <Route path="Earnings&Payouts" element={<EarningsPayouts/>}/>
+          <Route path="ManagePayoutMethods" element={<ManagePayoutMethods/>}/>
           <Route path="CardsPayments" element={<CardsPayments/>}/>
           <Route path="edit" element={<EditProfile />} />
         </Route>

@@ -1,0 +1,425 @@
+.add-credit-or-debit-card-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(20, 21, 34, 0.15);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-credit-or-debit-card-modal-overlay::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.add-credit-or-debit-card-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 12.89px;
+    background: #FFF;
+    padding: 12.889px;
+    width: 89%;
+    border-radius: 12.889px;
+    z-index: 10000;
+    overflow-y: auto;
+}
+
+.add-credit-or-debit-card-modal-close-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add-credit-or-debit-card-modal-close-header h2 {
+    color: #141522;
+    font-size: 17.722px;
+    font-weight: 700;
+    line-height: 26.583px;
+    margin: 0;
+}
+
+.add-credit-or-debit-card-close-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-credit-or-debit-card-close-icon {
+    width: 19.333px;
+    height: 19.333px;
+    cursor: pointer;
+}
+
+.add-credit-or-debit-card-modal-card-details,
+.add-credit-or-debit-card-modal-card-name-expiry-div,
+ .add-credit-or-debit-card-modal-card-number-cvv-div {
+    display: flex;
+    flex-direction: column;
+    gap: 12.889px;
+}
+
+.add-credit-or-debit-card-modal-card-name-div,
+.add-credit-or-debit-card-modal-card-expiry-div,
+.add-credit-or-debit-card-modal-card-number-div,
+.add-credit-or-debit-card-modal-card-cvv-div {
+    display: flex;
+    flex-direction: column;
+    gap: 6.44px;
+    width: 100%;
+}
+
+.add-credit-or-debit-card-modal-card-name-div label,
+.add-credit-or-debit-card-modal-card-expiry-div label,
+.add-credit-or-debit-card-modal-card-number-div label,
+.add-credit-or-debit-card-modal-card-cvv-div label {
+    color: #141522;
+    font-size: 12.889px;
+    font-weight: 700;
+    line-height: 19.333px;
+}
+
+.add-credit-or-debit-card-modal-card-name-div input,
+.add-credit-or-debit-card-modal-card-expiry-div input,
+.add-credit-or-debit-card-modal-card-number-div input,
+.add-credit-or-debit-card-modal-card-cvv-div input {
+    color: #141522;
+    font-size: 11.278px;
+    font-weight: 700;
+    line-height: 16.917px;
+    width: 100%;
+    height: 40.278px;
+    padding: 12.889px 9.667px;
+    border-radius: 6.444px;
+    border: 0.806px solid #F5F5F5;
+    background: rgba(245, 245, 245, 0.50);
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+}
+
+.add-credit-or-debit-card-modal-card-number-div input {
+    padding-left: 48.34px;
+}
+
+.add-credit-or-debit-card-modal-card-name-div input::placeholder,
+.add-credit-or-debit-card-modal-card-expiry-div input::placeholder,
+.add-credit-or-debit-card-modal-card-number-div input::placeholder,
+.add-credit-or-debit-card-modal-card-cvv-div input::placeholder {
+    font-family: 'Poppins', sans-serif;
+    opacity: 0.6;
+    font-size: 11.278px;
+    font-weight: 700;
+    line-height: 16.917px;
+}
+
+.add-credit-or-debit-card-modal-card-number-logo-input-div {
+    position: relative;
+}
+
+.add-credit-or-debit-card-modal-card-number-logo-div {
+    position: absolute;
+    top: 50%;
+    left: 9.67px;
+    padding: 4.171px 4.677px 4.619px 4.975px;
+    transform: translateY(-50%);
+    width: 28.194px;
+    height: 19.902px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-credit-or-debit-card-modal-card-number-logo-div img {
+    width: 18.54px;
+    height: 11.112px;
+}
+
+.add-credit-or-debit-card-modal-border {
+    width: 100%;
+    height: 0.806px;
+    background: #F5F5F5;
+}
+
+.add-credit-or-debit-card-modal-description-div p {
+    color: rgba(20, 21, 34, 0.70);
+    font-size: 12.889px;
+    font-weight: 500;
+    line-height: 19.333px;
+    letter-spacing: -0.129px;
+    margin: 0;
+}
+
+.add-credit-or-debit-card-modal-confirm-save-button-div {
+    width: 100%;
+    height: 40px;
+}
+
+.add-credit-or-debit-card-modal-confirm-save-button-div button {
+    width: 100%;
+    height: 100%;
+    padding: 9.667px 12.889px;
+    border-radius: 8.056px;
+    background: #5541D7;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6.44px;
+}
+
+.add-credit-or-debit-card-modal-confirm-save-button-div button img {
+    width: 16.111px;
+    height: 16.111px;
+}
+
+.add-credit-or-debit-card-modal-confirm-save-button-div button span {
+    color: #FFF;
+    font-size: 11.278px;
+    font-weight: 500;
+    line-height: 16.917px;
+}
+
+@media screen and (min-width: 768px) {
+    .add-credit-or-debit-card-modal {
+        gap: 14px;
+        padding: 14px;
+        width: 72.7%;
+        border-radius: 14px;
+    }
+
+    .add-credit-or-debit-card-modal-close-header h2 {
+        font-size: 19.25px;
+        line-height: 28.875px;
+    }
+
+    .add-credit-or-debit-card-close-icon {
+        width: 21px;
+        height: 21px;
+    }
+
+    .add-credit-or-debit-card-modal-card-details {
+        gap: 14px;
+    }
+
+    .add-credit-or-debit-card-modal-card-name-expiry-div,
+    .add-credit-or-debit-card-modal-card-number-cvv-div {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .add-credit-or-debit-card-modal-card-name-div {
+        width: 67.9%;
+    }
+
+    .add-credit-or-debit-card-modal-card-expiry-div {
+        width: 29.369%;
+    }
+
+    .add-credit-or-debit-card-modal-card-number-div {
+        width: 77.72%;
+    }
+
+    .add-credit-or-debit-card-modal-card-cvv-div {
+        width: 19.64%;
+    }
+    .add-credit-or-debit-card-modal-card-name-div,
+    .add-credit-or-debit-card-modal-card-expiry-div,
+    .add-credit-or-debit-card-modal-card-number-div,
+    .add-credit-or-debit-card-modal-card-cvv-div {
+        gap: 7px;
+    }
+
+    .add-credit-or-debit-card-modal-card-name-div label,
+    .add-credit-or-debit-card-modal-card-expiry-div label,
+    .add-credit-or-debit-card-modal-card-number-div label,
+    .add-credit-or-debit-card-modal-card-cvv-div label {
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .add-credit-or-debit-card-modal-card-name-div input,
+    .add-credit-or-debit-card-modal-card-expiry-div input,
+    .add-credit-or-debit-card-modal-card-number-div input,
+    .add-credit-or-debit-card-modal-card-cvv-div input {
+        font-size: 12.25px;
+        line-height: 18.375px;
+        height: 43.75px;
+        padding: 14px 10.5px;
+        border-radius: 7px;
+        border: 0.875px solid #F5F5F5;
+    }
+
+    .add-credit-or-debit-card-modal-card-number-div input {
+        padding-left: 51.625px;
+    }
+
+    .add-credit-or-debit-card-modal-card-name-div input::placeholder,
+    .add-credit-or-debit-card-modal-card-expiry-div input::placeholder,
+    .add-credit-or-debit-card-modal-card-number-div input::placeholder,
+    .add-credit-or-debit-card-modal-card-cvv-div input::placeholder {
+        font-size: 12.25px;
+        line-height: 18.375px;
+    }
+
+    .add-credit-or-debit-card-modal-card-number-logo-div {
+        left: 10.5px;
+        padding: 4.531px 5.083px 5.017px 5.402px;
+        width: 30.625px;
+        height: 21.618px;
+    }
+
+    .add-credit-or-debit-card-modal-card-number-logo-div img {
+        width: 20.139px;
+        height: 12.07px;
+    }
+
+    .add-credit-or-debit-card-modal-border {
+        height: 0.875px;
+    }
+
+    .add-credit-or-debit-card-modal-description-div p {
+        font-size: 14px;
+        line-height: 21px;
+        letter-spacing: -0.14px;
+    }
+
+    .add-credit-or-debit-card-modal-confirm-save-button-div {
+        height: 39.375px;
+    }
+
+    .add-credit-or-debit-card-modal-confirm-save-button-div button {
+        padding: 10.5px 14px;
+        border-radius: 8.75px;
+        gap: 7px;
+    }
+
+    .add-credit-or-debit-card-modal-confirm-save-button-div button img {
+        width: 17.5px;
+        height: 17.5px;
+    }
+
+    .add-credit-or-debit-card-modal-confirm-save-button-div button span {
+        font-size: 12.25px;
+        line-height: 18.375px;
+    }
+}
+@media screen and (min-width: 1440px) {
+    .add-credit-or-debit-card-modal {
+        gap: 16px;
+        padding: 16px;
+        width: 44.31%;
+        border-radius: 16px;
+    }
+
+    .add-credit-or-debit-card-modal-close-header h2 {
+        font-size: 22px;
+        line-height: 33px;
+    }
+
+    .add-credit-or-debit-card-close-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .add-credit-or-debit-card-modal-card-details {
+        gap: 16px;
+    }
+
+    .add-credit-or-debit-card-modal-card-name-div {
+        width: 68%;
+    }
+
+    .add-credit-or-debit-card-modal-card-expiry-div {
+        width: 29.4%;
+    }
+
+    .add-credit-or-debit-card-modal-card-name-div,
+    .add-credit-or-debit-card-modal-card-expiry-div,
+    .add-credit-or-debit-card-modal-card-number-div,
+    .add-credit-or-debit-card-modal-card-cvv-div {
+        gap: 8px;
+    }
+
+    .add-credit-or-debit-card-modal-card-name-div label,
+    .add-credit-or-debit-card-modal-card-expiry-div label,
+    .add-credit-or-debit-card-modal-card-number-div label,
+    .add-credit-or-debit-card-modal-card-cvv-div label {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .add-credit-or-debit-card-modal-card-name-div input,
+    .add-credit-or-debit-card-modal-card-expiry-div input,
+    .add-credit-or-debit-card-modal-card-number-div input,
+    .add-credit-or-debit-card-modal-card-cvv-div input {
+        font-size: 14px;
+        line-height: 21px;
+        height: 50px;
+        padding: 16px 12px;
+        border-radius: 8px;
+        border: 1px solid #F5F5F5;
+    }
+
+    .add-credit-or-debit-card-modal-card-number-div input {
+        padding-left: 59px;
+    }
+
+    .add-credit-or-debit-card-modal-card-name-div input::placeholder,
+    .add-credit-or-debit-card-modal-card-expiry-div input::placeholder,
+    .add-credit-or-debit-card-modal-card-number-div input::placeholder,
+    .add-credit-or-debit-card-modal-card-cvv-div input::placeholder {
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .add-credit-or-debit-card-modal-card-number-logo-div {
+        left: 12px;
+        padding: 5.178px 5.808px 5.734px 6.176px;
+        width: 35px;
+        height: 24.706px;
+    }
+
+    .add-credit-or-debit-card-modal-card-number-logo-div img {
+        width: 23.016px;
+        height: 13.794px;
+    }
+
+    .add-credit-or-debit-card-modal-border {
+        height: 1px;
+    }
+
+    .add-credit-or-debit-card-modal-description-div p {
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: -0.16px;
+    }
+
+    .add-credit-or-debit-card-modal-confirm-save-button-div {
+        height: 45px;
+    }
+
+    .add-credit-or-debit-card-modal-confirm-save-button-div button {
+        padding: 12px 16px;
+        border-radius: 10px;
+        gap: 8px;
+    }
+
+    .add-credit-or-debit-card-modal-confirm-save-button-div button img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .add-credit-or-debit-card-modal-confirm-save-button-div button span {
+        font-size: 14px;
+        line-height: 21px;
+    }
+}

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import signInPhotoDesktop from '../../../assets/log-in-desktop.jpeg';
 import logoIcon from '../../../assets/intro-bg.jpeg';
-import dangerIcon from '../../../assets/danger.svg';
+import dangerOutlineIcon from '../../../assets/danger.svg';
+import dangerFilledIcon from '../../../assets/danger-filled.svg';
 import closeIcon from '../../../assets/close.svg';
 import eyeSlash from '../../../assets/eye-slash.svg';
 import eyeIcon from '../../../assets/eye.svg';
@@ -118,7 +119,7 @@ const Login = () => {
                   />
                   {errors.emailUsername && (
                     <>
-                      <img src={dangerIcon} alt="Error" className="sign-in-error-icon" />
+                      <img src={dangerOutlineIcon} alt="Error" className="sign-in-error-icon" />
                       <span className="sign-in-field-missing">*Field Missing*</span>
                     </>
                   )}
@@ -170,10 +171,13 @@ const Login = () => {
           </div>
         </form>
         <div className='sign-in-greyLine'></div>
+        {/* <div className='verify-identity-privacy-policy-terms-of-service'>
+          <p className='verify-identity-policy-terms-of-service-text'>Protected by reCAPTCHA and subject to the Google <Link to="/privacy-policy" className='verify-identity-privacy-policy-text'>Privacy Policy</Link> and <Link to="/terms-of-service" className='verify-identity-terms-of-service-text'>Terms of Service</Link>.</p>
+        </div>         */}
         {showErrorBox && (
           <div className='sign-in-error-box-column'>
             <div className='sign-in-error-box'>
-              <img src={dangerIcon} alt="Error" className="sign-in-error-box-icon" />
+              <img src={dangerFilledIcon} alt="Error" className="sign-in-error-box-icon" />
               <span className='sign-in-error-box-message'>Error - Fields Missing. Please try again</span>
               <img src={closeIcon} alt="Close" onClick={handleCloseErrorBox} className='sign-in-close-error-box-icon' />
             </div>

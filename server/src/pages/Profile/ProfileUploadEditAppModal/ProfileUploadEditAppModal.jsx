@@ -11,44 +11,18 @@ import CancelUploadIcon from '../../../assets/Member/upload-edit-app-cancel-uplo
 import DangerIcon from '../../../assets/Member/upload-edit-app-danger-icon.svg';
 import FolderIcon from '../../../assets/Member/upload-edit-app-folder-icon.svg';
 import CloseErrorIcon from '../../../assets/Member/upload-edit-app-x-icon.svg';
-import PlaceHolderImg1 from '../../../assets/Member/upload-edit-app-img-1.jpg';
-import PlaceHolderImg2 from '../../../assets/Member/upload-edit-app-img-2.jpg';
-import PlaceHolderImg3 from '../../../assets/Member/upload-edit-app-img-3.jpg';
-import PlaceHolderImg4 from '../../../assets/Member/upload-edit-app-img-4.jpg';
-import PlaceHolderImg5 from '../../../assets/Member/upload-edit-app-img-5.jpg';
-import PlaceHolderImg6 from '../../../assets/Member/upload-edit-app-img-6.jpg';
+import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import "./ProfileUploadEditAppModal.css";
 
 const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
-  useEffect(() => {
-    const initialTechs = appTech.split(",").map((t) => t.trim()).slice(0, 3);
-    setTechnologies(initialTechs);
-  }, []);
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "auto";
-    };
-  }, [onClose, modalOpenState]);
-  useEffect(() => {
-    return () => {
-      if (uploadTimeoutRef.current) {
-        clearTimeout(uploadTimeoutRef.current);
-      }
-    };
-  }, []);
-
   const [techInput, setTechInput] = useState("");
   const [technologies, setTechnologies] = useState([]);
   const [appName, setAppName] = useState("Microsoft Word");
-  const [appPrice, setAppPrice] = useState("774");
+  const [appPrice, setAppPrice] = useState("");
   const [appTech] = useState("HTML,CSS,JavaScript");
-  const [appDescription, setappDescription] = useState("Microsoft Word is a widely used word processing program developed by Microsoft. It allows users to create, edit, and format documents, including text, images, and other elements. It's a key component of the Microsoft Office suite and is known for its features like spell and grammar checking, text formatting, and various layout options.");
+  const [appDescription, setappDescription] = useState(
+    "Microsoft Word is a widely used word processing program developed by Microsoft. It allows users to create, edit, and format documents, including text, images, and other elements. It's a key component of the Microsoft Office suite and is known for its features like spell and grammar checking, text formatting, and various layout options."
+  );
   const [appRepo, setAppRepo] = useState("https://github.com/myName/repo-name");
   const [uploadStage, setUploadStage] = useState("default");
   const [uploadZipName, setUploadZipName] = useState("");
@@ -57,6 +31,46 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
   const [defaultPresentationIndex, setDefaultPresentationIndex] = useState(null);
   const [errors, setErrors] = useState({});
   const [showErrorBox, setShowErrorBox] = useState(false);
+
+  // NEW: state to control ConfirmationModal
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+
+  const fileInputRef = React.useRef(null);
+  const uploadTimeoutRef = React.useRef(null);
+  const mediaInputRef = React.useRef(null);
+
+  useEffect(() => {
+    const initialTechs = appTech
+      .split(",")
+      .map((t) => t.trim())
+      .slice(0, 3);
+    setTechnologies(initialTechs);
+  }, [appTech]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        // When confirmation is open, ESC should not close the parent modal
+        if (showConfirmationModal) return;
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "auto";
+    };
+  }, [onClose, modalOpenState, showConfirmationModal]);
+
+  useEffect(() => {
+    return () => {
+      if (uploadTimeoutRef.current) {
+        clearTimeout(uploadTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleTechKeyDown = (e) => {
     if (e.key === "Enter" || e.key === ",") {
@@ -69,7 +83,7 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
         .filter((item) => item && !technologies.includes(item));
 
       if (items.length > 0 && errors.technologies) {
-        setErrors(prev => ({ ...prev, technologies: null }));
+        setErrors((prev) => ({ ...prev, technologies: null }));
       }
 
       setTechnologies([...technologies, ...items]);
@@ -80,7 +94,22 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
   const handleDeleteTech = (index) => {
     setTechnologies(technologies.filter((_, i) => i !== index));
   };
-  
+
+  // NEW: what actually happens after user confirms in ConfirmationModal
+  const handleConfirmUpload = () => {
+    console.log("Form Submitted:", {
+      appName,
+      appPrice,
+      appDescription,
+      technologies,
+      appRepo,
+      uploadZip,
+      mediaFiles,
+    });
+    setShowConfirmationModal(false);
+    onClose(); // close the main upload modal after confirming
+  };
+
   const handleSaveAndUpload = (e) => {
     e.preventDefault();
     const requiredFields = {
@@ -88,42 +117,41 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
       appPrice,
       technologies,
       appDescription,
-      uploadZip
+      uploadZip,
     };
+
     const hasEmpty = Object.entries(requiredFields).some(([key, val]) => {
       if (Array.isArray(val)) return val.length === 0;
       if (key === "uploadZip") return !val;
       return !val?.toString().trim();
     });
+
     const newErrors = {};
 
-    if (!appName.trim()) newErrors.appName = 'Field Missing';
-    if (!appPrice.trim()) newErrors.appPrice = 'Field Missing';
-    if (!technologies.length) newErrors.technologies = 'Field Missing';
-    if (!appDescription.trim()) newErrors.appDescription = 'Field Missing';
-    if (!uploadZip) newErrors.uploadZip = 'Field Missing';
+    if (!appName.trim()) newErrors.appName = "Field Missing";
+    if (!appPrice.trim()) newErrors.appPrice = "Field Missing";
+    if (!technologies.length) newErrors.technologies = "Field Missing";
+    if (!appDescription.trim()) newErrors.appDescription = "Field Missing";
+    if (!uploadZip) newErrors.uploadZip = "Field Missing";
 
     setErrors(newErrors);
+
     if (hasEmpty) {
       setShowErrorBox(true);
     } else {
       setShowErrorBox(false);
-      // Proceed to upload logic
-      console.log('Form Submitted:', { appName, appPrice, appDescription, technologies, appRepo });
+      // Instead of immediately submitting, open confirmation modal
+      setShowConfirmationModal(true);
     }
   };
 
-  const fileInputRef = React.useRef(null);
-  const uploadTimeoutRef = React.useRef(null);
-  const mediaInputRef = React.useRef(null);
-
   const handleFileUpload = (file) => {
     if (!file.name.endsWith(".zip")) {
-      setErrors(prev => ({ ...prev, uploadZip: "Invalid Type" }));
+      setErrors((prev) => ({ ...prev, uploadZip: "Invalid Type" }));
       return;
     }
 
-    setErrors(prev => ({ ...prev, uploadZip: null }));
+    setErrors((prev) => ({ ...prev, uploadZip: null }));
     setUploadZip(file);
     setUploadZipName(file.name);
     setUploadStage("uploaded");
@@ -141,7 +169,7 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
   };
 
   const handleDragOver = (e) => {
-    e.preventDefault(); // Necessary to allow drop
+    e.preventDefault();
   };
 
   const handleCancelUpload = () => {
@@ -181,11 +209,18 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
     const validMedia = [];
     const seenKeys = new Set();
     const existingKeys = new Set(
-      newFiles.map(f => `${f.originalName}-${f.originalSize}-${f.originalLastModified}`)
+      newFiles.map(
+        (f) =>
+          `${f.originalName}-${f.originalSize}-${f.originalLastModified}`
+      )
     );
 
-    let imageCount = newFiles.filter(f => f.type.startsWith("image/") && f.type !== "image/gif").length;
-    let hasVideo = newFiles.some(f => f.type.startsWith("video/") || f.type === "image/gif");
+    let imageCount = newFiles.filter(
+      (f) => f.type.startsWith("image/") && f.type !== "image/gif"
+    ).length;
+    let hasVideo = newFiles.some(
+      (f) => f.type.startsWith("video/") || f.type === "image/gif"
+    );
 
     let error = null;
 
@@ -196,20 +231,25 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
       const isImage = file.type.startsWith("image/") && !isGif;
 
       if (!isImage && !isVideo) {
-        error = 'invalid-media-type';
+        error = "invalid-media-type";
         continue;
       }
 
       if (existingKeys.has(key) || seenKeys.has(key)) {
-        error = 'duplicate-image';
+        error = "duplicate-image";
         continue;
       }
 
       seenKeys.add(key);
 
       if (isVideo) {
-        if (hasVideo || validMedia.some(f => f.type.startsWith("video/") || f.type === "image/gif")) {
-          error = 'video-limit-exceeded';
+        if (
+          hasVideo ||
+          validMedia.some(
+            (f) => f.type.startsWith("video/") || f.type === "image/gif"
+          )
+        ) {
+          error = "video-limit-exceeded";
           continue;
         }
 
@@ -223,7 +263,7 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
           duration,
           originalName: file.name,
           originalSize: file.size,
-          originalLastModified: file.lastModified
+          originalLastModified: file.lastModified,
         });
 
         hasVideo = true;
@@ -232,7 +272,7 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
 
       if (isImage) {
         if (imageCount >= 5) {
-          error = 'image-limit-exceeded';
+          error = "image-limit-exceeded";
           continue;
         }
 
@@ -245,7 +285,7 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
           type: compressedFile.type,
           originalName: file.name,
           originalSize: file.size,
-          originalLastModified: file.lastModified
+          originalLastModified: file.lastModified,
         });
 
         imageCount++;
@@ -255,22 +295,22 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
     setMediaFiles([...newFiles, ...validMedia]);
 
     if (error) {
-      setErrors(prev => ({ ...prev, mediaUpload: error }));
+      setErrors((prev) => ({ ...prev, mediaUpload: error }));
     } else {
-      setErrors(prev => ({ ...prev, mediaUpload: null }));
+      setErrors((prev) => ({ ...prev, mediaUpload: null }));
     }
   };
 
   const getVideoDuration = (file) => {
     return new Promise((resolve) => {
-      const video = document.createElement('video');
-      video.preload = 'metadata';
+      const video = document.createElement("video");
+      video.preload = "metadata";
       video.src = URL.createObjectURL(file);
       video.onloadedmetadata = () => {
         URL.revokeObjectURL(video.src);
         const minutes = Math.floor(video.duration / 60);
         const seconds = Math.floor(video.duration % 60);
-        resolve(`${minutes}:${seconds.toString().padStart(2, '0')}`);
+        resolve(`${minutes}:${seconds.toString().padStart(2, "0")}`);
       };
     });
   };
@@ -280,23 +320,28 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
       const img = new Image();
       img.src = URL.createObjectURL(file);
       img.onload = () => {
-        const canvas = document.createElement('canvas');
+        const canvas = document.createElement("canvas");
         const scale = Math.min(maxWidth / img.width, maxHeight / img.height, 1);
         canvas.width = img.width * scale;
         canvas.height = img.height * scale;
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-        canvas.toBlob((blob) => {
-          const compressedFile = new File([blob], file.name, {
-            type: 'image/jpeg',
-            lastModified: Date.now()
-          });
-          resolve(compressedFile);
-        }, 'image/jpeg', quality);
+        canvas.toBlob(
+          (blob) => {
+            const compressedFile = new File([blob], file.name, {
+              type: "image/jpeg",
+              lastModified: Date.now(),
+            });
+            resolve(compressedFile);
+          },
+          "image/jpeg",
+          quality
+        );
       };
     });
   };
+
   const handleDeleteMedia = (index) => {
     const newFiles = [...mediaFiles];
     URL.revokeObjectURL(newFiles[index].previewURL);
@@ -307,21 +352,35 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
   const triggerMediaDialog = () => {
     mediaInputRef.current.click();
   };
+
   const handleCloseErrorBox = () => {
     setShowErrorBox(false);
   };
 
-const handleMakePresentation = (index) => {
-  setDefaultPresentationIndex(index);
-};
+  const handleMakePresentation = (index) => {
+    setDefaultPresentationIndex(index);
+  };
 
   return (
-    <div className="upload-edit-app-modal-overlay" onClick={onClose}>
-      <div className="upload-edit-app-modal" onClick={(e) => e.stopPropagation()}>
+    // IMPORTANT: when confirmation is open, ignore clicks on this overlay
+    <div
+      className="upload-edit-app-modal-overlay"
+      onClick={(e) => {
+        if (showConfirmationModal) return;
+        onClose();
+      }}
+    >
+      <div
+        className="upload-edit-app-modal"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="upload-edit-app-close-header">
           <h2>Upload New App</h2>
           <div className="upload-edit-app-close-modal-div">
-            <button className="upload-edit-app-close-button" onClick={onClose}>
+            <button
+              className="upload-edit-app-close-button"
+              onClick={onClose}
+            >
               <img src={CloseModalIcon} alt="Close" />
             </button>
           </div>
@@ -332,21 +391,28 @@ const handleMakePresentation = (index) => {
               <div className="upload-edit-app-name-price">
                 <div className="upload-edit-app-name">
                   <div className="upload-edit-app-label-div">
-                    <label htmlFor="appName">App Name <span className="upload-edit-app-required">*</span></label>
-                    {errors.appName === 'Field Missing' && (
-                      <span className="upload-edit-app-field-missing">*Field Missing*</span>
+                    <label htmlFor="appName">
+                      App Name{" "}
+                      <span className="upload-edit-app-required">*</span>
+                    </label>
+                    {errors.appName === "Field Missing" && (
+                      <span className="upload-edit-app-field-missing">
+                        *Field Missing*
+                      </span>
                     )}
                   </div>
                   <input
                     type="text"
-                    className={`appName ${errors.appName ? 'error-input' : ''}`}
+                    className={`appName ${
+                      errors.appName ? "error-input" : ""
+                    }`}
                     name="appName"
                     placeholder="Name..."
                     value={appName}
                     onChange={(e) => {
                       setAppName(e.target.value);
                       if (errors.appName) {
-                        setErrors(prev => ({ ...prev, appName: null }));
+                        setErrors((prev) => ({ ...prev, appName: null }));
                       }
                     }}
                     required
@@ -354,11 +420,16 @@ const handleMakePresentation = (index) => {
                 </div>
                 <div className="upload-edit-app-price">
                   <div className="upload-edit-app-label-div">
-                    <label htmlFor="appPrice">Price <span className="upload-edit-app-required">*</span></label>
-                    {errors.appPrice === 'Field Missing' && (
-                      <span className="upload-edit-app-field-missing">*Field Missing*</span>
-                    )}  
-                    </div>                
+                    <label htmlFor="appPrice">
+                      Price{" "}
+                      <span className="upload-edit-app-required">*</span>
+                    </label>
+                    {errors.appPrice === "Field Missing" && (
+                      <span className="upload-edit-app-field-missing">
+                        *Field Missing*
+                      </span>
+                    )}
+                  </div>
                   <input
                     type="number"
                     className="appPrice"
@@ -368,7 +439,7 @@ const handleMakePresentation = (index) => {
                     onChange={(e) => {
                       setAppPrice(e.target.value);
                       if (errors.appPrice) {
-                        setErrors(prev => ({ ...prev, appPrice: null }));
+                        setErrors((prev) => ({ ...prev, appPrice: null }));
                       }
                     }}
                     required
@@ -377,28 +448,45 @@ const handleMakePresentation = (index) => {
               </div>
               <div className="upload-edit-app-tech-desc-repo">
                 <div className="upload-edit-app-tech-stack">
-                    <div className="upload-edit-app-tech-stack-label">
-                      <label htmlFor="techName" className="tech-used">Technologies Used <span className="upload-edit-app-required">*</span></label>
-                      {errors.technologies !== 'Field Missing' && (
-                        <span className="upload-edit-app-tech-stack-comma-separated">* Comma Separated List *</span>
-                      )} 
-                      {errors.technologies === 'Field Missing' && (
-                        <span className="upload-edit-app-field-missing">*Field Missing*</span>
-                      )}                                               
-                    </div>
-                    <ul className={`upload-edit-app-tech-container ${errors.technologies ? 'error-input' : ''}`}>                       
-                      {technologies.map((tech, index) => (
-                      <li key={index} className="upload-edit-app-tech-tag">
-                          <span>{tech}</span>
-                          <img
+                  <div className="upload-edit-app-tech-stack-label">
+                    <label
+                      htmlFor="techName"
+                      className="tech-used"
+                    >
+                      Technologies Used{" "}
+                      <span className="upload-edit-app-required">*</span>
+                    </label>
+                    {errors.technologies !== "Field Missing" && (
+                      <span className="upload-edit-app-tech-stack-comma-separated">
+                        * Comma Separated List *
+                      </span>
+                    )}
+                    {errors.technologies === "Field Missing" && (
+                      <span className="upload-edit-app-field-missing">
+                        *Field Missing*
+                      </span>
+                    )}
+                  </div>
+                  <ul
+                    className={`upload-edit-app-tech-container ${
+                      errors.technologies ? "error-input" : ""
+                    }`}
+                  >
+                    {technologies.map((tech, index) => (
+                      <li
+                        key={index}
+                        className="upload-edit-app-tech-tag"
+                      >
+                        <span>{tech}</span>
+                        <img
                           src={TechDeleteIcon}
                           alt="Remove"
                           className="upload-edit-app-tech-delete"
                           onClick={() => handleDeleteTech(index)}
-                          />
+                        />
                       </li>
-                      ))}
-                      <input
+                    ))}
+                    <input
                       type="text"
                       className="techName"
                       name="techName"
@@ -406,25 +494,33 @@ const handleMakePresentation = (index) => {
                       value={techInput}
                       onChange={(e) => setTechInput(e.target.value)}
                       onKeyDown={handleTechKeyDown}
-                      />
-                    </ul>
+                    />
+                  </ul>
                 </div>
 
                 <div className="upload-edit-app-summary">
                   <div className="upload-edit-app-label-div">
-                    <label>Description <span className="upload-edit-app-required">*</span></label>
-                    {errors.appDescription === 'Field Missing' && (
-                      <span className="upload-edit-app-field-missing">*Field Missing*</span>
-                    )}        
-                  </div>            
+                    <label>
+                      Description{" "}
+                      <span className="upload-edit-app-required">*</span>
+                    </label>
+                    {errors.appDescription === "Field Missing" && (
+                      <span className="upload-edit-app-field-missing">
+                        *Field Missing*
+                      </span>
+                    )}
+                  </div>
                   <textarea
-                    className={errors.appDescription ? 'error-input' : ''}
-                    placeholder='App description...'
+                    className={errors.appDescription ? "error-input" : ""}
+                    placeholder="App description..."
                     value={appDescription}
                     onChange={(e) => {
                       setappDescription(e.target.value);
                       if (errors.appDescription) {
-                        setErrors(prev => ({ ...prev, appDescription: null }));
+                        setErrors((prev) => ({
+                          ...prev,
+                          appDescription: null,
+                        }));
                       }
                     }}
                     required
@@ -447,17 +543,26 @@ const handleMakePresentation = (index) => {
             <div className="upload-edit-app-photos">
               <div>
                 <div className="upload-edit-app-label-div">
-                  <h3>Upload Zip File <span className="upload-edit-app-required">*</span></h3>
-                  {errors.uploadZip === 'Field Missing' && (
-                    <span className="upload-edit-app-field-missing">*Field Missing*</span>
-                  )}             
-                  {errors.uploadZip === 'Invalid Type' && (
-                    <span className="upload-edit-app-field-missing">Error – Only ZIP files allowed</span>
+                  <h3>
+                    Upload Zip File{" "}
+                    <span className="upload-edit-app-required">*</span>
+                  </h3>
+                  {errors.uploadZip === "Field Missing" && (
+                    <span className="upload-edit-app-field-missing">
+                      *Field Missing*
+                    </span>
+                  )}
+                  {errors.uploadZip === "Invalid Type" && (
+                    <span className="upload-edit-app-field-missing">
+                      Error – Only ZIP files allowed
+                    </span>
                   )}
                 </div>
                 {uploadStage === "default" && (
                   <div
-                    className={`upload-edit-app-upload ${errors.uploadZip ? 'error-input' : ''}`}
+                    className={`upload-edit-app-upload ${
+                      errors.uploadZip ? "error-input" : ""
+                    }`}
                     onClick={triggerFileDialog}
                     onDragOver={handleDragOver}
                     onDrop={handleDrop}
@@ -465,7 +570,7 @@ const handleMakePresentation = (index) => {
                     <input
                       type="file"
                       ref={fileInputRef}
-                      style={{ display: 'none' }}
+                      style={{ display: "none" }}
                       accept=".zip"
                       onChange={handleFileSelect}
                     />
@@ -499,7 +604,10 @@ const handleMakePresentation = (index) => {
                         onClick={handleCancelUpload}
                         style={{ cursor: "pointer" }}
                       >
-                        <img src={CancelUploadIcon} alt="Cancel Upload" />
+                        <img
+                          src={CancelUploadIcon}
+                          alt="Cancel Upload"
+                        />
                       </div>
                     </div>
                   </div>
@@ -528,18 +636,26 @@ const handleMakePresentation = (index) => {
               <div>
                 <div className="upload-edit-app-label-div">
                   <h3>Upload Image/Video</h3>
-                  {errors.mediaUpload === 'invalid-media-type' && (
-                    <span className="upload-edit-app-field-missing">Invalid image or video type</span>
+                  {errors.mediaUpload === "invalid-media-type" && (
+                    <span className="upload-edit-app-field-missing">
+                      Invalid image or video type
+                    </span>
                   )}
-                  {errors.mediaUpload === 'image-limit-exceeded' && (
-                    <span className="upload-edit-app-field-missing">5 images max</span>
+                  {errors.mediaUpload === "image-limit-exceeded" && (
+                    <span className="upload-edit-app-field-missing">
+                      5 images max
+                    </span>
                   )}
-                  {errors.mediaUpload === 'video-limit-exceeded' && (
-                    <span className="upload-edit-app-field-missing">1 video max</span>
-                  )}  
-                  {errors.mediaUpload === 'duplicate-image' && (
-                    <span className="upload-edit-app-field-missing">Duplicates found</span>
-                  )}                   
+                  {errors.mediaUpload === "video-limit-exceeded" && (
+                    <span className="upload-edit-app-field-missing">
+                      1 video max
+                    </span>
+                  )}
+                  {errors.mediaUpload === "duplicate-image" && (
+                    <span className="upload-edit-app-field-missing">
+                      Duplicates found
+                    </span>
+                  )}
                 </div>
                 <div
                   className="upload-edit-app-upload"
@@ -552,16 +668,18 @@ const handleMakePresentation = (index) => {
                     multiple
                     accept="image/*,video/*"
                     ref={mediaInputRef}
-                    style={{ display: 'none' }}
+                    style={{ display: "none" }}
                     onChange={handleMediaSelect}
                   />
                   <div className="upload-edit-app-upload-img">
                     <img src={UploadIcon} alt="Upload" />
                   </div>
                   <div>
-                    <p><span>Click</span> or Drag here.</p>
+                    <p>
+                      <span>Click</span> or Drag here.
+                    </p>
                   </div>
-                </div>                
+                </div>
               </div>
               <div>
                 {mediaFiles.length > 0 && (
@@ -571,82 +689,124 @@ const handleMakePresentation = (index) => {
                     </div>
                     <div className="upload-edit-app-uploaded-images">
                       {mediaFiles.map((media, index) => (
-                        <div key={index} className="uploadedImageContainer">
+                        <div
+                          key={index}
+                          className="uploadedImageContainer"
+                        >
                           <div className="uploadedImage">
-                            {media.type.startsWith("video/") || media.type === "image/gif" ? (
+                            {media.type.startsWith("video/") ||
+                            media.type === "image/gif" ? (
                               <div className="upload-edit-app-video-duration">
-                                  <img src={PlayIcon} alt="Play" />
-                                  <span>{media.type === "image/gif" ? "GIF" : media.duration || "Video"}</span>
+                                <img src={PlayIcon} alt="Play" />
+                                <span>
+                                  {media.type === "image/gif"
+                                    ? "GIF"
+                                    : media.duration || "Video"}
+                                </span>
                               </div>
-                            ) : null}                        
-                            <div className="upload-edit-app-uploaded-photo-trash" onClick={() => handleDeleteMedia(index)}>
+                            ) : null}
+                            <div
+                              className="upload-edit-app-uploaded-photo-trash"
+                              onClick={() => handleDeleteMedia(index)}
+                            >
                               <img src={TrashIcon} alt="Trash" />
                             </div>
                             <div
-                              className={`upload-edit-app-uploaded-photo-make-presentation ${defaultPresentationIndex === index ? 'selected-presentation' : ''}`}
-                              onClick={() => handleMakePresentation(index)}
+                              className={`upload-edit-app-uploaded-photo-make-presentation ${
+                                defaultPresentationIndex === index
+                                  ? "selected-presentation"
+                                  : ""
+                              }`}
+                              onClick={() =>
+                                handleMakePresentation(index)
+                              }
                             >
-                              <span>{defaultPresentationIndex === index ? 'Default Presentation' : 'Make Presentation'}</span>
+                              <span>
+                                {defaultPresentationIndex === index
+                                  ? "Default Presentation"
+                                  : "Make Presentation"}
+                              </span>
                             </div>
                             {media.type.startsWith("image/") ? (
-                              <img src={media.previewURL} alt="Preview" className="previewImg" />
+                              <img
+                                src={media.previewURL}
+                                alt="Preview"
+                                className="previewImg"
+                              />
                             ) : (
-                              <video src={media.previewURL} className="previewImg" controls />
+                              <video
+                                src={media.previewURL}
+                                className="previewImg"
+                                controls
+                              />
                             )}
                           </div>
                         </div>
-                      ))}                 
+                      ))}
                     </div>
                   </>
                 )}
               </div>
             </div>
           </div>
-            <div className="upload-edit-app-draft-cancel-save">
-              <div className="upload-edit-app-draft">
-                <button type="button">
-                  <img src={DraftIcon}/>
-                  <span>Save as Draft</span>
+          <div className="upload-edit-app-draft-cancel-save">
+            <div className="upload-edit-app-draft">
+              <button type="button">
+                <img src={DraftIcon} />
+                <span>Save as Draft</span>
+              </button>
+            </div>
+            <div className="upload-edit-app-cancel-save">
+              <div className="upload-edit-app-cancel">
+                <button type="button" onClick={onClose}>
+                  <img src={CancelIcon} />
+                  <span>Cancel</span>
                 </button>
               </div>
-              <div className="upload-edit-app-cancel-save">
-                <div className="upload-edit-app-cancel">
-                  <button type="button" onClick={onClose}>
-                  <img src={CancelIcon}/>
-                  <span>Cancel</span>
-                  </button>
-                </div>
-                <div className="upload-edit-app-save">
-                  <button 
-                    type="submit" 
-                    className="upload-edit-app-save-button"
-                    onClick={handleSaveAndUpload}
-                  >
-                    <img src={SaveIcon}/>
-                    <span>Save & Upload</span>
-                  </button>
-                </div>  
-              </div>            
-            </div>          
+              <div className="upload-edit-app-save">
+                <button
+                  type="submit"
+                  className="upload-edit-app-save-button"
+                  onClick={handleSaveAndUpload}
+                >
+                  <img src={SaveIcon} />
+                  <span>Save & Upload</span>
+                </button>
+              </div>
+            </div>
+          </div>
         </form>
         {showErrorBox && (
           <div className="upload-edit-app-error-banner">
-              <img src={DangerIcon} alt="Error" className="upload-edit-app-error-icon-banner" />
-              <span className="upload-edit-app-error-box-message-banner">
-                Error – Fields Missing or Invalid. Please try again.
-              </span>
-              <div>
-                <button className='upload-edit-app-close-banner-button'>
-                  <img
-                    src={CloseErrorIcon}
-                    alt="Close"
-                    onClick={handleCloseErrorBox}
-                  />
-                </button>
-              </div>
+            <img
+              src={DangerIcon}
+              alt="Error"
+              className="upload-edit-app-error-icon-banner"
+            />
+            <span className="upload-edit-app-error-box-message-banner">
+              Error – Fields Missing or Invalid. Please try again.
+            </span>
+            <div>
+              <button className="upload-edit-app-close-banner-button">
+                <img
+                  src={CloseErrorIcon}
+                  alt="Close"
+                  onClick={handleCloseErrorBox}
+                />
+              </button>
+            </div>
           </div>
         )}
       </div>
+
+      {showConfirmationModal && (
+        <ConfirmationModal
+          modalOpenState={showConfirmationModal}
+          onClose={() => setShowConfirmationModal(false)}
+          app={null}
+          onConfirmDelete={handleConfirmUpload}
+        />
+      )}
     </div>
   );
 };

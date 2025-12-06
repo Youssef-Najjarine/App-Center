@@ -1,0 +1,237 @@
+.withdrawal-balance-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(20, 21, 34, 0.15);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.withdrawal-balance-modal-overlay::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.withdrawal-balance-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 12.89px;
+    background: #FFF;
+    padding: 12.889px;
+    width: 89%;
+    border-radius: 12.889px;
+    z-index: 10000;
+    overflow-y: auto;
+}
+
+.withdrawal-balance-modal-close-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.withdrawal-balance-modal-close-header h2 {
+    color: #141522;
+    font-size: 17.722px;
+    font-weight: 700;
+    line-height: 26.583px;
+    margin: 0;
+}
+
+.withdrawal-balance-close-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.withdrawal-balance-close-icon {
+    width: 19.333px;
+    height: 19.333px;
+    cursor: pointer;
+}
+
+.withdrawal-balance-modal-amount-div {
+    padding: 12.889px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6.44px;
+    border-radius: 6.444px;
+    background: #5541D7;    
+}
+
+.withdrawal-balance-modal-amount-div h3 {
+    color: #FFF;
+    font-size: 12.889px;
+    font-weight: 500;
+    line-height: 19.333px;
+    letter-spacing: -0.129px;
+    opacity: 0.9;
+    margin: 0;
+}
+
+.withdrawal-balance-modal-amount-div p {
+    color: #FFF;
+    font-size: 22.556px;
+    font-weight: 700;
+    line-height: 33.833px;
+    letter-spacing: -0.451px;
+    margin: 0;
+}
+
+.withdrawal-balance-modal-payments-grid {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 9.67px;
+}
+
+.withdrawal-balance-modal-payment-row {
+    width: 100%;
+    padding: 12.889px 9.667px;
+    border-radius: 6.444px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9.67px;
+    background: #FCFCFC;
+    cursor: pointer;
+}
+
+.withdrawal-balance-modal-payment-disabled {
+    pointer-events: none;
+    opacity: 0.3;
+}
+.withdrawal-balance-modal-payment-row img{
+    width: 24.167px;
+    height: 24.167px;
+}
+
+.withdrawal-balance-modal-payment-title {
+    color: #141522;
+    font-size: 17.722px;
+    font-weight: 700;
+    line-height: 26.583px;
+    letter-spacing: -0.354px;
+}
+
+@media screen and (min-width: 768px) {
+    .withdrawal-balance-modal {
+        padding: 14px;
+        width: 50.15%;
+        border-radius: 14px;
+        gap: 14px;
+    }
+
+    .withdrawal-balance-modal-close-header h2 {
+        font-size: 19.25px;
+        line-height: 28.875px;
+    }
+
+    .withdrawal-balance-close-icon {
+        width: 21px;
+        height: 21px;
+    }
+
+    .withdrawal-balance-modal-amount-div {
+        padding: 14px;
+        gap: 7px;
+        border-radius: 7px;
+    }
+
+    .withdrawal-balance-modal-amount-div h3 {
+        font-size: 14px;
+        line-height: 21px;
+        letter-spacing: -0.14px;
+    }
+
+    .withdrawal-balance-modal-amount-div p {
+        font-size: 24.5px;
+        line-height: 36.75px;
+        letter-spacing: -0.49px;
+    }
+
+    .withdrawal-balance-modal-payments-grid {
+        gap: 10.5px;
+    }
+
+    .withdrawal-balance-modal-payment-row {
+        padding: 14px 10.5px;
+        border-radius: 7px;
+        gap: 10.5px;
+    }
+
+    .withdrawal-balance-modal-payment-row img{
+        width: 36.25px;
+        height: 36.25px;
+    }
+
+    .withdrawal-balance-modal-payment-title {
+        font-size: 19.25px;
+        line-height: 20.875px;
+        letter-spacing: -0.385px;
+    }
+}
+@media screen and (min-width: 1440px) {
+  .withdrawal-balance-modal {
+        padding: 16px;
+        width: 30.6%;
+        border-radius: 16px;
+  }
+
+    .withdrawal-balance-modal-close-header h2 {
+        font-size: 22px;
+        line-height: 33px;
+    }
+
+    .withdrawal-balance-close-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .withdrawal-balance-modal-amount-div {
+        padding: 16px;
+        gap: 8px;
+        border-radius: 8px;
+    }
+
+    .withdrawal-balance-modal-amount-div h3 {
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: -0.16px;
+    }
+
+    .withdrawal-balance-modal-amount-div p {
+        font-size: 28px;
+        line-height: 42px;
+        letter-spacing: -0.56px;
+    }
+
+    .withdrawal-balance-modal-payments-grid {
+        gap: 12px;
+    }
+
+    .withdrawal-balance-modal-payment-row {
+        padding: 16px 12px;
+        border-radius: 8px;
+        gap: 12px;
+    }
+
+    .withdrawal-balance-modal-payment-row img{
+        width: 30px;
+        height: 30px;
+    }
+
+    .withdrawal-balance-modal-payment-title {
+        font-size: 22px;
+        line-height: 33px;
+        letter-spacing: -0.44px;
+    }
+}

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import forgetPasswordPhotoDesktop from '../../../assets/forgot-password-desktop.jpeg';
+import passwordCheckIcon from '../../../assets/password-check.svg';
 import logoIcon from '../../../assets/intro-bg.jpeg';
-import dangerIcon from '../../../assets/danger.svg';
+import dangerOutlineIcon from '../../../assets/danger.svg';
+import dangerFilledIcon from '../../../assets/danger-filled.svg';
 import closeIcon from '../../../assets/close.svg';
 import './ForgotPassword.css';
 
@@ -77,6 +79,9 @@ const ForgotPassword = () => {
             <span className="forget-password-logo-text">Open App Partners</span>
           </Link>
         </div>
+        <div className="forget-password-password-check-div">
+          <img src={passwordCheckIcon} alt="Password Check Icon" />
+        </div>
         <h2>Forget Password</h2>
         <div className="forget-password-already-have-account-div">
           <p>Already have an Account?</p>
@@ -97,7 +102,7 @@ const ForgotPassword = () => {
                 />
                 {errors.emailUsername && (
                   <>
-                    <img src={dangerIcon} alt="Error" className="forget-password-error-icon" />
+                    <img src={dangerOutlineIcon} alt="Error" className="forget-password-error-icon" />
                     <span className="forget-password-field-missing">*Field Missing*</span>
                   </>
                 )}
@@ -116,7 +121,7 @@ const ForgotPassword = () => {
         {showErrorBox && (
           <div className='forget-password-error-box-column'>
             <div className='forget-password-error-box'>
-              <img src={dangerIcon} alt="Error" className="forget-password-error-box-icon" />
+              <img src={dangerFilledIcon} alt="Error" className="forget-password-error-box-icon" />
               <span className='forget-password-error-box-message'>Error - Fields Missing. Please try again</span>
               <img src={closeIcon} alt="Close" onClick={handleCloseErrorBox} className='forget-password-close-error-box-icon' />
             </div>
