@@ -1,4 +1,3 @@
-// vite.config.js — FINAL RECOMMENDED VERSION
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
@@ -10,8 +9,8 @@ export default defineConfig({
 
   build: {
     outDir: resolve(__dirname, 'server/public_html'),
-    emptyOutDir: false,        // ← this saves your index.html
-    copyPublicDir: false,      // ← this silences the warning
+    emptyOutDir: false,
+    copyPublicDir: false,
     rollupOptions: {
       input: resolve(__dirname, 'server/src/AppEntry.jsx'),
       output: {
