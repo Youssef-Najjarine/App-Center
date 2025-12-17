@@ -195,8 +195,31 @@ color: #5541D7;
     background: #5541D7;
     border: none;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6.44px;
   }
 
+  .create-account img { 
+    width: 16.111px;
+    height: 16.111px;
+  }
+
+.sign-up-policy-terms-of-service-text {
+    color: #9C9CA4;
+    font-size: 9.667px;
+    font-weight: 400;
+    line-height: 14.5px;
+    margin: 0 0 32px 0;
+}
+
+.sign-up-privacy-policy-text,
+.sign-up-terms-of-service-text {
+    color: #5541D7 !important;
+    text-decoration: none;
+    cursor: pointer;
+}
   .error-input {
     border: 0.806px solid #FF461D !important;
   }
@@ -381,12 +404,25 @@ color: #5541D7;
     .sign-up-greyLine {
         margin: 24px 0;
     }
+
     .create-account {
         padding: 10.5px 14px;
         height: 39px;
         font-size: 12.25px;
         border-radius: 8.75px;
+        gap: 7px;
     }
+
+    .create-account img { 
+        width: 17.5px;
+        height: 17.5px;
+    }
+
+    .sign-up-policy-terms-of-service-text {
+        font-size: 12px;
+        line-height: 18px;
+        margin: 0 0 33.38px 0;
+    }    
 }
   @media screen and (min-width: 1440px) {
     .sign-up-photo-tablet {
@@ -519,9 +555,22 @@ color: #5541D7;
         height: 45px;
         font-size: 14px;
         border-radius: 10px;
-      }
+        gap: 8px;
+    }
 
-      .sign-up-greyLine {
+    .create-account img { 
+    width: 20px;
+    height: 20px;
+    }
+
+    .sign-up-policy-terms-of-service-text {
+        max-width: 385px;
+        font-size: 14px;
+        line-height: 21px;
+        margin: 18px 0 0 0;
+    } 
+
+    .sign-up-greyLine {
         display: none;
         margin: 0;
     }

@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./ApplicationDetailModal.css";
 import closeButton from "../../../assets/Applications/x-close.svg";
 import AppHomeModalCarousel from "./ApplicationModalCarousel/ApplicationModalCarousel";
-import githubIcon from "../../../assets/Applications/github-icon.png";
+import githubIcon from "../../../assets/github-icon.png";
 import playIcon from "../../../assets/Applications/play-icon.svg";
+import purchaseApplicationIcon from "../../../assets/purchase-application-icon.svg";
 import sampleVideo from "../../../assets/HomeCarousel/Senior-Full-Stack-Developer-Expertise.mp4";
 
 const ApplicationDetailModal = ({ modalOpenState, onClose, app }) => {
@@ -129,7 +130,10 @@ const ApplicationDetailModal = ({ modalOpenState, onClose, app }) => {
                 </p>
               </div>
               <div className="appHome-modal-purchase-app-div">
-                <button>Purchase the Application - $500</button>
+                <button>
+                  <img src={purchaseApplicationIcon}/>
+                  Purchase the Application - $500
+                  </button>
               </div>
             </div>
           </div>

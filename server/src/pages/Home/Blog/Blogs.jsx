@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
-import searchIcon from "../../../assets/Blogs/search-normal.svg";
+import searchIcon from "../../../assets/magnifying-glass-icon.svg";
 import blogImg1 from "../../../assets/Blogs/1.png";
 import blogImg2 from "../../../assets/Blogs/2.png";
 import blogImg3 from "../../../assets/Blogs/3.png";

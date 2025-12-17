@@ -3,16 +3,16 @@ import { Link } from "react-router-dom";
 import ProfileApplicationDetailModal from "../ProfileApplicationDetailModal/ProfileApplicationDetailModal";
 import applicationImg1 from "../../../assets/Member/member-applicationImg-1.png";
 import applicationImg2 from "../../../assets/Member/member-applicationImg-2.png";
-import githubIcon from "../../../assets/Member/member-applications-github-icon.png";
+import githubIcon from "../../../assets/github-icon.png";
 import expandIcon from "../../../assets/Member/member-applications-more-icon.svg";
-import viewDetailsIcon from "../../../assets/Member/profile-my-purchases-eye-icon.svg";
+import viewDetailsIcon from "../../../assets/purple-view-details-icon.svg";
 import downloadIcon from "../../../assets/Member/profile-my-purchases-download-icon.svg";
-import reportIcon from "../../../assets/Member/profile-my-purchases-report-issue-icon.svg";
-import sellerIcon from "../../../assets/Member/profile-my-purchases-seller-icon.svg";
-import emailIcon from "../../../assets/Member/profile-my-purchases-email-icon.svg";
-import spentIcon from "../../../assets/Member/profile-my-purchases-spent-icon.svg";
-import addIcon from "../../../assets/Member/member-applications-add-circle-icon.svg";
-import sortIcon from "../../../assets/Member/member-applications-sort-icon.svg";
+import reportIcon from "../../../assets/danger-outline.svg";
+import sellerIcon from "../../../assets/purple-outline-profile-icon.svg";
+import emailIcon from "../../../assets/purple-outline-email-icon.svg";
+import spentIcon from "../../../assets/purple-dollar-circle-icon.svg";
+import addIcon from "../../../assets/add-circle-icon.svg";
+import sortIcon from "../../../assets/sort-by-icon.svg";
 import "./MyPurchases.css";
 
 const ProfileApplications = () => {

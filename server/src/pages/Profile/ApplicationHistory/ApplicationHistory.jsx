@@ -1,23 +1,23 @@
 import React, { useState, useEffect, useRef  } from "react";
 import { Link } from "react-router-dom";
 import ProfileApplicationDetailModal from "../ProfileApplicationDetailModal/ProfileApplicationDetailModal";
-import calendarIcon from "../../../assets/Member/profile-applications-history-calendar-icon.svg";
+import calendarIcon from "../../../assets/calendar-icon.svg";
 import arrowIcon from "../../../assets/Member/profile-applications-history-arrow-icon.svg";
 import appSoldIcon from "../../../assets/Member/profile-applications-history-app-sold-icon.svg";
-import disputedIcon from "../../../assets/Member/profile-applications-history-disputed-icon.svg";
-import searchIcon from "../../../assets/Member/member-applications-search-icon.svg";
+import disputedIcon from "../../../assets/danger-outline.svg";
+import searchIcon from "../../../assets/magnifying-glass-icon.svg";
 import applicationImg1 from "../../../assets/Member/member-applicationImg-1.png";
 import applicationImg2 from "../../../assets/Member/member-applicationImg-2.png";
-import githubIcon from "../../../assets/Member/member-applications-github-icon.png";
+import githubIcon from "../../../assets/github-icon.png";
 import expandIcon from "../../../assets/Member/member-applications-more-icon.svg";
-import detailIcon from "../../../assets/Member/profile-applications-history-detail-icon.svg";
+import detailIcon from "../../../assets/purple-view-details-icon.svg";
 import resendIcon from "../../../assets/Member/profile-applications-history-resend-icon.svg";
 import inquiryIssueIcon from "../../../assets/Member/profile-applications-history-inquiry-issue-icon.svg";
 import refundIcon from "../../../assets/Member/profile-applications-history-give-refund-icon.svg";
-import buyerIcon from "../../../assets/Member/profile-applications-history-buyer-icon.svg";
-import emailIcon from "../../../assets/Member/profile-applications-history-email-icon.svg";
-import priceIcon from "../../../assets/Member/profile-applications-history-price-icon.svg";
-import sortIcon from "../../../assets/Member/member-applications-sort-icon.svg";
+import buyerIcon from "../../../assets/purple-outline-profile-icon.svg";
+import emailIcon from "../../../assets/purple-outline-email-icon.svg";
+import priceIcon from "../../../assets/purple-dollar-circle-icon.svg";
+import sortIcon from "../../../assets/sort-by-icon.svg";
 import "./ApplicationHistory.css";
 
 const ApplicationHistory = () => {

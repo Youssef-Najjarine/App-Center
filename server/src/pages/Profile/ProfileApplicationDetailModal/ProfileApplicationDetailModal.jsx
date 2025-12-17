@@ -4,12 +4,12 @@ import React, { useEffect, useState } from "react";
 import "./ProfileApplicationDetailModal.css";
 import closeButton from "../../../assets/Member/x-close.svg";
 import ProfileAppModalCarousel from "./ApplicationModalCarousel/ApplicationModalCarousel";
-import githubIcon from "../../../assets/Member/github-icon.png";
+import githubIcon from "../../../assets/github-icon.png";
 import playIcon from "../../../assets/Member/play-icon.svg";
 import sampleVideo from "../../../assets/Member/Senior-Full-Stack-Developer-Expertise.mp4";
-import editIcon from "../../../assets/Member/member-app-details-modal-edit-icon.svg";
-import deleteIcon from "../../../assets/Member/member-app-details-modal-trash-icon.svg";
-import boostIcon from "../../../assets/Member/member-app-details-modal-boost-icon.svg";
+import editIcon from "../../../assets/purple-edit-icon.svg";
+import deleteIcon from "../../../assets/red-outline-trash-icon.svg";
+import boostIcon from "../../../assets/filled-white-boost-icon.svg";
 
 const ProfileApplicationDetailModal = ({ modalOpenState, onClose, app, modalSource }) => {
   if (!app) return null;

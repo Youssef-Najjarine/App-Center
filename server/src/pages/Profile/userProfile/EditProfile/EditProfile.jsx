@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import profilePic from '../../../../assets/Member/member-profile-pic.JPG';
 import cancelIcon from '../../../../assets/Member/member-edit-profile-close-circle-icon.svg';
-import checkIcon from '../../../../assets/Member/member-edit-profile-check-circle-icon.svg';
+import checkIcon from '../../../../assets/white-check-circle-outline.svg';
 import uploadPhotoIcon from '../../../../assets/Member/member-edit-profile-upload-icon.svg';
-import dangerIcon from '../../../../assets/danger.svg';
-import dangerFilledIcon from '../../../../assets/Member/member-edit-profile-filled-error.svg';
+import dangerIcon from '../../../../assets/danger-outline.svg';
+import dangerFilledIcon from '../../../../assets/danger-filled.svg';
 import closeIcon from '../../../../assets/Member/member-edit-profile-close-error-icon.svg';
 
 import './EditProfile.css';

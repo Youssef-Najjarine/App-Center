@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import signInPhotoDesktop from '../../../assets/log-in-desktop.jpeg';
 import logoIcon from '../../../assets/intro-bg.jpeg';
-import dangerOutlineIcon from '../../../assets/danger.svg';
+import dangerOutlineIcon from '../../../assets/danger-outline.svg';
 import dangerFilledIcon from '../../../assets/danger-filled.svg';
 import closeIcon from '../../../assets/close.svg';
 import eyeSlash from '../../../assets/eye-slash.svg';
@@ -171,9 +171,13 @@ const Login = () => {
           </div>
         </form>
         <div className='sign-in-greyLine'></div>
-        {/* <div className='verify-identity-privacy-policy-terms-of-service'>
-          <p className='verify-identity-policy-terms-of-service-text'>Protected by reCAPTCHA and subject to the Google <Link to="/privacy-policy" className='verify-identity-privacy-policy-text'>Privacy Policy</Link> and <Link to="/terms-of-service" className='verify-identity-terms-of-service-text'>Terms of Service</Link>.</p>
-        </div>         */}
+        <div className='sign-in-privacy-policy-terms-of-service'>
+          <p className='sign-in-policy-terms-of-service-text'>
+            Protected by reCAPTCHA and subject to the Google{' '}
+            <Link to="/privacy-policy" className='sign-in-privacy-policy-text'>Privacy Policy</Link> and{' '}
+            <Link to="/terms-of-service" className='sign-in-terms-of-service-text'>Terms of Service</Link>.
+          </p>
+        </div> 
         {showErrorBox && (
           <div className='sign-in-error-box-column'>
             <div className='sign-in-error-box'>

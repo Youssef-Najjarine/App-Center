@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./ChangePasswordModal.css";
 import cancelIcon from "../../../../assets/Member/member-change-password-cancel-icon.svg";
-import checkIcon from "../../../../assets/Member/member-change-password-check-icon.svg";
-import confirmIcon from "../../../../assets/Member/member-change-password-confirm-icon.svg";
-import dangerIcon from '../../../../assets/Member/member-change-password-danger-icon.svg';
-import eyeSlashIcon from '../../../../assets/Member/member-change-password-eye-slash-icon.svg';
-import eyeIcon from '../../../../assets/Member/member-change-password-eye-icon.svg';
+import checkIcon from "../../../../assets/green-check-circle-outline.svg";
+import confirmIcon from "../../../../assets/white-check-circle-outline.svg";
+import dangerIcon from '../../../../assets/danger-outline.svg';
+import eyeSlashIcon from '../../../../assets/eye-slash.svg';
+import eyeIcon from '../../../../assets/eye.svg';
 
 const ChangePasswordModal = ({ modalOpenState, onClose }) => {
   const [currentPassword, setCurrentPassword] = useState('');

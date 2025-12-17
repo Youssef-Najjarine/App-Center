@@ -161,6 +161,21 @@ color: #5541D7;
     margin: 29px 0;
 }
 
+.sign-in-policy-terms-of-service-text {
+    color: #9C9CA4;
+    font-size: 9.667px;
+    font-weight: 400;
+    line-height: 14.5px;
+    margin: 0 0 32px 0;
+}
+
+.sign-in-privacy-policy-text,
+.sign-in-terms-of-service-text {
+    color: #5541D7 !important;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .sign-in-error-box {
     display: flex;
     align-items: center;
@@ -286,6 +301,13 @@ color: #5541D7;
         margin: 31.5px 0;
     }
 
+    .sign-in-policy-terms-of-service-text {
+        max-width: 370px;
+        font-size: 10.5px;
+        line-height: 15.75px;
+        margin: 0 0 30px 0;
+    }
+
     .sign-in-field-missing {
         top: -20px;
         font-size: 12.25px;
@@ -309,7 +331,7 @@ color: #5541D7;
         padding: 10.5px;
         border-radius: 7px;
         box-shadow: 10.5px 10.5px 21px 0px rgba(0, 0, 0, 0.10);
-        margin-bottom: 30px;
+        margin: 21px 0 30px 0;
       }
     
       .sign-in-error-box-icon {
@@ -414,4 +436,10 @@ height: 920px;
     .sign-in-greyLine {
         margin: 36px 0;
     }
+
+    .sign-in-policy-terms-of-service-text {
+        max-width: 385px;
+        font-size: 12px;
+        line-height: 18px;
+    }    
 }

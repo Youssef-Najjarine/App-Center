@@ -143,6 +143,7 @@
 
 .member-navbar-logout-div {
   background: rgba(255, 0, 0, 0.05);
+  cursor: pointer;
 }
 
 .member-navbar-logout-div:hover {
@@ -152,7 +153,6 @@
   color: #FF461D;
 }
 
-/* HEEEEERRREEEEEEEEEEEEEEE */
 .active-app-tab {
   background: #5541D7 !important;
 }
@@ -177,7 +177,7 @@
   color: #141522;
   fill: #141522;
 }
-/* HEEEEERRREEEEEEEEEEEEEEE */
+
 @media screen and (min-width: 768px) {
   .member-navbar {
     padding: 20px;

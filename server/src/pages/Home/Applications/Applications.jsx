@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import ApplicationDetailModal from "./ApplicationDetailModal";
-import searchIcon from "../../../assets/Applications/search-normal.svg";
+import searchIcon from "../../../assets/magnifying-glass-icon.svg";
 import applicationImg1 from "../../../assets/Applications/applicationImg-1.png";
 import applicationImg2 from "../../../assets/Applications/applicationImg-2.png";
-import githubIcon from "../../../assets/Applications/github-icon.png";
+import githubIcon from "../../../assets/github-icon.png";
 import "./Applications.css";
 
 const HomeApplications = () => {

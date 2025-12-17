@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import WithdrawalBalanceModal from "./WithdrawalBalanceModal/WithdrawalBalanceModal";
-import calendarIcon from "../../../assets/Member/profile-applications-history-calendar-icon.svg";
+import calendarIcon from "../../../assets/calendar-icon.svg";
 import arrowIcon from "../../../assets/Member/profile-applications-history-arrow-icon.svg";
-import sortIcon from "../../../assets/Member/member-applications-sort-icon.svg";
+import sortIcon from "../../../assets/sort-by-icon.svg";
 import documentIcon from "../../../assets/Member/member-earnings-payout-document-text.svg";
-import dollarSignPurpleIcon from "../../../assets/Member/member-earnings-payout-dollar-circle-purple.svg";
+import dollarSignPurpleIcon from "../../../assets/purple-dollar-circle-icon.svg";
 import dollarSignMoneyReciveIcon from "../../../assets/Member/member-earnings-payout-money-recive.svg";
 import dollarSignBlackIcon from "../../../assets/Member/member-earnings-payout-dollar-circle-black.svg";
 import dollarSignMoneySendIcon from "../../../assets/Member/member-earnings-payout-money-send.svg";

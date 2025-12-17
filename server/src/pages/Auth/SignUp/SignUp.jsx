@@ -3,10 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import signUpPhotoDesktop from '../../../assets/sign-up-desktop.jpeg';
 import signUpPhotoTablet from '../../../assets/sign-up-tablet.jpeg';
 import logoIcon from '../../../assets/intro-bg.jpeg';
-import checkIcon from '../../../assets/check.svg';
-import dangerIcon from '../../../assets/danger.svg';
+import checkIcon from '../../../assets/green-check-circle-outline.svg';
+import dangerIcon from '../../../assets/danger-outline.svg';
 import eyeSlash from '../../../assets/eye-slash.svg';
 import eyeIcon from '../../../assets/eye.svg';
+import WhiteCheckIcon from "../../../assets/white-check-circle-outline.svg";
 import './SignUp.css';
 
 const SignUp = () => {
@@ -269,10 +270,18 @@ const SignUp = () => {
             </div>
           </div>
           <button type="submit" className="create-account">
+            <img src={WhiteCheckIcon}/>
             Create Account
           </button>
         </form>
         <div className='sign-up-greyLine'></div>
+          <div className='sign-up-privacy-policy-terms-of-service'>
+            <p className='sign-up-policy-terms-of-service-text'>
+              Protected by reCAPTCHA and subject to the Google{' '}
+              <Link to="/privacy-policy" className='sign-up-privacy-policy-text'>Privacy Policy</Link> and{' '}
+              <Link to="/terms-of-service" className='sign-up-terms-of-service-text'>Terms of Service</Link>.
+            </p>
+          </div>        
       </div>
     </div>
   );

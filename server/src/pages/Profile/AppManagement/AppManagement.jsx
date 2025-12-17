@@ -4,18 +4,18 @@ import ProfileApplicationDetailModal from "../ProfileApplicationDetailModal/Prof
 import ProfileUploadEditAppModal from "../ProfileUploadEditAppModal/ProfileUploadEditAppModal";
 import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
 import ManageBoostModal from "./ManageBoostModal/ManageBoostModal";
-import searchIcon from "../../../assets/Member/member-applications-search-icon.svg";
+import searchIcon from "../../../assets/magnifying-glass-icon.svg";
 import applicationImg1 from "../../../assets/Member/member-applicationImg-1.png";
 import applicationImg2 from "../../../assets/Member/member-applicationImg-2.png";
-import detailsIcon from "../../../assets/Member/member-applications-details-icon.svg";
-import editIcon from "../../../assets/Member/member-applications-edit-icon.svg";
-import trashIcon from "../../../assets/Member/member-applications-trash-icon.svg";
-import addIcon from "../../../assets/Member/member-applications-add-circle-icon.svg";
-import sortIcon from "../../../assets/Member/member-applications-sort-icon.svg";
+import detailsIcon from "../../../assets/purple-details-icon.svg";
+import editIcon from "../../../assets/purple-edit-icon.svg";
+import trashIcon from "../../../assets/red-outline-trash-icon.svg";
+import addIcon from "../../../assets/add-circle-icon.svg";
+import sortIcon from "../../../assets/sort-by-icon.svg";
 import PlaceHolderImg from "../../../assets/Member/app-management-placeholder.png";
 import Chart from "../../../assets/Member/app-management-chart.png";
 import expandIcon from "../../../assets/Member/app-management-dots.svg";
-import boostIcon from "../../../assets/Member/app-management-boost-icon.png";
+import boostIcon from "../../../assets/filled-purple-boost-icon.png";
 import "./AppManagement.css";
 
 const AppManagement = () => {

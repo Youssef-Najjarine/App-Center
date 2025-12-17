@@ -229,12 +229,19 @@
   padding: 12.889px 19.333px;
   color: #FFF;
   font-size: 14.5px;
-  font-style: normal;
   font-weight: 700;
   line-height: 21.75px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7.73px;
 }
 
+.appHome-modal-purchase-app-div button img {
+  width: 19.333px;
+  height: 19.333px;
+}
 @media screen and (min-width: 768px) {
   .appHome-modal {
     padding: 21px;
@@ -368,7 +375,13 @@
     padding: 14px 21px;
     font-size: 15.75px;
     line-height: 23.625px;
+    gap: 8.4px;
   }
+
+  .appHome-modal-purchase-app-div button img {
+    width: 21px;
+    height: 21px;
+  }  
 }
 @media screen and (min-width: 1440px) {
   .appHome-modal {
@@ -514,5 +527,11 @@
     padding: 16px 28px;
     font-size: 18px;
     line-height: 27px;
+    gap: 9.6px;
   }
+
+  .appHome-modal-purchase-app-div button img {
+    width: 24px;
+    height: 24px;
+  }  
 }

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import forgetPasswordPhotoDesktop from '../../../assets/forgot-password-desktop.jpeg';
-import passwordCheckIcon from '../../../assets/password-check.svg';
+import forgetPasswordPhotoDesktop from '../../../assets/forgot-password-background.jpeg';
+import passwordCheckIcon from '../../../assets/password-verify-identity-icon.svg';
 import logoIcon from '../../../assets/intro-bg.jpeg';
-import dangerOutlineIcon from '../../../assets/danger.svg';
+import dangerOutlineIcon from '../../../assets/danger-outline.svg';
 import dangerFilledIcon from '../../../assets/danger-filled.svg';
 import closeIcon from '../../../assets/close.svg';
 import './ForgotPassword.css';
@@ -118,6 +118,13 @@ const ForgotPassword = () => {
           </div>
         </form>
         <div className='forget-password-greyLine'></div>
+        <div className='forget-password-privacy-policy-terms-of-service'>
+          <p className='forget-password-policy-terms-of-service-text'>
+            Protected by reCAPTCHA and subject to the Google{' '}
+            <Link to="/privacy-policy" className='forget-password-privacy-policy-text'>Privacy Policy</Link> and{' '}
+            <Link to="/terms-of-service" className='forget-password-terms-of-service-text'>Terms of Service</Link>.
+          </p>
+        </div>        
         {showErrorBox && (
           <div className='forget-password-error-box-column'>
             <div className='forget-password-error-box'>

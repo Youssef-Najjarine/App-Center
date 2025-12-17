@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import verifyIdentityPhoto from '../../../assets/verify-identity-photo.jpg';
-import passwordCheckIcon from '../../../assets/password-check.svg';
+import passwordCheckIcon from '../../../assets/password-verify-identity-icon.svg';
 import logoIcon from '../../../assets/intro-bg.jpeg';
 import dangerFilledIcon from '../../../assets/danger-filled.svg';
 import closeIcon from '../../../assets/close.svg';
@@ -139,7 +139,7 @@ const VerifyIdentity = () => {
           </div>
 
           <div className="verify-identity-links-div">
-            <Link to="/" className="verify-identity-back-link">Back</Link>
+            <Link to="/auth/forgot-password" className="verify-identity-back-link">Back</Link>
             <Link to="/" className="verify-identity-didnt-receive-link">
               Didn't receive the code?
             </Link>

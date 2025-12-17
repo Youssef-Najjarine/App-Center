@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./ManageBoostModal.css";
 import xIcon from "../../../../assets/Member/member-manage-boost-x-icon.svg";
-import confirmSaveIcon from "../../../../assets/Member/member-manage-boost-confirm-save.svg";
+import confirmSaveIcon from "../../../../assets/white-check-circle-outline.svg";
 
 const ManageBoostModal = ({ modalOpenState, onClose, title, preview, dailyBudget, cpcCap, impressions, clicks, spent, ppc }) => {
   const [dailyBudgetState, setDailyBudgetState] = useState(dailyBudget);
