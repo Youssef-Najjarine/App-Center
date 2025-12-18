@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import DeletePhoto from "../../../assets/Member/delete-modal-X-photo.png";
-import XIcon from "../../../assets/Member/delete-modal-X-icon.svg";
-import TrashIcon from "../../../assets/Member/delete-modal-trash-icon.svg";
+import DeletePhoto from "../../../assets/white-x-red-background-logo.png";
+import XIcon from "../../../assets/x-icon.svg";
+import TrashIcon from "../../../assets/white-outline-trash-icon.svg";
 import "./DeleteConfirmationModal.css";
 
 const DeleteConfirmationModal = ({ modalOpenState, onClose, app, onConfirmDelete }) => {

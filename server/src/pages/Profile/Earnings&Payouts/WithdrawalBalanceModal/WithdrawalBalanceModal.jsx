@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./WithdrawalBalanceModal.css";
-import xIcon from "../../../../assets/Member/withdrawal-balance-x-icon.svg";
+import xIcon from "../../../../assets/x-icon.svg";
 import payoneer from "../../../../assets/Member/cards-payments-payoneer-icon.png";
 import transferWise from "../../../../assets/Member/cards-payments-transfer-wise-icon.png";
 import payPal from "../../../../assets/Member/cards-payments-paypal-icon.png";

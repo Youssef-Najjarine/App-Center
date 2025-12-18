@@ -63,10 +63,10 @@
 .member-nav-application-div span,
 .member-nav-name,
 .member-nav-email,
-.member-navbar-up-arrow,
-.member-navbar-down-arrow {
+.member-navbar-caret {
   display: none;
 }
+
 .member-profile-wrapper {
   position: relative;
 }
@@ -83,7 +83,7 @@
   cursor: pointer;
 }
 
-.member-profile-nav img {
+.member-profile-nav .member-nav-profile-picture {
   width: 34.639px;
   height: 34.639px;
   border-radius: 80.556px;
@@ -171,11 +171,21 @@
 }
 
 .inactive-profile-tab .member-nav-name,
-.inactive-profile-tab .member-nav-email,
-.inactive-profile-tab .member-navbar-up-arrow,
-.inactive-profile-tab .member-navbar-down-arrow {
+.inactive-profile-tab .member-nav-email {
   color: #141522;
   fill: #141522;
+}
+
+.member-profile-nav .member-navbar-down-arrow {
+  filter: invert(1) brightness(1.5);
+}
+
+.member-profile-nav.inactive-profile-tab .member-navbar-down-arrow {
+  filter: none;
+}
+
+.member-navbar-down-arrow.rotated {
+  transform: rotate(180deg);
 }
 
 @media screen and (min-width: 768px) {
@@ -229,11 +239,10 @@
     justify-content: space-between;
   }
 
-  .member-profile-nav img {
+  .member-profile-nav .member-nav-profile-picture {
     width: 37.625px;
     height: 37.625px;
     border-radius: 87.5px;
-    margin: 0 10.5px 0 0;
   }
 
   .member-nav-name {
@@ -256,17 +265,22 @@
 
   .member-nav-name,
   .member-nav-email,
-  .member-navbar-up-arrow,
-  .member-navbar-down-arrow {
+  .member-navbar-caret {
     display: flow-root;
   }
 
-  .member-navbar-up-arrow,
+  .member-navbar-caret {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .member-navbar-down-arrow {
-    width: 25px;
-    height: 25px;
+    width: 17.5px;
+    height: 17.5px;
     fill: white;
   }
+
   .member-dropdown-menu {
     top: 54.97px;
     width: 244.13px;
@@ -322,11 +336,10 @@
     border-radius: 10px;
   }
 
-  .member-profile-nav img {
+  .member-profile-nav .member-nav-profile-picture {
     width: 43px;
     height: 43px;
     border-radius: 100px;
-    margin: 0 12px 0 0;
   }
 
   .member-nav-name {
@@ -338,14 +351,15 @@
     font-size: 14px;
     line-height: 21px;
    }
-    .member-navbar-up-arrow,
+
     .member-navbar-down-arrow {
-      width: 30px;
-      height: 30px;
+      width: 25px;
+      height: 25px;
     }
+
   .member-dropdown-menu {
-     top: 57.94px;
-      width: 279px;
+    top: 57.94px;
+    width: 279px;
     gap: 8px;
     padding: 10px;
     border-radius: 10px;

@@ -4,9 +4,9 @@ import ProfileApplicationDetailModal from "../ProfileApplicationDetailModal/Prof
 import applicationImg1 from "../../../assets/Member/member-applicationImg-1.png";
 import applicationImg2 from "../../../assets/Member/member-applicationImg-2.png";
 import githubIcon from "../../../assets/github-icon.png";
-import expandIcon from "../../../assets/Member/member-applications-more-icon.svg";
+import expandIcon from "../../../assets/three-dots-expand-icon.svg";
 import viewDetailsIcon from "../../../assets/purple-view-details-icon.svg";
-import downloadIcon from "../../../assets/Member/profile-my-purchases-download-icon.svg";
+import downloadIcon from "../../../assets/purple-download-icon.svg";
 import reportIcon from "../../../assets/danger-outline.svg";
 import sellerIcon from "../../../assets/purple-outline-profile-icon.svg";
 import emailIcon from "../../../assets/purple-outline-email-icon.svg";

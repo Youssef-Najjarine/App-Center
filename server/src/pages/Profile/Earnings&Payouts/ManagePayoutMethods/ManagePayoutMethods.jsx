@@ -5,9 +5,9 @@ import transferWise from "../../../../assets/Member/cards-payments-transfer-wise
 import payPal from "../../../../assets/Member/cards-payments-paypal-icon.png";
 import stripe from "../../../../assets/Member/cards-payments-stripe-icon.png";
 import backArrowIcon from "../../../../assets/back-arrow-icon.svg";
-import headphoneIcon from "../../../../assets/Member/cards-payments-headphone-icon.svg";
-import deleteIcon from "../../../../assets/Member/cards-payments-close-circle.svg";
-import connectAccountIcon from "../../../../assets/Member/cards-payments-connect-account-icon.svg";
+import headphoneIcon from "../../../../assets/white-headphone-icon.svg";
+import deleteIcon from "../../../../assets/red-x-close-circle.svg";
+import connectAccountIcon from "../../../../assets/white-connect-account-icon.svg";
 import AddNewPaymentMethodModal from "./AddNewPaymentMethodModal/addNewPaymentMethodModal";
 import "./ManagePayoutMethods.css";
 

@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import logoIcon from '../../assets/intro-bg.jpeg';
-import applications from '../../assets/Member/member-applications.svg';
+import logoIcon from '../../assets/logo.jpeg';
+import downArrowIcon from '../../assets/down-arrow-icon.svg';
+import applications from '../../assets/applications-nav-icon.svg';
 import profilePic from '../../assets/Member/member-profile-pic.JPG';
 import profileIcon from '../../assets/purple-outline-profile-icon.svg';
-import appManagementIcon from '../../assets/Member/member-application-management-navbar-icon.svg';
+import appManagementIcon from '../../assets/outline-purple-boost-icon.svg';
 import myPurchasesIcon from '../../assets/purple-dollar-circle-icon.svg';
-import applicationHistoryIcon from '../../assets/Member/member-navbar-application-history-icon.svg';
-import earningsPayoutsIcon from '../../assets/Member/member-navbar-earnings-payouts-icon.svg';
-import cardPaymentsIcon from '../../assets/Member/member-navbar-cards-payments-icon.svg';
-import logoutIcon from '../../assets/Member/member-navbar-logout-icon.svg';
+import applicationHistoryIcon from '../../assets/purple-outline-desktop-monitor-icon.svg';
+import earningsPayoutsIcon from '../../assets/purple-outline-wallet-icon.svg';
+import cardPaymentsIcon from '../../assets/purple-outline-card-icon.svg';
+import logoutIcon from '../../assets/red-outline-logout-icon.svg';
 import './MemberNavbar.css';
 
 const MemberNavbar = () => {
@@ -64,24 +65,19 @@ const MemberNavbar = () => {
 
           <div className="member-profile-wrapper" ref={profileWrapperRef}>
             <div className={`member-profile-nav ${["/profile/apps", "/profile/appManagement", "/profile/MyPurchases", "/profile/ApplicationHistory", "/profile/Earnings&Payouts"].includes(location.pathname) ? "inactive-profile-tab" : ""}`} onClick={toggleDropdown}>
-              <img src={profilePic} alt="member-icon" />
+              <img src={profilePic} alt="member-icon" className='member-nav-profile-picture' />
               <div>
                 <p className='member-nav-name'>Youssef Najjarine</p>
                 <p className='member-nav-email'>ynajjarine@gmail.com</p>
               </div>
               <div className="member-navbar-caret">
-                {showDropdown ? (
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className='member-navbar-up-arrow'>
-                    <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z" />
-                  </svg>
-                ) : (
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className='member-navbar-down-arrow'>
-                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z" />
-                  </svg>
-                )}
+                <img 
+                  src={downArrowIcon} 
+                  alt="dropdown arrow"
+                  className={`member-navbar-down-arrow ${showDropdown ? 'rotated' : ''}`}
+                />
               </div>
             </div>
-
             <div className={`member-dropdown-menu ${showDropdown ? 'show' : ''}`}>
               <Link to="/profile" onClick={() => setShowDropdown(false)}>
                 <div className='member-navbar-icon-div'>

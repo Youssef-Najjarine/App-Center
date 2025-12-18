@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import signInPhotoDesktop from '../../../assets/log-in-desktop.jpeg';
-import logoIcon from '../../../assets/intro-bg.jpeg';
+import signInPhotoDesktop from '../../../assets/log-in-background.jpeg';
+import logoIcon from '../../../assets/logo.jpeg';
 import dangerOutlineIcon from '../../../assets/danger-outline.svg';
 import dangerFilledIcon from '../../../assets/danger-filled.svg';
-import closeIcon from '../../../assets/close.svg';
+import closeIcon from '../../../assets/x-icon.svg';
 import eyeSlash from '../../../assets/eye-slash.svg';
 import eyeIcon from '../../../assets/eye.svg';
 import './Login.css';

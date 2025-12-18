@@ -7,13 +7,13 @@ import searchIcon from "../../../assets/magnifying-glass-icon.svg";
 import applicationImg1 from "../../../assets/Member/member-applicationImg-1.png";
 import applicationImg2 from "../../../assets/Member/member-applicationImg-2.png";
 import githubIcon from "../../../assets/github-icon.png";
-import expandIcon from "../../../assets/Member/member-applications-more-icon.svg";
+import expandIcon from "../../../assets/three-dots-expand-icon.svg";
 import detailsIcon from "../../../assets/purple-details-icon.svg";
 import editIcon from "../../../assets/purple-edit-icon.svg";
 import trashIcon from "../../../assets/red-outline-trash-icon.svg";
 import addIcon from "../../../assets/add-circle-icon.svg";
 import sortIcon from "../../../assets/sort-by-icon.svg";
-import playIcon from "../../../assets/Member/member-applications-play-icon.svg";
+import playIcon from "../../../assets/purple-filled-play-icon.svg";
 import "./ProfileApplications.css";
 
 const ProfileApplications = () => {

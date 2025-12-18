@@ -14,7 +14,7 @@ import addIcon from "../../../assets/add-circle-icon.svg";
 import sortIcon from "../../../assets/sort-by-icon.svg";
 import PlaceHolderImg from "../../../assets/Member/app-management-placeholder.png";
 import Chart from "../../../assets/Member/app-management-chart.png";
-import expandIcon from "../../../assets/Member/app-management-dots.svg";
+import expandIcon from "../../../assets/three-dots-expand-icon.svg";
 import boostIcon from "../../../assets/filled-purple-boost-icon.png";
 import "./AppManagement.css";
 

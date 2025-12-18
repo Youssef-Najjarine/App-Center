@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import signUpPhotoDesktop from '../../../assets/sign-up-desktop.jpeg';
-import signUpPhotoTablet from '../../../assets/sign-up-tablet.jpeg';
-import logoIcon from '../../../assets/intro-bg.jpeg';
+import signUpPhoto from '../../../assets/sign-up-background.jpeg';
+import logoIcon from '../../../assets/logo.jpeg';
 import checkIcon from '../../../assets/green-check-circle-outline.svg';
 import dangerIcon from '../../../assets/danger-outline.svg';
 import eyeSlash from '../../../assets/eye-slash.svg';
@@ -88,10 +87,7 @@ const SignUp = () => {
   return (
     <div className="sign-up-container">
       <div>
-        <img src={signUpPhotoDesktop} alt="sign-up-photo-desktop-mobile" className="sign-up-photo-desktop-mobile" />
-        <div className='sign-up-photo-tablet-div'>
-          <img src={signUpPhotoTablet} alt="sign-up-photo-tablet" className="sign-up-photo-tablet" />
-        </div>
+        <img src={signUpPhoto} alt="sign-up-background" className="sign-up-background-photo" />
       </div>
       <div className="sign-up-form-div">
         <div className="sign-up-logo-container">

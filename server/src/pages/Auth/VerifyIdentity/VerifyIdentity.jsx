@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import verifyIdentityPhoto from '../../../assets/verify-identity-photo.jpg';
+import verifyIdentityPhoto from '../../../assets/verify-identity-background.jpg';
 import passwordCheckIcon from '../../../assets/password-verify-identity-icon.svg';
-import logoIcon from '../../../assets/intro-bg.jpeg';
+import logoIcon from '../../../assets/logo.jpeg';
 import dangerFilledIcon from '../../../assets/danger-filled.svg';
-import closeIcon from '../../../assets/close.svg';
+import closeIcon from '../../../assets/x-icon.svg';
 import './VerifyIdentity.css';
 
 const VerifyIdentity = () => {

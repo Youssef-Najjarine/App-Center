@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 import './styles/layout.css';
 import './styles/base.css';
-import introBg from './assets/intro-bg.jpeg';
+import introBg from './assets/logo.jpeg';
 
 // Dynamically set favicon
 const link = document.createElement('link');

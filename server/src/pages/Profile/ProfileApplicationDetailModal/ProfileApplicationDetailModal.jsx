@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import "./ProfileApplicationDetailModal.css";
-import closeButton from "../../../assets/Member/x-close.svg";
+import closeButton from "../../../assets/x-icon.svg";
 import ProfileAppModalCarousel from "./ApplicationModalCarousel/ApplicationModalCarousel";
 import githubIcon from "../../../assets/github-icon.png";
-import playIcon from "../../../assets/Member/play-icon.svg";
+import playIcon from "../../../assets/purple-filled-play-icon.svg";
 import sampleVideo from "../../../assets/Member/Senior-Full-Stack-Developer-Expertise.mp4";
 import editIcon from "../../../assets/purple-edit-icon.svg";
 import deleteIcon from "../../../assets/red-outline-trash-icon.svg";

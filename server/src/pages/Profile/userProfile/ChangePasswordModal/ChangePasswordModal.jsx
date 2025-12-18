@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./ChangePasswordModal.css";
-import cancelIcon from "../../../../assets/Member/member-change-password-cancel-icon.svg";
+import cancelIcon from "../../../../assets/x-circle-icon.svg";
 import checkIcon from "../../../../assets/green-check-circle-outline.svg";
 import confirmIcon from "../../../../assets/white-check-circle-outline.svg";
 import dangerIcon from '../../../../assets/danger-outline.svg';

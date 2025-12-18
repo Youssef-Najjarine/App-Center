@@ -4,8 +4,8 @@ import ChangePasswordModal from "./ChangePasswordModal/ChangePasswordModal";
 import profilePic from '../../../assets/Member/member-profile-pic.JPG';
 import passwordIcon from '../../../assets/password-verify-identity-icon.svg';
 import editInfoIcon from '../../../assets/add-circle-icon.svg';
-import CheckMarkIcon from '../../../assets/Member/member-bio-check-mark-icon.svg';
-import XIcon from '../../../assets/Member/member-bio-X-icon.svg';
+import CheckMarkIcon from '../../../assets/white-check-green-background-icon.svg';
+import XIcon from '../../../assets/x-icon.svg';
 import './userProfile.css';
 
 const UserProfile = () => {

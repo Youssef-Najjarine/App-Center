@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
-import CloseModalIcon from '../../../assets/Member/upload-edit-app-close-modal-icon.svg';
-import TechDeleteIcon from '../../../assets/Member/upload-edit-app-delete-tech-icon.svg';
-import UploadIcon from '../../../assets/Member/upload-edit-app-upload-icon.svg';
-import TrashIcon from '../../../assets/Member/upload-edit-app-trash-icon.svg';
-import PlayIcon from '../../../assets/Member/upload-edit-app-play-icon.svg';
-import DraftIcon from '../../../assets/Member/upload-edit-app-draft-icon.svg';
-import CancelIcon from '../../../assets/Member/upload-edit-app-cancel-icon.svg';
+import UploadIcon from '../../../assets/purple-outline-upload-icon.svg';
+import TrashIcon from '../../../assets/red-outline-trash-icon.svg';
+import PlayIcon from '../../../assets/purple-filled-play-icon.svg';
+import DraftIcon from '../../../assets/draft-icon.svg';
+import CancelIcon from '../../../assets/x-circle-icon.svg';
 import SaveIcon from '../../../assets/white-check-circle-outline.svg';
-import CancelUploadIcon from '../../../assets/Member/upload-edit-app-cancel-upload-icon.svg';
 import DangerIcon from '../../../assets/danger-filled.svg';
-import FolderIcon from '../../../assets/Member/upload-edit-app-folder-icon.svg';
-import CloseErrorIcon from '../../../assets/Member/upload-edit-app-x-icon.svg';
+import FolderIcon from '../../../assets/purple-outline-folder-icon.svg';
+import xIcon from '../../../assets/x-icon.svg';
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import "./ProfileUploadEditAppModal.css";
 
@@ -381,7 +378,7 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
               className="upload-edit-app-close-button"
               onClick={onClose}
             >
-              <img src={CloseModalIcon} alt="Close" />
+              <img src={xIcon} alt="Close" />
             </button>
           </div>
         </div>
@@ -479,7 +476,7 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
                       >
                         <span>{tech}</span>
                         <img
-                          src={TechDeleteIcon}
+                          src={CancelIcon}
                           alt="Remove"
                           className="upload-edit-app-tech-delete"
                           onClick={() => handleDeleteTech(index)}
@@ -605,7 +602,7 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
                         style={{ cursor: "pointer" }}
                       >
                         <img
-                          src={CancelUploadIcon}
+                          src={CancelIcon}
                           alt="Cancel Upload"
                         />
                       </div>
@@ -789,7 +786,7 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
             <div>
               <button className="upload-edit-app-close-banner-button">
                 <img
-                  src={CloseErrorIcon}
+                  src={xIcon}
                   alt="Close"
                   onClick={handleCloseErrorBox}
                 />

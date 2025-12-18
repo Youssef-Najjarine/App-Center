@@ -1,4 +1,3 @@
-.sign-up-photo-tablet,
 .sign-up-desktop-break {
     display: none;
 }
@@ -9,7 +8,7 @@
     padding: 32px 20px 24px 20px;
 }
   
-.sign-up-photo-desktop-mobile {
+.sign-up-background-photo {
     display: flow-root;
     width: 100%;
     height: 420px;
@@ -256,19 +255,13 @@ color: #5541D7;
   }
 
 @media screen and (min-width: 768px) {
-    .sign-up-photo-desktop-mobile {
-        display: none;
-    }
 
     .sign-up-container {
         padding: 44px 20px 20px 20px;
     }
 
-    .sign-up-photo-tablet {
-        display: flow-root;
-        width: 100%;
+    .sign-up-background-photo {
         height: 400px;
-        object-fit: cover;
         border-radius: 14px;
     }
 
@@ -425,20 +418,14 @@ color: #5541D7;
     }    
 }
   @media screen and (min-width: 1440px) {
-    .sign-up-photo-tablet {
-        display: none;
-    }
-
     .sign-up-container {
         flex-direction: row;
         padding: 20px;
     }
 
-    .sign-up-photo-desktop-mobile {
-        display: flow-root;
+    .sign-up-background-photo {
         width: 715px;
         height: 920px;
-        object-fit: cover;
         border-radius: 16px;
     }
 

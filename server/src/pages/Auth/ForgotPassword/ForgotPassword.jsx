@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import forgetPasswordPhotoDesktop from '../../../assets/forgot-password-background.jpeg';
 import passwordCheckIcon from '../../../assets/password-verify-identity-icon.svg';
-import logoIcon from '../../../assets/intro-bg.jpeg';
+import logoIcon from '../../../assets/logo.jpeg';
 import dangerOutlineIcon from '../../../assets/danger-outline.svg';
 import dangerFilledIcon from '../../../assets/danger-filled.svg';
-import closeIcon from '../../../assets/close.svg';
+import closeIcon from '../../../assets/x-icon.svg';
 import './ForgotPassword.css';
 
 const ForgotPassword = () => {
