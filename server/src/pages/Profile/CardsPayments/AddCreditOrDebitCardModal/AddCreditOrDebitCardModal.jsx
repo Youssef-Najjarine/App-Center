@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./AddCreditOrDebitCardModal.css";
-import xIcon from "../../../../assets/x-icon.svg";
-import confirmSaveIcon from "../../../../assets/white-check-circle-outline.svg";
-import mastercardLogo from "../../../../assets/Member/add-credit-or-debit-card-mastercard-icon.svg";
+import xIcon from "@assets/x-icon.svg";
+import confirmSaveIcon from "@assets/white-check-circle-outline.svg";
+import mastercardLogo from "@assets/Member/add-credit-or-debit-card-mastercard-icon.svg";
 
 const AddCreditOrDebitCardModal = ({ modalOpenState, onClose }) => {
 

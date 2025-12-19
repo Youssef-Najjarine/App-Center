@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from 'react-router-dom';
-import payoneer from "../../../../assets/Member/cards-payments-payoneer-icon.png";
-import transferWise from "../../../../assets/Member/cards-payments-transfer-wise-icon.png";
-import payPal from "../../../../assets/Member/cards-payments-paypal-icon.png";
-import stripe from "../../../../assets/Member/cards-payments-stripe-icon.png";
-import backArrowIcon from "../../../../assets/back-arrow-icon.svg";
-import headphoneIcon from "../../../../assets/white-headphone-icon.svg";
-import deleteIcon from "../../../../assets/red-x-close-circle.svg";
-import connectAccountIcon from "../../../../assets/white-connect-account-icon.svg";
+import payoneer from "@assets/Member/cards-payments-payoneer-icon.png";
+import transferWise from "@assets/Member/cards-payments-transfer-wise-icon.png";
+import payPal from "@assets/Member/cards-payments-paypal-icon.png";
+import stripe from "@assets/Member/cards-payments-stripe-icon.png";
+import backArrowIcon from "@assets/back-arrow-icon.svg";
+import headphoneIcon from "@assets/white-headphone-icon.svg";
+import deleteIcon from "@assets/red-x-close-circle.svg";
+import connectAccountIcon from "@assets/white-connect-account-icon.svg";
 import AddNewPaymentMethodModal from "./AddNewPaymentMethodModal/addNewPaymentMethodModal";
 import "./ManagePayoutMethods.css";
 

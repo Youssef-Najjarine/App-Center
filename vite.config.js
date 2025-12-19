@@ -5,6 +5,16 @@ import { resolve } from 'path';
 
 export default defineConfig({
   plugins: [react(), svgr()],
+
+  resolve: {
+    alias: {
+      '@assets': resolve(__dirname, 'server/src/assets'),
+
+      '@': resolve(__dirname, 'server/src'),
+      '@components': resolve(__dirname, 'server/src/components'),
+    },
+  },
+
   root: 'server/src',
 
   build: {

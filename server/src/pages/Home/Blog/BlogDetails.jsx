@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Link } from 'react-router-dom';
-import ArrowBackIcon from "../../../assets/back-arrow-icon.svg";
-import BlogDetailsImg1 from "../../../assets/Blogs/8.png";
-import BlogDetailsImg2 from "../../../assets/Blogs/9.png";
-import BlogDetailsImg3 from "../../../assets/Blogs/10.png";
-import BlogDetailsImg4 from "../../../assets/Blogs/11.png";
+import ArrowBackIcon from "@assets/back-arrow-icon.svg";
+import BlogDetailsImg1 from "@assets/Blogs/8.png";
+import BlogDetailsImg2 from "@assets/Blogs/9.png";
+import BlogDetailsImg3 from "@assets/Blogs/10.png";
+import BlogDetailsImg4 from "@assets/Blogs/11.png";
 import BlogDetailsCarousel from "./BlogDetailsCarousel/BlogDetailsCarousel";
 import "./BlogDetails.css";
 

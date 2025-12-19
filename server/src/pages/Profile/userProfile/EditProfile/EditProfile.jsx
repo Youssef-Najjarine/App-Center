@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import profilePic from '../../../../assets/Member/member-profile-pic.JPG';
-import cancelIcon from '../../../../assets/x-circle-icon.svg';
-import checkIcon from '../../../../assets/white-check-circle-outline.svg';
-import uploadPhotoIcon from '../../../../assets/black-outline-upload-icon.svg';
-import dangerIcon from '../../../../assets/danger-outline.svg';
-import dangerFilledIcon from '../../../../assets/danger-filled.svg';
-import closeIcon from '../../../../assets/x-icon.svg';
+import profilePic from '@assets/Member/member-profile-pic.JPG';
+import cancelIcon from '@assets/x-circle-icon.svg';
+import checkIcon from '@assets/white-check-circle-outline.svg';
+import uploadPhotoIcon from '@assets/black-outline-upload-icon.svg';
+import dangerIcon from '@assets/danger-outline.svg';
+import dangerFilledIcon from '@assets/danger-filled.svg';
+import closeIcon from '@assets/x-icon.svg';
 
 import './EditProfile.css';
 

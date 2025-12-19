@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ProcessingSpinner from "../../assets/processing-spinner.png";
+import ProcessingSpinner from "@assets/processing-spinner.png";
 import "./ProcessingModal.css";
 
 const ProcessingModal = () => {

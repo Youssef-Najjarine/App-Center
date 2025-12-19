@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef  } from "react";
 import { Link } from 'react-router-dom';
 import AddCreditOrDebitCardModal from "./AddCreditOrDebitCardModal/AddCreditOrDebitCardModal";
-import cardIcon from "../../../assets/white-outline-card-icon.svg";
-import trashIcon from "../../../assets/red-outline-trash-icon.svg";
-import visaLogo from "../../../assets/Member/cards-payment-visa-logo.png";
-import mastercardLogo from "../../../assets/Member/cards-payment-mastercard-logo.png";
-import americanExpressLogo from "../../../assets/Member/cards-payment-american-express-logo.png";
+import cardIcon from "@assets/white-outline-card-icon.svg";
+import trashIcon from "@assets/red-outline-trash-icon.svg";
+import visaLogo from "@assets/Member/cards-payment-visa-logo.png";
+import mastercardLogo from "@assets/Member/cards-payment-mastercard-logo.png";
+import americanExpressLogo from "@assets/Member/cards-payment-american-express-logo.png";
 import "./CardsPayments.css";
 
 const CardsPayments = () => {

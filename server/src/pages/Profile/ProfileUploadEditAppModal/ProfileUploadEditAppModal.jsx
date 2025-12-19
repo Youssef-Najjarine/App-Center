@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import UploadIcon from '../../../assets/purple-outline-upload-icon.svg';
-import TrashIcon from '../../../assets/red-outline-trash-icon.svg';
-import PlayIcon from '../../../assets/purple-filled-play-icon.svg';
-import DraftIcon from '../../../assets/draft-icon.svg';
-import CancelIcon from '../../../assets/x-circle-icon.svg';
-import SaveIcon from '../../../assets/white-check-circle-outline.svg';
-import DangerIcon from '../../../assets/danger-filled.svg';
-import FolderIcon from '../../../assets/purple-outline-folder-icon.svg';
-import xIcon from '../../../assets/x-icon.svg';
+import UploadIcon from '@assets/purple-outline-upload-icon.svg';
+import TrashIcon from '@assets/red-outline-trash-icon.svg';
+import PlayIcon from '@assets/purple-filled-play-icon.svg';
+import DraftIcon from '@assets/draft-icon.svg';
+import CancelIcon from '@assets/x-circle-icon.svg';
+import SaveIcon from '@assets/white-check-circle-outline.svg';
+import DangerIcon from '@assets/danger-filled.svg';
+import FolderIcon from '@assets/purple-outline-folder-icon.svg';
+import xIcon from '@assets/x-icon.svg';
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import "./ProfileUploadEditAppModal.css";
 

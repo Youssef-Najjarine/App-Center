@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./addNewPaymentMethodModal.css";
-import xIcon from "../../../../../assets/x-icon.svg";
-import refreshIcon from "../../../../../assets/refresh-icon.svg";
+import xIcon from "@assets/x-icon.svg";
+import refreshIcon from "@assets/refresh-icon.svg";
 const AddNewPaymentMethodModal = ({ onClose, paymentMethod }) => {
   useEffect(() => {
     const handleKeyDown = (e) => {

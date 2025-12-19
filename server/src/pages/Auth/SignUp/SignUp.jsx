@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import signUpPhoto from '../../../assets/sign-up-background.jpeg';
-import logoIcon from '../../../assets/logo.jpeg';
-import checkIcon from '../../../assets/green-check-circle-outline.svg';
-import dangerIcon from '../../../assets/danger-outline.svg';
-import eyeSlash from '../../../assets/eye-slash.svg';
-import eyeIcon from '../../../assets/eye.svg';
-import WhiteCheckIcon from "../../../assets/white-check-circle-outline.svg";
+import signUpPhoto from '@assets/sign-up-background.jpeg';
+import logoIcon from '@assets/logo.jpeg';
+import checkIcon from '@assets/green-check-circle-outline.svg';
+import dangerIcon from '@assets/danger-outline.svg';
+import eyeSlash from '@assets/eye-slash.svg';
+import eyeIcon from '@assets/eye.svg';
+import WhiteCheckIcon from "@assets/white-check-circle-outline.svg";
 import './SignUp.css';
 
 const SignUp = () => {

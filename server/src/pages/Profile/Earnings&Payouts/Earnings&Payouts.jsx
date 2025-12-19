@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import WithdrawalBalanceModal from "./WithdrawalBalanceModal/WithdrawalBalanceModal";
-import calendarIcon from "../../../assets/calendar-icon.svg";
-import arrowIcon from "../../../assets/down-arrow-icon.svg";
-import sortIcon from "../../../assets/sort-by-icon.svg";
-import documentIcon from "../../../assets/white-outline-document-icon.svg";
-import dollarSignPurpleIcon from "../../../assets/purple-dollar-circle-icon.svg";
-import dollarSignMoneyReciveIcon from "../../../assets/purple-money-receive-icon.svg";
-import dollarSignBlackIcon from "../../../assets/black-dollar-circle.svg";
-import dollarSignMoneySendIcon from "../../../assets/red-give-refund-icon.svg";
+import calendarIcon from "@assets/calendar-icon.svg";
+import arrowIcon from "@assets/down-arrow-icon.svg";
+import sortIcon from "@assets/sort-by-icon.svg";
+import documentIcon from "@assets/white-outline-document-icon.svg";
+import dollarSignPurpleIcon from "@assets/purple-dollar-circle-icon.svg";
+import dollarSignMoneyReciveIcon from "@assets/purple-money-receive-icon.svg";
+import dollarSignBlackIcon from "@assets/black-dollar-circle.svg";
+import dollarSignMoneySendIcon from "@assets/red-give-refund-icon.svg";
 import "./Earnings&Payouts.css";
 
 const EarningsPayouts = () => {

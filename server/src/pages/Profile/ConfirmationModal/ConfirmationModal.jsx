@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import GreenCheckPhoto from "../../../assets/green-check-logo.png";
-import XIcon from "../../../assets/x-icon.svg";
-import WhiteCheckIcon from "../../../assets/white-check-circle-outline.svg";
+import GreenCheckPhoto from "@assets/green-check-logo.png";
+import XIcon from "@assets/x-icon.svg";
+import WhiteCheckIcon from "@assets/white-check-circle-outline.svg";
 import "./ConfirmationModal.css";
 
 const ConfirmationModal = ({ modalOpenState, onClose, app, onConfirmDelete }) => {

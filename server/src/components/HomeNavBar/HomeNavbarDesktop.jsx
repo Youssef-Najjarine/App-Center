@@ -1,7 +1,6 @@
-// HomeNavbarDesktop.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logoIcon from '../../assets/logo.jpeg';
+import logoIcon from '@assets/logo.jpeg';
 import './HomeNavbarDesktop.css';
 
 const HomeNavbarDesktop = () => {

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./ApplicationDetailModal.css";
-import closeButton from "../../../assets/x-icon.svg";
+import closeButton from "@assets/x-icon.svg";
 import AppHomeModalCarousel from "./ApplicationModalCarousel/ApplicationModalCarousel";
-import githubIcon from "../../../assets/github-icon.png";
-import playIcon from "../../../assets/purple-filled-play-icon.svg";
-import purchaseApplicationIcon from "../../../assets/purchase-application-icon.svg";
-import sampleVideo from "../../../assets/HomeCarousel/Senior-Full-Stack-Developer-Expertise.mp4";
+import githubIcon from "@assets/github-icon.png";
+import playIcon from "@assets/purple-filled-play-icon.svg";
+import purchaseApplicationIcon from "@assets/purchase-application-icon.svg";
+import sampleVideo from "@assets/HomeCarousel/Senior-Full-Stack-Developer-Expertise.mp4";
 
 const ApplicationDetailModal = ({ modalOpenState, onClose, app }) => {
   const [selectedItem, setSelectedItem] = useState(null);

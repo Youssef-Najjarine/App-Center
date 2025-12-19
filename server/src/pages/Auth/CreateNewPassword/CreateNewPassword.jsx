@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import createPasswordPhoto from '../../../assets/create-password.jpeg';
-import logoIcon from '../../../assets/logo.jpeg';
-import checkIcon from '../../../assets/green-check-circle-outline.svg';
-import dangerIcon from '../../../assets/danger-outline.svg';
-import dangerFilledIcon from '../../../assets/danger-filled.svg';
-import closeIcon from '../../../assets/x-icon.svg';
-import eyeSlash from '../../../assets/eye-slash.svg';
-import eyeIcon from '../../../assets/eye.svg';
+import createPasswordPhoto from '@assets/create-password.jpeg';
+import logoIcon from '@assets/logo.jpeg';
+import checkIcon from '@assets/green-check-circle-outline.svg';
+import dangerIcon from '@assets/danger-outline.svg';
+import dangerFilledIcon from '@assets/danger-filled.svg';
+import closeIcon from '@assets/x-icon.svg';
+import eyeSlash from '@assets/eye-slash.svg';
+import eyeIcon from '@assets/eye.svg';
 import './CreateNewPassword.css';
 
 const CreateNewPassword = () => {

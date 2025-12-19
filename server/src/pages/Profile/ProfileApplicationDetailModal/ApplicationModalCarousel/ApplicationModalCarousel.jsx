@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import image1 from "../../../../assets/HomeCarousel/iphone-cycling.png";
-import image2 from "../../../../assets/HomeCarousel/iphone-statistics.png";
-import image3 from "../../../../assets/HomeCarousel/laptop.png";
-import image4 from "../../../../assets/HomeCarousel/design.jpg";
-import image5 from "../../../../assets/HomeCarousel/verify-identity-desktop.jpeg";
-import image6 from "../../../../assets/HomeCarousel/AI-future.jpg";
-import sampleVideo from "../../../../assets/HomeCarousel/Senior-Full-Stack-Developer-Expertise.mp4";
-import sampleThumbnail from "../../../../assets/HomeCarousel/sampleThumbnail.png";
+import image1 from "@assets/HomeCarousel/iphone-cycling.png";
+import image2 from "@assets/HomeCarousel/iphone-statistics.png";
+import image3 from "@assets/HomeCarousel/laptop.png";
+import image4 from "@assets/HomeCarousel/design.jpg";
+import image5 from "@assets/HomeCarousel/verify-identity-desktop.jpeg";
+import image6 from "@assets/HomeCarousel/AI-future.jpg";
+import sampleVideo from "@assets/HomeCarousel/Senior-Full-Stack-Developer-Expertise.mp4";
+import sampleThumbnail from "@assets/HomeCarousel/sampleThumbnail.png";
 import "./ApplicationModalCarousel.css";
 
 const images = [

@@ -1,6 +1,5 @@
-// FeatureHighlight.jsx
 import React from 'react';
-import placeholderImage from '../../../assets/dream.jpg'; // Import the placeholder image directly here
+import placeholderImage from '@assets/dream.jpg';
 import './FeatureHighlight.css';
 
 const FeatureHighlight = () => {

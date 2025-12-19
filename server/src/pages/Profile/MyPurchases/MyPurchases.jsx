@@ -1,18 +1,18 @@
 import React, { useState, useEffect, useRef  } from "react";
 import { Link } from "react-router-dom";
 import ProfileApplicationDetailModal from "../ProfileApplicationDetailModal/ProfileApplicationDetailModal";
-import applicationImg1 from "../../../assets/Member/member-applicationImg-1.png";
-import applicationImg2 from "../../../assets/Member/member-applicationImg-2.png";
-import githubIcon from "../../../assets/github-icon.png";
-import expandIcon from "../../../assets/three-dots-expand-icon.svg";
-import viewDetailsIcon from "../../../assets/purple-view-details-icon.svg";
-import downloadIcon from "../../../assets/purple-download-icon.svg";
-import reportIcon from "../../../assets/danger-outline.svg";
-import sellerIcon from "../../../assets/purple-outline-profile-icon.svg";
-import emailIcon from "../../../assets/purple-outline-email-icon.svg";
-import spentIcon from "../../../assets/purple-dollar-circle-icon.svg";
-import addIcon from "../../../assets/add-circle-icon.svg";
-import sortIcon from "../../../assets/sort-by-icon.svg";
+import applicationImg1 from "@assets/Member/member-applicationImg-1.png";
+import applicationImg2 from "@assets/Member/member-applicationImg-2.png";
+import githubIcon from "@assets/github-icon.png";
+import expandIcon from "@assets/three-dots-expand-icon.svg";
+import viewDetailsIcon from "@assets/purple-view-details-icon.svg";
+import downloadIcon from "@assets/purple-download-icon.svg";
+import reportIcon from "@assets/danger-outline.svg";
+import sellerIcon from "@assets/purple-outline-profile-icon.svg";
+import emailIcon from "@assets/purple-outline-email-icon.svg";
+import spentIcon from "@assets/purple-dollar-circle-icon.svg";
+import addIcon from "@assets/add-circle-icon.svg";
+import sortIcon from "@assets/sort-by-icon.svg";
 import "./MyPurchases.css";
 
 const ProfileApplications = () => {

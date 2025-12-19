@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Carousel from "../HomeCarousel/HomeCarousel";
-import ImageThumb1 from "../../../assets/AboutUs/aboutus_pc1.png";
-import ImageThumb2 from "../../../assets/AboutUs/aboutus_pc2.png";
-import ImageThumb3 from "../../../assets/AboutUs/aboutus_pc3.png";
+import ImageThumb1 from "@assets/AboutUs/aboutus_pc1.png";
+import ImageThumb2 from "@assets/AboutUs/aboutus_pc2.png";
+import ImageThumb3 from "@assets/AboutUs/aboutus_pc3.png";
 import "./AboutUs.css";
 
 const AboutUs = () => {

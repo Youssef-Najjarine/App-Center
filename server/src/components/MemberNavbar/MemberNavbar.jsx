@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import logoIcon from '../../assets/logo.jpeg';
-import downArrowIcon from '../../assets/down-arrow-icon.svg';
-import applications from '../../assets/applications-nav-icon.svg';
-import profilePic from '../../assets/Member/member-profile-pic.JPG';
-import profileIcon from '../../assets/purple-outline-profile-icon.svg';
-import appManagementIcon from '../../assets/outline-purple-boost-icon.svg';
-import myPurchasesIcon from '../../assets/purple-dollar-circle-icon.svg';
-import applicationHistoryIcon from '../../assets/purple-outline-desktop-monitor-icon.svg';
-import earningsPayoutsIcon from '../../assets/purple-outline-wallet-icon.svg';
-import cardPaymentsIcon from '../../assets/purple-outline-card-icon.svg';
-import logoutIcon from '../../assets/red-outline-logout-icon.svg';
+import logoIcon from '@assets/logo.jpeg';
+import downArrowIcon from '@assets/down-arrow-icon.svg';
+import applications from '@assets/applications-nav-icon.svg';
+import profilePic from '@assets/Member/member-profile-pic.JPG';
+import profileIcon from '@assets/purple-outline-profile-icon.svg';
+import appManagementIcon from '@assets/outline-purple-boost-icon.svg';
+import myPurchasesIcon from '@assets/purple-dollar-circle-icon.svg';
+import applicationHistoryIcon from '@assets/purple-outline-desktop-monitor-icon.svg';
+import earningsPayoutsIcon from '@assets/purple-outline-wallet-icon.svg';
+import cardPaymentsIcon from '@assets/purple-outline-card-icon.svg';
+import logoutIcon from '@assets/red-outline-logout-icon.svg';
 import './MemberNavbar.css';
 
 const MemberNavbar = () => {

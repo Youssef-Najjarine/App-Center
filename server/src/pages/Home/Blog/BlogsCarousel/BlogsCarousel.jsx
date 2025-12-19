@@ -1,10 +1,10 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-import blogImg1 from "../../../../assets/Blogs/1.png";
-import blogImg2 from "../../../../assets/Blogs/2.png";
-import blogImg3 from "../../../../assets/Blogs/3.png";
-import blogImg4 from "../../../../assets/Blogs/12.jpg";
-import blogImg5 from "../../../../assets/Blogs/13.jpg";
+import blogImg1 from "@assets/Blogs/1.png";
+import blogImg2 from "@assets/Blogs/2.png";
+import blogImg3 from "@assets/Blogs/3.png";
+import blogImg4 from "@assets/Blogs/12.jpg";
+import blogImg5 from "@assets/Blogs/13.jpg";
 import './BlogsCarousel.css';
 
 const blogData = [

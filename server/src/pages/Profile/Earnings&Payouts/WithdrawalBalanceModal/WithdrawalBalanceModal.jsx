@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./WithdrawalBalanceModal.css";
-import xIcon from "../../../../assets/x-icon.svg";
-import payoneer from "../../../../assets/Member/cards-payments-payoneer-icon.png";
-import transferWise from "../../../../assets/Member/cards-payments-transfer-wise-icon.png";
-import payPal from "../../../../assets/Member/cards-payments-paypal-icon.png";
-import stripe from "../../../../assets/Member/cards-payments-stripe-icon.png";
+import xIcon from "@assets/x-icon.svg";
+import payoneer from "@assets/Member/cards-payments-payoneer-icon.png";
+import transferWise from "@assets/Member/cards-payments-transfer-wise-icon.png";
+import payPal from "@assets/Member/cards-payments-paypal-icon.png";
+import stripe from "@assets/Member/cards-payments-stripe-icon.png";
 const WithdrawalBalanceModal = ({ modalOpenState, onClose }) => {
 
   useEffect(() => {
