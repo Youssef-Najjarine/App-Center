@@ -191,7 +191,7 @@ const [boostApp, setBoostApp] = useState(null);
                 <img src={app.preview} alt="App preview" />
               </div>
               <div className="app-management-info">
-                  <div className="app-management-title">
+                  <div className="app-management-app-title">
                     <h4>{app.title}</h4>
                     <div className="app-management-expand-div"
                       ref={dropdownRefs.current[app.id]}

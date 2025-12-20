@@ -2,7 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
 import HomeNavbarMobile from "./components/HomeNavBar/HomeNavbarMobile";
 import HomeNavbarDesktop from "./components/HomeNavBar/HomeNavbarDesktop";
-import MemberNavbar from "./components/MemberNavbar/MemberNavbar";
+import MemberNavbarMobile from "./components/MemberNavbar/MemberNavbarMobile";
+import MemberNavbarDesktop from "./components/MemberNavbar/MemberNavbarDesktop";
 import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home/Home";
 import Applications from "./pages/Home/Applications/Applications";
@@ -37,7 +38,8 @@ const HomeLayout = () => (
 
 const ProfileLayout = () => (
   <section className="container">
-    <MemberNavbar />
+    <MemberNavbarDesktop/>
+    <MemberNavbarMobile />
     <Outlet />
   </section>
 );

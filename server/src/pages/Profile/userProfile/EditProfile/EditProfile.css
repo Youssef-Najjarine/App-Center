@@ -1,5 +1,5 @@
 #member-edit-profile-bio {
-    padding: 95.72px 20px 24px 20px;
+    padding: 132.72px 20px 24px 20px;
 }
 
 .member-edit-profile-bio-info {
@@ -259,7 +259,7 @@
 
 .edit-profile-error-banner {
   position: absolute;
-  top: 79px;
+  top: 116.72px;
   right: 20px;
   border-radius: 7px;
   border: 0.875px solid #EAEAEA;
@@ -339,7 +339,7 @@
 }
 @media screen and (min-width: 768px) {
     #member-edit-profile-bio {
-        padding: 107.75px 20px 21px 20px;
+        padding: 148.75px 20px 21px 20px;
     }
 
     .member-edit-profile-bio-info {
@@ -517,7 +517,7 @@
     } 
 
     .edit-profile-error-banner {
-        top: 101px;
+        top: 132.75px;
     }
 
     .edit-profile-error-icon-banner {

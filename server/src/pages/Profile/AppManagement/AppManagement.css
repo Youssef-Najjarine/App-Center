@@ -1,5 +1,5 @@
 #app-management-applications {
-  padding: 111.72px 20px 48px 20px;
+  padding: 148.72px 20px 48px 20px;
 }
 
 .app-management-title-div {
@@ -188,14 +188,14 @@
     object-fit: cover;
 }
 
-.app-management-title {
+.app-management-app-title {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 16px 0 4.83px 0;
 }
 
-.app-management-title h4 {
+.app-management-app-title h4 {
     margin: 0;
     color: #141522;
     font-size: 17.722px;
@@ -430,7 +430,7 @@
 }
 @media screen and (min-width: 768px) {
   #app-management-applications {
-    padding: 107.75px 20px 48px 20px;
+    padding: 148.75px 20px 48px 20px;
   }
 
   .app-management-title-div {
@@ -600,11 +600,11 @@
         border-radius: 7px;
     }
 
-    .app-management-title {
+    .app-management-app-title {
         margin: 0 0 5.25px 0;
     }
 
-    .app-management-title h4 {
+    .app-management-app-title h4 {
         font-size: 19.25px;
         line-height: 28.875px;
         letter-spacing: -0.385px;
@@ -884,11 +884,11 @@
         border-radius: 8px;
     }
 
-    .app-management-title {
+    .app-management-app-title {
         margin: 0 0 6px 0;
     }
 
-    .app-management-title h4 {
+    .app-management-app-title h4 {
         font-size: 22px;
         line-height: 33px;
         letter-spacing: -0.44px;

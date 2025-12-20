@@ -1,0 +1,254 @@
+ .member-navbar-desktop {
+    display: none;
+ }
+
+@media screen and (min-width: 1440px) {
+    .member-navbar-desktop {
+        display: flow-root;
+        background-color: #fff;
+        width: 100%;
+        padding: 24px 32px;
+        border-bottom: 1px solid #F5F5F5;
+    }
+
+    .member-navbar-desktop-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    }
+
+    .member-navbar-desktop-logo {
+        display: flex;
+        align-items: center;
+        gap: 12.24px;
+    }
+
+    .member-navbar-desktop-logo-image {
+        width: 40px;
+        height: 40px;
+    }
+
+    .member-nav-desktop-desktop-logo-text {
+        color: #141522;
+        font-size: 26.52px;
+        font-weight: 700;
+        line-height: 39.78px;
+        letter-spacing: -0.53px;
+    }
+
+    .member-navbar-desktop-home-options-div {
+        width: 32.13%;
+    }
+    .member-navbar-desktop-home-options {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .member-navbar-desktop-home-options a {
+        color: #111827;
+        font-size: 16.8px;
+        font-weight: 500;
+        line-height: 25.2px;
+        cursor: pointer;
+    }
+
+    .member-navbar-desktop-home-options a:hover {
+        color: #6366F1;
+    }
+
+    .member-navbar-desktop-line {
+        height: 31.2px;
+        width: .09%;
+        background: #D1D5DB;
+    }
+
+    .member-navbar-desktop-actions {
+        display: flex;
+        justify-content: space-between;
+        width: 37.8%;
+    }
+
+    .member-nav-desktop-application-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 39.24%;
+    height: 58px;
+    padding: 4px 16px;
+    border-radius: 10px;
+    border: 1px solid #F5F5F5;
+    background: #FFF;
+    cursor: pointer;
+    }
+
+    .member-nav-desktop-application-div a {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+    }
+
+    .member-nav-desktop-applications-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .member-nav-desktop-application-div span {
+        color: #141522;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 24px;
+    }
+
+    .member-nav-desktop-name {
+        color: #FFF;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 24px;
+        margin: 0;
+    }
+
+    .member-nav-desktop-email {
+        color: #FFF;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 21px;
+        margin: 0;
+    }
+    .member-profile-desktop-wrapper {
+        position: relative;
+        width: 53.7%;
+    }
+
+    .member-profile-desktop-nav {
+    width: 100%;
+    height: 58px;
+    padding: 4px 16px 4px 8px;
+    border-radius: 8.056px;
+    background: #5541D7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    }
+
+    .member-profile-desktop-nav .member-nav-desktop-profile-picture {
+    width: 43px;
+    height: 43px;
+    border-radius: 100px;
+    }
+
+    .member-dropdown-menu-desktop {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    top: 66.25px;
+    right: 0;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #F5F5F5;
+    background: #FFF;
+    box-shadow: 14px 14px 36px 0px rgba(0, 0, 0, 0.10);
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .member-dropdown-menu-desktop.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    }
+
+    .member-navbar-desktop-icon-div:hover {
+    background: #ECE9FB;
+    }
+
+    .member-navbar-desktop-icon-div {
+    display: flex;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: #F6F5FD;
+    }
+
+    .member-navbar-desktop-icon-div img {
+        width: 22px;
+        height: 22px;
+        margin-right: 10px;
+    }
+
+    .member-navbar-desktop-icon-div span {
+        color: #141522;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px;
+        letter-spacing: -0.64px;
+    }
+
+    .member-navbar-desktop-logout-div {
+    background: rgba(255, 0, 0, 0.05);
+    cursor: pointer;
+    }
+
+    .member-navbar-desktop-logout-div:hover {
+    background:rgba(255, 0, 0, 0.1);
+    }
+    .member-dropdown-menu-desktop .logout {
+    color: #FF461D;
+    }
+
+    .active-app-tab {
+    background: #5541D7 !important;
+    }
+
+    .active-app-tab span {
+    color: #FFF !important;
+    }
+
+    .active-app-tab img {
+        filter: brightness(0) invert(1);
+    }
+
+    .inactive-profile-tab {
+        background: #F5F5F5 !important;
+        border: 0.806px solid #F5F5F5;
+    }
+
+    .inactive-profile-tab .member-nav-desktop-name,
+    .inactive-profile-tab .member-nav-desktop-email {
+        color: #141522;
+        fill: #141522;
+    }
+
+    .member-navbar-desktop-caret {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .member-profile-desktop-nav .member-navbar-desktop-down-arrow {
+        filter: invert(1) brightness(1.5);
+        width: 27.5px;
+        height: 27.5px;
+    }
+
+    .member-profile-desktop-nav.inactive-profile-tab .member-navbar-desktop-down-arrow {
+    filter: none;
+
+    }
+
+    .member-navbar-desktop-down-arrow.rotated {
+    transform: rotate(180deg);
+    }
+}
