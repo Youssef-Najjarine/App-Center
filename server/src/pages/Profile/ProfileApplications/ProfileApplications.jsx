@@ -14,6 +14,7 @@ import trashIcon from "@assets/red-outline-trash-icon.svg";
 import addIcon from "@assets/add-circle-icon.svg";
 import sortIcon from "@assets/sort-by-icon.svg";
 import playIcon from "@assets/purple-filled-play-icon.svg";
+import draftIcon from "@assets/draft-icon.svg";
 import "./ProfileApplications.css";
 
 const ProfileApplications = () => {
@@ -207,6 +208,12 @@ const ProfileApplications = () => {
               )}
             </div>
             <div className="profileapplications-header-right-border"></div>
+            <div className="profile-applications-drafts-div">
+              <button>
+                <img src={draftIcon}/>
+                <span>Drafts</span>
+              </button>
+            </div>
             <div className="profile-applications-upload-new-div">
               <div
                 className="profile-applications-upload-new-btn"

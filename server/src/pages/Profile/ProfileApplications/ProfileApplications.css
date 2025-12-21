@@ -19,7 +19,7 @@
   justify-content: space-between;
   align-items: center;
   height: 35.5px;
-  width: 111px;
+  width: 153px;
 }
 
 .profileapplications-header-right-border {
@@ -37,7 +37,7 @@
 }
 
 .profile-applications-search-div {
-  width: 215.77779px;
+  width: 173.8px;
   height: 36.33334px;
   cursor: pointer;
   position: relative;
@@ -82,15 +82,17 @@
   border-radius: 8.056px;
   border: 0.806px solid #F5F5F5;
   background: #FFF;
-  width: 41.88889px;
+  width: 42px;
   height: 35.4px;
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
   cursor: pointer;
 }
 
-.profile-applications-sortby-div img {
+.profile-applications-sortby-div img,
+.profile-applications-drafts-div img {
   width: 16.111px;
   height: 16.111px;
 }
@@ -135,6 +137,28 @@
   color: #5541D7;
 }
 
+.profile-applications-drafts-div {
+  padding: 9.667px 12.889px;
+  border-radius: 8.056px;
+  border: 0.806px solid #F5F5F5;
+  background: #FFF;
+  width: 42px;
+  height: 35.4px;
+  cursor: pointer;
+}
+
+.profile-applications-drafts-div button {
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
 .profile-applications-upload-new-div {
   width: 41.88889px;
   height: 37.44444px;
@@ -157,6 +181,7 @@
 }
 
 .profile-applications-sortby-div span,
+.profile-applications-drafts-div span,
 .profile-applications-upload-new-div span {
     display: none;
 }
@@ -433,7 +458,7 @@ font-weight: 700;
 
   .profile-applications-sortby-upload-div {
   height: 39px;
-  width: 326px;
+  width: 429px;
 }
 
 .profileapplications-header-right-border {
@@ -447,7 +472,7 @@ font-weight: 700;
   }
 
   .profile-applications-search-div {
-    width: 396.5px;
+    width: 283px;
     height: 39px;
   }
 
@@ -469,6 +494,7 @@ font-weight: 700;
   }
 
   .profile-applications-sortby-div span,
+  .profile-applications-drafts-div span,
   .profile-applications-upload-new-div span {
       display: flow-root;
   }
@@ -512,6 +538,32 @@ font-weight: 700;
     font-size: 12.25px;
     line-height:  18.375px;
     letter-spacing: -0.49px;
+  }
+
+  .profile-applications-drafts-div {
+    padding: 10.5px 14px;
+    border-radius: 8.75px;
+    border: 0.875px solid #F5F5F5;
+    width: 103px;
+    height: 39px;
+  }
+
+  .profile-applications-drafts-div button {
+    gap: 7px;
+    justify-content: flex-start;
+
+  }
+
+  .profile-applications-drafts-div img {
+    width: 18px;
+    height: 18px;
+  }
+
+  .profile-applications-drafts-div span {
+    color: #141522;
+    font-size: 12.25px;
+    font-weight: 500;
+    line-height: 18.375px;
   }
 
   .profile-applications-upload-new-div {
@@ -695,12 +747,12 @@ font-weight: 700;
     align-items: center;
   }
   .profile-applications-search-filter-add-div {
-    width: 780px;
+    width: 898px;
   }
 
   .profile-applications-sortby-upload-div {
   height: 45px;
-  width: 383px;
+  width: 501px;
 }
 
 .profileapplications-header-right-border {
@@ -768,6 +820,29 @@ font-weight: 700;
     font-size: 14px;
     line-height:  21px;
     letter-spacing: -0.65px;
+  }
+
+  .profile-applications-drafts-div {
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid #F5F5F5;
+    width: 118px;
+    height: 45px;
+  }
+
+  .profile-applications-drafts-div button {
+    gap: 8px;
+
+  }
+
+  .profile-applications-drafts-div img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .profile-applications-drafts-div span {
+    font-size: 14px;
+    line-height: 21px;
   }
 
   .profile-applications-upload-new-div {
