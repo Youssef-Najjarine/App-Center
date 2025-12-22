@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef  } from "react";
 import { Link } from "react-router-dom";
-import ProfileApplicationDetailModal from "../ProfileApplicationDetailModal/ProfileApplicationDetailModal";
+import ProfileApplicationDetailModal from "@profile/ProfileApplicationDetailModal/ProfileApplicationDetailModal";
 import applicationImg1 from "@assets/Member/member-applicationImg-1.png";
 import applicationImg2 from "@assets/Member/member-applicationImg-2.png";
 import githubIcon from "@assets/github-icon.png";

@@ -5,6 +5,8 @@ import passwordCheckIcon from '@assets/password-verify-identity-icon.svg';
 import logoIcon from '@assets/logo.jpeg';
 import dangerFilledIcon from '@assets/danger-filled.svg';
 import closeIcon from '@assets/x-icon.svg';
+import TermsOfServiceModal from "@pages/TermsOfServiceModal/TermsOfServiceModal";
+import PrivacyPolicyModal from '@pages/PrivacyPolicyModal/PrivacyPolicyModal';
 import './VerifyIdentity.css';
 
 const VerifyIdentity = () => {
@@ -14,6 +16,8 @@ const VerifyIdentity = () => {
   const [code, setCode] = useState(['', '', '', '']);
   const [activeIndex, setActiveIndex] = useState(0);
   const [showErrorBox, setShowErrorBox] = useState(false);
+  const [showPrivacyPolicyModal, setShowPrivacyPolicyModal] = useState(false);
+  const [showTermsOfServiceModal, setShowTermsOfServiceModal] = useState(false);
   const inputRefs = useRef([]);
 
   const maskEmail = (email) => {
@@ -153,7 +157,7 @@ const VerifyIdentity = () => {
         </form>
         <div className="verify-identity-greyLine"></div>
         <div className='verify-identity-privacy-policy-terms-of-service'>
-          <p className='verify-identity-policy-terms-of-service-text'>Protected by reCAPTCHA and subject to the Google <Link to="/privacy-policy" className='verify-identity-privacy-policy-text'>Privacy Policy</Link> and <Link to="/terms-of-service" className='verify-identity-terms-of-service-text'>Terms of Service</Link>.</p>
+          <p className='verify-identity-policy-terms-of-service-text'>Protected by reCAPTCHA and subject to the Google <Link onClick={() => setShowPrivacyPolicyModal(true)} className='verify-identity-privacy-policy-text'>Privacy Policy</Link> and <Link onClick={() => setShowTermsOfServiceModal(true)} className='verify-identity-terms-of-service-text'>Terms of Service</Link>.</p>
         </div>
         {showErrorBox && (
           <div className='verify-identity-error-box-column'>
@@ -183,6 +187,18 @@ const VerifyIdentity = () => {
           className="verify-identity-photo"
         />
       </div>
+      {showPrivacyPolicyModal && (
+        <PrivacyPolicyModal
+          modalOpenState={showPrivacyPolicyModal}
+          onClose={() => setShowPrivacyPolicyModal(false)}
+        />
+      )}      
+      {showTermsOfServiceModal && (
+        <TermsOfServiceModal
+          modalOpenState={showTermsOfServiceModal}
+          onClose={() => setShowTermsOfServiceModal(false)}
+        />
+      )}      
     </div>
   );
 };

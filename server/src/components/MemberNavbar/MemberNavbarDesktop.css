@@ -77,22 +77,22 @@
     }
 
     .member-nav-desktop-application-div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 39.24%;
-    height: 58px;
-    padding: 4px 16px;
-    border-radius: 10px;
-    border: 1px solid #F5F5F5;
-    background: #FFF;
-    cursor: pointer;
+        width: 39.24%;
+        height: 58px;
+        border-radius: 10px;
+        border: 1px solid #F5F5F5;
+        background: #FFF;
     }
 
     .member-nav-desktop-application-div a {
+        width: 100%;
+        height: 100%;
+        padding: 4px 16px;
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 13px;
+        cursor: pointer;
     }
 
     .member-nav-desktop-applications-icon {

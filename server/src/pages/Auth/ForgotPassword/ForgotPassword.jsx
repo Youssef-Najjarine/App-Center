@@ -6,6 +6,8 @@ import logoIcon from '@assets/logo.jpeg';
 import dangerOutlineIcon from '@assets/danger-outline.svg';
 import dangerFilledIcon from '@assets/danger-filled.svg';
 import closeIcon from '@assets/x-icon.svg';
+import TermsOfServiceModal from "@pages/TermsOfServiceModal/TermsOfServiceModal";
+import PrivacyPolicyModal from '@pages/PrivacyPolicyModal/PrivacyPolicyModal';
 import './ForgotPassword.css';
 
 const ForgotPassword = () => {
@@ -13,7 +15,8 @@ const ForgotPassword = () => {
   const [formData, setFormData] = useState({
     emailUsername: ''
   });
-
+  const [showPrivacyPolicyModal, setShowPrivacyPolicyModal] = useState(false);
+  const [showTermsOfServiceModal, setShowTermsOfServiceModal] = useState(false);
   const [errors, setErrors] = useState({});;
 
   const [showErrorBox, setShowErrorBox] = useState(false); // New state for showing error box
@@ -121,8 +124,8 @@ const ForgotPassword = () => {
         <div className='forget-password-privacy-policy-terms-of-service'>
           <p className='forget-password-policy-terms-of-service-text'>
             Protected by reCAPTCHA and subject to the Google{' '}
-            <Link to="/privacy-policy" className='forget-password-privacy-policy-text'>Privacy Policy</Link> and{' '}
-            <Link to="/terms-of-service" className='forget-password-terms-of-service-text'>Terms of Service</Link>.
+            <Link onClick={() => setShowPrivacyPolicyModal(true)} className='forget-password-privacy-policy-text'>Privacy Policy</Link> and{' '}
+            <Link onClick={() => setShowTermsOfServiceModal(true)} className='forget-password-terms-of-service-text'>Terms of Service</Link>.
           </p>
         </div>        
         {showErrorBox && (
@@ -138,6 +141,18 @@ const ForgotPassword = () => {
       <div>
         <img src={forgetPasswordPhotoDesktop} alt='forget-password-photo' className='forget-password-photo' />
       </div>
+      {showPrivacyPolicyModal && (
+        <PrivacyPolicyModal
+          modalOpenState={showPrivacyPolicyModal}
+          onClose={() => setShowPrivacyPolicyModal(false)}
+        />
+      )}      
+      {showTermsOfServiceModal && (
+        <TermsOfServiceModal
+          modalOpenState={showTermsOfServiceModal}
+          onClose={() => setShowTermsOfServiceModal(false)}
+        />
+      )}       
     </div>
   );
 };

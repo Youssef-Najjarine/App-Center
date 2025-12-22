@@ -8,16 +8,15 @@ import applicationImg1 from "@assets/Member/member-applicationImg-1.png";
 import applicationImg2 from "@assets/Member/member-applicationImg-2.png";
 import githubIcon from "@assets/github-icon.png";
 import expandIcon from "@assets/three-dots-expand-icon.svg";
-import detailsIcon from "@assets/purple-details-icon.svg";
 import editIcon from "@assets/purple-edit-icon.svg";
 import trashIcon from "@assets/red-outline-trash-icon.svg";
 import addIcon from "@assets/add-circle-icon.svg";
 import sortIcon from "@assets/sort-by-icon.svg";
 import playIcon from "@assets/purple-filled-play-icon.svg";
-import draftIcon from "@assets/draft-icon.svg";
-import "./ProfileApplications.css";
+import draftIcon from "@assets/purple-draft-icon.svg";
+import "./ProfileApplicationDrafts.css";
 
-const ProfileApplications = () => {
+const ProfileApplicationDrafts = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
@@ -35,7 +34,8 @@ const ProfileApplications = () => {
   const dropdownRefs = useRef({});
   const [expandedDropdownId, setExpandedDropdownId] = useState(null); // for dropdowns
   const [modalApp, setModalApp] = useState(null); // for modal
-  const [applications, setApplications] = useState([
+  let drafts = 2;
+  const [applicationDrafts, setApplicationDrafts] = useState([
     {
       id: 1,
       title: "Toritube App",
@@ -150,7 +150,7 @@ const ProfileApplications = () => {
     },
   ]);
 
-   const visibleApps = showAll ? applications : applications.slice(0, 12);
+   const visibleApps = showAll ? applicationDrafts : applicationDrafts.slice(0, 12);
     useEffect(() => {
       const handleClickOutside = (event) => {
         if (
@@ -176,16 +176,16 @@ const ProfileApplications = () => {
   };
 
   return (
-    <section id="profile-applications">
-      <div className="profile-applications-title-div">
-        <h2 className="profile-applications-title">My Apps</h2>
-        <div className="profile-applications-search-filter-add-div">
-          <div className="profile-applications-search-div">
-            <input className="profile-applications-search" placeholder="Search..." />
-            <img src={searchIcon} alt="Applications Search" className="profile-applications-search-icon" />
+    <section id="profile-application-drafts">
+      <div className="profile-application-drafts-title-div">
+        <h2 className="profile-application-drafts-title">Drafts ({drafts})</h2>
+        <div className="profile-application-drafts-search-filter-add-div">
+          <div className="profile-application-drafts-search-div">
+            <input className="profile-application-drafts-search" placeholder="Search..." />
+            <img src={searchIcon} alt="Applications Search" className="profile-application-drafts-search-icon" />
           </div>
-          <div className="profile-applications-sortby-upload-div">
-            <div className="profile-applications-sortby-div">
+          <div className="profile-application-drafts-sortby-upload-div">
+            <div className="profile-application-drafts-sortby-div">
               <div onClick={() => setSortDropdownOpen(!sortDropdownOpen)}>
                 <img src={sortIcon} alt="Sort Icon" />
                 <span>Sort By: {sortOption}</span>
@@ -207,16 +207,14 @@ const ProfileApplications = () => {
                 </ul>
               )}
             </div>
-            <div className="profileapplications-header-right-border"></div>
-            <div className="profile-applications-drafts-div">
-              <Link to="/profile/drafts">
+            <div className="profile-application-drafts-drafts-div">
                 <img src={draftIcon}/>
                 <span>Drafts</span>
-              </Link>
             </div>
-            <div className="profile-applications-upload-new-div">
+            <div className="profileDrafts-header-right-border"></div>            
+            <div className="profile-application-drafts-upload-new-div">
               <div
-                className="profile-applications-upload-new-btn"
+                className="profile-application-drafts-upload-new-btn"
                 onClick={() => setShowUploadEditModal(true)}
               >
                 <img src={addIcon} alt="Add App" />
@@ -227,7 +225,7 @@ const ProfileApplications = () => {
         </div>
       </div>
 
-      <div className="profile-applications-grid">
+      <div className="profile-application-drafts-grid">
         {visibleApps.map((app) => {
           const isExpanded = expandedTechStacks[app.id];
           const visibleTech = isExpanded ? app.tech : app.tech.slice(0, 3);
@@ -237,15 +235,15 @@ const ProfileApplications = () => {
           }
           return (
             <div
-              className="profileApp"
+              className="profileDraftApp"
               key={app.id}
               onClick={(e) => {
                 const target = e.target;
                 const isInsideLink = target.closest("a");
-                const isInsideExpandDiv = target.closest(".profileApp-expand-div");
+                const isInsideExpandDiv = target.closest(".profileDraftApp-expand-div");
                 const isTechToggle =
                   target.classList.contains("expand-tech") ||
-                  target.classList.contains("profileApp-collapse-tech");
+                  target.classList.contains("profileDraftApp-collapse-tech");
 
                 if (!isInsideLink && !isInsideExpandDiv && !isTechToggle) {
                   setModalApp(app);
@@ -254,13 +252,13 @@ const ProfileApplications = () => {
                 }
               }}
             >
-              <div className="profileApp-image-div">
-                <img src={app.img} alt={app.title} className="profileApp-placeholder-img" />
-                <div className="profileApp-video-overlay">
-                  <img src={playIcon} alt="Play" className="profileApp-play-icon" />
-                  <span className="profileApp-video-duration">14:22</span>
+              <div className="profileDraftApp-image-div">
+                <img src={app.img} alt={app.title} className="profileDraftApp-placeholder-img" />
+                <div className="profileDraftApp-video-overlay">
+                  <img src={playIcon} alt="Play" className="profileDraftApp-play-icon" />
+                  <span className="profileDraftApp-video-duration">14:22</span>
                 </div>
-                <div className="profileApp-expand-div"
+                <div className="profileDraftApp-expand-div"
                   ref={dropdownRefs.current[app.id]}
                   onClick={(e) => {
                     e.stopPropagation();
@@ -268,25 +266,12 @@ const ProfileApplications = () => {
                   }}
                 >
                   <button>
-                    <img src={expandIcon} className="profileApp-expand-icon" />
+                    <img src={expandIcon} className="profileDraftApp-expand-icon" />
                   </button>
                   {expandedDropdownId === app.id &&  (
-                    <div className="profileApp-dropdown">
+                    <div className="profileDraftApp-dropdown">
                       <div
-                        className="profileApp-dropdown-item details"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setModalApp(app);
-                          setModalSource("details");
-                          setModalOpen(true);
-                          setExpandedDropdownId(null);
-                        }}
-                      >
-                        <img src={detailsIcon} alt="Details" />
-                        <span>Details</span>
-                      </div>
-                      <div
-                        className="profileApp-dropdown-item edit"
+                        className="profileDraftApp-dropdown-item edit"
                         onClick={(e) => {
                           e.stopPropagation();
                           setShowUploadEditModal(true);
@@ -297,7 +282,7 @@ const ProfileApplications = () => {
                         <span>Edit</span>
                       </div>
                       <div
-                        className="profileApp-dropdown-item delete"
+                        className="profileDraftApp-dropdown-item delete"
                         onClick={(e) => {
                           e.stopPropagation();
                           setAppToDelete(app);
@@ -312,21 +297,21 @@ const ProfileApplications = () => {
                   )}                  
                 </div>
               </div>
-              <div className="profileApp-gitHub-div">
+              <div className="profileDraftApp-gitHub-div">
                 <div>
                   <a href={app.github} target="_blank" rel="noopener noreferrer">
                     <img src={githubIcon} alt="GitHub icon" />
                   </a>
                 </div>
-                <div className="profileApp-gitHub-anchor-div">
+                <div className="profileDraftApp-gitHub-anchor-div">
                   <a href={app.github} target="_blank" rel="noopener noreferrer">
                     {app.github}
                   </a>
                 </div>
               </div>
-              <h6 className="profileApp-app-title">{app.title}</h6>
-              <p className="profileApp-app-description">{app.description}</p>
-              <ul className="profileApp-app-tech-stack">
+              <h6 className="profileDraftApp-app-title">{app.title}</h6>
+              <p className="profileDraftApp-app-description">{app.description}</p>
+              <ul className="profileDraftApp-app-tech-stack">
                 {visibleTech.map((techItem, index) => (
                   <li key={`${app.id}-tech-${index}`}>{techItem}</li>
                 ))}
@@ -343,7 +328,7 @@ const ProfileApplications = () => {
                 )}
                 {isExpanded && remaining > 0 && (
                   <li
-                    className="profileApp-collapse-tech"
+                    className="profileDraftApp-collapse-tech"
                     onClick={(e) => {
                       e.stopPropagation();
                       toggleTechStack(app.id);
@@ -353,14 +338,27 @@ const ProfileApplications = () => {
                   </li>
                 )}
               </ul>
+                <button
+                    className="profileDraftApp-view-details-button"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        setModalApp(app);
+                        setModalSource("details");
+                        setModalOpen(true);
+                        setExpandedDropdownId(null);
+                    }}
+                    >
+                    <img src={addIcon} alt="Details" />
+                    <span>View Details</span>
+                </button>
             </div>
           );
         })}
       </div>
 
-      <div className="profile-applications-load-more-div">
+      <div className="profile-application-drafts-load-more-div">
         <button
-          className="profile-applications-load-more"
+          className="profile-application-drafts-load-more"
           onClick={() => setShowAll(!showAll)}
         >
           {showAll ? "Show Less" : "Load More"}
@@ -395,7 +393,7 @@ const ProfileApplications = () => {
           }}
           app={appToDelete}
           onConfirmDelete={() => {
-            setApplications((prevApps) =>
+            setApplicationDrafts((prevApps) =>
               prevApps.filter((app) => app.id !== appToDelete.id)
             );
             setShowDeleteModal(false);
@@ -407,4 +405,4 @@ const ProfileApplications = () => {
   );
 };
 
-export default ProfileApplications;
+export default ProfileApplicationDrafts;

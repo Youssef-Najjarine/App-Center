@@ -1,0 +1,226 @@
+.terms-of-service-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 21, 34, 0.15);
+  z-index: 10001;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.terms-of-service-modal-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.terms-of-service-modal {
+  background: #FFF;
+  padding: 16px;
+  width: 89.3%;
+  height: 95%;
+  overflow-y: auto;
+  border-radius: 12.889px;
+  z-index: 10002;
+}
+
+.terms-of-service-modal-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.terms-of-service-modal-header h2 {
+    color: #141522;
+    font-size: 22.556px;
+    font-weight: 700;
+    line-height: 33.833px;
+    margin: 0;
+}
+
+.terms-of-service-modal-x-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.terms-of-service-modal-header img {
+    width: 25.778px;
+    height: 25.778px;
+    cursor: pointer;
+}
+
+.terms-of-service-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.terms-of-service-gap-tiny {
+    gap: 4.83px;
+}
+
+.terms-of-service-gap-small {
+    gap: 12.89px;
+}
+
+.terms-of-service-gap-medium {
+    gap: 19.33px;
+}
+
+.terms-of-service-gap-large {
+    gap: 25.78px;
+}
+
+.terms-of-service-text-small {
+    color: #374151;
+    font-size: 12.889px;
+    font-weight: 400;
+    line-height: 19.333px;
+    letter-spacing: -0.258px;
+    margin: 0;
+}
+
+.terms-of-service-text-medium {
+    color: #374151;
+    font-size: 14.5px;
+    font-weight: 400;
+    line-height: 21.75px;
+    letter-spacing: -0.29px;
+    margin: 0;
+}
+
+.terms-of-service-text-large {
+    color: #374151;
+    font-size: 16.111px;
+    font-weight: 700;
+    line-height: 24.167px;
+    letter-spacing: -0.322px;
+    margin: 0;
+}
+
+.terms-of-service-row-unordered-left-padded-list {
+    margin: 0;
+    padding: 0 0 0 28.89px;
+}
+
+.terms-of-service-email {
+    color: #5541D7;
+    text-decoration-line: underline;
+    cursor: pointer;
+}
+
+@media screen and (min-width: 768px) {
+    .terms-of-service-modal {
+        padding: 21px;
+        width: 94.48%;
+        border-radius: 14px;
+    }
+
+    .terms-of-service-modal-header h2 {
+        font-size: 24.5px;
+        line-height: 36.75px;
+    }
+
+    .terms-of-service-modal-header img {
+        width: 28px;
+        height: 28px;
+    }
+
+    .terms-of-service-gap-tiny {
+        gap: 5.25px;
+    }
+
+    .terms-of-service-gap-small {
+        gap: 14px;
+    }
+
+    .terms-of-service-gap-medium {
+        gap: 21px;
+    }
+
+    .terms-of-service-gap-large {
+        gap: 28px;
+    }
+
+    .terms-of-service-text-small {
+        font-size: 14px;
+        line-height: 21px;
+        letter-spacing: -0.28px;
+    }
+
+    .terms-of-service-text-medium {
+        font-size: 15.75px;
+        line-height: 23.625px;
+        letter-spacing: -0.315px;
+    }
+
+    .terms-of-service-text-large {
+        font-size: 17.5px;
+        line-height: 26.25px;
+        letter-spacing: -0.35px;
+    }
+
+    .terms-of-service-row-unordered-left-padded-list {
+        padding: 0 0 0 35px;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .terms-of-service-modal {
+        padding: 24px;
+        width: 95.6%;
+        border-radius: 16px;
+    }
+
+    .terms-of-service-modal-header h2 {
+        font-size: 28px;
+        line-height: 42px;
+    }
+
+    .terms-of-service-modal-header img {
+        width: 32px;
+        height: 32px;
+    }
+
+    .terms-of-service-gap-tiny {
+        gap: 6px;
+    }
+
+    .terms-of-service-gap-small {
+        gap: 16px;
+    }
+
+    .terms-of-service-gap-medium {
+        gap: 24px;
+    }
+
+    .terms-of-service-gap-large {
+        gap: 32px;
+    }
+
+    .terms-of-service-text-small {
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: -0.32px;
+    }
+
+    .terms-of-service-text-medium {
+        font-size: 18px;
+        line-height: 27px;
+        letter-spacing: -0.36px;
+    }
+
+    .terms-of-service-text-large {
+        font-size: 20px;
+        line-height: 30px;
+        letter-spacing: -0.4px;
+    }
+
+    .terms-of-service-row-unordered-left-padded-list {
+        padding: 0 0 0 40px;
+    }
+}

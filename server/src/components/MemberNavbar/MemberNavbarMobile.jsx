@@ -56,7 +56,7 @@ const MemberNavbarMobile = () => {
         </div>
 
         <div className="member-navbar-mobile-actions">
-          <div className={`member-nav-mobile-application-div ${["/profile/apps", "/profile/appManagement", "/profile/MyPurchases", "/profile/ApplicationHistory"].includes(location.pathname) ? "active-app-tab" : ""}`}>
+          <div className={`member-nav-mobile-application-div ${["/profile/apps", "/profile/appManagement", "/profile/MyPurchases", "/profile/ApplicationHistory", "/profile/drafts"].includes(location.pathname) ? "active-app-tab" : ""}`}>
             <Link to="/profile/apps">
               <img src={applications} className='member-nav-mobile-applications-icon' />
               <span>My Applications</span>
@@ -64,7 +64,7 @@ const MemberNavbarMobile = () => {
           </div>
 
           <div className="member-profile-mobile-wrapper" ref={profileWrapperRef}>
-            <div className={`member-profile-mobile-nav ${["/profile/apps", "/profile/appManagement", "/profile/MyPurchases", "/profile/ApplicationHistory", "/profile/Earnings&Payouts"].includes(location.pathname) ? "inactive-profile-tab" : ""}`} onClick={toggleDropdown}>
+            <div className={`member-profile-mobile-nav ${["/profile/apps", "/profile/appManagement", "/profile/MyPurchases", "/profile/ApplicationHistory", "/profile/Earnings&Payouts", "/profile/drafts"].includes(location.pathname) ? "inactive-profile-tab" : ""}`} onClick={toggleDropdown}>
               <img src={profilePic} alt="member-icon" className='member-nav-mobile-profile-picture' />
               <div>
                 <p className='member-nav-mobile-name'>Youssef Najjarine</p>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef  } from "react";
 import { Link } from "react-router-dom";
-import ProfileApplicationDetailModal from "../ProfileApplicationDetailModal/ProfileApplicationDetailModal";
+import ProfileApplicationDetailModal from "@profile/ProfileApplicationDetailModal/ProfileApplicationDetailModal";
 import calendarIcon from "@assets/calendar-icon.svg";
 import arrowIcon from "@assets/down-arrow-icon.svg";
 import appSoldIcon from "@assets/purple-outline-phone-icon.svg";

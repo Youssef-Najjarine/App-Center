@@ -1,10 +1,10 @@
-import blogImg1 from "../assets/Blogs/1.png";
-import blogImg2 from "../assets/Blogs/2.png";
-import blogImg3 from "../assets/Blogs/3.png";
-import blogImg4 from "../assets/Blogs/4.png";
-import blogImg5 from "../assets/Blogs/5.png";
-import blogImg6 from "../assets/Blogs/6.png";
-import blogImg7 from "../assets/Blogs/7.png";
+import blogImg1 from "@assets/Blogs/1.png";
+import blogImg2 from "@assets/Blogs/2.png";
+import blogImg3 from "@assets/Blogs/3.png";
+import blogImg4 from "@assets/Blogs/4.png";
+import blogImg5 from "@assets/Blogs/5.png";
+import blogImg6 from "@assets/Blogs/6.png";
+import blogImg7 from "@assets/Blogs/7.png";
 
 const blogData = [
   {

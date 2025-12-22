@@ -8,7 +8,7 @@ import SaveIcon from '@assets/white-check-circle-outline.svg';
 import DangerIcon from '@assets/danger-filled.svg';
 import FolderIcon from '@assets/purple-outline-folder-icon.svg';
 import xIcon from '@assets/x-icon.svg';
-import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
+import ConfirmationModal from "@pages/ConfirmationModal/ConfirmationModal";
 import "./ProfileUploadEditAppModal.css";
 
 const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {

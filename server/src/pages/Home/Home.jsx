@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import introBg from "@assets/logo.jpeg";
-import Carousel from "./HomeCarousel/HomeCarousel";
-import FeatureHighlight from "./FeatureHighlight/FeatureHighlight";
-import ProcessingModal from "../ProcessingModal/ProcessingModal";
+import Carousel from "@home/HomeCarousel/HomeCarousel";
+import FeatureHighlight from "@home/FeatureHighlight/FeatureHighlight";
+import ProcessingModal from "@pages/ProcessingModal/ProcessingModal";
 import "./Home.css";
 
 const Home = () => {

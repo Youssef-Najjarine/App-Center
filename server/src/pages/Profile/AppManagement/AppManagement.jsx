@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef  } from "react";
 import { Link } from "react-router-dom";
-import ProfileApplicationDetailModal from "../ProfileApplicationDetailModal/ProfileApplicationDetailModal";
-import ProfileUploadEditAppModal from "../ProfileUploadEditAppModal/ProfileUploadEditAppModal";
-import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
+import ProfileApplicationDetailModal from "@profile/ProfileApplicationDetailModal/ProfileApplicationDetailModal";
+import ProfileUploadEditAppModal from "@profile/ProfileUploadEditAppModal/ProfileUploadEditAppModal";
+import DeleteConfirmationModal from "@pages/DeleteConfirmationModal/DeleteConfirmationModal";
 import ManageBoostModal from "./ManageBoostModal/ManageBoostModal";
 import searchIcon from "@assets/magnifying-glass-icon.svg";
 import applicationImg1 from "@assets/Member/member-applicationImg-1.png";

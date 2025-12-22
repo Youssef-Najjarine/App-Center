@@ -64,7 +64,7 @@ const MemberNavbarDesktop = () => {
         </div>
         <div className='member-navbar-desktop-line'></div>
         <div className="member-navbar-desktop-actions">
-          <div className={`member-nav-desktop-application-div ${["/profile/apps", "/profile/appManagement", "/profile/MyPurchases", "/profile/ApplicationHistory"].includes(location.pathname) ? "active-app-tab" : ""}`}>
+          <div className={`member-nav-desktop-application-div ${["/profile/apps", "/profile/appManagement", "/profile/MyPurchases", "/profile/ApplicationHistory", "/profile/drafts"].includes(location.pathname) ? "active-app-tab" : ""}`}>
             <Link to="/profile/apps">
               <img src={applications} className='member-nav-desktop-applications-icon' />
               <span>My Applications</span>
@@ -72,7 +72,7 @@ const MemberNavbarDesktop = () => {
           </div>
 
           <div className="member-profile-desktop-wrapper" ref={profileWrapperRef}>
-            <div className={`member-profile-desktop-nav ${["/profile/apps", "/profile/appManagement", "/profile/MyPurchases", "/profile/ApplicationHistory", "/profile/Earnings&Payouts"].includes(location.pathname) ? "inactive-profile-tab" : ""}`} onClick={toggleDropdown}>
+            <div className={`member-profile-desktop-nav ${["/profile/apps", "/profile/appManagement", "/profile/MyPurchases", "/profile/ApplicationHistory", "/profile/Earnings&Payouts", "/profile/drafts"].includes(location.pathname) ? "inactive-profile-tab" : ""}`} onClick={toggleDropdown}>
               <img src={profilePic} alt="member-icon" className='member-nav-desktop-profile-picture' />
               <div>
                 <p className='member-nav-desktop-name'>Youssef Najjarine</p>

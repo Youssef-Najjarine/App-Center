@@ -7,6 +7,8 @@ import dangerIcon from '@assets/danger-outline.svg';
 import eyeSlash from '@assets/eye-slash.svg';
 import eyeIcon from '@assets/eye.svg';
 import WhiteCheckIcon from "@assets/white-check-circle-outline.svg";
+import TermsOfServiceModal from "@pages/TermsOfServiceModal/TermsOfServiceModal";
+import PrivacyPolicyModal from '@pages/PrivacyPolicyModal/PrivacyPolicyModal';
 import './SignUp.css';
 
 const SignUp = () => {
@@ -18,7 +20,8 @@ const SignUp = () => {
     username: '',
     password: '',
   });
-
+  const [showPrivacyPolicyModal, setShowPrivacyPolicyModal] = useState(false);
+  const [showTermsOfServiceModal, setShowTermsOfServiceModal] = useState(false);
   const [errors, setErrors] = useState({});
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordValidation, setPasswordValidation] = useState({
@@ -274,11 +277,23 @@ const SignUp = () => {
           <div className='sign-up-privacy-policy-terms-of-service'>
             <p className='sign-up-policy-terms-of-service-text'>
               Protected by reCAPTCHA and subject to the Google{' '}
-              <Link to="/privacy-policy" className='sign-up-privacy-policy-text'>Privacy Policy</Link> and{' '}
-              <Link to="/terms-of-service" className='sign-up-terms-of-service-text'>Terms of Service</Link>.
+              <Link onClick={() => setShowPrivacyPolicyModal(true)} className='sign-up-privacy-policy-text'>Privacy Policy</Link> and{' '}
+              <Link onClick={() => setShowTermsOfServiceModal(true)} className='sign-up-terms-of-service-text'>Terms of Service</Link>.
             </p>
           </div>        
       </div>
+      {showPrivacyPolicyModal && (
+        <PrivacyPolicyModal
+          modalOpenState={showPrivacyPolicyModal}
+          onClose={() => setShowPrivacyPolicyModal(false)}
+        />
+      )}      
+      {showTermsOfServiceModal && (
+        <TermsOfServiceModal
+          modalOpenState={showTermsOfServiceModal}
+          onClose={() => setShowTermsOfServiceModal(false)}
+        />
+      )}        
     </div>
   );
 };

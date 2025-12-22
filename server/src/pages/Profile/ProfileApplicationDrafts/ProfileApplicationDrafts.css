@@ -1,20 +1,20 @@
-#profile-applications {
+#profile-application-drafts {
   padding: 148.72px 20px 48px 20px;
 }
 
-.profile-applications-title-div {
+.profile-application-drafts-title-div {
     display: flex;
     flex-direction: column;
     margin: 0 0 32px 0;
 }
 
-.profile-applications-search-filter-add-div {
+.profile-application-drafts-search-filter-add-div {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.profile-applications-sortby-upload-div {
+.profile-application-drafts-sortby-upload-div {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -22,12 +22,12 @@
   width: 153px;
 }
 
-.profileapplications-header-right-border {
+.profileDrafts-header-right-border {
   border-right: .806px solid #F5F5F5;
   height: calc(100% - 14.5px); /* 7.25px top + 7.25px bottom */
 }
 
-.profile-applications-title {
+.profile-application-drafts-title {
   color: #141522;
   font-size: 22.556px;
   font-style: normal;
@@ -36,14 +36,14 @@
   margin: 0 0 12px 0;
 }
 
-.profile-applications-search-div {
+.profile-application-drafts-search-div {
   width: 173.8px;
   height: 36.33334px;
   cursor: pointer;
   position: relative;
 }
 
-.profile-applications-search {
+.profile-application-drafts-search {
   width: 100%;
   height: 100%;
   padding: 9.667px 35px 9.667px 12.889px;
@@ -58,7 +58,7 @@
   font-family: 'Poppins', sans-serif;
 }
 
-.profile-applications-search::placeholder {
+.profile-application-drafts-search::placeholder {
   color: #141522;
   font-size: 11.278px;
   font-style: normal;
@@ -67,7 +67,7 @@
   font-family: 'Poppins', sans-serif;
 }
 
-.profile-applications-search-icon {
+.profile-application-drafts-search-icon {
   position: absolute;
   top: 50%;
   right: 15px;
@@ -77,7 +77,7 @@
   cursor: pointer;
 }
 
-.profile-applications-sortby-div {
+.profile-application-drafts-sortby-div {
   padding: 9.667px 12.889px;
   border-radius: 8.056px;
   border: 0.806px solid #F5F5F5;
@@ -91,8 +91,9 @@
   cursor: pointer;
 }
 
-.profile-applications-sortby-div img,
-.profile-applications-drafts-div img {
+.profile-application-drafts-sortby-div img,
+.profile-application-drafts-drafts-div img,
+.profileDraftApp-view-details-button img {
   width: 16.111px;
   height: 16.111px;
 }
@@ -137,30 +138,20 @@
   color: #5541D7;
 }
 
-.profile-applications-drafts-div {
+.profile-application-drafts-drafts-div {
   padding: 9.667px 12.889px;
   border-radius: 8.056px;
-  border: 0.806px solid #F5F5F5;
-  background: #FFF;
+border: 0.806px solid rgba(85, 65, 215, 0.25);
+background: rgba(85, 65, 215, 0.20);
   width: 42px;
   height: 35.4px;
-  cursor: pointer;
-}
-
-.profile-applications-drafts-div a {
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
-  background: none;
   display: flex;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
+  justify-content: center;  
 }
 
-.profile-applications-upload-new-div {
-  width: 41.88889px;
+.profile-application-drafts-upload-new-div {
+  width: 42px;
   height: 37.44444px;
   padding: 9.667px 12.889px;
   border-radius: 8.056px;
@@ -168,25 +159,25 @@
   cursor: pointer;
 }
 
-.profile-applications-upload-new-div .profile-applications-upload-new-btn {
+.profile-application-drafts-upload-new-div .profile-application-drafts-upload-new-btn {
   display: flex;
   align-items: center;
   width: 100%;
   height: 100%;
 }
 
-.profile-applications-upload-new-div img {
+.profile-application-drafts-upload-new-div img {
   width: 16.111px;
   height: 16.111px;
 }
 
-.profile-applications-sortby-div span,
-.profile-applications-drafts-div span,
-.profile-applications-upload-new-div span {
+.profile-application-drafts-sortby-div span,
+.profile-application-drafts-drafts-div span,
+.profile-application-drafts-upload-new-div span {
     display: none;
 }
 
-.profile-applications-grid {
+.profile-application-drafts-grid {
   display: grid;
   gap: 12.889px;
   grid-template-columns: repeat(auto-fit, 335px);
@@ -194,7 +185,7 @@
   justify-content: center;
 }
 
-.profileApp {
+.profileDraftApp {
   padding: 9.667px 9.667px 12.889px 9.667px;
   border: 0.967px solid #F5F5F5;
   background: #FFF;
@@ -202,21 +193,21 @@
   cursor: pointer;
 }
 
-.profileApp-image-div {
+.profileDraftApp-image-div {
   width: 315.7px;
   height: 212.7px;
   margin: 0 0 12.89px 0;
   position: relative;
 }
 
-.profileApp-image-div .profileApp-placeholder-img {
+.profileDraftApp-image-div .profileDraftApp-placeholder-img {
   object-fit: cover;
   width: 100%;
   height: 100%;
   border-radius: 6.444px;
 }
 
-.profileApp-expand-div {
+.profileDraftApp-expand-div {
   position: absolute;
   top: 12.89px;
   right: 12.89px;
@@ -233,7 +224,7 @@
   cursor: pointer;
 }
 
-.profileApp-expand-div button {
+.profileDraftApp-expand-div button {
    width: 100%;
   height: 100%;
   display: flex;
@@ -245,12 +236,12 @@
   cursor: pointer;
 }
 
-.profileApp-expand-div .profileApp-expand-icon {
+.profileDraftApp-expand-div .profileDraftApp-expand-icon {
   width: 19.333px;
   height: 19.333px;
 }
 
-.profileApp-dropdown {
+.profileDraftApp-dropdown {
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -266,7 +257,7 @@
   box-shadow: 9.667px 9.667px 24.167px 0px rgba(0, 0, 0, 0.10);
 }
 
-.profileApp-dropdown-item {
+.profileDraftApp-dropdown-item {
   display: flex;
   align-items: center;
   gap: 6.44px;
@@ -276,20 +267,19 @@
   border-radius: 6.444px;
 }
 
-.profileApp-dropdown-item.details,
-.profileApp-dropdown-item.edit {
+.profileDraftApp-dropdown-item.edit {
   background: rgba(96, 91, 255, 0.10);
 }
 
-.profileApp-dropdown-item.delete {
+.profileDraftApp-dropdown-item.delete {
   background: rgba(255, 70, 29, 0.10);
 }
 
-.profileApp-dropdown-item.delete span {
+.profileDraftApp-dropdown-item.delete span {
   color: #FF461D;
 }
 
-.profileApp-dropdown-item span {
+.profileDraftApp-dropdown-item span {
   font-size: 12.889px;
   font-style: normal;
   font-weight: 500;
@@ -297,37 +287,36 @@
   letter-spacing: -0.516px;
 }
 
-.profileApp-dropdown-item.details span,
-.profileApp-dropdown-item.edit span {
+.profileDraftApp-dropdown-item.edit span {
   color: #605BFF;
 }
 
-.profileApp-dropdown-item.delete span {
+.profileDraftApp-dropdown-item.delete span {
   color: #FF461D;
 }
 
-.profileApp-dropdown-item img {
+.profileDraftApp-dropdown-item img {
   width: 16.111px;
   height: 16.111px;
 }
 
-.profileApp-dropdown-item.details:hover,
-.profileApp-dropdown-item.edit:hover {
+.profileDraftApp-dropdown-item.edit:hover {
   background: #605BFF;
 }
-.profileApp-dropdown-item:hover img {
+
+.profileDraftApp-dropdown-item:hover img {
   filter: brightness(0) invert(1);
 }
 
-.profileApp-dropdown-item:hover span {
+.profileDraftApp-dropdown-item:hover span {
   color: #FFF;
 }
 
-.profileApp-dropdown-item.delete:hover {
+.profileDraftApp-dropdown-item.delete:hover {
   background: #FF461D;
 }
 
-.profileApp-video-overlay {
+.profileDraftApp-video-overlay {
   position: absolute;
   bottom: 9.67px;
   left: 9.67px; 
@@ -340,13 +329,13 @@
   height: 38.7px;
 }
 
-.profileApp-play-icon {
+.profileDraftApp-play-icon {
   width: 19.333px;
   height: 19.333px;
   margin-right: 0;
 }
 
-.profileApp-video-duration {
+.profileDraftApp-video-duration {
   color: #141522;
   font-size: 14.5px;
   font-style: normal;
@@ -355,26 +344,26 @@
   letter-spacing: -0.29px;
 }
 
-.profileApp-gitHub-div {
+.profileDraftApp-gitHub-div {
   margin: 0 0 12.89px 0;
   gap: 6.444px;
   display: flex;
   cursor: pointer;
 }
 
-.profileApp-gitHub-anchor-div {
+.profileDraftApp-gitHub-anchor-div {
   max-width: 253px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.profileApp-gitHub-div img {
+.profileDraftApp-gitHub-div img {
   width: 21.75px;
   height: 21.75px;
 }
 
-.profileApp-gitHub-div a {
+.profileDraftApp-gitHub-div a {
   color: #5C6BC0;
   font-size: 14.5px;
   font-style: normal;
@@ -383,7 +372,7 @@
   letter-spacing: -0.29px;
 }
 
-.profileApp-app-title {
+.profileDraftApp-app-title {
   color: #141522;
   font-size: 17.722px;
   line-height: 26.583px;
@@ -393,7 +382,7 @@
 font-weight: 700;
 }
 
-.profileApp-app-description {
+.profileDraftApp-app-description {
   color: #141522;
   font-size: 14.5px;
   font-style: normal;
@@ -403,8 +392,8 @@ font-weight: 700;
   margin: 0 0 12.89px 0;
 }
 
-.profileApp-app-tech-stack {
-  margin: 0;
+.profileDraftApp-app-tech-stack {
+  margin: 0 0 12.89px 0;
   padding: 0;
   list-style: none;
   display: flex;
@@ -414,7 +403,7 @@ font-weight: 700;
   overflow-y: auto;
 }
 
-.profileApp-app-tech-stack li {
+.profileDraftApp-app-tech-stack li {
   padding: 4.833px 9.667px;
   color: #5541D7;
   background: rgba(85, 65, 215, 0.15);
@@ -425,17 +414,37 @@ font-weight: 700;
   line-height: 16.917px;
 }
 
-.profileApp-collapse-tech {
+.profileDraftApp-collapse-tech {
   color: #888 !important;
 }
 
-.profile-applications-load-more-div {
+.profileDraftApp-view-details-button {
+  width: 100%;
+  height: 36.33px;
+  padding: 9.667px 12.889px;
+  border-radius: 8.056px;
+  gap: 6.44px;
+  display: flex;
+  justify-content: center;
+  background: #5541D7;
+  border: none;
+  cursor: pointer;
+}
+
+.profileDraftApp-view-details-button span {
+  color: #FFF;
+  font-size: 11.278px;
+  font-weight: 500;
+  line-height: 16.917px;
+}
+
+.profile-application-drafts-load-more-div {
   width: 100%;
   text-align: center;
   margin: 46.4px 0 0 0;
 }
 
-.profile-applications-load-more {
+.profile-application-drafts-load-more {
   border-radius: 9.667px;
   background: #5541D7;
   padding: 11.6px 23.2px;
@@ -448,35 +457,35 @@ font-weight: 700;
   cursor: pointer;
 }
 @media screen and (min-width: 768px) {
-  #profile-applications {
+  #profile-application-drafts {
     padding: 148.75px 20px 48px 20px;
   }
 
-  .profile-applications-title-div {
+  .profile-application-drafts-title-div {
       margin: 0 0 26.5px 0;
   }
 
-  .profile-applications-sortby-upload-div {
+  .profile-application-drafts-sortby-upload-div {
   height: 39px;
   width: 429px;
 }
 
-.profileapplications-header-right-border {
+.profileDrafts-header-right-border {
   border-right: .875px solid #F5F5F5;
   height: calc(100% - 16.24px); /* 8.12px top + 8.12px bottom */
 }
 
-  .profile-applications-title {
+  .profile-application-drafts-title {
     font-size: 24.5px;
     line-height: 36.75px;
   }
 
-  .profile-applications-search-div {
+  .profile-application-drafts-search-div {
     width: 283px;
     height: 39px;
   }
 
-  .profile-applications-search {
+  .profile-application-drafts-search {
     padding: 10.5px 35px 10.5px 14px;
     border-radius: 8.75px;
     border: 0.875px solid #F5F5F5;
@@ -484,22 +493,22 @@ font-weight: 700;
     line-height: 18.375px;
   }
 
-  .profile-applications-search::placeholder {
+  .profile-application-drafts-search::placeholder {
     font-size: 12.25px;
     line-height: 18.375px;
   }
 
-  .profile-applications-search-icon {
+  .profile-application-drafts-search-icon {
     width: 17.5px;
   }
 
-  .profile-applications-sortby-div span,
-  .profile-applications-drafts-div span,
-  .profile-applications-upload-new-div span {
+  .profile-application-drafts-sortby-div span,
+  .profile-application-drafts-drafts-div span,
+  .profile-application-drafts-upload-new-div span {
       display: flow-root;
   }
 
-  .profile-applications-sortby-div {
+  .profile-application-drafts-sortby-div {
     padding: 10.5px 14px;
     border-radius: 8.75px;
     border: 0.875px solid #F5F5F5;
@@ -508,17 +517,18 @@ font-weight: 700;
     display: flow-root;
   }
 
-  .profile-applications-sortby-div div {
+  .profile-application-drafts-sortby-div div {
     display: flex;
     gap: 7px;
   }
 
-  .profile-applications-sortby-div img {
+  .profile-application-drafts-sortby-div img,
+  .profileDraftApp-view-details-button img {
     width: 17.5px;
     height: 17.5px;
   }
 
-  .profile-applications-sortby-div span {
+  .profile-application-drafts-sortby-div span {
     color: #141522;
     font-size: 12.25px;
     font-style: normal;
@@ -540,33 +550,28 @@ font-weight: 700;
     letter-spacing: -0.49px;
   }
 
-  .profile-applications-drafts-div {
+  .profile-application-drafts-drafts-div {
     padding: 10.5px 14px;
     border-radius: 8.75px;
-    border: 0.875px solid #F5F5F5;
+    border: 0.875px solid rgba(85, 65, 215, 0.25);
     width: 103px;
     height: 39px;
-  }
-
-  .profile-applications-drafts-div a {
     gap: 7px;
-    justify-content: flex-start;
-
   }
 
-  .profile-applications-drafts-div img {
+  .profile-application-drafts-drafts-div img {
     width: 18px;
     height: 18px;
   }
 
-  .profile-applications-drafts-div span {
-    color: #141522;
+  .profile-application-drafts-drafts-div span {
+    color: #5541D7;
     font-size: 12.25px;
     font-weight: 500;
     line-height: 18.375px;
   }
 
-  .profile-applications-upload-new-div {
+  .profile-application-drafts-upload-new-div {
     width: 155px;
     height: 39px;
     padding: 10.5px 14px;
@@ -575,11 +580,11 @@ font-weight: 700;
     gap: 7px;
   }
 
-  .profile-applications-upload-new-div .profile-applications-upload-new-btn {
+  .profile-application-drafts-upload-new-div .profile-application-drafts-upload-new-btn {
     gap: 7px;
   }
 
-  .profile-applications-upload-new-div span {
+  .profile-application-drafts-upload-new-div span {
    color: #FFF;
   font-size: 12.25px;
   font-style: normal;
@@ -587,33 +592,33 @@ font-weight: 700;
   line-height: 18.375px;
   }
 
-  .profile-applications-upload-new-div img {
+  .profile-application-drafts-upload-new-div img {
     width: 17.5px;
     height: 17.5px;
   }
 
-  .profile-applications-grid {
+  .profile-application-drafts-grid {
     display: grid;
     gap: 14px;
     grid-template-columns: repeat(auto-fit, 357px);
   }
 
-  .profileApp {
+  .profileDraftApp {
     padding: 10.5px 10.5px 14px 10.5px;
     border-radius: 14px;
   }
 
-  .profileApp-image-div {
+  .profileDraftApp-image-div {
     width: 336px;
     height: 231px;
     margin: 0 0 14px 0;
   }
 
-  .profileApp-image-div .profileApp-placeholder-img {
+  .profileDraftApp-image-div .profileDraftApp-placeholder-img {
     border-radius: 7px;
   }
 
-  .profileApp-expand-div {
+  .profileDraftApp-expand-div {
     top: 14px;
     right: 14px;
     padding: 10.5px;
@@ -623,12 +628,12 @@ font-weight: 700;
     height: 42px;
   }
 
-  .profileApp-expand-div .profileApp-expand-icon {
+  .profileDraftApp-expand-div .profileDraftApp-expand-icon {
     width: 21px;
     height: 21px;
   }
 
-  .profileApp-dropdown {
+  .profileDraftApp-dropdown {
     gap: 5.25px;
     top: 22px;
     right: 16.12px;
@@ -639,25 +644,25 @@ font-weight: 700;
     box-shadow: 10.5px 10.5px 26.25px 0px rgba(0, 0, 0, 0.10);
   }
 
-  .profileApp-dropdown-item {
+  .profileDraftApp-dropdown-item {
     gap: 7px;
     padding: 7px 10.5px;
     font-size: 14px;
     border-radius: 7px;
   }
 
-  .profileApp-dropdown-item span {
+  .profileDraftApp-dropdown-item span {
     font-size: 14px;
     line-height: 21px;
     letter-spacing: -0.56px
   }
 
-  .profileApp-dropdown-item img {
+  .profileDraftApp-dropdown-item img {
     width: 17.5px;
     height: 17.5px;
   }
 
-  .profileApp-video-overlay {
+  .profileDraftApp-video-overlay {
     bottom: 10.5px;
     left: 10.5px; 
     gap: 7px;
@@ -667,68 +672,81 @@ font-weight: 700;
     height: 42px;
   }
 
-  .profileApp-play-icon {
+  .profileDraftApp-play-icon {
     width: 21px;
     height: 21px;
   }
 
-  .profileApp-video-duration {
+  .profileDraftApp-video-duration {
     font-size: 15.75px;
     line-height: 23.625px;
     letter-spacing: -0.315px;
   }
 
-  .profileApp-gitHub-div {
+  .profileDraftApp-gitHub-div {
     margin: 0 0 14px 0;
     gap: 7px;
   }
 
-  .profileApp-gitHub-anchor-div {
+  .profileDraftApp-gitHub-anchor-div {
     max-width: 275px;
   }
 
-  .profileApp-gitHub-div img {
+  .profileDraftApp-gitHub-div img {
     width: 23.625px;
     height: 23.625px;
   }
 
-  .profileApp-gitHub-div a {
+  .profileDraftApp-gitHub-div a {
     font-size: 15.75px;
     line-height: 23.625px;
     letter-spacing: -0.315px;
   }
 
-  .profileApp-app-title {
+  .profileDraftApp-app-title {
     font-size: 19.25px;
     line-height: 28.875px;
     letter-spacing:  -0.385px;
     margin: 0 0 10.5px 0;
   }
 
-  .profileApp-app-description {
+  .profileDraftApp-app-description {
     font-size: 15.75px;
     line-height: 23.625px;
     letter-spacing: -0.315px;
     margin: 0 0 14px 0;
   }
 
-  .profileApp-app-tech-stack {
+  .profileDraftApp-app-tech-stack {
+    margin: 0 0 14px 0;
     gap: 10.5px;
     max-height: 226.14px;
   }
 
-  .profileApp-app-tech-stack li {
+  .profileDraftApp-app-tech-stack li {
     padding: 5.25px 10.5px;
     border-radius: 14px;
     font-size: 12.25px;
     line-height: 18.375px;
   }
 
-  .profile-applications-load-more-div {
+  .profileDraftApp-view-details-button {
+    height: 39px;
+    padding: 10.5px 14px;
+    border-radius: 8.75px;
+    gap: 7px;
+  }
+
+  .profileDraftApp-view-details-button span {
+    font-size: 12.25px;
+    line-height: 18.375px;
+  }
+
+  .profile-application-drafts-load-more-div {
     margin: 50.4px 0 0 0;
   }
 
-  .profile-applications-load-more {
+  .profile-application-drafts-load-more {
     border-radius: 10.5px;
     padding: 12.6px 25.2px;
     font-size: 13.533px;
@@ -736,41 +754,41 @@ font-weight: 700;
   }
 }
 @media screen and (min-width: 1440px) {
-  #profile-applications {
+  #profile-application-drafts {
     padding: 131px 32px 60px 32px;
   }
 
-  .profile-applications-title-div {
+  .profile-application-drafts-title-div {
     margin: 0 0 25.5px 0;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
   }
-  .profile-applications-search-filter-add-div {
+  .profile-application-drafts-search-filter-add-div {
     width: 898px;
   }
 
-  .profile-applications-sortby-upload-div {
+  .profile-application-drafts-sortby-upload-div {
   height: 45px;
   width: 501px;
 }
 
-.profileapplications-header-right-border {
+.profileDrafts-header-right-border {
   border-right: 1px solid #F5F5F5;
   height: calc(100% - 19px); /* 9.5px top + 9.5px bottom */
 }
 
-  .profile-applications-title {
+  .profile-application-drafts-title {
     font-size: 28px;
     line-height: 42px;
   }
 
-  .profile-applications-search-div {
+  .profile-application-drafts-search-div {
     width: 385px;
     height: 45px;
   }
 
-  .profile-applications-search {
+  .profile-application-drafts-search {
     padding: 12px 35px 12px 16px;
     border-radius: 10px;
     border: 1px solid #F5F5F5;
@@ -778,16 +796,16 @@ font-weight: 700;
     line-height: 21px;
   }
 
-  .profile-applications-search::placeholder {
+  .profile-application-drafts-search::placeholder {
     font-size: 14px;
     line-height: 21px;
   }
 
-  .profile-applications-search-icon {
+  .profile-application-drafts-search-icon {
     width: 20px;
   }
 
-  .profile-applications-sortby-div {
+  .profile-application-drafts-sortby-div {
     padding: 12px 16px;
     border-radius: 10px;
     border: 1px solid #F5F5F5;
@@ -795,16 +813,17 @@ font-weight: 700;
     height: 45px;
   }
 
-  .profile-applications-sortby-div div {
+  .profile-application-drafts-sortby-div div {
     gap: 8px;
   }
 
-  .profile-applications-sortby-div img {
+  .profile-application-drafts-sortby-div img,
+  .profileDraftApp-view-details-button img {
     width: 20px;
     height: 20px;
   }
 
-  .profile-applications-sortby-div span {
+  .profile-application-drafts-sortby-div span {
     font-size: 14px;
     line-height: 21px;
   }
@@ -822,30 +841,26 @@ font-weight: 700;
     letter-spacing: -0.65px;
   }
 
-  .profile-applications-drafts-div {
+  .profile-application-drafts-drafts-div {
     padding: 12px 16px;
     border-radius: 10px;
     border: 1px solid #F5F5F5;
     width: 118px;
     height: 45px;
+    gap: 8x;
   }
 
-  .profile-applications-drafts-div a {
-    gap: 8px;
-
-  }
-
-  .profile-applications-drafts-div img {
+  .profile-application-drafts-drafts-div img {
     width: 20px;
     height: 20px;
   }
 
-  .profile-applications-drafts-div span {
+  .profile-application-drafts-drafts-div span {
     font-size: 14px;
     line-height: 21px;
   }
 
-  .profile-applications-upload-new-div {
+  .profile-application-drafts-upload-new-div {
     width: 178px;
     height: 45px;
     padding: 12px 16px;
@@ -853,42 +868,42 @@ font-weight: 700;
     gap: 8px;
   }
 
-  .profile-applications-upload-new-div .profile-applications-upload-new-btn {
+  .profile-application-drafts-upload-new-div .profile-application-drafts-upload-new-btn {
     gap: 8px;
   }
 
-  .profile-applications-upload-new-div span {
+  .profile-application-drafts-upload-new-div span {
   font-size: 14px;
   line-height: 21px;
   }
 
-  .profile-applications-upload-new-div img {
+  .profile-application-drafts-upload-new-div img {
     width: 20px;
     height: 20px;
   }
 
-  .profile-applications-grid {
+  .profile-application-drafts-grid {
     display: grid;
     gap: 16px;
     grid-template-columns: repeat(auto-fit, 448px);
   }
 
-  .profileApp {
+  .profileDraftApp {
     padding: 12px 12px 16px 12px;
     border-radius: 16px;
   }
 
-  .profileApp-image-div {
+  .profileDraftApp-image-div {
     width: 424px;
     height: 264px;
     margin: 0 0 16px 0;
   }
 
-  .profileApp-image-div .profileApp-placeholder-img {
+  .profileDraftApp-image-div .profileDraftApp-placeholder-img {
     border-radius: 8px;
   }
 
-  .profileApp-expand-div {
+  .profileDraftApp-expand-div {
     top: 16px;
     right: 16px;
     padding: 12px;
@@ -898,12 +913,12 @@ font-weight: 700;
     height: 48px;
   }
 
-  .profileApp-expand-div .profileApp-expand-icon {
+  .profileDraftApp-expand-div .profileDraftApp-expand-icon {
     width: 24px;
     height: 24px;
   }
 
-  .profileApp-dropdown {
+  .profileDraftApp-dropdown {
     gap: 6px;
     top: 24px;
     right: 19px;
@@ -914,25 +929,25 @@ font-weight: 700;
     box-shadow: 12px 12px 30px 0px rgba(0, 0, 0, 0.10);
   }
 
-  .profileApp-dropdown-item {
+  .profileDraftApp-dropdown-item {
     gap: 8px;
     padding: 8px 12px;
     font-size: 16px;
     border-radius: 8px;
   }
 
-  .profileApp-dropdown-item span {
+  .profileDraftApp-dropdown-item span {
     font-size: 16px;
     line-height: 24px;
     letter-spacing: -0.64px
   }
 
-  .profileApp-dropdown-item img {
+  .profileDraftApp-dropdown-item img {
     width: 20px;
     height: 20px;
   }
 
-  .profileApp-video-overlay {
+  .profileDraftApp-video-overlay {
     bottom: 12px;
     left: 12px; 
     gap: 8px;
@@ -942,68 +957,81 @@ font-weight: 700;
     height: 48px;
   }
 
-  .profileApp-play-icon {
+  .profileDraftApp-play-icon {
     width: 24px;
     height: 24px;
   }
 
-  .profileApp-video-duration {
+  .profileDraftApp-video-duration {
     font-size: 18px;
     line-height: 27px;
     letter-spacing: -0.36px;
   }
 
-  .profileApp-gitHub-div {
+  .profileDraftApp-gitHub-div {
     margin: 0 0 16px 0;
     gap: 8px;
   }
 
-  .profileApp-gitHub-anchor-div {
+  .profileDraftApp-gitHub-anchor-div {
     max-width: 314px;
   }
 
-  .profileApp-gitHub-div img {
+  .profileDraftApp-gitHub-div img {
     width: 27px;
     height: 27px;
   }
 
-  .profileApp-gitHub-div a {
+  .profileDraftApp-gitHub-div a {
     font-size: 18px;
     line-height: 27px;
     letter-spacing: -0.36px;
   }
 
-  .profileApp-app-title {
+  .profileDraftApp-app-title {
     font-size: 22px;
     line-height: 33px;
     letter-spacing:  -0.44px;
     margin: 0 0 12px 0;
   }
 
-  .profileApp-app-description {
+  .profileDraftApp-app-description {
     font-size: 18px;
     line-height: 27px;
     letter-spacing: -0.36px;
     margin: 0 0 16px 0;
   }
 
-  .profileApp-app-tech-stack {
+  .profileDraftApp-app-tech-stack {
+    margin: 0 0 16px 0;
     gap: 12px;
     max-height: 226.14px;
   }
 
-  .profileApp-app-tech-stack li {
+  .profileDraftApp-app-tech-stack li {
     padding: 6px 12px;
     border-radius: 16px;
     font-size: 14px;
     line-height: 21px;
   }
 
-  .profile-applications-load-more-div {
+  .profileDraftApp-view-details-button {
+    height: 45px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    gap: 8px;
+  }
+
+  .profileDraftApp-view-details-button span {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .profile-application-drafts-load-more-div {
     margin: 57.6px 0 0 0;
   }
 
-  .profile-applications-load-more {
+  .profile-application-drafts-load-more {
     border-radius: 12px;
     padding: 14.4px 28.8px;
     font-size: 16.8px;

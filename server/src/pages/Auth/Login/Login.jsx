@@ -7,6 +7,8 @@ import dangerFilledIcon from '@assets/danger-filled.svg';
 import closeIcon from '@assets/x-icon.svg';
 import eyeSlash from '@assets/eye-slash.svg';
 import eyeIcon from '@assets/eye.svg';
+import TermsOfServiceModal from "@pages/TermsOfServiceModal/TermsOfServiceModal";
+import PrivacyPolicyModal from '@pages/PrivacyPolicyModal/PrivacyPolicyModal';
 import './Login.css';
 
 const Login = () => {
@@ -14,7 +16,8 @@ const Login = () => {
     emailUsername: '',
     password: '',
   });
-
+  const [showPrivacyPolicyModal, setShowPrivacyPolicyModal] = useState(false);
+  const [showTermsOfServiceModal, setShowTermsOfServiceModal] = useState(false);
   const [errors, setErrors] = useState({});
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordValidation, setPasswordValidation] = useState({
@@ -174,8 +177,8 @@ const Login = () => {
         <div className='sign-in-privacy-policy-terms-of-service'>
           <p className='sign-in-policy-terms-of-service-text'>
             Protected by reCAPTCHA and subject to the Google{' '}
-            <Link to="/privacy-policy" className='sign-in-privacy-policy-text'>Privacy Policy</Link> and{' '}
-            <Link to="/terms-of-service" className='sign-in-terms-of-service-text'>Terms of Service</Link>.
+            <Link onClick={() => setShowPrivacyPolicyModal(true)} className='sign-in-privacy-policy-text'>Privacy Policy</Link> and{' '}
+            <Link onClick={() => setShowTermsOfServiceModal(true)} className='sign-in-terms-of-service-text'>Terms of Service</Link>.
           </p>
         </div> 
         {showErrorBox && (
@@ -191,6 +194,18 @@ const Login = () => {
       <div>
         <img src={signInPhotoDesktop} alt='sign-in-photo' className='sign-in-photo' />
       </div>
+      {showPrivacyPolicyModal && (
+        <PrivacyPolicyModal
+          modalOpenState={showPrivacyPolicyModal}
+          onClose={() => setShowPrivacyPolicyModal(false)}
+        />
+      )}      
+      {showTermsOfServiceModal && (
+        <TermsOfServiceModal
+          modalOpenState={showTermsOfServiceModal}
+          onClose={() => setShowTermsOfServiceModal(false)}
+        />
+      )}        
     </div>
   );
 };

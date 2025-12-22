@@ -9,9 +9,11 @@ export default defineConfig({
   resolve: {
     alias: {
       '@assets': resolve(__dirname, 'server/src/assets'),
-
       '@': resolve(__dirname, 'server/src'),
       '@components': resolve(__dirname, 'server/src/components'),
+      '@pages': resolve(__dirname, 'server/src/pages'),
+      '@home': resolve(__dirname, 'server/src/pages/Home'),
+      '@profile': resolve(__dirname, 'server/src/pages/Profile'),
     },
   },
 
