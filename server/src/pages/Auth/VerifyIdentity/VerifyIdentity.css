@@ -145,6 +145,21 @@ line-height: 16.917px;
     line-height: 16.917px;
 }
 
+.verify-identity-resend-label,
+.verify-identity-resend-value {
+  font-size: 11.28px;
+  font-weight: 500;
+  line-height: 16.92px;
+}
+
+.verify-identity-resend-label {
+  color: #9C9CA4;
+}
+
+.verify-identity-resend-value {
+  color: #141522;
+}
+
 .verify-identity-confirm-div {
     width: 100%;
     height: 36.3334px;
@@ -329,6 +344,12 @@ line-height: 16.917px;
       line-height: 18.375px;
   }
 
+  .verify-identity-resend-label,
+  .verify-identity-resend-value {
+    font-size: 12.25px;
+    line-height: 18.375px;
+  }
+
   .verify-identity-confirm-div {
       height: 39px;
       display: flex;
@@ -491,6 +512,13 @@ line-height: 16.917px;
   .verify-identity-didnt-receive-link {
       font-size: 14px;
       line-height: 21px;
+  }
+
+
+  .verify-identity-resend-label,
+  .verify-identity-resend-value {
+    font-size: 14px;
+    line-height: 21px;
   }
 
   .verify-identity-confirm-div {

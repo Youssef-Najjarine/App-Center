@@ -16,6 +16,7 @@ const VerifyIdentity = () => {
   const [code, setCode] = useState(['', '', '', '']);
   const [activeIndex, setActiveIndex] = useState(0);
   const [showErrorBox, setShowErrorBox] = useState(false);
+  const [resendSecondsLeft, setResendSecondsLeft] = useState(null);
   const [showPrivacyPolicyModal, setShowPrivacyPolicyModal] = useState(false);
   const [showTermsOfServiceModal, setShowTermsOfServiceModal] = useState(false);
   const inputRefs = useRef([]);
@@ -38,6 +39,42 @@ const VerifyIdentity = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (resendSecondsLeft === null) return;
+    if (resendSecondsLeft <= 0) {
+      setResendSecondsLeft(null);
+      return;
+    }
+
+  const id = setInterval(() => {
+      setResendSecondsLeft((prev) => {
+        if (prev === null) return null;
+        if (prev <= 1) return 0;
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(id);
+  }, [resendSecondsLeft]);
+
+  const formatMMSS = (totalSeconds) => {
+    const mm = String(Math.floor(totalSeconds / 60)).padStart(2, "0");
+    const ss = String(totalSeconds % 60).padStart(2, "0");
+    return `${mm}:${ss}`;
+  };
+
+  const handleResendCode = (e) => {
+    e.preventDefault();
+
+    // If already counting down, do nothing
+    if (resendSecondsLeft !== null) return;
+
+    // TODO: call your resend API here
+    // await resendVerificationCode(passedEmail)
+
+    // Start 60s countdown
+    setResendSecondsLeft(60);
+  };
   const handleCodeChange = (e, index) => {
     let { value } = e.target;
     value = value.replace(/\D/g, '');
@@ -144,9 +181,22 @@ const VerifyIdentity = () => {
 
           <div className="verify-identity-links-div">
             <Link to="/auth/forgot-password" className="verify-identity-back-link">Back</Link>
-            <Link to="/" className="verify-identity-didnt-receive-link">
-              Didn't receive the code?
-            </Link>
+            {resendSecondsLeft === null ? (
+              <Link
+                
+                onClick={handleResendCode}
+                className="verify-identity-didnt-receive-link"
+              >
+                Resend Code?
+              </Link>
+            ) : (
+              <span className="verify-identity-resend-label">
+                Resend after{" "}
+                <span className="verify-identity-resend-value">
+                  {formatMMSS(resendSecondsLeft)}
+                </span>
+              </span>
+            )}
           </div>
 
           <div className="verify-identity-confirm-div">
