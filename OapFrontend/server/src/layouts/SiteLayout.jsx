@@ -3,8 +3,8 @@ import { Outlet } from "react-router-dom";
 
 import HomeNavbarDesktop from "@components/HomeNavBar/HomeNavbarDesktop";
 import HomeNavbarMobile from "@components/HomeNavBar/HomeNavbarMobile";
-import MemberNavbarDesktop from "@components/MemberNavbar/MemberNavbarDesktop";
-import MemberNavbarMobile from "@components/MemberNavbar/MemberNavbarMobile";
+import ProfileNavbarDesktop from "@components/ProfileNavbar/ProfileNavbarDesktop";
+import ProfileNavbarMobile from "@components/ProfileNavbar/ProfileNavbarMobile";
 
 import Footer from "@components/Footer/Footer";
 import ContactUs from "@components/ContactUs/ContactUs";
@@ -23,8 +23,8 @@ const SiteLayout = () => {
     <section className="container">
       {isSignedIn ? (
         <>
-          <MemberNavbarDesktop />
-          <MemberNavbarMobile />
+          <ProfileNavbarDesktop />
+          <ProfileNavbarMobile />
         </>
       ) : (
         <>

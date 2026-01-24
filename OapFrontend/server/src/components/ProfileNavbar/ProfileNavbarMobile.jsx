@@ -13,9 +13,9 @@ import cardPaymentsIcon from '@assets/purple-outline-card-icon.svg';
 import logoutIcon from '@assets/red-outline-logout-icon.svg';
 import { useAuthUser } from "@context/AuthUserContext";
 import ProcessingModal from "@pages/ProcessingModal/ProcessingModal";
-import './MemberNavbarDesktop.css';
+import './ProfileNavbarMobile.css';
 
-const MemberNavbarDesktop = () => {
+const ProfileNavbarMobile = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -54,31 +54,20 @@ const MemberNavbarDesktop = () => {
   }
 
   return (
-    <nav className="member-navbar-desktop fixed-top">
-      <div className="member-navbar-desktop-container">
-        <div className="member-navbar-desktop-logo">
+    <nav className="member-navbar-mobile fixed-top">
+      <div className="member-navbar-mobile-container">
+        <div className="member-navbar-mobile-logo">
           <Link to="/">
-            <img src={logoIcon} alt="Logo Icon" className="member-navbar-desktop-logo-image" />
+            <img src={logoIcon} alt="Logo Icon" className="member-navbar-mobile-logo-image" />
           </Link>
           <Link to="/">
-            <span className="member-nav-desktop-desktop-logo-text">Open App Partners</span>
+            <span className="member-nav-mobile-mobile-logo-text">Open App Partners</span>
           </Link>
         </div>
 
-        <div className='member-navbar-desktop-home-options-div'>
-          <ul className="member-navbar-desktop-home-options">
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/applications">Applications</Link></li>
-            <li><Link to="/about-us">About us</Link></li>
-            <li><Link to="/blogs">Blogs</Link></li>
-          </ul>
-        </div>
-
-        <div className='member-navbar-desktop-line'></div>
-
-        <div className="member-navbar-desktop-actions">
+        <div className="member-navbar-mobile-actions">
           <div
-            className={`member-nav-desktop-application-div ${
+            className={`member-nav-mobile-application-div ${
               ["/profile/apps", "/profile/appManagement", "/profile/MyPurchases", "/profile/ApplicationHistory", "/profile/drafts"]
                 .includes(location.pathname)
                 ? "active-app-tab"
@@ -86,14 +75,14 @@ const MemberNavbarDesktop = () => {
             }`}
           >
             <Link to="/profile/apps">
-              <img src={applications} className='member-nav-desktop-applications-icon' />
+              <img src={applications} className='member-nav-mobile-applications-icon' />
               <span>My Applications</span>
             </Link>
           </div>
 
-          <div className="member-profile-desktop-wrapper" ref={profileWrapperRef}>
+          <div className="member-profile-mobile-wrapper" ref={profileWrapperRef}>
             <div
-              className={`member-profile-desktop-nav ${
+              className={`member-profile-mobile-nav ${
                 ["/profile/apps", "/profile/appManagement", "/profile/MyPurchases", "/profile/ApplicationHistory", "/profile/Earnings&Payouts", "/profile/drafts"]
                   .includes(location.pathname)
                   ? "inactive-profile-tab"
@@ -101,71 +90,71 @@ const MemberNavbarDesktop = () => {
               }`}
               onClick={toggleDropdown}
             >
-              <img src={profilePic} alt="member-icon" className='member-nav-desktop-profile-picture' />
+              <img src={profilePic} alt="member-icon" className='member-nav-mobile-profile-picture' />
 
               <div>
-                <p className='member-nav-desktop-name'>
+                <p className='member-nav-mobile-name'>
                   {loading ? 'Loading...' : (fullName || user?.username || 'User')}
                 </p>
-                <p className='member-nav-desktop-email'>
+                <p className='member-nav-mobile-email'>
                   {loading ? 'Loading...' : (user?.email || '-')}
                 </p>
               </div>
 
-              <div className="member-navbar-desktop-caret">
+              <div className="member-navbar-mobile-caret">
                 <img
                   src={downArrowIcon}
                   alt="dropdown arrow"
-                  className={`member-navbar-desktop-down-arrow ${showDropdown ? 'rotated' : ''}`}
+                  className={`member-navbar-mobile-down-arrow ${showDropdown ? 'rotated' : ''}`}
                 />
               </div>
             </div>
 
-            <div className={`member-dropdown-menu-desktop ${showDropdown ? 'show' : ''}`}>
+            <div className={`member-dropdown-menu ${showDropdown ? 'show' : ''}`}>
               <Link to="/profile" onClick={() => setShowDropdown(false)}>
-                <div className='member-navbar-desktop-icon-div'>
+                <div className='member-navbar-mobile-icon-div'>
                   <img src={profileIcon} />
                   <span>Profile</span>
                 </div>
               </Link>
 
               <Link to="/profile/appManagement" onClick={() => setShowDropdown(false)}>
-                <div className='member-navbar-desktop-icon-div'>
+                <div className='member-navbar-mobile-icon-div'>
                   <img src={appManagementIcon} />
                   <span>App Management</span>
                 </div>
               </Link>
 
               <Link to="/profile/MyPurchases" onClick={() => setShowDropdown(false)}>
-                <div className='member-navbar-desktop-icon-div'>
+                <div className='member-navbar-mobile-icon-div'>
                   <img src={myPurchasesIcon} />
                   <span>My Purchases</span>
                 </div>
               </Link>
 
               <Link to="/profile/ApplicationHistory" onClick={() => setShowDropdown(false)}>
-                <div className='member-navbar-desktop-icon-div'>
+                <div className='member-navbar-mobile-icon-div'>
                   <img src={applicationHistoryIcon} />
                   <span>Application History</span>
                 </div>
               </Link>
 
               <Link to="/profile/Earnings&Payouts" onClick={() => setShowDropdown(false)}>
-                <div className='member-navbar-desktop-icon-div'>
+                <div className='member-navbar-mobile-icon-div'>
                   <img src={earningsPayoutsIcon} />
                   <span>Earnings & Payouts</span>
                 </div>
               </Link>
 
               <Link to="/profile/CardsPayments" onClick={() => setShowDropdown(false)}>
-                <div className='member-navbar-desktop-icon-div'>
+                <div className='member-navbar-mobile-icon-div'>
                   <img src={cardPaymentsIcon} />
                   <span>Cards & Payments</span>
                 </div>
               </Link>
 
               <div
-                className='member-navbar-desktop-icon-div member-navbar-desktop-logout-div'
+                className='member-navbar-mobile-icon-div member-navbar-mobile-logout-div'
                 onClick={() => {
                   setShowDropdown(false);
                   logout({ redirectTo: "/" });
@@ -179,8 +168,17 @@ const MemberNavbarDesktop = () => {
           </div>
         </div>
       </div>
+
+      <div>
+        <ul className="member-navbar-mobile-home-options">
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/applications">Applications</Link></li>
+          <li><Link to="/about-us">About us</Link></li>
+          <li><Link to="/blogs">Blogs</Link></li>
+        </ul>
+      </div>
     </nav>
   );
 };
 
-export default MemberNavbarDesktop;
+export default ProfileNavbarMobile;
