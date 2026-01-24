@@ -1,0 +1,339 @@
+.member-navbar-mobile {
+  background-color: #fff;
+  width: 100%;
+  padding: 16px 20px;
+  border-bottom: 0.806px solid #F5F5F5;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.member-navbar-mobile-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+.member-navbar-mobile-logo {
+  display: flex;
+  align-items: center;
+}
+.member-navbar-mobile-logo-image {
+  width: 32.2px;
+  height: 32.2px;
+  margin-right: 9.67px;
+}
+
+.member-nav-mobile-mobile-logo-text {
+  color: #141522;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 31.417px;
+  letter-spacing: -0.419px;
+}
+
+.member-navbar-mobile-actions {
+  display: flex;
+  justify-content: space-between;
+  width: 106.33px;
+}
+
+.member-nav-mobile-application-div {
+  width: 46.72px;
+  height: 46.72px;
+  border-radius: 8.056px;
+  border: 0.806px solid #F5F5F5;
+  background: #FFF;
+}
+
+.member-nav-mobile-application-div a {
+  width: 100%;
+  height: 100%;
+  padding: 3.222px 4.833px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.member-nav-mobile-applications-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.member-nav-mobile-application-div span,
+.member-nav-mobile-name,
+.member-nav-mobile-email,
+.member-navbar-mobile-caret {
+  display: none;
+}
+
+.member-profile-mobile-wrapper {
+  position: relative;
+}
+
+.member-profile-mobile-nav {
+  width: 46.72px;
+  height: 46.72px;
+  padding: 3.222px 4.833px;
+  border-radius: 8.056px;
+  background: #5541D7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.member-profile-mobile-nav .member-nav-mobile-profile-picture {
+  width: 34.639px;
+  height: 34.639px;
+  border-radius: 80.556px;
+}
+
+.member-dropdown-menu {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 5.25px;
+  top: 52px;
+  right: 0;
+  width: 194px;
+  padding: 7px;
+  border-radius: 7px;
+  border: 0.875px solid #F5F5F5;
+  background: #FFF;
+  box-shadow: 10.5px 10.5px 26.25px 0px rgba(0, 0, 0, 0.10);
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.member-dropdown-menu.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.member-navbar-mobile-icon-div:hover {
+  background: #ECE9FB;
+}
+
+.member-navbar-mobile-icon-div {
+  display: flex;
+  align-items: center;
+  padding: 7px 10.5px;
+  border-radius: 7px;
+  background: #F6F5FD;
+}
+
+.member-navbar-mobile-icon-div img {
+  width: 17.5px;
+  height: 17.5px;
+  margin-right: 7px;
+}
+
+.member-navbar-mobile-icon-div span {
+  color: #141522;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: -0.56px;
+}
+
+.member-navbar-mobile-logout-div {
+  background: rgba(255, 0, 0, 0.05);
+  cursor: pointer;
+}
+
+.member-navbar-mobile-logout-div:hover {
+  background:rgba(255, 0, 0, 0.1);
+}
+.member-dropdown-menu .logout {
+  color: #FF461D;
+}
+
+.active-app-tab {
+  background: #5541D7 !important;
+}
+
+.active-app-tab span {
+  color: #FFF !important;
+}
+
+.active-app-tab img {
+  filter: brightness(0) invert(1);
+}
+
+.inactive-profile-tab {
+  background: #F5F5F5 !important;
+  border: 0.806px solid #F5F5F5;
+}
+
+.inactive-profile-tab .member-nav-mobile-name,
+.inactive-profile-tab .member-nav-mobile-email {
+  color: #141522;
+  fill: #141522;
+}
+
+.member-profile-mobile-nav .member-navbar-mobile-down-arrow {
+  filter: invert(1) brightness(1.5);
+}
+
+.member-profile-mobile-nav.inactive-profile-tab .member-navbar-mobile-down-arrow {
+  filter: none;
+}
+
+.member-navbar-mobile-down-arrow.rotated {
+  transform: rotate(180deg);
+}
+
+.member-navbar-mobile-home-options {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.member-navbar-mobile-home-options a {
+  color: #111827;
+  font-size: 13.533px;
+  font-weight: 500;
+  line-height: 20.3px;
+  cursor: pointer;
+}
+
+.member-navbar-mobile-home-options a:hover {
+  color: #6366F1;
+}
+
+@media screen and (min-width: 768px) {
+  .member-navbar-mobile {
+    padding: 20px;
+    border-bottom: 0.875px solid #F5F5F5;
+    gap: 16px;
+  }
+
+  .member-navbar-mobile-logo-image {
+    width: 35px;
+    height: 35px;
+    margin-right: 10.5px;
+  }
+
+  .member-nav-mobile-mobile-logo-text {
+    font-size: 22.75px;
+    line-height: 34.125px;
+    letter-spacing: -0.455px;
+  }
+
+  .member-navbar-mobile-actions {
+    width: 431.125px;
+  }
+
+  .member-nav-mobile-application-div {
+    width: 173px;
+    height: 50.75px;
+    border-radius: 8.75px;
+    border: 0.875px solid #F5F5F5;
+  }
+
+  .member-nav-mobile-application-div a {
+  padding: 3.5px 12px 3.5px 8px;
+  }
+
+  .member-nav-mobile-applications-icon {
+    margin-right: 10px;
+  }
+
+  .member-nav-mobile-application-div span {
+    display: flow-root;
+    color: #141522;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 21px;
+  }
+
+  .member-profile-mobile-nav {
+    width: 244.125px;
+    height: 50.72px;
+    padding: 3.5px 14px 3.5px 7px;
+    border-radius: 8.75px;
+    justify-content: space-between;
+  }
+
+  .member-profile-mobile-nav .member-nav-mobile-profile-picture {
+    width: 37.625px;
+    height: 37.625px;
+    border-radius: 87.5px;
+  }
+
+  .member-nav-mobile-name {
+    color: #FFF;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 21px;
+    margin: 0;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+     white-space: nowrap;
+  }
+
+   .member-nav-mobile-email {
+    color: #FFF;
+    font-size: 12.25px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18.375px;
+    margin: 0;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+     white-space: nowrap;
+   }
+
+  .member-nav-mobile-name,
+  .member-nav-mobile-email,
+  .member-navbar-mobile-caret {
+    display: flow-root;
+  }
+
+  .member-navbar-mobile-caret {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .member-navbar-mobile-down-arrow {
+    width: 17.5px;
+    height: 17.5px;
+    fill: white;
+  }
+
+  .member-dropdown-menu {
+    top: 54.97px;
+    width: 244.13px;
+  }
+
+  .inactive-profile-tab {
+    border: 0.875px solid #F5F5F5;
+  }
+
+  .member-navbar-mobile-home-options a {
+    font-size: 14px;
+    line-height: 21px;
+  }
+}
+@media screen and (min-width: 1440px) {
+  .member-navbar-mobile {
+    display: none;
+  }
+}

@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36811.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "WebApp\WebApp.csproj", "{6DC40C53-BB22-4479-B5A2-AE0A5884C262}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "OapDatabase", "OapDatabase\OapDatabase.sqlproj", "{B80DB0BF-1059-41ED-82EB-A978E550A2D3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6DC40C53-BB22-4479-B5A2-AE0A5884C262}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DC40C53-BB22-4479-B5A2-AE0A5884C262}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DC40C53-BB22-4479-B5A2-AE0A5884C262}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DC40C53-BB22-4479-B5A2-AE0A5884C262}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B80DB0BF-1059-41ED-82EB-A978E550A2D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B80DB0BF-1059-41ED-82EB-A978E550A2D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B80DB0BF-1059-41ED-82EB-A978E550A2D3}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B80DB0BF-1059-41ED-82EB-A978E550A2D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B80DB0BF-1059-41ED-82EB-A978E550A2D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B80DB0BF-1059-41ED-82EB-A978E550A2D3}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5A7F0869-7E36-4C25-B2B5-DA4A8581BF0D}
+	EndGlobalSection
+EndGlobal

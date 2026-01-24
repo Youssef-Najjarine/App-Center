@@ -1,0 +1,36 @@
+{
+  "name": "open_app_partners",
+  "version": "1.0.0",
+  "description": "Open source application, process, store and release platform",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 8080"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@ant-design/icons": "6.1.0",
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.1",
+    "@ffmpeg/ffmpeg": "^0.12.15",
+    "@fortawesome/free-brands-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^3.1.1",
+    "@mui/material": "7.3.6",
+    "antd": "6.0.1",
+    "axios": "1.13.2",
+    "bootstrap": "^5.3.8",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "react-modal": "^3.16.3",
+    "react-router-dom": "7.10.1",
+    "uuid": "13.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.1.1",
+    "vite": "^7.2.6",
+    "vite-plugin-svgr": "^4.5.0"
+  }
+}
