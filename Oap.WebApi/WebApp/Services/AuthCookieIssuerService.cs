@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
-using WebApp.Utilities;
+using Oap.WebApp.Utilities;
 
-namespace WebApp.Services
+namespace Oap.WebApp.Services
 {
     public class AuthCookieIssuerService
     {

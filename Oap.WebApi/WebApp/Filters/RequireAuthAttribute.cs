@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using WebApp.Utilities;
+using Oap.WebApp.Utilities;
 
-namespace WebApp.Filters
+namespace Oap.WebApp.Filters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class RequireAuthAttribute : Attribute, IAsyncActionFilter

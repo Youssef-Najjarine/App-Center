@@ -4,13 +4,15 @@ import searchIcon from "@assets/magnifying-glass-icon.svg";
 import applicationImg1 from "@assets/Applications/applicationImg-1.png";
 import applicationImg2 from "@assets/Applications/applicationImg-2.png";
 import githubIcon from "@assets/github-icon.png";
+import { useAuthUser } from "@context/AuthUserContext";
 import "./Applications.css";
 
 const HomeApplications = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
-
+  const { user } = useAuthUser();
+  const isSignedIn = !!user;
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedApp, setSelectedApp] = useState(null);
   const [showAll, setShowAll] = useState(false);
@@ -151,7 +153,7 @@ const HomeApplications = () => {
   };
 
   return (
-    <section id="applications">
+    <section id="applications" className={`${isSignedIn ? "signed-in" : "signed-out"}`}>
       <div className="applications-title-div">
         <h2 className="applications-title">Applications</h2>
         <h3 className="applications-sub-header">

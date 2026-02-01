@@ -1,6 +1,6 @@
-﻿using WebApp.Utilities;
+﻿using Oap.WebApp.Utilities;
 
-namespace WebApp.Extensions
+namespace Oap.WebApp.Extensions
 {
     public static class HttpContextExtensions
     {

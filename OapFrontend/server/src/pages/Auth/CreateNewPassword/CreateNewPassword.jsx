@@ -167,13 +167,10 @@ const CreateNewPassword = () => {
       }
 
       if (response.ok && data.success) {
-        // After password reset, send them to login
-        navigate('/auth/login', { state: { passwordResetSuccess: true } });
+        navigate('/auth/sign-in', { state: { passwordResetSuccess: true } });
         return;
       }
 
-      // Recommended backend contract:
-      // { errorCode: 'InvalidToken' | 'WeakPassword' | 'Expired' | 'ServerError', error: '...' }
       setErrorBoxMessage(data.error || 'Error - Unable to reset password. Please try again.');
       setShowErrorBox(true);
     } catch (err) {
@@ -201,7 +198,7 @@ const CreateNewPassword = () => {
               <h2 className='create-password-header'>Create Password</h2>
               <div className="create-password-already-have-account-div">
                 <p className='create-password-already-have-account-text'>Already have an Account?</p>
-                <Link to="/auth/login" className='create-password-login-link'>Login Account</Link>
+                <Link to="/auth/sign-in" className='create-password-signin-link'>Sign In</Link>
               </div>
             </div>
           </div>

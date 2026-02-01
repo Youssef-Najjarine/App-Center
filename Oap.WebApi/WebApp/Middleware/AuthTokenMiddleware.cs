@@ -1,6 +1,6 @@
-﻿using WebApp.Utilities;
+﻿using Oap.WebApp.Utilities;
 
-namespace WebApp.Middleware
+namespace Oap.WebApp.Middleware
 {
     public class AuthTokenMiddleware
     {

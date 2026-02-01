@@ -57,7 +57,7 @@ const EditProfile = () => {
   // Redirect if not authenticated once loading ends
   useEffect(() => {
     if (!loading && !user) {
-      navigate('/auth/login', { replace: true });
+      navigate('/auth/sign-in', { replace: true });
     }
   }, [loading, user, navigate]);
 
@@ -113,7 +113,7 @@ const EditProfile = () => {
       }
 
       if (response.status === 401) {
-        navigate('/auth/login', { replace: true });
+        navigate('/auth/sign-in', { replace: true });
         return;
       }
 

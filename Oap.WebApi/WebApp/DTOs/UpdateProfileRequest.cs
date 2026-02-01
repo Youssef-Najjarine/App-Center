@@ -1,4 +1,4 @@
-﻿namespace WebApp.DTOs
+﻿namespace Oap.WebApp.DTOs
 {
     public class UpdateProfileRequest
     {

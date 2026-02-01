@@ -33,8 +33,8 @@ const ProfileApplications = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [appToDelete, setAppToDelete] = useState(null);
   const dropdownRefs = useRef({});
-  const [expandedDropdownId, setExpandedDropdownId] = useState(null); // for dropdowns
-  const [modalApp, setModalApp] = useState(null); // for modal
+  const [expandedDropdownId, setExpandedDropdownId] = useState(null);
+  const [modalApp, setModalApp] = useState(null);
   const [applications, setApplications] = useState([
     {
       id: 1,
@@ -382,7 +382,9 @@ const ProfileApplications = () => {
       {showUploadEditModal && (
         <ProfileUploadEditAppModal
           modalOpenState={showUploadEditModal}
-          onClose={() => setShowUploadEditModal(false)}
+          onClose={() => {
+            setShowUploadEditModal(false);
+          }}
         />
       )}
 

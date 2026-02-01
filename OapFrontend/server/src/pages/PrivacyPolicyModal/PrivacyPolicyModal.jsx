@@ -58,7 +58,7 @@ const PrivacyPolicyModal = ({ modalOpenState, onClose }) => {
             <div className="privacy-policy-row privacy-policy-gap-tiny">
               <h4 className="privacy-policy-text-medium privacy-policy-left-padded-list">Account & Usage Data</h4>
               <ul className="privacy-policy-row-unordered-left-padded-list">
-                <li className="privacy-policy-text-small">Login activity and timestamps</li>
+                <li className="privacy-policy-text-small">Sign In activity and timestamps</li>
                 <li className="privacy-policy-text-small">Uploaded applications and related metadata</li>
                 <li className="privacy-policy-text-small">Purchases, downloads, earnings, and transaction history</li>
                 <li className="privacy-policy-text-small">App interactions, impressions, and analytics data</li>

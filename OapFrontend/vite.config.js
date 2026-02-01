@@ -14,7 +14,8 @@ export default defineConfig({
       '@home': resolve(__dirname, 'server/src/pages/Home'),
       '@profile': resolve(__dirname, 'server/src/pages/Profile'),
       '@context': resolve(__dirname, 'server/src/context'),
-      '@layouts': resolve(__dirname, 'server/src/layouts')
+      '@layouts': resolve(__dirname, 'server/src/layouts'),
+      '@utils': resolve(__dirname, 'server/src/utils')
     },
   },
   root: 'server/src',

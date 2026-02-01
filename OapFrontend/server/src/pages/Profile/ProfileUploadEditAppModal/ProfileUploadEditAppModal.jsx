@@ -9,18 +9,21 @@ import DangerIcon from '@assets/danger-filled.svg';
 import FolderIcon from '@assets/purple-outline-folder-icon.svg';
 import xIcon from '@assets/x-icon.svg';
 import ConfirmationModal from "@pages/ConfirmationModal/ConfirmationModal";
+import ProcessingModal from "@pages/ProcessingModal/ProcessingModal";
+import { lockScroll, unlockScroll, forceUnlockScroll } from "@utils/bodyScrollLock";
 import "./ProfileUploadEditAppModal.css";
 
 const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
+  const confirmationOpenRef = React.useRef(false);
+
+  const [availableTechnologies, setAvailableTechnologies] = useState([]);
+  const [selectedTechnologies, setSelectedTechnologies] = useState([]);
   const [techInput, setTechInput] = useState("");
-  const [technologies, setTechnologies] = useState([]);
-  const [appName, setAppName] = useState("Microsoft Word");
+  const [appName, setAppName] = useState("");
   const [appPrice, setAppPrice] = useState("");
-  const [appTech] = useState("HTML,CSS,JavaScript");
-  const [appDescription, setappDescription] = useState(
-    "Microsoft Word is a widely used word processing program developed by Microsoft. It allows users to create, edit, and format documents, including text, images, and other elements. It's a key component of the Microsoft Office suite and is known for its features like spell and grammar checking, text formatting, and various layout options."
-  );
-  const [appRepo, setAppRepo] = useState("https://github.com/myName/repo-name");
+  const [appTech] = useState("");
+  const [appDescription, setappDescription] = useState("");
+  const [appRepo, setAppRepo] = useState("");
   const [uploadStage, setUploadStage] = useState("default");
   const [uploadZipName, setUploadZipName] = useState("");
   const [uploadZip, setUploadZip] = useState(null);
@@ -28,38 +31,42 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
   const [defaultPresentationIndex, setDefaultPresentationIndex] = useState(null);
   const [errors, setErrors] = useState({});
   const [showErrorBox, setShowErrorBox] = useState(false);
-
-  // NEW: state to control ConfirmationModal
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-
+  const [isCreating, setIsCreating] = useState(false);
+  const [createError, setCreateError] = useState("");
   const fileInputRef = React.useRef(null);
   const uploadTimeoutRef = React.useRef(null);
   const mediaInputRef = React.useRef(null);
 
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+
+  // Lock body scroll when this modal mounts
   useEffect(() => {
-    const initialTechs = appTech
-      .split(",")
-      .map((t) => t.trim())
-      .slice(0, 3);
-    setTechnologies(initialTechs);
-  }, [appTech]);
+    lockScroll();
+
+    return () => {
+      unlockScroll();
+    };
+  }, []);
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
+  }, [isCreating]);
+  useEffect(() => {
+    if (!modalOpenState) return;
+
+    const onKeyDown = (e) => {
       if (e.key === "Escape") {
-        // When confirmation is open, ESC should not close the parent modal
-        if (showConfirmationModal) return;
+        if (confirmationOpenRef.current) return;
         onClose();
       }
     };
 
-    document.addEventListener("keydown", handleKeyDown);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "auto";
-    };
-  }, [onClose, modalOpenState, showConfirmationModal]);
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [modalOpenState, onClose]);
+
+  useEffect(() => {
+    confirmationOpenRef.current = showConfirmationModal;
+  }, [showConfirmationModal]);
 
   useEffect(() => {
     return () => {
@@ -69,50 +76,107 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
     };
   }, []);
 
+  const addTechsFromInput = () => {
+    const items = techInput
+      .split(",")
+      .map((x) => x.trim())
+      .filter(Boolean);
+
+    if (!items.length) return;
+
+    setSelectedTechnologies((prev) => {
+      const set = new Set(prev.map((t) => t.toLowerCase()));
+      const next = [...prev];
+
+      for (const item of items) {
+        const key = item.toLowerCase();
+        if (!set.has(key)) {
+          set.add(key);
+          next.push(item);
+        }
+      }
+      return next;
+    });
+
+    if (errors.technologies) setErrors((p) => ({ ...p, technologies: null }));
+    setTechInput("");
+  };
+
   const handleTechKeyDown = (e) => {
     if (e.key === "Enter" || e.key === ",") {
       e.preventDefault();
-      if (!techInput.trim()) return;
-
-      const items = techInput
-        .split(",")
-        .map((item) => item.trim())
-        .filter((item) => item && !technologies.includes(item));
-
-      if (items.length > 0 && errors.technologies) {
-        setErrors((prev) => ({ ...prev, technologies: null }));
-      }
-
-      setTechnologies([...technologies, ...items]);
-      setTechInput("");
+      addTechsFromInput();
     }
   };
 
   const handleDeleteTech = (index) => {
-    setTechnologies(technologies.filter((_, i) => i !== index));
+    setSelectedTechnologies((prev) => prev.filter((_, i) => i !== index));
   };
 
-  // NEW: what actually happens after user confirms in ConfirmationModal
-  const handleConfirmUpload = () => {
-    console.log("Form Submitted:", {
-      appName,
-      appPrice,
-      appDescription,
-      technologies,
-      appRepo,
-      uploadZip,
-      mediaFiles,
-    });
-    setShowConfirmationModal(false);
-    onClose(); // close the main upload modal after confirming
+  const showGenericError = () => {
+    setCreateError("");
+    setShowErrorBox(true);
+  };
+
+  const showServerError = () => {
+    setCreateError("Error - Unable to connect to the server.");
+    setShowErrorBox(true);
+  };
+
+  const handleConfirmUpload = async () => {
+    setShowErrorBox(false);
+    setCreateError("");
+    setIsCreating(true);
+    try {
+      const res = await fetch("/api/user-application/create-user-application", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          appName: appName.trim(),
+          price: Number(appPrice),
+          technologies: selectedTechnologies,
+          description: appDescription.trim(),
+          repoUrl: appRepo.trim() || null,
+        }),
+      });
+      const text = await res.text();
+      let data = {};
+      try {
+        data = text ? JSON.parse(text) : {};
+      } catch {
+        data = {};
+      }
+      if (!res.ok || !data.success) {
+        if ([0, 500, 502, 503, 504].includes(res.status)) {
+          showServerError();
+        } else {
+          showGenericError();
+        }
+        setShowConfirmationModal(false);
+        return;
+      }
+      forceUnlockScroll();
+      setShowConfirmationModal(false);
+      onClose();
+    } catch (e) {
+      console.error(e);
+      showServerError();
+      setShowConfirmationModal(false);
+    } finally {
+      setIsCreating(false);
+    }
   };
 
   const handleSaveAndUpload = (e) => {
     e.preventDefault();
+    setShowErrorBox(false);
+    setCreateError("");
+
     const requiredFields = {
       appName,
       appPrice,
-      technologies,
+      selectedTechnologies,
       appDescription,
       uploadZip,
     };
@@ -124,20 +188,17 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
     });
 
     const newErrors = {};
-
     if (!appName.trim()) newErrors.appName = "Field Missing";
-    if (!appPrice.trim()) newErrors.appPrice = "Field Missing";
-    if (!technologies.length) newErrors.technologies = "Field Missing";
+    if (!appPrice.toString().trim()) newErrors.appPrice = "Field Missing";
+    if (!selectedTechnologies.length) newErrors.technologies = "Field Missing";
     if (!appDescription.trim()) newErrors.appDescription = "Field Missing";
     if (!uploadZip) newErrors.uploadZip = "Field Missing";
 
     setErrors(newErrors);
 
     if (hasEmpty) {
-      setShowErrorBox(true);
+      showGenericError();
     } else {
-      setShowErrorBox(false);
-      // Instead of immediately submitting, open confirmation modal
       setShowConfirmationModal(true);
     }
   };
@@ -359,7 +420,6 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
   };
 
   return (
-    // IMPORTANT: when confirmation is open, ignore clicks on this overlay
     <div
       className="upload-edit-app-modal-overlay"
       onClick={(e) => {
@@ -469,11 +529,8 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
                       errors.technologies ? "error-input" : ""
                     }`}
                   >
-                    {technologies.map((tech, index) => (
-                      <li
-                        key={index}
-                        className="upload-edit-app-tech-tag"
-                      >
+                    {selectedTechnologies.map((tech, index) => (
+                      <li key={`${tech}-${index}`} className="upload-edit-app-tech-tag">
                         <span>{tech}</span>
                         <img
                           src={CancelIcon}
@@ -581,7 +638,6 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
                     </div>
                   </div>
                 )}
-
                 {uploadStage === "uploading" && (
                   <div className="upload-edit-app-uploading">
                     <div className="upload-edit-app-uploading-img-file">
@@ -781,7 +837,7 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
               className="upload-edit-app-error-icon-banner"
             />
             <span className="upload-edit-app-error-box-message-banner">
-              Error – Fields Missing or Invalid. Please try again.
+              {createError || "Error – Fields Missing or Invalid. Please try again."}
             </span>
             <div>
               <button className="upload-edit-app-close-banner-button">
@@ -801,9 +857,10 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
           modalOpenState={showConfirmationModal}
           onClose={() => setShowConfirmationModal(false)}
           app={null}
-          onConfirmDelete={handleConfirmUpload}
+          onConfirm={handleConfirmUpload}
         />
       )}
+      {isCreating && <ProcessingModal />}
     </div>
   );
 };

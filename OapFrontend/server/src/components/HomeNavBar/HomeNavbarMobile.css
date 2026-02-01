@@ -41,7 +41,7 @@ letter-spacing: -0.427px;
   align-items: center;
 }
 
-.home-navbar-login-mobile {
+.home-navbar-signin-mobile {
   color:#111827;
   font-size: 13.533px;
   line-height: 150%;
@@ -101,7 +101,7 @@ letter-spacing: -0.427px;
     letter-spacing: -0.464px;
   }
 
- .home-navbar-login-mobile {
+ .home-navbar-signin-mobile {
     color:#111827;
     font-size: 14.7px;
     line-height: 150%;

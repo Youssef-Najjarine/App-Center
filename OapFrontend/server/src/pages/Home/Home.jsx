@@ -3,17 +3,19 @@ import { Link } from "react-router-dom";
 import introBg from "@assets/logo.jpeg";
 import Carousel from "@home/HomeCarousel/HomeCarousel";
 import FeatureHighlight from "@home/FeatureHighlight/FeatureHighlight";
-import ProcessingModal from "@pages/ProcessingModal/ProcessingModal";
+import { useAuthUser } from "@context/AuthUserContext";
 import "./Home.css";
 
 const Home = () => {
+  const { user } = useAuthUser();
+  const isSignedIn = !!user;
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
   return (
     <>
       <div
-        className="home-background"
+        className={`home-background ${isSignedIn ? "signed-in" : "signed-out"}`}
         style={{ backgroundImage: `url(${introBg})` }}
       >
         <div className="overlay"></div>
@@ -44,7 +46,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-        {/* <ProcessingModal/> */}
       <Carousel />
       <FeatureHighlight />
     </>

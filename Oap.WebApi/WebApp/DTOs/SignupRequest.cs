@@ -1,6 +1,6 @@
-﻿namespace WebApp.DTOs
+﻿namespace Oap.WebApp.DTOs
 {
-    public class SignupRequest
+    public class SignUpRequest
     {
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;

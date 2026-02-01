@@ -16,7 +16,7 @@ const VerifyIdentity = () => {
   const location = useLocation();
   const { refresh } = useAuthUser();
   const passedEmail = location.state?.email || '';
-  const { fromLogin, fromForgotPassword } = location.state || {};
+  const { fromSignIn, fromForgotPassword } = location.state || {};
   const [code, setCode] = useState(['', '', '', '']);
   const [activeIndex, setActiveIndex] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
@@ -45,7 +45,7 @@ const VerifyIdentity = () => {
 
   useEffect(() => {
     if (!passedEmail) {
-      navigate('/auth/login');
+      navigate('/auth/sign-in');
     }
   }, [passedEmail, navigate]);
 
@@ -249,7 +249,7 @@ const handleSubmit = async (e) => {
         <h2>Verify your Identity!</h2>
         <div className="verify-identity-already-enter-code-sent-message-div">
           <p className="verify-identity-already-enter-code-sent-message-label">
-            {fromLogin || fromForgotPassword ? "A new verification code has been sent to your email" : "Enter the code sent to your email"}
+            {fromSignIn || fromForgotPassword ? "A new verification code has been sent to your email" : "Enter the code sent to your email"}
           </p>
           <p className="verify-identity-already-enter-code-sent-message-value">
             {maskedEmail}

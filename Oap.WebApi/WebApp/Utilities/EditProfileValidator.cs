@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using WebApp.DTOs;
+using Oap.WebApp.DTOs;
 
-namespace WebApp.Utilities
+namespace Oap.WebApp.Utilities
 {
     public static class EditProfileValidator
     {

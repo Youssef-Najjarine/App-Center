@@ -3,14 +3,6 @@ import ProcessingSpinner from "@assets/processing-spinner.png";
 import "./ProcessingModal.css";
 
 const ProcessingModal = () => {
-    useEffect(() => {
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-        document.body.style.overflow = originalOverflow;
-    };
-    }, []);
-
     const [dots, setDots] = useState("");
     useEffect(() => {
     const interval = setInterval(() => {

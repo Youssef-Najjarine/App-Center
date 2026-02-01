@@ -75,7 +75,7 @@ export const AuthUserProvider = ({ children }) => {
   }, []);
 
   const logout = useCallback(
-    async ({ redirectTo = "/auth/login" } = {}) => {
+    async ({ redirectTo = "/auth/sign-in" } = {}) => {
       setAuthBusy(true);
       setError("");
 

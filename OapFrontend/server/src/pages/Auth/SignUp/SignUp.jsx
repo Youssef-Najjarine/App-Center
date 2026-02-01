@@ -181,7 +181,6 @@ const SignUp = () => {
     setUnverifiedConflictError('');
     setSubmitAttempted(true);
 
-    // Mark all fields as touched so required errors show up after submit
     setTouched({
       firstName: true,
       lastName: true,
@@ -197,7 +196,6 @@ const SignUp = () => {
       return;
     }
 
-    // Send trimmed strings (avoid invisible whitespace issues)
     const trimmedPayload = {
       ...formData,
       firstName: formData.firstName.trim(),
@@ -311,15 +309,12 @@ const SignUp = () => {
     }
   };
 
-  // Only show "Field Missing" label when the error is actually Field Missing
   const showFieldMissing = (fieldName) =>
     shouldShowErrorForField(fieldName) && errors?.[fieldName] === 'Field Missing';
 
-  // Only show username format rule message when it's actually the format error
   const showUsernameRuleError =
     shouldShowErrorForField('username') && errors?.username === USERNAME_RULE_MESSAGE;
 
-  // Only show email invalid when it's actually invalid format (not missing)
   const showEmailInvalid =
     shouldShowErrorForField('email') && errors?.email === 'Invalid email address';
 
@@ -339,11 +334,11 @@ const SignUp = () => {
           </Link>
         </div>
 
-        <h2>Sign up</h2>
+        <h2>Sign Up</h2>
 
         <div className="already-have-account-div">
           <p>Already have an Account?</p>
-          <a href="/auth/login">Login</a>
+          <Link to="/auth/sign-in">Sign In</Link>
         </div>
 
         <form onSubmit={handleSubmit}>

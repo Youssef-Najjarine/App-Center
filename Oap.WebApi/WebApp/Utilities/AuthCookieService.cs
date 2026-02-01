@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.Json;
 
-namespace WebApp.Utilities
+namespace Oap.WebApp.Utilities
 {
     public class UserTokenInfo
     {

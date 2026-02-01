@@ -1,6 +1,6 @@
-﻿namespace WebApp.DTOs;
+﻿namespace Oap.WebApp.DTOs;
 
-public class LoginRequest
+public class SignInRequest
 {
     public string EmailUsername { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;

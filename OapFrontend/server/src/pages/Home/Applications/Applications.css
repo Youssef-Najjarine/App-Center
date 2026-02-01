@@ -2,6 +2,10 @@
   padding: 162px 20px 48px 20px;
 }
 
+#applications.signed-in {
+  padding-top: 148.72px;
+}
+
 .applications-title-div {
     display: flex;
     flex-direction: column;
@@ -196,6 +200,10 @@ font-weight: 700;
     padding: 172.19px 30px 30px 30px;
   }
 
+  #applications.signed-in {
+    padding-top: 180.75px;
+  }
+
   .applications-title {
     font-size: 35.7px;
     line-height: 46.41px;
@@ -312,9 +320,14 @@ font-weight: 700;
     line-height: 22.05px;
   }
 }
+
 @media screen and (min-width: 1440px) {
   #applications {
     padding: 168.99px 60px 60px 60px;
+  }
+
+  #applications.signed-in {
+    padding-top: 164.6px;
   }
 
   .applications-title {

@@ -23,8 +23,8 @@ const HomeNavbarDesktop = () => {
                 <Link to="/blogs" className="home-navbar-link-desktop">Blogs</Link>
             </div>
             <div className="home-navbar-actions-desktop">
-                <Link to="/auth/login" className="home-navbar-login-desktop">Login</Link>
-                <Link to="/auth/sign-up" className="home-navbar-signup-desktop">Sign up</Link>
+                <Link to="/auth/sign-in" className="home-navbar-signin-desktop">Sign In</Link>
+                <Link to="/auth/sign-up" className="home-navbar-signup-desktop">Sign Up</Link>
             </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using WebApp.DTOs;
+using Oap.WebApp.DTOs;
 
-namespace WebApp.Utilities
+namespace Oap.WebApp.Utilities
 {
     public static class SignUpValidator
     {
@@ -11,7 +11,7 @@ namespace WebApp.Utilities
         private static readonly Regex NumberRegex = new(@"[0-9]", RegexOptions.Compiled);
         private static readonly Regex SpecialCharRegex = new(@"[!@#$%^&*(),.?""':{}|<>]", RegexOptions.Compiled);
 
-        public static Dictionary<string, string> Validate(SignupRequest request)
+        public static Dictionary<string, string> Validate(SignUpRequest request)
         {
             var errors = new Dictionary<string, string>();
 

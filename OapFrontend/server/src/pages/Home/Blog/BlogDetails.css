@@ -2,6 +2,10 @@
   padding: 178px 0 48px 0;
 }
 
+#blog-details.signed-in {
+  padding-top: 164.72px;
+}
+
 .blog-details-main {
   padding: 0 20px 64px 20px;
 }
@@ -171,6 +175,10 @@
     padding: 172.19px 0 52.5px 0;
   }
 
+  #blog-details.signed-in {
+    padding-top: 180.75px;
+  }
+
   .blog-details-main {
     padding: 0 30px 48px 30px;
   }
@@ -286,6 +294,10 @@
 @media screen and (min-width: 1440px) {
   #blog-details {
     padding: 168.99px 0 60px 0;
+  }
+
+  #blog-details.signed-in {
+    padding-top: 164.6px;
   }
 
   .blog-details-main {

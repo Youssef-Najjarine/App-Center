@@ -1,6 +1,6 @@
-﻿using WebApp.Models;
+﻿using Oap.WebApp.Models;
 
-namespace WebApp.Interfaces
+namespace Oap.WebApp.Interfaces
 {
     public interface IUserAccount
     {

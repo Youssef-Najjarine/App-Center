@@ -3,14 +3,19 @@ import Carousel from "@home/HomeCarousel/HomeCarousel";
 import ImageThumb1 from "@assets/AboutUs/aboutus_pc1.png";
 import ImageThumb2 from "@assets/AboutUs/aboutus_pc2.png";
 import ImageThumb3 from "@assets/AboutUs/aboutus_pc3.png";
+import { useAuthUser } from "@context/AuthUserContext";
 import "./AboutUs.css";
 
 const AboutUs = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
+
+  const { user } = useAuthUser();
+  const isSignedIn = !!user;
+
   return (
-    <section id="about-us">
+    <section id="about-us" className={`${isSignedIn ? "signed-in" : "signed-out"}`}>
       <div className="about-part1">
         <div className="about-image">
           <img src={ImageThumb1} alt="Why Open App Partner?" />

@@ -16,8 +16,8 @@ const HomeNavbarMobile = () => {
           </Link>
         </div>
         <div className="home-navbar-actions-mobile">
-          <Link to="/auth/login" className="home-navbar-login-mobile">Login</Link>
-          <Link to="/auth/sign-up" className="home-navbar-signup-mobile">Sign up</Link>
+          <Link to="/auth/sign-in" className="home-navbar-signin-mobile">Sign In</Link>
+          <Link to="/auth/sign-up" className="home-navbar-signup-mobile">Sign Up</Link>
         </div>
       </div>
       

@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 using System.Text;
-using WebApp.DTOs;
-using WebApp.Interfaces;
-using WebApp.Services;
-using WebApp.Utilities;
+using Oap.WebApp.DTOs;
+using Oap.WebApp.Interfaces;
+using Oap.WebApp.Services;
+using Oap.WebApp.Utilities;
 
-namespace WebApp.Controllers
+namespace Oap.WebApp.Controllers
 {
     [ApiController]
     [Route("api")]
@@ -85,7 +85,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPost("sign-up")]
-        public async Task<IActionResult> Signup([FromBody] SignupRequest request)
+        public async Task<IActionResult> Signup([FromBody] SignUpRequest request)
         {
             var validationErrors = SignUpValidator.Validate(request);
             if (validationErrors.Count > 0)
@@ -114,7 +114,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPost("sign-in")]
-        public async Task<IActionResult> Signin([FromBody] LoginRequest request)
+        public async Task<IActionResult> Signin([FromBody] SignInRequest request)
         {
             if (string.IsNullOrWhiteSpace(request.EmailUsername) || string.IsNullOrWhiteSpace(request.Password))
                 return BadRequest(new { error = "Email/Username and password are required" });

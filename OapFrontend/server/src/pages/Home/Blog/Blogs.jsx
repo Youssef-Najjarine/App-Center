@@ -9,14 +9,19 @@ import blogImg5 from "@assets/Blogs/5.png";
 import blogImg6 from "@assets/Blogs/6.png";
 import blogImg7 from "@assets/Blogs/7.png";
 import BlogCarousel from "./BlogsCarousel/BlogsCarousel";
+import { useAuthUser } from "@context/AuthUserContext";
 import "./Blogs.css";
 
 const Blogs = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
+
+  const { user } = useAuthUser();
+  const isSignedIn = !!user;  
+
   return (
-    <section id="blogs">
+    <section id="blogs" className={`${isSignedIn ? "signed-in" : "signed-out"}`}>
       <div className="blogs-main">
         <div className="blogs-title-div">
             <h2 className="blogs-title">Blogs</h2>

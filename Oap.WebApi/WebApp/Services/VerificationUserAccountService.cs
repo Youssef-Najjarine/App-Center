@@ -1,11 +1,11 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
-using WebApp.DTOs;
-using WebApp.Interfaces;
-using WebApp.Utilities;
+using Oap.WebApp.DTOs;
+using Oap.WebApp.Interfaces;
+using Oap.WebApp.Utilities;
 
-namespace WebApp.Services
+namespace Oap.WebApp.Services
 {
     public class VerificationUserAccountService : IVerificationUserAccount
     {

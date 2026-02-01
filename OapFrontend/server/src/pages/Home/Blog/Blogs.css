@@ -2,6 +2,10 @@
   padding: 170px 0 20px 0;
 }
 
+#blogs.signed-in {
+  padding-top: 156.72px;
+}
+
 .blogs-main {
   padding: 0 20px 48px 20px;
 }
@@ -14,7 +18,6 @@
   margin: 0 0 40px 0;
 }
 
-/* Blog Title || Blog Header || Blog Serch */
 .blogs-title {
   color: #141522;
   font-size: 32.867px;
@@ -74,9 +77,7 @@
   height: auto;
   cursor: pointer;
 }
-/* Blog Title || Blog Header || Blog Serch */
 
-/* Blogs  */
 .blogs-cards {
   width: 100%;
   display: flex;
@@ -177,9 +178,7 @@
   border: none;
   cursor: pointer;
 }
-/* Blogs  */
 
- /* Unique Blog Card */
  .blogs-unique {
   margin: 48px 0 0 0;
       display: flex;
@@ -278,7 +277,7 @@
   border: none;
   cursor: pointer;
 }
-/* Unique Blog Card */
+
 .blogs-load-more-div {
   width: 100%;
   text-align: center;
@@ -295,16 +294,21 @@
   border: none;
   cursor: pointer;
 }
+
 @media screen and (min-width: 768px) {
   #blogs {
     padding: 172px 0 52.5px 0;
+  }
+
+  #blogs.signed-in {
+    padding-top: 180.75px;
   }
 
   .blogs-main {
     padding: 0 30px 68px 30px;
   }
 
-    /* Blog Title || Blog Header || Blog Serch */
+  
   .blogs-title {
     font-size: 35.7px;
     line-height: 46.41px;
@@ -343,9 +347,7 @@
   .blogs-search-icon {
     width: 21px;
   }
-  /* Blog Title || Blog Header || Blog Serch */
 
-  /* Blogs  */
   .blogs-card {
     width: 708px;
     flex-direction: row;
@@ -405,7 +407,7 @@
     font-size: 14.7px;
     line-height: 22.05px;
   }
-  /* Blogs  */
+
   .blogs-load-more {
     border-radius: 10.5px;
     padding: 12.6px 25.2px;
@@ -413,7 +415,7 @@
     line-height: 22.05px;
   }
 
-   /* Unique Blog Card */
+
   .blogs-unique {
     margin: 68px 0 0 0;
   }
@@ -474,7 +476,7 @@
     line-height: 22.05px;
 
   }
-  /* Unique Blog Card */
+
 }
 
 @media screen and (min-width: 1440px) {
@@ -482,11 +484,14 @@
     padding: 169px 0 60px 60;
   }
 
+  #blogs.signed-in {
+    padding-top: 164.6px;
+  }
+
   .blogs-main {
     padding: 0 60px 82px 60px;
   }
-
-    /* Blog Title || Blog Header || Blog Serch */
+   
   .blogs-title {
     font-size: 40.8px;
     line-height: 53.04px;
@@ -525,9 +530,7 @@
   .blogs-search-icon {
     width: 24px;
   }
-  /* Blog Title || Blog Header || Blog Serch */
 
-    /* Blogs  */
   .blogs-card {
     width: 1320px;
     padding: 14.4px;
@@ -584,7 +587,7 @@
     font-size: 16.8px;
     line-height: 25.2px;
   }
-  /* Blogs  */
+
   .blogs-load-more {
     border-radius: 12px;
     padding: 14.4px 28.8px;
@@ -592,7 +595,6 @@
     line-height: 25.2px;
   }
 
-  /* Unique Blog Card */
   .blogs-unique {
     margin: 82px 0 0 0;
   }
@@ -660,5 +662,4 @@
     line-height: 25.2px;
 
   }
-  /* Unique Blog Card */
 }

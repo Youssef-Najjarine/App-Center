@@ -1,6 +1,6 @@
-﻿using WebApp.DTOs;
+﻿using Oap.WebApp.DTOs;
 
-namespace WebApp.Interfaces
+namespace Oap.WebApp.Interfaces
 {
     public interface IVerificationUserAccount
     {

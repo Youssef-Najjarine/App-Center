@@ -1,4 +1,4 @@
-﻿namespace WebApp.Models
+﻿namespace Oap.WebApp.Models
 {
     public class UserAccount
     {

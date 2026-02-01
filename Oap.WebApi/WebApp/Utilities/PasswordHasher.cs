@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System.Security.Cryptography;
 
-namespace WebApp.Utilities
+namespace Oap.WebApp.Utilities
 {
     public static class PasswordHasher
     {
@@ -23,7 +23,6 @@ namespace WebApp.Utilities
             return $"{hashed}:{Convert.ToBase64String(salt)}";
         }
 
-        // For login later (verify)
         public static bool VerifyPassword(string password, string storedHash)
         {
             var parts = storedHash.Split(':');

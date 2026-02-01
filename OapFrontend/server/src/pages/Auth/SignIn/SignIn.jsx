@@ -11,9 +11,9 @@ import TermsOfServiceModal from "@pages/TermsOfServiceModal/TermsOfServiceModal"
 import PrivacyPolicyModal from '@pages/PrivacyPolicyModal/PrivacyPolicyModal';
 import ProcessingModal from "@pages/ProcessingModal/ProcessingModal";
 import { useAuthUser } from "@context/AuthUserContext";
-import './Login.css';
+import './SignIn.css';
 
-const Login = () => {
+const SignIn = () => {
   const [formData, setFormData] = useState({
     emailUsername: '',
     password: '',
@@ -78,8 +78,6 @@ const Login = () => {
       return;
     }
 
-    console.log('Form submitted:', formData);
-
     try {
       setShowProcessingModal(true);
 
@@ -108,16 +106,15 @@ const Login = () => {
         navigate('/auth/verify-identity', {
           state: {
             email: data.email,
-            fromLogin: true,
+            fromSignIn: true,
             reason: data.reason
           }
         });
         return;
       }
 
-      // Invalid credentials
       if (response.status === 401 || data.error === 'Invalid credentials') {
-        setErrorBoxMessage('Error - Invalid sign in credentials.');
+        setErrorBoxMessage('Error - Invalid Sign In credentials.');
       } else {
         setErrorBoxMessage('Error - Unable to connect to the server.');
       }
@@ -125,7 +122,7 @@ const Login = () => {
     } catch (err) {
       setErrorBoxMessage('Error - Unable to connect to the server.');
       setShowErrorBox(true);
-      console.error('Login error:', err);
+      console.error('Sign In error:', err);
     } finally {
       setShowProcessingModal(false);
     }
@@ -205,7 +202,7 @@ const Login = () => {
               </label>
             </div>
           </div>
-          <div className='forgot-password-login-div'>
+          <div className='forgot-password-signin-div'>
             <Link to="/auth/forgot-password" className="sign-in-forgot-password-link">
               <p className='forgot-password'>
                 Forgot Password?
@@ -261,4 +258,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignIn;

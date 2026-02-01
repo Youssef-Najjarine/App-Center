@@ -1,7 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Data;
 
-namespace WebApp.Services
+namespace Oap.WebApp.Services
 {
     public class TrustedDeviceService
     {

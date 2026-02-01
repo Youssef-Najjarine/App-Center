@@ -163,21 +163,17 @@ const ChangePasswordModal = ({ onClose }) => {
 
       const data = await safeJson(response);
 
-      // If server returned HTML / not JSON (proxy error, crash, etc.)
       if (!data) {
         setServerError("Error - Unable to connect to the server.");
         return;
       }
 
-      // Auth expired -> send them back to login
       if (response.status === 401) {
-        setServerError("Error - Your session expired. Please sign in again.");
+        setServerError("Error - Your session expired. Please Sign In again.");
         return;
       }
 
-      // Not OK -> show backend message
       if (!response.ok || !data.success) {
-        // Your controller returns: { error = "..." }
         setServerError(data.error || "Error - Unable to change password.");
         return;
       }

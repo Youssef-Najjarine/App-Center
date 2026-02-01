@@ -58,7 +58,7 @@ const TermsOfServiceModal = ({ modalOpenState, onClose }) => {
               <ul className="terms-of-service-row-unordered-left-padded-list">
                 <li className="terms-of-service-text-small">You must provide accurate and complete information</li>
                 <li className="terms-of-service-text-small">You are responsible for maintaining account security</li>
-                <li className="terms-of-service-text-small">You must not share your login credentials</li>
+                <li className="terms-of-service-text-small">You must not share your sign in credentials</li>
                 <li className="terms-of-service-text-small">We reserve the right to suspend or terminate accounts for misuse</li>
               </ul>
             </div>            

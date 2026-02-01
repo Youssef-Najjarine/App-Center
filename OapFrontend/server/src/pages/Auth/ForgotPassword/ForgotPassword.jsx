@@ -154,7 +154,7 @@ const ForgotPassword = () => {
 
         <div className="forget-password-already-have-account-div">
           <p>Already have an Account?</p>
-          <Link to="/auth/login">Login</Link>
+          <Link to="/auth/sign-in">Sign In</Link>
         </div>
 
         <form onSubmit={handleSubmit}>

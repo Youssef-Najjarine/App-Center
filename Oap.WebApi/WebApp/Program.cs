@@ -1,6 +1,6 @@
-using WebApp.Interfaces;
-using WebApp.Services;
-using WebApp.Utilities;
+using Oap.WebApp.Interfaces;
+using Oap.WebApp.Services;
+using Oap.WebApp.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +22,8 @@ builder.Services.AddScoped<IUserAccount, UserAccountService>();
 builder.Services.AddScoped<IVerificationUserAccount, VerificationUserAccountService>();
 builder.Services.AddScoped<AuthCookieService>();
 builder.Services.AddScoped<AuthCookieIssuerService>();
+builder.Services.AddScoped<IUserApplication, UserApplicationService>();
+
 builder.Services.AddSingleton<EmailService>();
 
 var app = builder.Build();
@@ -34,7 +36,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 
-app.UseMiddleware<WebApp.Middleware.AuthTokenMiddleware>();
+app.UseMiddleware<Oap.WebApp.Middleware.AuthTokenMiddleware>();
 
 app.MapControllers();
 app.Run();

@@ -18,7 +18,7 @@ import CardsPayments from "@pages/Profile/CardsPayments/CardsPayments";
 import EarningsPayouts from "@pages/Profile/Earnings&Payouts/Earnings&Payouts";
 import ManagePayoutMethods from "@pages/Profile/Earnings&Payouts/ManagePayoutMethods/ManagePayoutMethods";
 
-import Login from "@pages/Auth/Login/Login";
+import SignIn from "@pages/Auth/SignIn/SignIn";
 import SignUp from "@pages/Auth/SignUp/SignUp";
 import VerifyIdentity from "@pages/Auth/VerifyIdentity/VerifyIdentity";
 import ForgotPassword from "@pages/Auth/ForgotPassword/ForgotPassword";
@@ -63,7 +63,7 @@ const App = () => {
           </Route>
 
           <Route path="/auth" element={<AuthLayout />}>
-            <Route path="login" element={<Login />} />
+            <Route path="sign-in" element={<SignIn />} />
             <Route path="sign-up" element={<SignUp />} />
             <Route path="verify-identity" element={<VerifyIdentity />} />
             <Route path="forgot-password" element={<ForgotPassword />} />

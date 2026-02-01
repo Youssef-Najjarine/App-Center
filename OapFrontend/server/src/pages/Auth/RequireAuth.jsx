@@ -13,7 +13,7 @@ export default function RequireAuth() {
     if (loading) return;
     if (!user) {
       const from = location.pathname + location.search;
-      navigate("/auth/login", { replace: true, state: { from } });
+      navigate("/auth/sign-in", { replace: true, state: { from } });
     }
   }, [user, loading, navigate, location.pathname, location.search]);
 
