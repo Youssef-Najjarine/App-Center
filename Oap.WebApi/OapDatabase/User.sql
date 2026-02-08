@@ -12,4 +12,4 @@
 	[FirstName] nvarchar(100) not null,
 	[LastName] nvarchar(100) not null,
 	[BioText] nvarchar(max) null
-)
+);

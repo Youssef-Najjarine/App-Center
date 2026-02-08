@@ -30,9 +30,7 @@ const UserProfile = () => {
       if (typeof refresh === "function") {
         refresh();
       }
-
       navigate(location.pathname, { replace: true, state: {} });
-
       const timer = setTimeout(() => setShowSuccess(false), 4000);
       return () => clearTimeout(timer);
     }
@@ -83,7 +81,14 @@ const UserProfile = () => {
         </div>
 
         <div className='member-profile-bio-info-profilePic'>
-          <img src={profilePic} />
+          <img
+            src={user.profilePictureUrl || profilePic}
+            alt="Profile"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = profilePic;
+            }}
+          />
         </div>
 
         <div className='member-profile-bio-info-grid'>

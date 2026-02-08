@@ -24,6 +24,13 @@ const ProfileNavbarMobile = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const profileWrapperRef = useRef(null);
 
+  const [navPhotoSrc, setNavPhotoSrc] = useState(profilePic);
+
+  useEffect(() => {
+    if (!user) return;
+    setNavPhotoSrc(user.profilePictureUrl || profilePic);
+  }, [user]);
+
   const fullName = useMemo(() => {
     if (!user) return '';
     return `${user.firstName || ''} ${user.lastName || ''}`.trim();
@@ -90,8 +97,15 @@ const ProfileNavbarMobile = () => {
               }`}
               onClick={toggleDropdown}
             >
-              <img src={profilePic} alt="member-icon" className='member-nav-mobile-profile-picture' />
-
+              <img
+                src={navPhotoSrc}
+                alt="member-icon"
+                className="member-nav-mobile-profile-picture"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  setNavPhotoSrc(profilePic);
+                }}
+              />
               <div>
                 <p className='member-nav-mobile-name'>
                   {loading ? 'Loading...' : (fullName || user?.username || 'User')}

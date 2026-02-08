@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Security.Cryptography;
-using System.Text;
 using Oap.WebApp.DTOs;
 using Oap.WebApp.Interfaces;
 using Oap.WebApp.Services;
 using Oap.WebApp.Utilities;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Oap.WebApp.Controllers
 {
@@ -397,6 +400,103 @@ namespace Oap.WebApp.Controllers
             }
         }
 
+        private const long MaxUploadBytes = 25L * 1024 * 1024; // 25 MiB
+        [HttpPost("save-profile-photo")]
+        [RequestSizeLimit(MaxUploadBytes)]
+        public async Task<IActionResult> UploadProfilePhoto([FromForm] IFormFile photo)
+        {
+            try
+            {
+                // 1) Auth
+                var token = Request.Cookies["auth_token"];
+                if (string.IsNullOrWhiteSpace(token))
+                    return Unauthorized(new { error = "Not authenticated" });
+
+                UserTokenInfo? tokenInfo;
+                try { tokenInfo = _authCookieService.ValidateToken(token); }
+                catch { return Unauthorized(new { error = "Invalid auth token" }); }
+
+                if (tokenInfo == null || tokenInfo.ExpiresUtc <= DateTime.UtcNow)
+                    return Unauthorized(new { error = "Auth token expired" });
+
+                var user = await _userAccountService.GetUserByIdAsync(tokenInfo.UserId);
+                if (user == null)
+                    return Unauthorized(new { error = "User not found" });
+
+                if (photo == null || photo.Length == 0)
+                    return BadRequest(new { error = "No file uploaded." });
+
+                if (photo.Length > MaxUploadBytes)
+                    return BadRequest(new { error = "File size must be 25 MB or less." });
+
+                if (string.IsNullOrWhiteSpace(photo.ContentType) || !photo.ContentType.StartsWith("image/"))
+                    return BadRequest(new { error = "Please upload an image file." });
+
+                using var inputStream = photo.OpenReadStream();
+                using var image = await Image.LoadAsync(inputStream);
+
+                image.Mutate(x =>
+                    x.Resize(new ResizeOptions
+                    {
+                        Size = new Size(300, 300),
+                        Mode = ResizeMode.Crop,
+                        Position = AnchorPositionMode.Center
+                    })
+                );
+
+                // 5) Encode (JPEG is simplest). You can also store PNG, but JPEG is smaller.
+                await using var outStream = new MemoryStream();
+                var encoder = new JpegEncoder { Quality = 85 };
+                await image.SaveAsync(outStream, encoder);
+
+                var bytes = outStream.ToArray();
+                var contentType = "image/jpeg";
+
+                // 6) Persist (you’ll implement these service methods)
+                await _userAccountService.UpsertUserProfilePhotoAsync(user.Id, contentType, bytes);
+
+                // 7) Return a stable URL your UI can use
+                return Ok(new
+                {
+                    success = true,
+                    profilePictureUrl = "/api/get-profile-photo"
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return StatusCode(500, new { error = "Server error while uploading profile photo." });
+            }
+        }
+
+        [HttpGet("get-profile-photo")]
+        public async Task<IActionResult> GetMyProfilePhoto()
+        {
+            try
+            {
+                // Auth (same pattern)
+                var token = Request.Cookies["auth_token"];
+                if (string.IsNullOrWhiteSpace(token))
+                    return Unauthorized(new { error = "Not authenticated" });
+
+                UserTokenInfo? tokenInfo;
+                try { tokenInfo = _authCookieService.ValidateToken(token); }
+                catch { return Unauthorized(new { error = "Invalid auth token" }); }
+
+                if (tokenInfo == null || tokenInfo.ExpiresUtc <= DateTime.UtcNow)
+                    return Unauthorized(new { error = "Auth token expired" });
+
+                var file = await _userAccountService.GetUserProfilePhotoAsync(tokenInfo.UserId);
+                if (file == null) return NotFound();
+                
+                return File(file.FileContents, file.ContentType);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return StatusCode(500);
+            }
+        }
         [HttpPost("logout")]
         public IActionResult Logout()
         {

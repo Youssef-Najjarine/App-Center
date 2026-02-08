@@ -1,9 +1,14 @@
+using Microsoft.AspNetCore.Http.Features;
 using Oap.WebApp.Interfaces;
 using Oap.WebApp.Services;
 using Oap.WebApp.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 25L * 1024 * 1024;
+});
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 

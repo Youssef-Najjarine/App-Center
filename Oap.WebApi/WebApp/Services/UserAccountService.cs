@@ -493,5 +493,109 @@ namespace Oap.WebApp.Services
             return rows > 0;
         }
 
+        public async Task UpsertUserProfilePhotoAsync(Guid userId, string contentType, byte[] fileContents)
+        {
+            await using var connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync();
+
+            await using var tx = await connection.BeginTransactionAsync();
+
+            try
+            {
+                // 1) Find existing file(s) for this user
+                var existingFileIds = new List<Guid>();
+
+                await using (var findCmd = new SqlCommand(@"
+            SELECT FileId
+            FROM dbo.UserProfileFile
+            WHERE UserId = @UserId
+        ", connection, (SqlTransaction)tx))
+                {
+                    findCmd.Parameters.Add("@UserId", SqlDbType.UniqueIdentifier).Value = userId;
+
+                    await using var reader = await findCmd.ExecuteReaderAsync();
+                    while (await reader.ReadAsync())
+                    {
+                        existingFileIds.Add(reader.GetGuid(0));
+                    }
+                }
+
+                // 2) Delete existing File rows (cascades to dbo.UserProfileFile via FK on FileId)
+                //    (Do this before inserting the new one so we keep one current)
+                foreach (var fileId in existingFileIds)
+                {
+                    await using var deleteFileCmd = new SqlCommand(@"
+                DELETE FROM dbo.[File]
+                WHERE Id = @FileId
+            ", connection, (SqlTransaction)tx);
+
+                    deleteFileCmd.Parameters.Add("@FileId", SqlDbType.UniqueIdentifier).Value = fileId;
+                    await deleteFileCmd.ExecuteNonQueryAsync();
+                }
+
+                // 3) Insert new File row
+                var newFileId = Guid.NewGuid();
+
+                await using (var insertFileCmd = new SqlCommand(@"
+            INSERT INTO dbo.[File] (Id, ContentType, FileContents)
+            VALUES (@Id, @ContentType, @FileContents)
+        ", connection, (SqlTransaction)tx))
+                {
+                    insertFileCmd.Parameters.Add("@Id", SqlDbType.UniqueIdentifier).Value = newFileId;
+                    insertFileCmd.Parameters.Add("@ContentType", SqlDbType.VarChar, 50).Value = contentType;
+                    insertFileCmd.Parameters.Add("@FileContents", SqlDbType.VarBinary, -1).Value = fileContents;
+
+                    await insertFileCmd.ExecuteNonQueryAsync();
+                }
+
+                // 4) Insert mapping row
+                await using (var insertMapCmd = new SqlCommand(@"
+            INSERT INTO dbo.UserProfileFile (UserId, FileId)
+            VALUES (@UserId, @FileId)
+        ", connection, (SqlTransaction)tx))
+                {
+                    insertMapCmd.Parameters.Add("@UserId", SqlDbType.UniqueIdentifier).Value = userId;
+                    insertMapCmd.Parameters.Add("@FileId", SqlDbType.UniqueIdentifier).Value = newFileId;
+
+                    await insertMapCmd.ExecuteNonQueryAsync();
+                }
+
+                await tx.CommitAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                await tx.RollbackAsync();
+                throw; // controller will return 500
+            }
+        }
+
+        public async Task<StoredFile?> GetUserProfilePhotoAsync(Guid userId)
+        {
+            await using var connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync();
+
+            await using var command = new SqlCommand(@"
+        SELECT TOP 1 f.Id, f.ContentType, f.FileContents, f.CreatedAt
+        FROM dbo.UserProfileFile upf
+        INNER JOIN dbo.[File] f ON f.Id = upf.FileId
+        WHERE upf.UserId = @UserId
+        ORDER BY f.CreatedAt DESC
+    ", connection);
+
+            command.Parameters.Add("@UserId", SqlDbType.UniqueIdentifier).Value = userId;
+
+            await using var reader = await command.ExecuteReaderAsync();
+            if (!await reader.ReadAsync()) return null;
+
+            return new StoredFile
+            {
+                Id = reader.GetGuid(0),
+                ContentType = reader.GetString(1),
+                FileContents = (byte[])reader["FileContents"],
+                CreatedAt = reader.GetFieldValue<DateTimeOffset>(3)
+            };
+        }
+
     }
 }

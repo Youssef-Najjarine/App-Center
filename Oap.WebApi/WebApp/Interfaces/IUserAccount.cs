@@ -14,6 +14,8 @@ namespace Oap.WebApp.Interfaces
         Task<bool> AnyOtherUserHasUsernameAsync(Guid userId, string username);
         Task<bool> AnyOtherUserHasEmailAsync(Guid userId, string email);
         Task<bool> UpdateProfileAsync(Guid userId, string firstName, string lastName, string email, string username, string? bio);
+        Task UpsertUserProfilePhotoAsync(Guid userId, string contentType, byte[] fileContents);
+        Task<StoredFile?> GetUserProfilePhotoAsync(Guid userId);
 
     }
 }

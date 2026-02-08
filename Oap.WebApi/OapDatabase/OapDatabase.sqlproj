@@ -63,6 +63,11 @@
     <Build Include="UserVerification.sql" />
     <Build Include="TrustedDevice.sql" />
     <Build Include="PasswordResetToken.sql" />
+    <Build Include="UserApplicationVersion.sql" />
+    <Build Include="TechnologyTag.sql" />
+    <Build Include="File.sql" />
+    <Build Include="UserApplicationVersionFile.sql" />
+    <Build Include="UserProfileFile.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="local.sqlserver.publish.xml" />

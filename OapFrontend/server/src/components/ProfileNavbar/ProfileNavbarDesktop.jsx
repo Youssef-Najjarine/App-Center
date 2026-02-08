@@ -23,6 +23,12 @@ const ProfileNavbarDesktop = () => {
 
   const [showDropdown, setShowDropdown] = useState(false);
   const profileWrapperRef = useRef(null);
+  const [navPhotoSrc, setNavPhotoSrc] = useState(profilePic);
+
+  useEffect(() => {
+    if (!user) return;
+    setNavPhotoSrc(user.profilePictureUrl || profilePic);
+  }, [user]);
 
   const fullName = useMemo(() => {
     if (!user) return '';
@@ -101,7 +107,15 @@ const ProfileNavbarDesktop = () => {
               }`}
               onClick={toggleDropdown}
             >
-              <img src={profilePic} alt="member-icon" className='member-nav-desktop-profile-picture' />
+              <img
+                src={navPhotoSrc}
+                alt="member-icon"
+                className="member-nav-desktop-profile-picture"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  setNavPhotoSrc(profilePic);
+                }}
+              />
 
               <div>
                 <p className='member-nav-desktop-name'>

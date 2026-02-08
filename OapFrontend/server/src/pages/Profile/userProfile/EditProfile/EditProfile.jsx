@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import profilePic from '@assets/placeholder-profile-picture.png';
 import cancelIcon from '@assets/x-circle-icon.svg';
@@ -43,7 +43,10 @@ const EditProfile = () => {
   const [showErrorBox, setShowErrorBox] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  // Prefill once user is loaded
+  const [previewUrl, setPreviewUrl] = useState(profilePic);
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const fileInputRef = useRef(null);
+
   useEffect(() => {
     if (user) {
       setFirstName(user.firstName || "");
@@ -51,10 +54,21 @@ const EditProfile = () => {
       setEmail(user.email || "");
       setUsername(user.username || "");
       setBio(user.bio || "");
+
+      const url = user.profilePictureUrl || profilePic;
+      setPreviewUrl(url);
     }
   }, [user]);
 
-  // Redirect if not authenticated once loading ends
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl && previewUrl.startsWith('blob:')) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
+
   useEffect(() => {
     if (!loading && !user) {
       navigate('/auth/sign-in', { replace: true });
@@ -66,94 +80,113 @@ const EditProfile = () => {
   };
 
   const handleSaveAndRedirect = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    // Client-side validation (keeps your UI behavior)
-    const newErrors = {};
+  // Client-side validation (keeps your UI behavior)
+  const newErrors = {};
 
-    if (!firstName.trim()) newErrors.firstName = 'Field Missing';
-    if (!lastName.trim()) newErrors.lastName = 'Field Missing';
+  if (!firstName.trim()) newErrors.firstName = "Field Missing";
+  if (!lastName.trim()) newErrors.lastName = "Field Missing";
 
-    if (!email.trim()) newErrors.email = 'Field Missing';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) newErrors.email = 'Invalid email';
+  if (!email.trim()) newErrors.email = "Field Missing";
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) newErrors.email = "Invalid email";
 
-    if (!username.trim()) newErrors.username = 'Field Missing';
-    else if (!/^[a-zA-Z0-9._-]{3,15}$/.test(username)) newErrors.username = 'Invalid username';
+  if (!username.trim()) newErrors.username = "Field Missing";
+  else if (!/^[a-zA-Z0-9._-]{3,15}$/.test(username)) newErrors.username = "Invalid username";
 
-    setErrors(newErrors);
+  setErrors(newErrors);
 
-    if (Object.keys(newErrors).length > 0) {
+  if (Object.keys(newErrors).length > 0) {
+    setShowErrorBox(true);
+    return;
+  }
+
+  setShowErrorBox(false);
+  setIsSaving(true);
+
+  try {
+    const response = await fetch("/api/edit-profile", {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        email: email.trim(),
+        username: username.trim(),
+        bio: bio,
+      }),
+    });
+
+    const data = await safeJson(response);
+
+    if (!data) {
+      setErrors({ form: "Error - Unable to connect to the server." });
       setShowErrorBox(true);
       return;
     }
 
-    setShowErrorBox(false);
-    setIsSaving(true);
+    if (response.status === 401) {
+      navigate("/auth/sign-in", { replace: true });
+      return;
+    }
 
-    try {
-      const response = await fetch('/api/edit-profile', {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          firstName: firstName.trim(),
-          lastName: lastName.trim(),
-          email: email.trim(),
-          username: username.trim(),
-          bio: bio
-        })
+    if (!response.ok) {
+      if (data.errors) setErrors(data.errors);
+      else setErrors({ form: data.error || "Unable to update profile." });
+
+      setShowErrorBox(true);
+      return;
+    }
+
+    if (selectedPhoto) {
+      const fd = new FormData();
+      fd.append("photo", selectedPhoto);
+
+      const photoRes = await fetch("/api/save-profile-photo", {
+        method: "POST",
+        credentials: "include",
+        body: fd,
       });
 
-      const data = await safeJson(response);
+      const photoData = await safeJson(photoRes);
 
-      if (!data) {
-        setShowErrorBox(true);
-        setErrors({ form: "Error - Unable to connect to the server." });
+      if (photoRes.status === 401) {
+        navigate("/auth/sign-in", { replace: true });
         return;
       }
 
-      if (response.status === 401) {
-        navigate('/auth/sign-in', { replace: true });
-        return;
-      }
-
-      // Backend validation errors: { errors: { field: message } }
-      if (!response.ok) {
-        if (data.errors) {
-          setErrors(data.errors);
-        } else {
-          setErrors({ form: data.error || "Unable to update profile." });
-        }
+      if (!photoRes.ok) {
+        const msg = photoData?.error || "Unable to upload profile photo.";
+        setErrors((prev) => ({ ...prev, photo: msg, form: msg }));
         setShowErrorBox(true);
         return;
       }
-
-      // Success: refresh shared user + go back
-      if (typeof refresh === "function") {
-        await refresh();
-      }
-
-      navigate('/profile', { state: { updateSuccess: true }, replace: true });
-    } catch (err) {
-      console.error("Update profile error:", err);
-      setErrors({ form: "Error - Unable to connect to the server." });
-      setShowErrorBox(true);
-    } finally {
-      setIsSaving(false);
+      setSelectedPhoto(null);
     }
-  };
 
-  // Processing modal: initial user load OR save in progress
+    if (typeof refresh === "function") {
+      await refresh();
+    }
+
+    navigate("/profile", { state: { updateSuccess: true }, replace: true });
+  } catch (err) {
+    console.error("Update profile error:", err);
+    setErrors({ form: "Error - Unable to connect to the server." });
+    setShowErrorBox(true);
+  } finally {
+    setIsSaving(false);
+  }
+};
+
   if (loading || isSaving) {
     return <ProcessingModal />;
   }
 
-  // If we redirected, avoid rendering
   if (!user) {
     return null;
   }
 
-  // If shared auth context has an error (server down etc.)
   if (error) {
     return (
       <section id='member-edit-profile-bio'>
@@ -194,25 +227,49 @@ const EditProfile = () => {
           </div>
         </div>
 
-        {/* Profile picture stays UI-only for now */}
         <div className='member-edit-profile-bio-info-profilePic'>
           <div className='member-edit-profile-bio-info-profilePic-sub-div'>
             <div className="member-profile-photo-container">
-              <img src={profilePic} className="member-edit-profile-info-photo" alt="Profile" />
+              <img
+                  src={previewUrl}
+                  className="member-edit-profile-info-photo"
+                  alt="Profile"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    setPreviewUrl(profilePic);
+                  }}
+                />
               <button
                 className="member-edit-profile-info-upload-background"
                 type="button"
-                onClick={() => {
-                  // Later: implement upload
-                }}
+                onClick={() => fileInputRef.current?.click()}
               >
                 <img src={uploadPhotoIcon} className="member-edit-profile-info-upload-icon" alt="Upload" />
               </button>
             </div>
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+
+                if (!file.type.startsWith('image/')) {
+                  setErrors(prev => ({ ...prev, photo: 'Please select an image file.' }));
+                  setShowErrorBox(true);
+                  return;
+                }
+
+                setSelectedPhoto(file);
+                setPreviewUrl(URL.createObjectURL(file));
+                setErrors(prev => ({ ...prev, photo: undefined }));
+              }}
+            />            
           </div>
           <div>
             <p className='member-edit-profile-bio-info-upload-photo'>Upload Photo</p>
-            <p className='member-edit-profile-bio-info-photo-size'>300x300 and max 2 MB</p>
           </div>
         </div>
 

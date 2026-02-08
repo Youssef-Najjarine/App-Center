@@ -45,22 +45,22 @@ export const AuthUserProvider = ({ children }) => {
 
       const data = await safeJson(response);
 
-      // server down / proxy HTML / non-json
       if (!data) {
         setUser(null);
         setError("Error - Unable to connect to the server.");
         return null;
       }
 
-      // unauthorized => logged out state (do NOT navigate here)
       if (response.status === 401) {
         setUser(null);
         return null;
       }
 
       if (response.ok && data.success && data.user) {
-        setUser(data.user);
-        return data.user;
+        const profilePictureUrl = `/api/get-profile-photo?v=${Date.now()}`;
+        const nextUser = { ...data.user, profilePictureUrl };
+        setUser(nextUser);
+        return nextUser;
       }
 
       setUser(null);
@@ -73,6 +73,7 @@ export const AuthUserProvider = ({ children }) => {
       return null;
     }
   }, []);
+
 
   const logout = useCallback(
     async ({ redirectTo = "/auth/sign-in" } = {}) => {
