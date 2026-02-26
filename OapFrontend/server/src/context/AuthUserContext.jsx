@@ -25,10 +25,10 @@ const safeJson = async (response) => {
 export const AuthUserProvider = ({ children }) => {
   const navigate = useNavigate();
 
-  const [user, setUser] = useState(null);         // { firstName, lastName, email, username, bio }
-  const [loading, setLoading] = useState(true);   // initial boot ONLY
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [authBusy, setAuthBusy] = useState(false); // logout / auth transitions
+  const [authBusy, setAuthBusy] = useState(false);
 
   const refresh = useCallback(async () => {
     setError("");
@@ -80,7 +80,6 @@ export const AuthUserProvider = ({ children }) => {
       setAuthBusy(true);
       setError("");
 
-      // immediately remove member UI to avoid “half-second member navbar”
       setUser(null);
 
       try {
@@ -103,7 +102,6 @@ export const AuthUserProvider = ({ children }) => {
     [navigate]
   );
 
-  // Boot once
   useEffect(() => {
     const boot = async () => {
       setLoading(true);

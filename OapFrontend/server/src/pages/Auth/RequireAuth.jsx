@@ -1,8 +1,8 @@
-// RequireAuth.jsx
 import React, { useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import ProcessingModal from "@pages/ProcessingModal/ProcessingModal";
 import { useAuthUser } from "@context/AuthUserContext";
+
 
 export default function RequireAuth() {
   const navigate = useNavigate();

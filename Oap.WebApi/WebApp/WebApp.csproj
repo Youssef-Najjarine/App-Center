@@ -8,6 +8,7 @@
 	  <UserSecretsId>8544189d-2dae-487c-8ba4-864b7bc3703c</UserSecretsId>
   </PropertyGroup>
 	<ItemGroup>
+		<PackageReference Include="FFMpegCore" Version="5.4.0" />
 		<PackageReference Include="MailKit" Version="4.14.1" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.3" />

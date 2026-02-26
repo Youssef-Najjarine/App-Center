@@ -502,7 +502,6 @@ namespace Oap.WebApp.Services
 
             try
             {
-                // 1) Find existing file(s) for this user
                 var existingFileIds = new List<Guid>();
 
                 await using (var findCmd = new SqlCommand(@"
@@ -520,8 +519,6 @@ namespace Oap.WebApp.Services
                     }
                 }
 
-                // 2) Delete existing File rows (cascades to dbo.UserProfileFile via FK on FileId)
-                //    (Do this before inserting the new one so we keep one current)
                 foreach (var fileId in existingFileIds)
                 {
                     await using var deleteFileCmd = new SqlCommand(@"
@@ -533,7 +530,6 @@ namespace Oap.WebApp.Services
                     await deleteFileCmd.ExecuteNonQueryAsync();
                 }
 
-                // 3) Insert new File row
                 var newFileId = Guid.NewGuid();
 
                 await using (var insertFileCmd = new SqlCommand(@"
@@ -566,7 +562,7 @@ namespace Oap.WebApp.Services
             {
                 Console.Error.WriteLine(ex);
                 await tx.RollbackAsync();
-                throw; // controller will return 500
+                throw;
             }
         }
 

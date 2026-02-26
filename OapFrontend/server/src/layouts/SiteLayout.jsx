@@ -6,8 +6,6 @@ import HomeNavbarMobile from "@components/HomeNavBar/HomeNavbarMobile";
 import ProfileNavbarDesktop from "@components/ProfileNavbar/ProfileNavbarDesktop";
 import ProfileNavbarMobile from "@components/ProfileNavbar/ProfileNavbarMobile";
 
-import Footer from "@components/Footer/Footer";
-import ContactUs from "@components/ContactUs/ContactUs";
 import ProcessingModal from "@pages/ProcessingModal/ProcessingModal";
 
 import { useAuthUser } from "@context/AuthUserContext";
@@ -34,13 +32,6 @@ const SiteLayout = () => {
       )}
 
       <Outlet />
-
-      {!isSignedIn && (
-        <>
-          <ContactUs />
-          <Footer />
-        </>
-      )}
     </section>
   );
 };

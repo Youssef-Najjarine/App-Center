@@ -191,7 +191,6 @@
   gap: 12.889px;
   grid-template-columns: repeat(auto-fit, 335px);
   align-items: start;
-  justify-content: center;
 }
 
 .profileApp {
@@ -214,6 +213,43 @@
   width: 100%;
   height: 100%;
   border-radius: 6.444px;
+}
+
+.profileApp-image-div {
+  position: relative;
+  overflow: hidden;
+}
+
+.profileApp-image-div.is-loading-media .profileApp-placeholder-img {
+  opacity: 0;
+}
+
+.profileApp-shimmer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    rgba(240, 240, 240, 1) 0%,
+    rgba(225, 225, 225, 1) 35%,
+    rgba(240, 240, 240, 1) 70%
+  );
+  background-size: 200% 100%;
+  animation: profileAppShimmer 1.15s infinite linear;
+}
+
+.profileApp-image-div.is-loading-media .profileApp-video-overlay {
+  opacity: 0.75;
+}
+
+@keyframes profileAppShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 .profileApp-expand-div {
@@ -401,6 +437,10 @@ font-weight: 700;
   line-height: 21.75px;
   letter-spacing: -0.29px;
   margin: 0 0 12.89px 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden; 
 }
 
 .profileApp-app-tech-stack {
@@ -429,6 +469,88 @@ font-weight: 700;
   color: #888 !important;
 }
 
+.profileApps-emptyState {
+  width: 100%;
+  padding: clamp(12px, 2vw, 24px) 0;
+  display: flex;
+  justify-content: center;
+}
+
+.profileApps-emptyState-card {
+  width: 100%;
+  max-width: 520px;
+  border: 1px solid #F5F5F5;
+  background: #FFF;
+  border-radius: 16px;
+  padding: clamp(16px, 3vw, 28px);
+  text-align: center;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
+}
+
+.profileApps-emptyState-icon {
+  width: clamp(44px, 7vw, 64px);
+  height: clamp(44px, 7vw, 64px);
+  margin: 0 auto 12px auto;
+  border-radius: 14px;
+  background: rgba(85, 65, 215, 0.12);
+  color: #5541D7;
+  display: grid;
+  place-items: center;
+  font-size: clamp(22px, 4vw, 30px);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.profileApps-emptyState-title {
+  margin: 0 0 6px 0;
+  color: #141522;
+  font-weight: 700;
+  font-size: clamp(18px, 2.3vw, 22px);
+  line-height: 1.25;
+}
+
+.profileApps-emptyState-subtitle {
+  margin: 0 auto 14px auto;
+  max-width: 46ch;
+  color: rgba(20, 21, 34, 0.75);
+  font-weight: 500;
+  font-size: clamp(13px, 1.8vw, 15px);
+  line-height: 1.5;
+}
+
+.profileApps-emptyState-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: none;
+  cursor: pointer;
+
+  background: #5541D7;
+  color: #FFF;
+  border-radius: 12px;
+
+  padding: clamp(10px, 1.5vw, 12px) clamp(14px, 2.2vw, 18px);
+  font-weight: 600;
+  font-size: clamp(13px, 1.9vw, 14px);
+  line-height: 1.2;
+
+  transition: transform 0.08s ease, opacity 0.12s ease;
+}
+
+.profileApps-emptyState-cta img {
+  width: 18px;
+  height: 18px;
+}
+
+.profileApps-emptyState-cta:hover {
+  opacity: 0.95;
+}
+
+.profileApps-emptyState-cta:active {
+  transform: translateY(1px);
+}
+
 .profile-applications-load-more-div {
   width: 100%;
   text-align: center;
@@ -447,6 +569,14 @@ font-weight: 700;
   border: none;
   cursor: pointer;
 }
+
+@media (max-width: 420px) {
+  .profileApps-emptyState-card {
+    border-radius: 14px;
+    padding: 16px;
+  }
+}
+
 @media screen and (min-width: 768px) {
   #profile-applications {
     padding: 148.75px 20px 48px 20px;
@@ -985,6 +1115,7 @@ font-weight: 700;
     line-height: 27px;
     letter-spacing: -0.36px;
     margin: 0 0 16px 0;
+    -webkit-line-clamp: 3;
   }
 
   .profileApp-app-tech-stack {

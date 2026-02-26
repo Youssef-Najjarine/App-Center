@@ -5,6 +5,9 @@ import applicationImg1 from "@assets/Applications/applicationImg-1.png";
 import applicationImg2 from "@assets/Applications/applicationImg-2.png";
 import githubIcon from "@assets/github-icon.png";
 import { useAuthUser } from "@context/AuthUserContext";
+import ContactUs from "@components/ContactUs/ContactUs";
+import Footer from "@components/Footer/Footer";
+
 import "./Applications.css";
 
 const HomeApplications = () => {
@@ -153,97 +156,101 @@ const HomeApplications = () => {
   };
 
   return (
-    <section id="applications" className={`${isSignedIn ? "signed-in" : "signed-out"}`}>
-      <div className="applications-title-div">
-        <h2 className="applications-title">Applications</h2>
-        <h3 className="applications-sub-header">
-          Explore the best applications in world available to own.
-        </h3>
-        <div className="applications-search-div">
-          <input className="applications-search" placeholder="Search..." />
-          <img src={searchIcon} alt="Applications Search" className="applications-search-icon" />
+    <>
+      <section id="applications" className={`${isSignedIn ? "signed-in" : "signed-out"}`}>
+        <div className="applications-title-div">
+          <h2 className="applications-title">Applications</h2>
+          <h3 className="applications-sub-header">
+            Explore the best applications in world available to own.
+          </h3>
+          <div className="applications-search-div">
+            <input className="applications-search" placeholder="Search..." />
+            <img src={searchIcon} alt="Applications Search" className="applications-search-icon" />
+          </div>
         </div>
-      </div>
 
-      <div className="applications-grid">
-        {visibleApps.map((app) => {
-          const isExpanded = expandedTechStacks[app.id];
-          const visibleTech = isExpanded ? app.tech : app.tech.slice(0, 3);
-          const remaining = app.tech.length - 3;
+        <div className="applications-grid">
+          {visibleApps.map((app) => {
+            const isExpanded = expandedTechStacks[app.id];
+            const visibleTech = isExpanded ? app.tech : app.tech.slice(0, 3);
+            const remaining = app.tech.length - 3;
 
-          return (
-            <div
-              className="homeApp"
-              key={app.id}
-              onClick={(e) => {
-                const target = e.target;
-                const isLink = target.closest("a");
-                const isToggle = target.classList.contains("expand-tech") || target.classList.contains("collapse-tech");
-                if (!isLink && !isToggle) {
-                  openModalWithApp(app);
-                }
-              }}
-            >
-              <div className="homeApp-image-div">
-                <img src={app.img} alt={app.title} />
-              </div>
-              <div className="homeApp-gitHub-div">
-                <div>
-                  <a href={app.github} target="_blank" rel="noopener noreferrer">
-                    <img src={githubIcon} alt="GitHub icon" />
-                  </a>
+            return (
+              <div
+                className="homeApp"
+                key={app.id}
+                onClick={(e) => {
+                  const target = e.target;
+                  const isLink = target.closest("a");
+                  const isToggle = target.classList.contains("expand-tech") || target.classList.contains("collapse-tech");
+                  if (!isLink && !isToggle) {
+                    openModalWithApp(app);
+                  }
+                }}
+              >
+                <div className="homeApp-image-div">
+                  <img src={app.img} alt={app.title} />
                 </div>
-                <div className="homeApp-github-anchor-div">
-                  <a href={app.github} target="_blank" rel="noopener noreferrer">
-                    {app.github}
-                  </a>
+                <div className="homeApp-gitHub-div">
+                  <div>
+                    <a href={app.github} target="_blank" rel="noopener noreferrer">
+                      <img src={githubIcon} alt="GitHub icon" />
+                    </a>
+                  </div>
+                  <div className="homeApp-github-anchor-div">
+                    <a href={app.github} target="_blank" rel="noopener noreferrer">
+                      {app.github}
+                    </a>
+                  </div>
                 </div>
+                <h6 className="homeApp-app-title">{app.title}</h6>
+                <p className="homeApp-app-description">{app.description}</p>
+                <ul className="homeApp-app-tech-stack">
+                  {visibleTech.map((techItem, index) => (
+                    <li key={`${app.id}-tech-${index}`}>{techItem}</li>
+                  ))}
+                  {!isExpanded && remaining > 0 && (
+                    <li className="expand-tech" onClick={(e) => {
+                      e.stopPropagation();
+                      toggleTechStack(app.id);
+                    }}>
+                      +{remaining}
+                    </li>
+                  )}
+                  {isExpanded && remaining > 0 && (
+                    <li className="collapse-tech" onClick={(e) => {
+                      e.stopPropagation();
+                      toggleTechStack(app.id);
+                    }}>
+                      Show less
+                    </li>
+                  )}
+                </ul>
               </div>
-              <h6 className="homeApp-app-title">{app.title}</h6>
-              <p className="homeApp-app-description">{app.description}</p>
-              <ul className="homeApp-app-tech-stack">
-                {visibleTech.map((techItem, index) => (
-                  <li key={`${app.id}-tech-${index}`}>{techItem}</li>
-                ))}
-                {!isExpanded && remaining > 0 && (
-                  <li className="expand-tech" onClick={(e) => {
-                    e.stopPropagation();
-                    toggleTechStack(app.id);
-                  }}>
-                    +{remaining}
-                  </li>
-                )}
-                {isExpanded && remaining > 0 && (
-                  <li className="collapse-tech" onClick={(e) => {
-                    e.stopPropagation();
-                    toggleTechStack(app.id);
-                  }}>
-                    Show less
-                  </li>
-                )}
-              </ul>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
 
-      <div className="applications-load-more-div">
-        <button
-          className="applications-load-more"
-          onClick={() => setShowAll(!showAll)}
-        >
-          {showAll ? "Show Less" : "Load More"}
-        </button>
-      </div>
+        <div className="applications-load-more-div">
+          <button
+            className="applications-load-more"
+            onClick={() => setShowAll(!showAll)}
+          >
+            {showAll ? "Show Less" : "Load More"}
+          </button>
+        </div>
 
-      {modalOpen && (
-        <ApplicationDetailModal
-          modalOpenState={modalOpen}
-          onClose={closeModal}
-          app={selectedApp}
-        />
-      )}
-    </section>
+        {modalOpen && (
+          <ApplicationDetailModal
+            modalOpenState={modalOpen}
+            onClose={closeModal}
+            app={selectedApp}
+          />
+        )}      
+      </section>
+      <ContactUs />
+      <Footer />
+    </>
   );
 };
 

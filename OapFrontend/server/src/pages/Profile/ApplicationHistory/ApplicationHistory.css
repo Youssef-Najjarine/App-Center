@@ -535,7 +535,7 @@
 .profile-app-history-description {
   max-width: 100%;
   -webkit-line-clamp: 3;
-   display: -webkit-box;
+  display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
   margin: 0 0 12.89px 0;

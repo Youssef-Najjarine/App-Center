@@ -7,10 +7,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<FormOptions>(options =>
 {
-    options.MultipartBodyLengthLimit = 25L * 1024 * 1024;
+    options.MultipartBodyLengthLimit = 4L * 1024 * 1024 * 1024;
+});
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Limits.MaxRequestBodySize = 4L * 1024 * 1024 * 1024;
 });
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
+
+builder.Services.AddMemoryCache();
 
 builder.Services.AddCors(options =>
 {
@@ -22,14 +29,14 @@ builder.Services.AddCors(options =>
               .AllowCredentials();
     });
 });
+
 builder.Services.AddScoped<TrustedDeviceService>();
 builder.Services.AddScoped<IUserAccount, UserAccountService>();
 builder.Services.AddScoped<IVerificationUserAccount, VerificationUserAccountService>();
 builder.Services.AddScoped<AuthCookieService>();
 builder.Services.AddScoped<AuthCookieIssuerService>();
-builder.Services.AddScoped<IUserApplication, UserApplicationService>();
-
 builder.Services.AddSingleton<EmailService>();
+builder.Services.AddScoped<IUserApplication, UserApplicationService>();
 
 var app = builder.Build();
 

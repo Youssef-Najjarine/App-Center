@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import introBg from "@assets/logo.jpeg";
 import Carousel from "@home/HomeCarousel/HomeCarousel";
 import FeatureHighlight from "@home/FeatureHighlight/FeatureHighlight";
+import ContactUs from "@components/ContactUs/ContactUs";
+import Footer from "@components/Footer/Footer";
 import { useAuthUser } from "@context/AuthUserContext";
 import "./Home.css";
 
@@ -48,6 +50,8 @@ const Home = () => {
       </div>
       <Carousel />
       <FeatureHighlight />
+      <ContactUs />
+      <Footer />
     </>
   );
 };
