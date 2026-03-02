@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import ProfileApplicationDetailModal from "@profile/ProfileApplicationDetailModal/ProfileApplicationDetailModal";
 import ProfileUploadEditAppModal from "@profile/ProfileUploadEditAppModal/ProfileUploadEditAppModal";
 import DeleteConfirmationModal from "@pages/DeleteConfirmationModal/DeleteConfirmationModal";
+import ProcessingModal from "@pages/ProcessingModal/ProcessingModal";
 import searchIcon from "@assets/magnifying-glass-icon.svg";
 import githubIcon from "@assets/github-icon.png";
 import expandIcon from "@assets/three-dots-expand-icon.svg";
@@ -13,9 +14,8 @@ import addIcon from "@assets/add-circle-icon.svg";
 import sortIcon from "@assets/sort-by-icon.svg";
 import playIcon from "@assets/purple-filled-play-icon.svg";
 import draftIcon from "@assets/draft-icon.svg";
+import noImageUploadedPlaceholder from "@assets/no-image-uploaded.jpg";
 import "./ProfileApplications.css";
-
-// ─── Helpers ───────────────────────────────────────────────────────────────────
 
 const normalizeCardToUiApp = (apiItem) => {
   const id = apiItem?.userApplicationId ?? apiItem?.UserApplicationId;
@@ -42,12 +42,10 @@ const normalizeCardToUiApp = (apiItem) => {
     thumbnailUrl,
     isVideo,
     isGif,
-    technologies: [],   // populated shortly after by the single bulk-tech fetch
+    technologies: apiItem?.technologies ?? apiItem?.Technologies ?? [],
     raw: { ...apiItem, createdAt },
   };
 };
-
-// ─── Memoised card ─────────────────────────────────────────────────────────────
 
 const TECH_VISIBLE_COUNT = 5;
 
@@ -73,29 +71,32 @@ const ProfileAppCard = React.memo(
     const visibleTech = isExpanded ? techs : techs.slice(0, TECH_VISIBLE_COUNT);
     const remaining = techs.length - TECH_VISIBLE_COUNT;
 
+    const hasThumbnail = !!app.thumbnailUrl;
+    const hasPreview   = !!app.previewUrl;
+
     return (
       <div className="profileApp" onClick={onCardClick} ref={ref}>
         <div className={`profileApp-image-div ${showShimmer ? "is-loading-media" : ""}`}>
           {showShimmer && <div className="profileApp-shimmer" />}
 
           {!canLoadMedia ? (
-            <div className="profileApp-placeholder-img skeleton-media" />
-          ) : app.thumbnailUrl ? (
+            <div className="profileApp-preview-img profileApp-media-slot" />
+          ) : hasThumbnail ? (
             <img
               src={app.thumbnailUrl}
               alt={app.title}
-              className="profileApp-placeholder-img"
+              className="profileApp-preview-img"
               loading="lazy"
               decoding="async"
               onLoad={onImageLoad}
               onError={onImageLoad}
             />
-          ) : app.previewUrl ? (
+          ) : hasPreview ? (
             app.isGif ? (
               <img
                 src={app.previewUrl}
                 alt={app.title}
-                className="profileApp-placeholder-img"
+                className="profileApp-preview-img"
                 loading="lazy"
                 decoding="async"
                 onLoad={onImageLoad}
@@ -104,7 +105,7 @@ const ProfileAppCard = React.memo(
             ) : app.isVideo ? (
               <video
                 src={app.previewUrl}
-                className="profileApp-placeholder-img"
+                className="profileApp-preview-img"
                 muted
                 playsInline
                 preload="none"
@@ -115,7 +116,7 @@ const ProfileAppCard = React.memo(
               <img
                 src={app.previewUrl}
                 alt={app.title}
-                className="profileApp-placeholder-img"
+                className="profileApp-preview-img"
                 loading="lazy"
                 decoding="async"
                 onLoad={onImageLoad}
@@ -123,12 +124,13 @@ const ProfileAppCard = React.memo(
               />
             )
           ) : (
-            <div
-              className="profileApp-placeholder-img"
-              style={{ display: "flex", alignItems: "center", justifyContent: "center", background: "#f2f2f2", color: "#555", fontSize: 14 }}
-            >
-              No preview
-            </div>
+            <img
+              src={noImageUploadedPlaceholder}
+              alt="No media uploaded"
+              className="profileApp-preview-img"
+              onLoad={onImageLoad}
+              onError={onImageLoad}
+            />
           )}
 
           {showVideoOverlay && (
@@ -221,8 +223,6 @@ const ProfileAppCard = React.memo(
   })
 );
 
-// ─── Main component ────────────────────────────────────────────────────────────
-
 const ProfileApplications = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -230,7 +230,9 @@ const ProfileApplications = () => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalApp, setModalApp] = useState(null);
-  const [modalSource, setModalSource] = useState("card");
+  const [modalDetail, setModalDetail] = useState(null);
+  const [modalDetailLoading, setModalDetailLoading] = useState(false);
+
   const [showAll, setShowAll] = useState(false);
   const [sortOption, setSortOption] = useState("Latest");
   const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
@@ -239,17 +241,17 @@ const ProfileApplications = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [appToDelete, setAppToDelete] = useState(null);
   const [expandedDropdownId, setExpandedDropdownId] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchInput, setSearchInput] = useState("");
   const [expandedTechStacks, setExpandedTechStacks] = useState({});
 
-  // techMap: versionId (string) → string[]
-  // Kept separate from `applications` so tech arriving async doesn't re-create
-  // the whole apps array — only cards whose tech changed re-render.
+  const [allApps, setAllApps] = useState([]);
   const [techMap, setTechMap] = useState({});
+  const [displayApps, setDisplayApps] = useState([]);
 
-  const [applications, setApplications] = useState([]);
   const [isLoadingApps, setIsLoadingApps] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
   const [appsError, setAppsError] = useState("");
+  const [isSearchMode, setIsSearchMode] = useState(false);
 
   const [mediaLoadedMap, setMediaLoadedMap] = useState({});
   const [shouldLoadMedia, setShouldLoadMedia] = useState({});
@@ -257,6 +259,17 @@ const ProfileApplications = () => {
   const dropdownRefs = useRef({});
   const cardNodesRef = useRef({});
   const observerRef = useRef(null);
+  const searchDebounceRef = useRef(null);
+
+  const allAppsRef = useRef([]);
+  const techMapRef = useRef({});
+  const sortOptionRef = useRef("Latest");
+  const searchInputRef = useRef("");
+
+  useEffect(() => { allAppsRef.current = allApps; }, [allApps]);
+  useEffect(() => { techMapRef.current = techMap; }, [techMap]);
+  useEffect(() => { sortOptionRef.current = sortOption; }, [sortOption]);
+  useEffect(() => { searchInputRef.current = searchInput; }, [searchInput]);
 
   useEffect(() => {
     const handler = (e) => {
@@ -273,155 +286,11 @@ const ProfileApplications = () => {
   const markMediaLoaded = useCallback((appId) => {
     setMediaLoadedMap((prev) => prev[appId] ? prev : { ...prev, [appId]: true });
   }, []);
-
   const handleImageLoad = useCallback((appId) => markMediaLoaded(appId), [markMediaLoaded]);
-
   const toggleTechStack = useCallback((id) => {
     setExpandedTechStacks((prev) => ({ ...prev, [id]: !prev[id] }));
   }, []);
 
-  // ── Fetch ──────────────────────────────────────────────────────────────────
-  //
-  // Two-phase load for maximum perceived speed:
-  //
-  //   Phase 1 — cards endpoint: returns INSTANTLY (text + file IDs only, no ZIPs).
-  //             Cards appear on screen immediately.
-  //
-  //   Phase 2 — bulk-tech endpoint: ONE request for ALL version IDs fired right
-  //             after cards render. Server handles ZIP reads in parallel and
-  //             serves from cache on subsequent visits. Tech tags pop in shortly
-  //             after cards are already visible.
-  //
-  // This is strictly faster than the old approach (N per-card requests) because:
-  //   - Phase 1 is unblocked (no ZIP reads at all)
-  //   - Phase 2 replaces N serial/parallel HTTP round-trips with 1
-
-  const loadMyApps = useCallback(async () => {
-    setIsLoadingApps(true);
-    setAppsError("");
-    setMediaLoadedMap({});
-    setShouldLoadMedia({});
-    setTechMap({});
-    try {
-      // ── Phase 1: cards (instant) ──
-      const res = await fetch("/api/user-application/get-all-user-application-cards", {
-        method: "GET",
-        credentials: "include",
-      });
-      const text = await res.text();
-      let data = null;
-      try { data = text ? JSON.parse(text) : null; } catch { data = null; }
-
-      if (!res.ok) {
-        setAppsError("Error – Unable to load your apps.");
-        setApplications([]);
-        return;
-      }
-      const items = Array.isArray(data?.applications)
-        ? data.applications
-        : Array.isArray(data?.Applications)
-        ? data.Applications
-        : [];
-
-      const normalized = items.map(normalizeCardToUiApp).filter((x) => !!x?.id);
-      setApplications(normalized);
-
-      if (normalized.length === 0) return;
-
-      // ── Phase 2: bulk tech (one request, fires after cards are on screen) ──
-      // Not awaited here — we let cards render first, then tech pops in.
-      const versionIds = normalized
-        .map((a) => a.versionId)
-        .filter(Boolean);
-
-      fetch("/api/user-application/get-bulk-technologies", {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ versionIds }),
-      })
-        .then((r) => r.text())
-        .then((t) => {
-          let td = null;
-          try { td = t ? JSON.parse(t) : null; } catch { return; }
-          const map = td?.technologies ?? td?.Technologies ?? {};
-          if (typeof map === "object" && map !== null) {
-            setTechMap(map);
-          }
-        })
-        .catch(() => { /* tech tags just won't show — non-fatal */ });
-
-    } catch (e) {
-      console.error(e);
-      setAppsError("Error – Unable to connect to the server.");
-      setApplications([]);
-    } finally {
-      setIsLoadingApps(false);
-    }
-  }, []);
-
-  useEffect(() => { loadMyApps(); }, [loadMyApps]);
-
-  // ── Upload close ──
-  const handleCloseUploadModal = useCallback(() => {
-    setShowUploadEditModal(false);
-    setSelectedApp(null);
-    setShowAll(false);
-    setSortOption("Latest");
-    loadMyApps();
-  }, [loadMyApps]);
-
-  // ── Delete ──
-  const handleConfirmDelete = useCallback(async () => {
-    if (!appToDelete) return;
-    try {
-      const res = await fetch(`/api/user-application/delete-user-application/${appToDelete.id}`, {
-        method: "DELETE",
-        credentials: "include",
-      });
-      if (res.ok) setApplications((prev) => prev.filter((a) => a.id !== appToDelete.id));
-    } catch (e) { console.error(e); }
-    finally { setShowDeleteModal(false); setAppToDelete(null); }
-  }, [appToDelete]);
-
-  // ── Derived lists ──
-  const sortedApplications = useMemo(() => {
-    const arr = [...(applications || [])];
-    if (sortOption === "Latest") {
-      arr.sort((a, b) => {
-        const ad = a?.raw?.createdAt ? new Date(a.raw.createdAt).getTime() : 0;
-        const bd = b?.raw?.createdAt ? new Date(b.raw.createdAt).getTime() : 0;
-        return bd - ad;
-      });
-    } else if (sortOption === "A-Z") {
-      arr.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
-    } else if (sortOption === "Z-A") {
-      arr.sort((a, b) => (b.title || "").localeCompare(a.title || ""));
-    }
-    return arr;
-  }, [applications, sortOption]);
-
-  const filteredApplications = useMemo(() => {
-    if (!searchTerm.trim()) return sortedApplications;
-    const q = searchTerm.toLowerCase();
-    return sortedApplications.filter(
-      (a) => {
-        const techs = techMap[a.versionId] ?? [];
-        return (
-          (a.title || "").toLowerCase().includes(q) ||
-          (a.description || "").toLowerCase().includes(q) ||
-          techs.some((t) => t.toLowerCase().includes(q))
-        );
-      }
-    );
-  }, [sortedApplications, searchTerm, techMap]);
-
-  const visibleApps = useMemo(
-    () => (showAll ? filteredApplications : filteredApplications.slice(0, 12)),
-    [filteredApplications, showAll]
-  );
-
-  // ── IntersectionObserver for lazy media ──
   useEffect(() => {
     observerRef.current?.disconnect();
     observerRef.current = new IntersectionObserver(
@@ -439,7 +308,7 @@ const ProfileApplications = () => {
       if (node) observerRef.current.observe(node);
     });
     return () => observerRef.current?.disconnect();
-  }, [visibleApps]);
+  }, [displayApps]);
 
   const setCardNode = useCallback((appId, node) => {
     if (!appId) return;
@@ -452,9 +321,270 @@ const ProfileApplications = () => {
     }
   }, []);
 
-  // ── Render ──
+  const openDetailModal = useCallback(async (app) => {
+    setModalApp(app);
+    setModalDetail(null);
+    setModalDetailLoading(true);
+    setModalOpen(true);
+
+    try {
+      const res = await fetch(`/api/user-application/get-user-application-details/${app.id}`, {
+        method: "GET",
+        credentials: "include",
+      });
+      const text = await res.text();
+      let data = null;
+      try { data = text ? JSON.parse(text) : null; } catch { data = null; }
+      if (res.ok && data?.application) {
+        setModalDetail(data.application);
+      }
+    } catch (e) {
+      console.error("Failed to load app details:", e);
+    } finally {
+      setModalDetailLoading(false);
+    }
+  }, []);
+
+  const closeDetailModal = useCallback(() => {
+    setModalOpen(false);
+    setModalApp(null);
+    setModalDetail(null);
+    setModalDetailLoading(false);
+  }, []);
+
+  const applyFilterSort = useCallback((apps, techMapSnap, query, sort) => {
+    let arr = apps;
+    const q = query.trim().toLowerCase();
+    if (q) {
+      arr = arr.filter((a) => {
+        const techs = techMapSnap[a.versionId?.toString()] ?? a.technologies ?? [];
+        return (
+          (a.title || "").toLowerCase().includes(q) ||
+          (a.description || "").toLowerCase().includes(q) ||
+          (a.github || "").toLowerCase().includes(q) ||
+          techs.some((t) => t.toLowerCase().includes(q))
+        );
+      });
+    }
+    const sorted = q ? arr : [...arr];
+    if (sort === "A-Z") {
+      sorted.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
+    } else if (sort === "Z-A") {
+      sorted.sort((a, b) => (b.title || "").localeCompare(a.title || ""));
+    } else {
+      sorted.sort((a, b) => {
+        const ad = a?.raw?.createdAt ? new Date(a.raw.createdAt).getTime() : 0;
+        const bd = b?.raw?.createdAt ? new Date(b.raw.createdAt).getTime() : 0;
+        return bd - ad;
+      });
+    }
+    return sorted;
+  }, []);
+
+  const triggerFilterSort = useCallback((query, sort) => {
+    const isDefault = !query.trim() && sort === "Latest";
+    if (isDefault) {
+      setIsSearchMode(false);
+      setIsSearching(false);
+      const sorted = applyFilterSort(allAppsRef.current, techMapRef.current, "", "Latest");
+      setDisplayApps(sorted);
+      setShowAll(false);
+      return;
+    }
+    setIsSearchMode(true);
+    setIsSearching(true);
+    setShowAll(false);
+    setTimeout(() => {
+      const result = applyFilterSort(allAppsRef.current, techMapRef.current, query, sort);
+      setDisplayApps(result);
+      setIsSearching(false);
+    }, 0);
+  }, [applyFilterSort]);
+
+  const handleSearchInputChange = useCallback((e) => {
+    const val = e.target.value;
+    setSearchInput(val);
+    searchInputRef.current = val;
+    clearTimeout(searchDebounceRef.current);
+    searchDebounceRef.current = setTimeout(() => {
+      triggerFilterSort(val, sortOptionRef.current);
+    }, 300);
+  }, [triggerFilterSort]);
+
+  const handleSearchSubmit = useCallback(() => {
+    clearTimeout(searchDebounceRef.current);
+    triggerFilterSort(searchInputRef.current, sortOptionRef.current);
+  }, [triggerFilterSort]);
+
+  const handleSearchKeyDown = useCallback((e) => {
+    if (e.key === "Enter") handleSearchSubmit();
+  }, [handleSearchSubmit]);
+
+  const handleSortChange = useCallback((option) => {
+    if (option === "Popular") { setSortDropdownOpen(false); return; }
+    setSortOption(option);
+    sortOptionRef.current = option;
+    setSortDropdownOpen(false);
+    triggerFilterSort(searchInputRef.current, option);
+  }, [triggerFilterSort]);
+
+  const clearSearchState = useCallback(() => {
+    clearTimeout(searchDebounceRef.current);
+    setSearchInput("");
+    searchInputRef.current = "";
+    setSortOption("Latest");
+    sortOptionRef.current = "Latest";
+    setIsSearchMode(false);
+    setIsSearching(false);
+    setShowAll(false);
+  }, []);
+
+  const loadMyApps = useCallback(async () => {
+    setIsLoadingApps(true);
+    setAppsError("");
+    clearSearchState();
+
+    try {
+      const res = await fetch("/api/user-application/get-all-user-application-cards", {
+        method: "GET",
+        credentials: "include",
+      });
+      const text = await res.text();
+      let data = null;
+      try { data = text ? JSON.parse(text) : null; } catch { data = null; }
+
+      if (!res.ok) {
+        setAppsError("Error – Unable to load your apps.");
+        setAllApps([]);
+        setDisplayApps([]);
+        return;
+      }
+
+      const items = Array.isArray(data?.applications)
+        ? data.applications
+        : Array.isArray(data?.Applications)
+        ? data.Applications
+        : [];
+
+      const normalized = items.map(normalizeCardToUiApp).filter((x) => !!x?.id);
+      setAllApps(normalized);
+      allAppsRef.current = normalized;
+      setDisplayApps(normalized);
+
+      if (normalized.length === 0) return;
+
+      const versionIds = normalized.map((a) => a.versionId).filter(Boolean);
+      fetch("/api/user-application/get-bulk-technologies", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ versionIds }),
+      })
+        .then((r) => r.text())
+        .then((t) => {
+          let td = null;
+          try { td = t ? JSON.parse(t) : null; } catch { return; }
+          const map = td?.technologies ?? td?.Technologies ?? {};
+          if (typeof map !== "object" || map === null) return;
+
+          setTechMap(map);
+          techMapRef.current = map;
+
+          const merged = allAppsRef.current.map((app) => {
+            const techs = map[app.versionId?.toString()];
+            return techs ? { ...app, technologies: techs } : app;
+          });
+          setAllApps(merged);
+          allAppsRef.current = merged;
+
+          const q = searchInputRef.current;
+          const sort = sortOptionRef.current;
+          if (q.trim() || sort !== "Latest") {
+            const filtered = applyFilterSort(merged, map, q, sort);
+            setDisplayApps(filtered);
+          } else {
+            setDisplayApps(merged);
+          }
+        })
+        .catch(() => { });
+
+    } catch (e) {
+      console.error(e);
+      setAppsError("Error – Unable to connect to the server.");
+      setAllApps([]);
+      setDisplayApps([]);
+    } finally {
+      setIsLoadingApps(false);
+    }
+  }, [applyFilterSort, clearSearchState]);
+
+  useEffect(() => { loadMyApps(); }, [loadMyApps]);
+
+  const handleCloseUploadModal = useCallback((newCard) => {
+    setShowUploadEditModal(false);
+    setSelectedApp(null);
+
+    if (newCard && newCard.userApplicationId) {
+      const normalized = normalizeCardToUiApp(newCard);
+      if (normalized?.id) {
+        const updated = [normalized, ...allAppsRef.current];
+        setAllApps(updated);
+        allAppsRef.current = updated;
+
+        if (normalized.versionId && Array.isArray(normalized.technologies) && normalized.technologies.length > 0) {
+          const updatedMap = { ...techMapRef.current, [normalized.versionId.toString()]: normalized.technologies };
+          setTechMap(updatedMap);
+          techMapRef.current = updatedMap;
+        }
+
+        clearSearchState();
+        const sorted = applyFilterSort(updated, techMapRef.current, "", "Latest");
+        setDisplayApps(sorted);
+        setShouldLoadMedia((prev) => ({ ...prev, [String(normalized.id)]: true }));
+        return;
+      }
+    }
+
+    loadMyApps();
+  }, [applyFilterSort, clearSearchState, loadMyApps]);
+
+  const handleConfirmDelete = useCallback(async () => {
+    if (!appToDelete) return;
+    try {
+      const res = await fetch(`/api/user-application/delete-user-application/${appToDelete.id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      if (res.ok) {
+        const deleteId = appToDelete.id;
+        const updated = allAppsRef.current.filter((a) => a.id !== deleteId);
+        setAllApps(updated);
+        allAppsRef.current = updated;
+        setDisplayApps((prev) => prev.filter((a) => a.id !== deleteId));
+      }
+    } catch (e) { console.error(e); }
+    finally { setShowDeleteModal(false); setAppToDelete(null); }
+  }, [appToDelete]);
+
+  const visibleApps = useMemo(
+    () => (showAll ? displayApps : displayApps.slice(0, 12)),
+    [displayApps, showAll]
+  );
+
+  const hasNoAppsAtAll = !isLoadingApps && !appsError && allApps.length === 0;
+  const hasAppsButNoResults =
+    !isLoadingApps && !isSearching && !appsError &&
+    allApps.length > 0 && displayApps.length === 0 && isSearchMode;
+
   return (
     <section id="profile-applications">
+      {isSearching && (
+        <ProcessingModal
+          modalOpenState={isSearching}
+          message="Searching your apps…"
+        />
+      )}
+
       <div className="profile-applications-title-div">
         <h2 className="profile-applications-title">My Apps</h2>
         <div className="profile-applications-search-filter-add-div">
@@ -462,14 +592,20 @@ const ProfileApplications = () => {
             <input
               className="profile-applications-search"
               placeholder="Search..."
-              value={searchTerm}
-              onChange={(e) => { setSearchTerm(e.target.value); setShowAll(false); }}
+              value={searchInput}
+              onChange={handleSearchInputChange}
+              onKeyDown={handleSearchKeyDown}
             />
-            <img src={searchIcon} alt="Applications Search" className="profile-applications-search-icon" />
+            <img
+              src={searchIcon}
+              alt="Search"
+              className="profile-applications-search-icon"
+              onClick={handleSearchSubmit}
+            />
           </div>
           <div className="profile-applications-sortby-upload-div">
             <div className="profile-applications-sortby-div">
-              <div onClick={() => setSortDropdownOpen(!sortDropdownOpen)}>
+              <div onClick={() => setSortDropdownOpen((o) => !o)}>
                 <img src={sortIcon} alt="Sort Icon" />
                 <span>Sort By: {sortOption}</span>
               </div>
@@ -479,7 +615,7 @@ const ProfileApplications = () => {
                     <li
                       key={option}
                       className={sortOption === option ? "active" : ""}
-                      onClick={() => { setSortOption(option); setSortDropdownOpen(false); }}
+                      onClick={() => handleSortChange(option)}
                     >
                       {option}
                     </li>
@@ -504,9 +640,14 @@ const ProfileApplications = () => {
         </div>
       </div>
 
-      {!isLoadingApps && appsError && <div style={{ padding: "12px 0" }}>{appsError}</div>}
-      {isLoadingApps && <div style={{ padding: "12px 0", opacity: 0.8 }}>Loading your apps…</div>}
-      {!isLoadingApps && !appsError && sortedApplications.length === 0 && (
+      {!isLoadingApps && !isSearching && appsError && (
+        <div style={{ padding: "12px 0" }}>{appsError}</div>
+      )}
+      {isLoadingApps && (
+        <div style={{ padding: "12px 0", opacity: 0.8 }}>Loading your apps…</div>
+      )}
+
+      {hasNoAppsAtAll && (
         <div className="profileApps-emptyState">
           <div className="profileApps-emptyState-card">
             <div className="profileApps-emptyState-icon" aria-hidden="true">+</div>
@@ -518,30 +659,56 @@ const ProfileApplications = () => {
           </div>
         </div>
       )}
-      {!isLoadingApps && !appsError && sortedApplications.length > 0 && filteredApplications.length === 0 && (
-        <div style={{ padding: "12px 0", opacity: 0.7 }}>No apps match your search.</div>
+
+      {hasAppsButNoResults && (
+        <div className="profileApps-emptyState">
+          <div className="profileApps-emptyState-card">
+            <div className="profileApps-emptyState-icon" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                <line x1="8" y1="11" x2="14" y2="11" />
+              </svg>
+            </div>
+            <h3 className="profileApps-emptyState-title">No results found</h3>
+            <p className="profileApps-emptyState-subtitle">
+              No apps matched{" "}
+              {searchInput.trim() ? (
+                <>&ldquo;<strong>{searchInput.trim()}</strong>&rdquo;</>
+              ) : (
+                "your current filters"
+              )}
+              . Try adjusting your search or sort options.
+            </p>
+            <button
+              type="button"
+              className="profileApps-emptyState-cta profileApps-emptyState-cta--ghost"
+              onClick={() => {
+                clearSearchState();
+                const sorted = applyFilterSort(allAppsRef.current, techMapRef.current, "", "Latest");
+                setDisplayApps(sorted);
+              }}
+            >
+              Clear search
+            </button>
+          </div>
+        </div>
       )}
 
       <div className="profile-applications-grid">
         {visibleApps.map((app) => {
           if (!dropdownRefs.current[app.id]) dropdownRefs.current[app.id] = React.createRef();
 
-          const canLoadMedia = !!shouldLoadMedia[String(app.id)];
+          const idStr = String(app.id);
+          const canLoadMedia = !!shouldLoadMedia[idStr];
           const hasMedia = !!(app.thumbnailUrl || app.previewUrl);
-          const showShimmer = canLoadMedia && hasMedia && !mediaLoadedMap[app.id];
-
-          // Merge tech from the async bulk-tech map into the card.
-          // Falls back to [] until tech arrives — no janky re-creates of the whole array.
-          const appWithTech = {
-            ...app,
-            technologies: techMap[app.versionId] ?? [],
-          };
+          const showShimmer = canLoadMedia && hasMedia && !mediaLoadedMap[idStr];
 
           return (
             <ProfileAppCard
               key={app.id}
               ref={(node) => setCardNode(app.id, node)}
-              app={appWithTech}
+              app={app}
               canLoadMedia={canLoadMedia}
               showShimmer={showShimmer}
               expandedDropdownId={expandedDropdownId}
@@ -554,9 +721,7 @@ const ProfileApplications = () => {
                   e.target.classList.contains("expand-tech") ||
                   e.target.classList.contains("profileApp-collapse-tech")
                 ) return;
-                setModalApp(appWithTech);
-                setModalSource("card");
-                setModalOpen(true);
+                openDetailModal(app);
               }}
               onExpandDropdown={(e) => {
                 e.stopPropagation();
@@ -564,10 +729,8 @@ const ProfileApplications = () => {
               }}
               onDetailsClick={(e) => {
                 e.stopPropagation();
-                setModalApp(appWithTech);
-                setModalSource("details");
-                setModalOpen(true);
                 setExpandedDropdownId(null);
+                openDetailModal(app);
               }}
               onEditClick={(e) => {
                 e.stopPropagation();
@@ -589,9 +752,9 @@ const ProfileApplications = () => {
         })}
       </div>
 
-      {filteredApplications.length > 12 && (
+      {displayApps.length > 12 && (
         <div className="profile-applications-load-more-div">
-          <button className="profile-applications-load-more" onClick={() => setShowAll(!showAll)}>
+          <button className="profile-applications-load-more" onClick={() => setShowAll((s) => !s)}>
             {showAll ? "Show Less" : "Load More"}
           </button>
         </div>
@@ -600,9 +763,20 @@ const ProfileApplications = () => {
       {modalOpen && (
         <ProfileApplicationDetailModal
           modalOpenState={modalOpen}
-          onClose={() => { setModalOpen(false); setModalApp(null); }}
+          onClose={closeDetailModal}
           app={modalApp}
-          modalSource={modalSource}
+          detail={modalDetail}
+          detailLoading={modalDetailLoading}
+          onEditClick={() => {
+            closeDetailModal();
+            setSelectedApp(modalApp);
+            setShowUploadEditModal(true);
+          }}
+          onDeleteClick={() => {
+            closeDetailModal();
+            setAppToDelete(modalApp);
+            setShowDeleteModal(true);
+          }}
         />
       )}
       {showUploadEditModal && (

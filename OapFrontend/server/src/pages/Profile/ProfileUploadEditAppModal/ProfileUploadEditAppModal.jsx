@@ -128,9 +128,6 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
       form.append("zipFile", uploadZip, uploadZip.name);
       mediaFiles.forEach((m) => form.append("media", m.file, m.originalName));
 
-      // Create a new AbortController for this upload — no timeout imposed so
-      // very large files (1 GB+ ZIPs or videos) can complete without being cut off.
-      // The user can cancel manually via the UI if needed.
       abortControllerRef.current = new AbortController();
 
       const res = await fetch("/api/user-application/create-user-application", {
@@ -164,8 +161,9 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
       forceUnlockScroll();
       setShowConfirmationModal(false);
 
-      // Pass the card back so the parent can prepend it without a full reload.
-      onClose();
+      // Pass the full card back so the parent can prepend it immediately
+      // without needing to reload all apps from the server.
+      onClose(data.card ?? null);
     } catch (e) {
       console.error(e);
       showServerError();
@@ -282,7 +280,7 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose }) => {
       const url = URL.createObjectURL(file);
       img.src = url;
       img.onload = () => {
-        URL.revokeObjectURL(url);  // revoke properly
+        URL.revokeObjectURL(url);
         const canvas = document.createElement("canvas");
         const scale = Math.min(maxWidth / img.width, maxHeight / img.height, 1);
         canvas.width = img.width * scale;

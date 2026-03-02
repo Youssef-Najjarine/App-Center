@@ -24,7 +24,7 @@
 
 .profileapplications-header-right-border {
   border-right: .806px solid #F5F5F5;
-  height: calc(100% - 14.5px); /* 7.25px top + 7.25px bottom */
+  height: calc(100% - 14.5px);
 }
 
 .profile-applications-title {
@@ -208,7 +208,7 @@
   position: relative;
 }
 
-.profileApp-image-div .profileApp-placeholder-img {
+.profileApp-image-div .profileApp-preview-img {
   object-fit: cover;
   width: 100%;
   height: 100%;
@@ -220,7 +220,7 @@
   overflow: hidden;
 }
 
-.profileApp-image-div.is-loading-media .profileApp-placeholder-img {
+.profileApp-image-div.is-loading-media .profileApp-preview-img {
   opacity: 0;
 }
 
@@ -252,6 +252,19 @@
   }
 }
 
+.profileApp-preview-img.profileApp-no-preview {
+  display: block;
+  background: linear-gradient(
+    145deg,
+    rgba(85, 65, 215, 0.11) 0%,
+    rgba(120, 100, 255, 0.06) 35%,
+    rgba(85, 65, 215, 0.04) 65%,
+    rgba(180, 160, 255, 0.09) 100%
+  );
+  color: transparent;
+  font-size: 0;
+}
+
 .profileApp-expand-div {
   position: absolute;
   top: 12.89px;
@@ -270,7 +283,7 @@
 }
 
 .profileApp-expand-div button {
-   width: 100%;
+  width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
@@ -426,7 +439,7 @@
   letter-spacing: -0.354px;
   margin: 0 0 9.67px 0;
   font-style: normal;
-font-weight: 700;
+  font-weight: 700;
 }
 
 .profileApp-app-description {
@@ -525,17 +538,25 @@ font-weight: 700;
   gap: 10px;
   border: none;
   cursor: pointer;
-
   background: #5541D7;
   color: #FFF;
   border-radius: 12px;
-
   padding: clamp(10px, 1.5vw, 12px) clamp(14px, 2.2vw, 18px);
   font-weight: 600;
   font-size: clamp(13px, 1.9vw, 14px);
   line-height: 1.2;
-
   transition: transform 0.08s ease, opacity 0.12s ease;
+}
+
+.profileApps-emptyState-cta--ghost {
+  background: transparent;
+  color: #5541D7;
+  border: 1.5px solid #5541D7;
+}
+
+.profileApps-emptyState-cta--ghost:hover {
+  background: rgba(85, 65, 215, 0.07);
+  opacity: 1;
 }
 
 .profileApps-emptyState-cta img {
@@ -587,14 +608,14 @@ font-weight: 700;
   }
 
   .profile-applications-sortby-upload-div {
-  height: 39px;
-  width: 429px;
-}
+    height: 39px;
+    width: 429px;
+  }
 
-.profileapplications-header-right-border {
-  border-right: .875px solid #F5F5F5;
-  height: calc(100% - 16.24px); /* 8.12px top + 8.12px bottom */
-}
+  .profileapplications-header-right-border {
+    border-right: .875px solid #F5F5F5;
+    height: calc(100% - 16.24px);
+  }
 
   .profile-applications-title {
     font-size: 24.5px;
@@ -666,7 +687,7 @@ font-weight: 700;
   .sortby-dropdown li {
     padding: 4px 6px;
     font-size: 12.25px;
-    line-height:  18.375px;
+    line-height: 18.375px;
     letter-spacing: -0.49px;
   }
 
@@ -681,7 +702,6 @@ font-weight: 700;
   .profile-applications-drafts-div a {
     gap: 7px;
     justify-content: flex-start;
-
   }
 
   .profile-applications-drafts-div img {
@@ -710,11 +730,11 @@ font-weight: 700;
   }
 
   .profile-applications-upload-new-div span {
-   color: #FFF;
-  font-size: 12.25px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 18.375px;
+    color: #FFF;
+    font-size: 12.25px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18.375px;
   }
 
   .profile-applications-upload-new-div img {
@@ -739,7 +759,7 @@ font-weight: 700;
     margin: 0 0 14px 0;
   }
 
-  .profileApp-image-div .profileApp-placeholder-img {
+  .profileApp-image-div .profileApp-preview-img {
     border-radius: 7px;
   }
 
@@ -831,7 +851,7 @@ font-weight: 700;
   .profileApp-app-title {
     font-size: 19.25px;
     line-height: 28.875px;
-    letter-spacing:  -0.385px;
+    letter-spacing: -0.385px;
     margin: 0 0 10.5px 0;
   }
 
@@ -865,6 +885,7 @@ font-weight: 700;
     line-height: 22.05px;
   }
 }
+
 @media screen and (min-width: 1440px) {
   #profile-applications {
     padding: 131px 32px 60px 32px;
@@ -876,19 +897,20 @@ font-weight: 700;
     justify-content: space-between;
     align-items: center;
   }
+
   .profile-applications-search-filter-add-div {
     width: 898px;
   }
 
   .profile-applications-sortby-upload-div {
-  height: 45px;
-  width: 501px;
-}
+    height: 45px;
+    width: 501px;
+  }
 
-.profileapplications-header-right-border {
-  border-right: 1px solid #F5F5F5;
-  height: calc(100% - 19px); /* 9.5px top + 9.5px bottom */
-}
+  .profileapplications-header-right-border {
+    border-right: 1px solid #F5F5F5;
+    height: calc(100% - 19px);
+  }
 
   .profile-applications-title {
     font-size: 28px;
@@ -948,7 +970,7 @@ font-weight: 700;
   .sortby-dropdown li {
     padding: 5px 8px;
     font-size: 14px;
-    line-height:  21px;
+    line-height: 21px;
     letter-spacing: -0.65px;
   }
 
@@ -962,7 +984,6 @@ font-weight: 700;
 
   .profile-applications-drafts-div a {
     gap: 8px;
-
   }
 
   .profile-applications-drafts-div img {
@@ -988,8 +1009,8 @@ font-weight: 700;
   }
 
   .profile-applications-upload-new-div span {
-  font-size: 14px;
-  line-height: 21px;
+    font-size: 14px;
+    line-height: 21px;
   }
 
   .profile-applications-upload-new-div img {
@@ -1014,7 +1035,7 @@ font-weight: 700;
     margin: 0 0 16px 0;
   }
 
-  .profileApp-image-div .profileApp-placeholder-img {
+  .profileApp-image-div .profileApp-preview-img {
     border-radius: 8px;
   }
 
@@ -1106,7 +1127,7 @@ font-weight: 700;
   .profileApp-app-title {
     font-size: 22px;
     line-height: 33px;
-    letter-spacing:  -0.44px;
+    letter-spacing: -0.44px;
     margin: 0 0 12px 0;
   }
 

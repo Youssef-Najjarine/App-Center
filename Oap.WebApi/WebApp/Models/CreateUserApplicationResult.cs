@@ -6,5 +6,6 @@
         public string? Error { get; set; }
         public Guid UserApplicationId { get; set; }
         public Guid UserApplicationVersionId { get; set; }
+        public Guid? ThumbnailFileId { get; set; }
     }
 }

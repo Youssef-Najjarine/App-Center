@@ -5,6 +5,7 @@ using Oap.WebApp.Interfaces;
 using Oap.WebApp.Models;
 using Oap.WebApp.Services;
 using Oap.WebApp.Utilities;
+using Microsoft.Data.SqlClient;
 
 namespace Oap.WebApp.Controllers
 {
@@ -15,15 +16,18 @@ namespace Oap.WebApp.Controllers
         private readonly AuthCookieService _authCookieService;
         private readonly IUserApplication _userApplicationService;
         private readonly IWebHostEnvironment _environment;
+        private readonly IConfiguration _configuration;
 
         public UserApplicationController(
             AuthCookieService authCookieService,
             IUserApplication userApplicationService,
-            IWebHostEnvironment environment)
+            IWebHostEnvironment environment,
+            IConfiguration configuration)
         {
             _authCookieService = authCookieService;
             _userApplicationService = userApplicationService;
             _environment = environment;
+            _configuration = configuration;
         }
 
         private UserTokenInfo? GetAuthedUser()
@@ -66,11 +70,17 @@ namespace Oap.WebApp.Controllers
                 if (!result.Success)
                     return StatusCode(500, new { success = false, error = result.Error });
 
+                var card = await _userApplicationService.GetCreatedCardAsync(
+                    tokenInfo.UserId,
+                    result.UserApplicationId,
+                    result.UserApplicationVersionId);
+
                 return Ok(new
                 {
                     success = true,
                     userApplicationId = result.UserApplicationId,
                     userApplicationVersionId = result.UserApplicationVersionId,
+                    card,
                 });
             }
             catch (Exception ex)
@@ -99,12 +109,29 @@ namespace Oap.WebApp.Controllers
             }
         }
 
-        // ── Bulk technologies ─────────────────────────────────────────────────
-        // Accepts all versionIds at once and returns a map of versionId -> string[].
-        // Replaces N individual per-card technology requests with a single call.
-        // Cache-warm hits are served in < 5 ms. Cold hits run ZIP reads in parallel.
-        //
-        // POST body: { "versionIds": ["guid1", "guid2", ...] }
+        [HttpGet("search-user-application-cards")]
+        public async Task<IActionResult> SearchMyUserApplicationCards(
+            [FromQuery] string? q,
+            [FromQuery] string? sort)
+        {
+            try
+            {
+                var tokenInfo = GetAuthedUser();
+                if (tokenInfo == null)
+                    return Unauthorized(new { error = "Not authenticated" });
+
+                var items = await _userApplicationService.SearchUserApplicationCardsAsync(
+                    tokenInfo.UserId, q?.Trim(), sort?.Trim());
+
+                return Ok(new { success = true, applications = items });
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return StatusCode(500, new { success = false, error = "Server error while searching applications." });
+            }
+        }
+
         [HttpPost("get-bulk-technologies")]
         public async Task<IActionResult> GetBulkTechnologies([FromBody] BulkTechnologiesRequest request)
         {
@@ -199,12 +226,79 @@ namespace Oap.WebApp.Controllers
                 if (tokenInfo == null)
                     return Unauthorized(new { error = "Not authenticated" });
 
-                var file = await _userApplicationService.GetFileIfOwnedByUserAsync(tokenInfo.UserId, fileId);
-                if (file == null) return NotFound();
+                var meta = await _userApplicationService.GetFileMetaIfOwnedAsync(tokenInfo.UserId, fileId);
+                if (meta == null) return NotFound();
 
                 Response.Headers["Cache-Control"] = "public, max-age=31536000, immutable";
-                Response.Headers["ETag"] = $"\"{file.Id}\"";
-                return File(file.FileContents, file.ContentType, enableRangeProcessing: true);
+                Response.Headers["ETag"] = $"\"{fileId}\"";
+                Response.Headers["Accept-Ranges"] = "bytes";
+
+                var ifNoneMatch = Request.Headers["If-None-Match"].ToString();
+                if (!string.IsNullOrEmpty(ifNoneMatch) && ifNoneMatch.Contains($"\"{fileId}\""))
+                    return StatusCode(304);
+
+                var totalLength = meta.FileSize;
+
+                long rangeStart = 0;
+                long rangeEnd = totalLength - 1;
+                bool isRangeRequest = false;
+
+                var rangeHeader = Request.Headers["Range"].ToString();
+                if (!string.IsNullOrEmpty(rangeHeader) && rangeHeader.StartsWith("bytes="))
+                {
+                    var rangePart = rangeHeader.Substring(6);
+                    var dashIdx = rangePart.IndexOf('-');
+                    if (dashIdx >= 0)
+                    {
+                        var startStr = rangePart.Substring(0, dashIdx).Trim();
+                        var endStr = rangePart.Substring(dashIdx + 1).Trim();
+
+                        if (!string.IsNullOrEmpty(startStr))
+                            rangeStart = long.Parse(startStr);
+
+                        if (!string.IsNullOrEmpty(endStr))
+                            rangeEnd = long.Parse(endStr);
+                        else
+                            rangeEnd = Math.Min(rangeStart + (2L * 1024 * 1024) - 1, totalLength - 1);
+
+                        rangeEnd = Math.Min(rangeEnd, totalLength - 1);
+                        isRangeRequest = true;
+                    }
+                }
+
+                var chunkLength = rangeEnd - rangeStart + 1;
+
+                if (isRangeRequest)
+                {
+                    Response.StatusCode = 206;
+                    Response.Headers["Content-Range"] = $"bytes {rangeStart}-{rangeEnd}/{totalLength}";
+                    Response.Headers["Content-Length"] = chunkLength.ToString();
+                    Response.ContentType = meta.ContentType;
+                }
+                else
+                {
+                    Response.StatusCode = 200;
+                    Response.Headers["Content-Length"] = totalLength.ToString();
+                    Response.ContentType = meta.ContentType;
+                }
+
+                await _userApplicationService.StreamFileRangeAsync(
+                    tokenInfo.UserId,
+                    fileId,
+                    rangeStart,
+                    chunkLength,
+                    Response.Body,
+                    HttpContext.RequestAborted);
+
+                return new EmptyResult();
+            }
+            catch (OperationCanceledException)
+            {
+                return new EmptyResult();
+            }
+            catch (SqlException ex) when (SqlExceptionHelper.IsCancellation(ex))
+            {
+                return new EmptyResult();
             }
             catch (Exception ex)
             {
@@ -212,11 +306,5 @@ namespace Oap.WebApp.Controllers
                 return StatusCode(500);
             }
         }
-    }
-
-    // Request DTO for the bulk-technologies endpoint.
-    public class BulkTechnologiesRequest
-    {
-        public List<Guid> VersionIds { get; set; } = new();
     }
 }
