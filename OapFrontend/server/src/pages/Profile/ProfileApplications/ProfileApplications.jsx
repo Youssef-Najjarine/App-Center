@@ -65,6 +65,16 @@ const ProfileAppCard = React.memo(
     onImageLoad,
     onToggleTech,
   }, ref) => {
+    const shimmerTimerRef = useRef(null);
+    useEffect(() => {
+      if (showShimmer) {
+        shimmerTimerRef.current = setTimeout(() => onImageLoad(), 5000);
+      } else {
+        if (shimmerTimerRef.current) { clearTimeout(shimmerTimerRef.current); shimmerTimerRef.current = null; }
+      }
+      return () => { if (shimmerTimerRef.current) clearTimeout(shimmerTimerRef.current); };
+    }, [showShimmer, onImageLoad]);
+
     const showVideoOverlay = app.isVideo && app.previewUrl;
     const showGifOverlay = app.isGif && app.previewUrl;
     const techs = app.technologies || [];
@@ -81,7 +91,7 @@ const ProfileAppCard = React.memo(
 
           {!canLoadMedia ? (
             <div className="profileApp-preview-img profileApp-media-slot" />
-          ) : hasThumbnail ? (
+          ) : (hasThumbnail && app.isVideo) ? (
             <img
               src={app.thumbnailUrl}
               alt={app.title}
@@ -108,7 +118,8 @@ const ProfileAppCard = React.memo(
                 className="profileApp-preview-img"
                 muted
                 playsInline
-                preload="none"
+                preload="metadata"
+                onLoadedMetadata={onImageLoad}
                 onLoadedData={onImageLoad}
                 onError={onImageLoad}
               />
@@ -240,6 +251,7 @@ const ProfileApplications = () => {
   const [selectedApp, setSelectedApp] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [appToDelete, setAppToDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [expandedDropdownId, setExpandedDropdownId] = useState(null);
   const [searchInput, setSearchInput] = useState("");
   const [expandedTechStacks, setExpandedTechStacks] = useState({});
@@ -520,13 +532,56 @@ const ProfileApplications = () => {
 
   useEffect(() => { loadMyApps(); }, [loadMyApps]);
 
-  const handleCloseUploadModal = useCallback((newCard) => {
+  const handleCloseUploadModal = useCallback((returnedCard) => {
     setShowUploadEditModal(false);
     setSelectedApp(null);
 
-    if (newCard && newCard.userApplicationId) {
-      const normalized = normalizeCardToUiApp(newCard);
-      if (normalized?.id) {
+    if (returnedCard && returnedCard.userApplicationId) {
+      const normalized = normalizeCardToUiApp(returnedCard);
+
+      if (!normalized?.id) {
+        loadMyApps();
+        return;
+      }
+
+      const isUpdate = !!returnedCard.__isUpdate;
+
+      if (isUpdate) {
+        const oldCard = allAppsRef.current.find((a) => a.id === normalized.id);
+
+        const updatedAll = allAppsRef.current.map((a) =>
+          a.id === normalized.id ? normalized : a
+        );
+        setAllApps(updatedAll);
+        allAppsRef.current = updatedAll;
+
+        if (normalized.versionId) {
+          const techs = Array.isArray(normalized.technologies) ? normalized.technologies : [];
+          const updatedMap = { ...techMapRef.current, [normalized.versionId.toString()]: techs };
+          setTechMap(updatedMap);
+          techMapRef.current = updatedMap;
+        }
+
+        const q = searchInputRef.current;
+        const sort = sortOptionRef.current;
+        const sorted = applyFilterSort(updatedAll, techMapRef.current, q, sort);
+        setDisplayApps(sorted);
+
+        const idStr = String(normalized.id);
+        const mediaChanged =
+          normalized.previewUrl !== (oldCard?.previewUrl ?? "") ||
+          normalized.thumbnailUrl !== (oldCard?.thumbnailUrl ?? "") ||
+          normalized.isVideo !== (oldCard?.isVideo ?? false);
+
+        if (mediaChanged) {
+          setMediaLoadedMap((prev) => {
+            const next = { ...prev };
+            delete next[idStr];
+            return next;
+          });
+          setShouldLoadMedia((prev) => ({ ...prev, [idStr]: true }));
+        }
+      } else {
         const updated = [normalized, ...allAppsRef.current];
         setAllApps(updated);
         allAppsRef.current = updated;
@@ -541,8 +596,9 @@ const ProfileApplications = () => {
         const sorted = applyFilterSort(updated, techMapRef.current, "", "Latest");
         setDisplayApps(sorted);
         setShouldLoadMedia((prev) => ({ ...prev, [String(normalized.id)]: true }));
-        return;
       }
+
+      return;
     }
 
     loadMyApps();
@@ -550,6 +606,7 @@ const ProfileApplications = () => {
 
   const handleConfirmDelete = useCallback(async () => {
     if (!appToDelete) return;
+    setIsDeleting(true);
     try {
       const res = await fetch(`/api/user-application/delete-user-application/${appToDelete.id}`, {
         method: "DELETE",
@@ -561,10 +618,11 @@ const ProfileApplications = () => {
         setAllApps(updated);
         allAppsRef.current = updated;
         setDisplayApps((prev) => prev.filter((a) => a.id !== deleteId));
+        closeDetailModal();
       }
     } catch (e) { console.error(e); }
-    finally { setShowDeleteModal(false); setAppToDelete(null); }
-  }, [appToDelete]);
+    finally { setIsDeleting(false); setShowDeleteModal(false); setAppToDelete(null); }
+  }, [appToDelete, closeDetailModal]);
 
   const visibleApps = useMemo(
     () => (showAll ? displayApps : displayApps.slice(0, 12)),
@@ -763,7 +821,10 @@ const ProfileApplications = () => {
       {modalOpen && (
         <ProfileApplicationDetailModal
           modalOpenState={modalOpen}
-          onClose={closeDetailModal}
+          onClose={() => {
+            if (showDeleteModal) return;
+            closeDetailModal();
+          }}
           app={modalApp}
           detail={modalDetail}
           detailLoading={modalDetailLoading}
@@ -773,7 +834,6 @@ const ProfileApplications = () => {
             setShowUploadEditModal(true);
           }}
           onDeleteClick={() => {
-            closeDetailModal();
             setAppToDelete(modalApp);
             setShowDeleteModal(true);
           }}
@@ -789,9 +849,15 @@ const ProfileApplications = () => {
       {showDeleteModal && appToDelete && (
         <DeleteConfirmationModal
           modalOpenState={showDeleteModal}
-          onClose={() => { setShowDeleteModal(false); setAppToDelete(null); }}
+          onClose={() => { if (isDeleting) return; setShowDeleteModal(false); setAppToDelete(null); }}
           app={appToDelete}
           onConfirmDelete={handleConfirmDelete}
+        />
+      )}
+      {isDeleting && (
+        <ProcessingModal
+          modalOpenState={isDeleting}
+          message="Deleting app…"
         />
       )}
     </section>

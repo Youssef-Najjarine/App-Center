@@ -90,6 +90,52 @@ namespace Oap.WebApp.Controllers
             }
         }
 
+        [HttpPut("update-user-application/{userApplicationId:guid}")]
+        [DisableRequestSizeLimit]
+        [RequestFormLimits(MultipartBodyLengthLimit = 4L * 1024 * 1024 * 1024)]
+        public async Task<IActionResult> UpdateUserApplication(
+            [FromRoute] Guid userApplicationId,
+            [FromForm] UpdateUserApplicationFormRequest request)
+        {
+            var tokenInfo = GetAuthedUser();
+            if (tokenInfo == null)
+                return Unauthorized(new { error = "Not authenticated" });
+
+            // Check if the app has an existing zip (so validator can allow omitting new zip)
+            var hasExistingZip = await _userApplicationService.HasZipFileAsync(tokenInfo.UserId, userApplicationId);
+
+            var errors = UpdateUserApplicationValidator.Validate(request, hasExistingZip);
+            if (errors.Count > 0)
+                return BadRequest(new { success = false, errors });
+
+            try
+            {
+                var result = await _userApplicationService.UpdateUserApplicationAsync(
+                    tokenInfo.UserId, userApplicationId, request);
+
+                if (!result.Success)
+                    return StatusCode(500, new { success = false, error = result.Error });
+
+                var card = await _userApplicationService.GetCreatedCardAsync(
+                    tokenInfo.UserId,
+                    result.UserApplicationId,
+                    result.UserApplicationVersionId);
+
+                return Ok(new
+                {
+                    success = true,
+                    userApplicationId = result.UserApplicationId,
+                    userApplicationVersionId = result.UserApplicationVersionId,
+                    card,
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return StatusCode(500, new { success = false, error = "Server error while updating application." });
+            }
+        }
+
         [HttpGet("get-all-user-application-cards")]
         public async Task<IActionResult> GetAllMyUserApplicationCards()
         {
@@ -214,6 +260,28 @@ namespace Oap.WebApp.Controllers
             {
                 Console.Error.WriteLine(ex);
                 return StatusCode(500, new { success = false, error = "Server error while loading application." });
+            }
+        }
+
+        [HttpDelete("delete-user-application/{userApplicationId:guid}")]
+        public async Task<IActionResult> DeleteUserApplication([FromRoute] Guid userApplicationId)
+        {
+            try
+            {
+                var tokenInfo = GetAuthedUser();
+                if (tokenInfo == null)
+                    return Unauthorized(new { error = "Not authenticated" });
+
+                var success = await _userApplicationService.DeleteUserApplicationAsync(tokenInfo.UserId, userApplicationId);
+                if (!success)
+                    return NotFound(new { success = false, error = "Application not found or already deleted." });
+
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return StatusCode(500, new { success = false, error = "Server error while deleting application." });
             }
         }
 

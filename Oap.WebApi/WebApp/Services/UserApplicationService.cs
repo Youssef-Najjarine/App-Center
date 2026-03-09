@@ -141,6 +141,10 @@ VALUES
             await cmd.ExecuteNonQueryAsync();
         }
 
+        // ─────────────────────────────────────────────────────────────────────
+        //  CREATE
+        // ─────────────────────────────────────────────────────────────────────
+
         public async Task<CreateUserApplicationResult> CreateUserApplicationAsync(
             Guid ownerUserId,
             CreateUserApplicationFormRequest request)
@@ -315,6 +319,760 @@ VALUES
             }
         }
 
+        // ─────────────────────────────────────────────────────────────────────
+        //  UPDATE
+        // ─────────────────────────────────────────────────────────────────────
+
+        // ─────────────────────────────────────────────────────────────────────
+        //  DELETE
+        // ─────────────────────────────────────────────────────────────────────
+
+        public async Task<bool> DeleteUserApplicationAsync(Guid ownerUserId, Guid userApplicationId)
+        {
+            await using var connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync();
+
+            // ── 1. Verify ownership ─────────────────────────────────────────
+            const string ownsSql = @"
+SELECT TOP 1 1
+FROM dbo.UserApplication
+WHERE Id = @AppId AND OwnerUserId = @OwnerId;";
+
+            await using (var ownsCmd = new SqlCommand(ownsSql, connection))
+            {
+                ownsCmd.Parameters.Add("@AppId", SqlDbType.UniqueIdentifier).Value = userApplicationId;
+                ownsCmd.Parameters.Add("@OwnerId", SqlDbType.UniqueIdentifier).Value = ownerUserId;
+                var owns = await ownsCmd.ExecuteScalarAsync();
+                if (owns == null) return false;
+            }
+
+            // ── 2. Collect all version IDs and file IDs before deleting ─────
+            var versionIds = new List<Guid>();
+            {
+                const string sql = @"
+SELECT Id FROM dbo.UserApplicationVersion
+WHERE UserApplicationId = @AppId;";
+                await using var cmd = new SqlCommand(sql, connection);
+                cmd.Parameters.Add("@AppId", SqlDbType.UniqueIdentifier).Value = userApplicationId;
+                await using var reader = await cmd.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                    versionIds.Add(reader.GetGuid(0));
+            }
+
+            if (versionIds.Count == 0)
+            {
+                // No versions — just delete the application row
+                await using var tx = connection.BeginTransaction();
+                try
+                {
+                    const string sql = "DELETE FROM dbo.UserApplication WHERE Id = @AppId AND OwnerUserId = @OwnerId;";
+                    await using var cmd = new SqlCommand(sql, connection, tx);
+                    cmd.Parameters.Add("@AppId", SqlDbType.UniqueIdentifier).Value = userApplicationId;
+                    cmd.Parameters.Add("@OwnerId", SqlDbType.UniqueIdentifier).Value = ownerUserId;
+                    await cmd.ExecuteNonQueryAsync();
+                    await tx.CommitAsync();
+                    return true;
+                }
+                catch
+                {
+                    await tx.RollbackAsync();
+                    throw;
+                }
+            }
+
+            // Collect all file IDs linked to any version of this app
+            var allFileIds = new List<Guid>();
+            {
+                var paramNames = versionIds.Select((_, i) => $"@v{i}").ToList();
+                var inClause = string.Join(", ", paramNames);
+                var sql = $@"
+SELECT DISTINCT uavf.FileId
+FROM dbo.UserApplicationVersionFile uavf
+WHERE uavf.UserApplicationVersionId IN ({inClause});";
+                await using var cmd = new SqlCommand(sql, connection);
+                for (int i = 0; i < versionIds.Count; i++)
+                    cmd.Parameters.Add(paramNames[i], SqlDbType.UniqueIdentifier).Value = versionIds[i];
+                await using var reader = await cmd.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                    allFileIds.Add(reader.GetGuid(0));
+            }
+
+            // ── 3. Delete everything in a single transaction ────────────────
+            //  Order matters due to foreign keys:
+            //  a) UserApplicationVersionFile (links files to versions)
+            //  b) UserApplicationVersionTechnologyTag (links tags to versions)
+            //  c) UserApplicationVersion (versions)
+            //  d) UserApplication (the app itself)
+            //  e) File rows (only if orphaned — no other version references them)
+
+            await using var transaction = connection.BeginTransaction();
+            try
+            {
+                // a) Delete all file links for all versions
+                {
+                    var paramNames = versionIds.Select((_, i) => $"@v{i}").ToList();
+                    var inClause = string.Join(", ", paramNames);
+                    var sql = $"DELETE FROM dbo.UserApplicationVersionFile WHERE UserApplicationVersionId IN ({inClause});";
+                    await using var cmd = new SqlCommand(sql, connection, transaction);
+                    for (int i = 0; i < versionIds.Count; i++)
+                        cmd.Parameters.Add(paramNames[i], SqlDbType.UniqueIdentifier).Value = versionIds[i];
+                    await cmd.ExecuteNonQueryAsync();
+                }
+
+                // b) Delete technology tag links (if the table exists)
+                try
+                {
+                    var paramNames = versionIds.Select((_, i) => $"@v{i}").ToList();
+                    var inClause = string.Join(", ", paramNames);
+                    var sql = $"DELETE FROM dbo.UserApplicationVersionTechnologyTag WHERE UserApplicationVersionId IN ({inClause});";
+                    await using var cmd = new SqlCommand(sql, connection, transaction);
+                    for (int i = 0; i < versionIds.Count; i++)
+                        cmd.Parameters.Add(paramNames[i], SqlDbType.UniqueIdentifier).Value = versionIds[i];
+                    await cmd.ExecuteNonQueryAsync();
+                }
+                catch (SqlException) { /* table may not exist — that's fine */ }
+
+                // c) Delete all versions
+                {
+                    var paramNames = versionIds.Select((_, i) => $"@v{i}").ToList();
+                    var inClause = string.Join(", ", paramNames);
+                    var sql = $"DELETE FROM dbo.UserApplicationVersion WHERE Id IN ({inClause});";
+                    await using var cmd = new SqlCommand(sql, connection, transaction);
+                    for (int i = 0; i < versionIds.Count; i++)
+                        cmd.Parameters.Add(paramNames[i], SqlDbType.UniqueIdentifier).Value = versionIds[i];
+                    await cmd.ExecuteNonQueryAsync();
+                }
+
+                // d) Delete the application itself
+                {
+                    const string sql = "DELETE FROM dbo.UserApplication WHERE Id = @AppId AND OwnerUserId = @OwnerId;";
+                    await using var cmd = new SqlCommand(sql, connection, transaction);
+                    cmd.Parameters.Add("@AppId", SqlDbType.UniqueIdentifier).Value = userApplicationId;
+                    cmd.Parameters.Add("@OwnerId", SqlDbType.UniqueIdentifier).Value = ownerUserId;
+                    await cmd.ExecuteNonQueryAsync();
+                }
+
+                // e) Delete orphaned files (only if no other version still links to them)
+                foreach (var fileId in allFileIds)
+                {
+                    const string sql = @"
+DELETE FROM dbo.[File]
+WHERE Id = @FileId
+  AND NOT EXISTS (
+    SELECT 1 FROM dbo.UserApplicationVersionFile WHERE FileId = @FileId
+  );";
+                    await using var cmd = new SqlCommand(sql, connection, transaction);
+                    cmd.Parameters.Add("@FileId", SqlDbType.UniqueIdentifier).Value = fileId;
+                    await cmd.ExecuteNonQueryAsync();
+                }
+
+                await transaction.CommitAsync();
+
+                // ── 4. Invalidate technology cache for all deleted versions ──
+                foreach (var vid in versionIds)
+                    _cache.Remove(TechCachePrefix + vid);
+
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Checks whether the given application already has a zip file linked.
+        /// </summary>
+        public async Task<bool> HasZipFileAsync(Guid ownerUserId, Guid userApplicationId)
+        {
+            await using var conn = new SqlConnection(_connectionString);
+            await conn.OpenAsync();
+
+            const string sql = @"
+SELECT TOP 1 1
+FROM dbo.UserApplicationVersionFile uavf
+JOIN dbo.UserApplicationVersion uav ON uav.Id = uavf.UserApplicationVersionId
+JOIN dbo.UserApplication ua          ON ua.Id  = uav.UserApplicationId
+WHERE ua.Id = @AppId
+  AND ua.OwnerUserId = @OwnerId
+  AND uavf.FileCategory = @ZipCat;";
+
+            await using var cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.Add("@AppId", SqlDbType.UniqueIdentifier).Value = userApplicationId;
+            cmd.Parameters.Add("@OwnerId", SqlDbType.UniqueIdentifier).Value = ownerUserId;
+            cmd.Parameters.Add("@ZipCat", SqlDbType.Int).Value = (int)UserApplicationFileCategory.Zip;
+            var result = await cmd.ExecuteScalarAsync();
+            return result != null;
+        }
+
+        public async Task<CreateUserApplicationResult> UpdateUserApplicationAsync(
+            Guid ownerUserId,
+            Guid userApplicationId,
+            UpdateUserApplicationFormRequest request)
+        {
+            if (ownerUserId == Guid.Empty)
+                return new CreateUserApplicationResult { Success = false, Error = "Invalid user." };
+
+            string? zipTempPath = null;
+            string? videoTempPath = null;
+
+            try
+            {
+                await using var connection = new SqlConnection(_connectionString);
+                await connection.OpenAsync();
+
+                // ══════════════════════════════════════════════════════════════
+                //  PHASE 1: Read-only queries + heavy I/O (NO transaction)
+                //  Goal: do all slow work before we take any locks.
+                // ══════════════════════════════════════════════════════════════
+
+                // ── 1a. Resolve the latest version ──────────────────────────
+                Guid versionId;
+                {
+                    const string sql = @"
+SELECT TOP 1 uav.Id
+FROM dbo.UserApplicationVersion uav
+JOIN dbo.UserApplication ua ON ua.Id = uav.UserApplicationId
+WHERE ua.Id = @AppId AND ua.OwnerUserId = @OwnerId
+ORDER BY uav.VersionIndex DESC;";
+                    await using var cmd = new SqlCommand(sql, connection);
+                    cmd.Parameters.Add("@AppId", SqlDbType.UniqueIdentifier).Value = userApplicationId;
+                    cmd.Parameters.Add("@OwnerId", SqlDbType.UniqueIdentifier).Value = ownerUserId;
+                    var obj = await cmd.ExecuteScalarAsync();
+                    if (obj == null)
+                        return new CreateUserApplicationResult { Success = false, Error = "Application not found." };
+                    versionId = (Guid)obj;
+                }
+
+                // ── 1b. Parse request data ──────────────────────────────────
+
+                var existingKeepIds = new List<Guid>();
+                if (!string.IsNullOrWhiteSpace(request.ExistingMediaFileIds))
+                {
+                    try
+                    {
+                        var parsed = JsonSerializer.Deserialize<List<string>>(request.ExistingMediaFileIds);
+                        if (parsed != null)
+                            foreach (var s in parsed)
+                                if (Guid.TryParse(s, out var gid) && gid != Guid.Empty)
+                                    existingKeepIds.Add(gid);
+                    }
+                    catch { /* ignore */ }
+                }
+
+                var mediaOrderEntries = new List<MediaOrderEntry>();
+                if (!string.IsNullOrWhiteSpace(request.MediaOrder))
+                {
+                    try
+                    {
+                        mediaOrderEntries = JsonSerializer.Deserialize<List<MediaOrderEntry>>(request.MediaOrder,
+                            new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new();
+                    }
+                    catch { /* ignore */ }
+                }
+
+                // ── 1c. Get content types for existing files (read-only, no tx needed) ──
+                var existingFileContentTypes = new Dictionary<Guid, string>();
+                if (existingKeepIds.Count > 0)
+                {
+                    var paramNames = existingKeepIds.Select((_, i) => $"@fid{i}").ToList();
+                    var inClause = string.Join(", ", paramNames);
+                    var ctSql = $"SELECT Id, ContentType FROM dbo.[File] WHERE Id IN ({inClause});";
+                    await using var ctCmd = new SqlCommand(ctSql, connection);
+                    for (int i = 0; i < existingKeepIds.Count; i++)
+                        ctCmd.Parameters.Add(paramNames[i], SqlDbType.UniqueIdentifier).Value = existingKeepIds[i];
+                    await using var ctReader = await ctCmd.ExecuteReaderAsync();
+                    while (await ctReader.ReadAsync())
+                        existingFileContentTypes[ctReader.GetGuid(0)] = ctReader.GetString(1);
+                }
+
+                // ── 1d. Build the ordered media list ────────────────────────
+                var newMediaFiles = (request.Media ?? new List<IFormFile>()).Where(f => f != null && f.Length > 0).ToList();
+                var orderedMedia = new List<(Guid? existingFileId, IFormFile? newFile, string contentType)>();
+
+                if (mediaOrderEntries.Count > 0)
+                {
+                    int newIdx = 0;
+                    foreach (var entry in mediaOrderEntries)
+                    {
+                        if (entry.Type == "existing" && Guid.TryParse(entry.FileId, out var eid))
+                        {
+                            var ct = existingFileContentTypes.GetValueOrDefault(eid, "image/jpeg");
+                            orderedMedia.Add((eid, null, ct));
+                        }
+                        else if (entry.Type == "new")
+                        {
+                            var idx = entry.NewIndex ?? newIdx;
+                            if (idx >= 0 && idx < newMediaFiles.Count)
+                            {
+                                var f = newMediaFiles[idx];
+                                var ct = MediaTypeDetector.DetectContentType(f);
+                                orderedMedia.Add((null, f, ct));
+                            }
+                            newIdx++;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var fid in existingKeepIds)
+                    {
+                        var ct = existingFileContentTypes.GetValueOrDefault(fid, "image/jpeg");
+                        orderedMedia.Add((fid, null, ct));
+                    }
+                    foreach (var f in newMediaFiles)
+                    {
+                        var ct = MediaTypeDetector.DetectContentType(f);
+                        orderedMedia.Add((null, f, ct));
+                    }
+                }
+
+                // ── 1e. Apply presentation reordering ───────────────────────
+                var presentationIndex = request.PresentationIndex;
+                if (orderedMedia.Count == 0) presentationIndex = -1;
+                else if (presentationIndex < 0 || presentationIndex >= orderedMedia.Count) presentationIndex = 0;
+
+                if (presentationIndex >= 0 && presentationIndex < orderedMedia.Count && orderedMedia.Count > 0)
+                {
+                    var presItem = orderedMedia[presentationIndex];
+                    orderedMedia.RemoveAt(presentationIndex);
+                    orderedMedia.Insert(0, presItem);
+                }
+
+                // ── 1f. Read current file IDs (needed for thumbnail reuse decision) ──
+                var currentMediaFileIds = await GetFileIdsForCategoriesNoTxAsync(connection, versionId,
+                    new[] { (int)UserApplicationFileCategory.Image, (int)UserApplicationFileCategory.Video });
+                var currentThumbFileIds = await GetFileIdsForCategoryNoTxAsync(connection, versionId, ThumbnailCategory);
+
+                // ── 1g. Determine thumbnail strategy ────────────────────────
+                //  The thumbnail is used in two places:
+                //    1. Card display (when video IS the presentation)
+                //    2. Detail modal carousel (for ANY video in the media list)
+                //  So we must keep/generate a thumbnail whenever ANY video exists,
+                //  not just when the presentation is a video.
+                byte[]? preGeneratedThumbBytes = null;
+                Guid? reuseThumbFileId = null;
+
+                // Check if ANY video exists in the ordered media
+                var hasAnyExistingVideo = orderedMedia.Any(m => m.existingFileId.HasValue && MediaTypeDetector.IsAllowedVideo(m.contentType));
+                var hasAnyNewVideo = orderedMedia.Any(m => m.newFile != null && MediaTypeDetector.IsAllowedVideo(m.contentType));
+                var hasAnyVideo = hasAnyExistingVideo || hasAnyNewVideo;
+
+                if (hasAnyVideo)
+                {
+                    if (currentThumbFileIds.Count > 0 && hasAnyExistingVideo)
+                    {
+                        // An existing video is present and we already have a thumbnail — reuse it.
+                        // This covers both "video is presentation" and "video is not presentation" cases.
+                        reuseThumbFileId = currentThumbFileIds[0];
+                    }
+                    else if (hasAnyNewVideo)
+                    {
+                        // A new video is being uploaded — generate a thumbnail from it.
+                        var newVideoEntry = orderedMedia.First(m => m.newFile != null && MediaTypeDetector.IsAllowedVideo(m.contentType));
+                        videoTempPath = Path.GetTempFileName();
+                        await using (var fs = new FileStream(videoTempPath, FileMode.Create,
+                            FileAccess.Write, FileShare.None, 81920, useAsync: true))
+                        {
+                            await newVideoEntry.newFile!.OpenReadStream().CopyToAsync(fs);
+                        }
+                        try { preGeneratedThumbBytes = await ExtractFirstFrameAsJpgAsync(videoTempPath); }
+                        catch (Exception ex) { Console.Error.WriteLine($"Thumbnail pre-gen failed: {ex.Message}"); }
+                    }
+                    else if (hasAnyExistingVideo && currentThumbFileIds.Count == 0)
+                    {
+                        // Rare edge case: existing video but no thumbnail was ever generated.
+                        // Use streaming download to avoid loading GB into memory.
+                        var existingVideoEntry = orderedMedia.First(m => m.existingFileId.HasValue && MediaTypeDetector.IsAllowedVideo(m.contentType));
+                        videoTempPath = await StreamFileToTempAsync(existingVideoEntry.existingFileId!.Value);
+                        if (videoTempPath != null)
+                        {
+                            try { preGeneratedThumbBytes = await ExtractFirstFrameAsJpgAsync(videoTempPath); }
+                            catch (Exception ex) { Console.Error.WriteLine($"Thumbnail pre-gen failed: {ex.Message}"); }
+                        }
+                    }
+                }
+
+                // ══════════════════════════════════════════════════════════════
+                //  PHASE 2: Fast transaction (only quick DB writes)
+                // ══════════════════════════════════════════════════════════════
+
+                await using var tx = connection.BeginTransaction();
+                try
+                {
+                    // ── 2a. Update version metadata ─────────────────────────
+                    {
+                        const string sql = @"
+UPDATE dbo.UserApplicationVersion
+SET Name          = @Name,
+    Price         = @Price,
+    Description   = @Description,
+    RepositoryUrl = @RepositoryUrl,
+    IsDraft       = @IsDraft
+WHERE Id = @VersionId;";
+                        await using var cmd = new SqlCommand(sql, connection, tx);
+                        cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 255).Value = request.Name.Trim();
+                        cmd.Parameters.Add("@Price", SqlDbType.Decimal).Value = (object?)request.Price ?? DBNull.Value;
+                        cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = (object?)request.Description?.Trim() ?? DBNull.Value;
+                        cmd.Parameters.Add("@RepositoryUrl", SqlDbType.VarChar, 2048).Value =
+                            string.IsNullOrWhiteSpace(request.RepositoryUrl) ? DBNull.Value : (object)request.RepositoryUrl.Trim();
+                        cmd.Parameters.Add("@IsDraft", SqlDbType.Bit).Value = request.IsDraft;
+                        cmd.Parameters.Add("@VersionId", SqlDbType.UniqueIdentifier).Value = versionId;
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+
+                    // ── 2b. Update technologies ─────────────────────────────
+                    await UpsertTechnologyTagsAsync(connection, tx, request.Technologies);
+                    var techList = request.Technologies ?? new List<string>();
+                    var normalizedTechs = techList.Select(t => (t ?? "").Trim()).Where(t => !string.IsNullOrWhiteSpace(t)).ToList();
+                    _cache.Set(TechCachePrefix + versionId, normalizedTechs, new MemoryCacheEntryOptions { SlidingExpiration = TimeSpan.FromHours(6) });
+
+                    // ── 2c. Handle ZIP file ─────────────────────────────────
+                    if (request.ZipFile != null && request.ZipFile.Length > 0)
+                    {
+                        var oldZipFileIds = await GetFileIdsForCategoryAsync(connection, tx, versionId, (int)UserApplicationFileCategory.Zip);
+                        await DeleteVersionFileLinksForCategoryAsync(connection, tx, versionId, (int)UserApplicationFileCategory.Zip);
+                        foreach (var oldId in oldZipFileIds)
+                            await DeleteFileIfOrphanedAsync(connection, tx, oldId);
+
+                        (zipTempPath, var zipFileId) = await InsertZipFileWithMetadataAsync(connection, tx, request.ZipFile, request.Technologies);
+                        await InsertVersionFileLinkAsync(connection, tx, versionId, zipFileId, (int)UserApplicationFileCategory.Zip, 0);
+                    }
+
+                    // ── 2d. Delete old media + thumbnail LINKS ──────────────
+                    var keepSet = new HashSet<Guid>(existingKeepIds);
+                    var removeFileIds = currentMediaFileIds.Where(id => !keepSet.Contains(id)).ToList();
+
+                    await DeleteVersionFileLinksForCategoriesAsync(connection, tx, versionId,
+                        new[] { (int)UserApplicationFileCategory.Image, (int)UserApplicationFileCategory.Video, ThumbnailCategory });
+
+                    foreach (var id in removeFileIds)
+                        await DeleteFileIfOrphanedAsync(connection, tx, id);
+
+                    // ── 2e. Insert new media links ──────────────────────────
+                    var orderIdx = 1;
+                    foreach (var (existingFileId, newFile, contentType) in orderedMedia)
+                    {
+                        var isVideo = MediaTypeDetector.IsAllowedVideo(contentType);
+                        var category = isVideo
+                            ? (int)UserApplicationFileCategory.Video
+                            : (int)UserApplicationFileCategory.Image;
+
+                        if (existingFileId.HasValue)
+                        {
+                            await InsertVersionFileLinkAsync(connection, tx, versionId, existingFileId.Value, category, orderIdx);
+                        }
+                        else if (newFile != null)
+                        {
+                            Guid fileId;
+                            if (isVideo && videoTempPath != null)
+                            {
+                                // Video was already saved to temp in phase 1
+                                fileId = await InsertFileFromTempPathAsync(connection, tx, videoTempPath, contentType);
+                            }
+                            else if (isVideo)
+                            {
+                                // Fallback: non-presentation video
+                                var tempVid = Path.GetTempFileName();
+                                await using (var fs = new FileStream(tempVid, FileMode.Create,
+                                    FileAccess.Write, FileShare.None, 81920, useAsync: true))
+                                    await newFile.OpenReadStream().CopyToAsync(fs);
+                                fileId = await InsertFileFromTempPathAsync(connection, tx, tempVid, contentType);
+                                try { File.Delete(tempVid); } catch { }
+                            }
+                            else
+                            {
+                                fileId = await InsertFileAsync(connection, tx, newFile);
+                            }
+                            await InsertVersionFileLinkAsync(connection, tx, versionId, fileId, category, orderIdx);
+                        }
+                        orderIdx++;
+                    }
+
+                    // ── 2f. Handle thumbnail ────────────────────────────────
+                    if (reuseThumbFileId.HasValue)
+                    {
+                        // Re-link the existing thumbnail file — zero cost, no new file insert.
+                        await InsertVersionFileLinkAsync(connection, tx, versionId, reuseThumbFileId.Value, ThumbnailCategory, 0);
+                    }
+                    else if (preGeneratedThumbBytes != null)
+                    {
+                        // Insert newly generated thumbnail bytes.
+                        var thumbId = await InsertThumbnailFileAsync(connection, tx, preGeneratedThumbBytes);
+                        await InsertVersionFileLinkAsync(connection, tx, versionId, thumbId, ThumbnailCategory, 0);
+                    }
+
+                    await tx.CommitAsync();
+                }
+                catch (Exception ex)
+                {
+                    await tx.RollbackAsync();
+                    throw;
+                }
+
+                // ══════════════════════════════════════════════════════════════
+                //  PHASE 3: Post-commit cleanup (no locks held)
+                // ══════════════════════════════════════════════════════════════
+
+                // Only clean up old thumbnails that weren't reused.
+                var thumbsToCleanup = reuseThumbFileId.HasValue
+                    ? currentThumbFileIds.Where(id => id != reuseThumbFileId.Value).ToList()
+                    : currentThumbFileIds;
+
+                if (thumbsToCleanup.Count > 0)
+                {
+                    try
+                    {
+                        await using var cleanupConn = new SqlConnection(_connectionString);
+                        await cleanupConn.OpenAsync();
+                        foreach (var oldThumbId in thumbsToCleanup)
+                        {
+                            try
+                            {
+                                const string cleanupSql = @"
+DELETE FROM dbo.[File]
+WHERE Id = @FileId
+  AND NOT EXISTS (
+    SELECT 1 FROM dbo.UserApplicationVersionFile WHERE FileId = @FileId
+  );";
+                                await using var cleanupCmd = new SqlCommand(cleanupSql, cleanupConn);
+                                cleanupCmd.Parameters.Add("@FileId", SqlDbType.UniqueIdentifier).Value = oldThumbId;
+                                await cleanupCmd.ExecuteNonQueryAsync();
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.Error.WriteLine($"Old thumbnail cleanup failed for {oldThumbId}: {ex.Message}");
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Error.WriteLine($"Thumbnail cleanup connection failed: {ex.Message}");
+                    }
+                }
+
+                return new CreateUserApplicationResult
+                {
+                    Success = true,
+                    UserApplicationId = userApplicationId,
+                    UserApplicationVersionId = versionId,
+                };
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"UpdateUserApplicationAsync failed: {ex}");
+                return new CreateUserApplicationResult { Success = false, Error = "Server error while updating application." };
+            }
+            finally
+            {
+                try { if (zipTempPath != null && File.Exists(zipTempPath)) File.Delete(zipTempPath); } catch { }
+                try { if (videoTempPath != null && File.Exists(videoTempPath)) File.Delete(videoTempPath); } catch { }
+            }
+        }
+
+        // ── Update helper methods ───────────────────────────────────────────
+
+        private class MediaOrderEntry
+        {
+            public string Type { get; set; } = "";
+            public string? FileId { get; set; }
+            public int? NewIndex { get; set; }
+        }
+
+        private async Task<List<Guid>> GetFileIdsForCategoryAsync(
+            SqlConnection connection, SqlTransaction tx, Guid versionId, int fileCategory)
+        {
+            const string sql = @"
+SELECT uavf.FileId
+FROM dbo.UserApplicationVersionFile uavf
+WHERE uavf.UserApplicationVersionId = @VersionId
+  AND uavf.FileCategory = @Cat;";
+            var ids = new List<Guid>();
+            await using var cmd = new SqlCommand(sql, connection, tx);
+            cmd.Parameters.Add("@VersionId", SqlDbType.UniqueIdentifier).Value = versionId;
+            cmd.Parameters.Add("@Cat", SqlDbType.Int).Value = fileCategory;
+            await using var reader = await cmd.ExecuteReaderAsync();
+            while (await reader.ReadAsync()) ids.Add(reader.GetGuid(0));
+            return ids;
+        }
+
+        private async Task<List<Guid>> GetFileIdsForCategoriesAsync(
+            SqlConnection connection, SqlTransaction tx, Guid versionId, int[] categories)
+        {
+            var paramNames = categories.Select((_, i) => $"@cat{i}").ToList();
+            var inClause = string.Join(", ", paramNames);
+            var sql = $@"
+SELECT uavf.FileId
+FROM dbo.UserApplicationVersionFile uavf
+WHERE uavf.UserApplicationVersionId = @VersionId
+  AND uavf.FileCategory IN ({inClause});";
+            var ids = new List<Guid>();
+            await using var cmd = new SqlCommand(sql, connection, tx);
+            cmd.Parameters.Add("@VersionId", SqlDbType.UniqueIdentifier).Value = versionId;
+            for (int i = 0; i < categories.Length; i++)
+                cmd.Parameters.Add(paramNames[i], SqlDbType.Int).Value = categories[i];
+            await using var reader = await cmd.ExecuteReaderAsync();
+            while (await reader.ReadAsync()) ids.Add(reader.GetGuid(0));
+            return ids;
+        }
+
+        private async Task DeleteVersionFileLinksForCategoryAsync(
+            SqlConnection connection, SqlTransaction tx, Guid versionId, int fileCategory)
+        {
+            const string sql = @"
+DELETE FROM dbo.UserApplicationVersionFile
+WHERE UserApplicationVersionId = @VersionId
+  AND FileCategory = @Cat;";
+            await using var cmd = new SqlCommand(sql, connection, tx);
+            cmd.Parameters.Add("@VersionId", SqlDbType.UniqueIdentifier).Value = versionId;
+            cmd.Parameters.Add("@Cat", SqlDbType.Int).Value = fileCategory;
+            await cmd.ExecuteNonQueryAsync();
+        }
+
+        private async Task DeleteVersionFileLinksForCategoriesAsync(
+            SqlConnection connection, SqlTransaction tx, Guid versionId, int[] categories)
+        {
+            var paramNames = categories.Select((_, i) => $"@cat{i}").ToList();
+            var inClause = string.Join(", ", paramNames);
+            var sql = $@"
+DELETE FROM dbo.UserApplicationVersionFile
+WHERE UserApplicationVersionId = @VersionId
+  AND FileCategory IN ({inClause});";
+            await using var cmd = new SqlCommand(sql, connection, tx);
+            cmd.Parameters.Add("@VersionId", SqlDbType.UniqueIdentifier).Value = versionId;
+            for (int i = 0; i < categories.Length; i++)
+                cmd.Parameters.Add(paramNames[i], SqlDbType.Int).Value = categories[i];
+            await cmd.ExecuteNonQueryAsync();
+        }
+
+        /// <summary>
+        /// Deletes a file from dbo.[File] only if it has no remaining links in UserApplicationVersionFile.
+        /// </summary>
+        private async Task DeleteFileIfOrphanedAsync(
+            SqlConnection connection, SqlTransaction tx, Guid fileId)
+        {
+            const string sql = @"
+DELETE FROM dbo.[File]
+WHERE Id = @FileId
+  AND NOT EXISTS (
+    SELECT 1 FROM dbo.UserApplicationVersionFile WHERE FileId = @FileId
+  );";
+            await using var cmd = new SqlCommand(sql, connection, tx);
+            cmd.Parameters.Add("@FileId", SqlDbType.UniqueIdentifier).Value = fileId;
+            await cmd.ExecuteNonQueryAsync();
+        }
+
+        private async Task<string?> GetFileContentTypeAsync(
+            SqlConnection connection, SqlTransaction tx, Guid fileId)
+        {
+            const string sql = @"SELECT TOP 1 ContentType FROM dbo.[File] WHERE Id = @FileId;";
+            await using var cmd = new SqlCommand(sql, connection, tx);
+            cmd.Parameters.Add("@FileId", SqlDbType.UniqueIdentifier).Value = fileId;
+            var obj = await cmd.ExecuteScalarAsync();
+            return obj as string;
+        }
+
+        /// <summary>
+        /// Downloads a file from the DB to a temp path (used for video thumbnail generation on existing files).
+        /// </summary>
+        private async Task<string?> DownloadFileToTempAsync(
+            SqlConnection connection, SqlTransaction tx, Guid fileId)
+        {
+            const string sql = @"SELECT FileContents FROM dbo.[File] WHERE Id = @FileId;";
+            await using var cmd = new SqlCommand(sql, connection, tx);
+            cmd.Parameters.Add("@FileId", SqlDbType.UniqueIdentifier).Value = fileId;
+            cmd.CommandTimeout = 300; // large files may take time
+
+            var obj = await cmd.ExecuteScalarAsync();
+            if (obj == null || obj == DBNull.Value) return null;
+
+            var bytes = (byte[])obj;
+            var tempPath = Path.GetTempFileName();
+            await File.WriteAllBytesAsync(tempPath, bytes);
+            return tempPath;
+        }
+
+        /// <summary>
+        /// Streams a file from the DB to a temp path using its own connection (no transaction).
+        /// Uses SequentialAccess + GetStream so the file is NEVER loaded entirely into memory.
+        /// Safe for files of any size (tested with 1+ GB videos).
+        /// </summary>
+        private async Task<string?> StreamFileToTempAsync(Guid fileId)
+        {
+            const string sql = @"SELECT FileContents FROM dbo.[File] WHERE Id = @FileId;";
+            await using var conn = new SqlConnection(_connectionString);
+            await conn.OpenAsync();
+            await using var cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.Add("@FileId", SqlDbType.UniqueIdentifier).Value = fileId;
+            cmd.CommandTimeout = 600;
+
+            await using var reader = await cmd.ExecuteReaderAsync(CommandBehavior.SequentialAccess);
+            if (!await reader.ReadAsync() || reader.IsDBNull(0)) return null;
+
+            var tempPath = Path.GetTempFileName();
+            try
+            {
+                await using var sqlStream = reader.GetStream(0);
+                await using var fileStream = new FileStream(tempPath, FileMode.Create,
+                    FileAccess.Write, FileShare.None, 81920, useAsync: true);
+                await sqlStream.CopyToAsync(fileStream, 81920);
+                return tempPath;
+            }
+            catch
+            {
+                try { if (File.Exists(tempPath)) File.Delete(tempPath); } catch { }
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Gets file IDs for specific categories without a transaction (read-only).
+        /// </summary>
+        private async Task<List<Guid>> GetFileIdsForCategoriesNoTxAsync(
+            SqlConnection connection, Guid versionId, int[] categories)
+        {
+            var paramNames = categories.Select((_, i) => $"@cat{i}").ToList();
+            var inClause = string.Join(", ", paramNames);
+            var sql = $@"
+SELECT uavf.FileId
+FROM dbo.UserApplicationVersionFile uavf
+WHERE uavf.UserApplicationVersionId = @VersionId
+  AND uavf.FileCategory IN ({inClause});";
+            var ids = new List<Guid>();
+            await using var cmd = new SqlCommand(sql, connection);
+            cmd.Parameters.Add("@VersionId", SqlDbType.UniqueIdentifier).Value = versionId;
+            for (int i = 0; i < categories.Length; i++)
+                cmd.Parameters.Add(paramNames[i], SqlDbType.Int).Value = categories[i];
+            await using var reader = await cmd.ExecuteReaderAsync();
+            while (await reader.ReadAsync()) ids.Add(reader.GetGuid(0));
+            return ids;
+        }
+
+        /// <summary>
+        /// Gets file IDs for a single category without a transaction (read-only).
+        /// </summary>
+        private async Task<List<Guid>> GetFileIdsForCategoryNoTxAsync(
+            SqlConnection connection, Guid versionId, int fileCategory)
+        {
+            const string sql = @"
+SELECT uavf.FileId
+FROM dbo.UserApplicationVersionFile uavf
+WHERE uavf.UserApplicationVersionId = @VersionId
+  AND uavf.FileCategory = @Cat;";
+            var ids = new List<Guid>();
+            await using var cmd = new SqlCommand(sql, connection);
+            cmd.Parameters.Add("@VersionId", SqlDbType.UniqueIdentifier).Value = versionId;
+            cmd.Parameters.Add("@Cat", SqlDbType.Int).Value = fileCategory;
+            await using var reader = await cmd.ExecuteReaderAsync();
+            while (await reader.ReadAsync()) ids.Add(reader.GetGuid(0));
+            return ids;
+        }
+
+        // ─────────────────────────────────────────────────────────────────────
+        //  GET CARD
+        // ─────────────────────────────────────────────────────────────────────
+
         public async Task<UserApplicationCardDto?> GetCreatedCardAsync(
             Guid ownerUserId, Guid userApplicationId, Guid userApplicationVersionId)
         {
@@ -336,19 +1094,19 @@ SELECT
     pres.FileCategory                                   AS DefaultPresentationFileCategory,
     pres.ContentType                                    AS DefaultPresentationContentType,
     thumb.FileId                                        AS DefaultPresentationThumbnailFileId
-FROM dbo.UserApplication ua
-JOIN dbo.UserApplicationVersion uav ON uav.UserApplicationId = ua.Id
+FROM dbo.UserApplication ua WITH (NOLOCK)
+JOIN dbo.UserApplicationVersion uav WITH (NOLOCK) ON uav.UserApplicationId = ua.Id
 OUTER APPLY (
     SELECT TOP 1 uavf.FileId, uavf.FileCategory, f.ContentType
-    FROM dbo.UserApplicationVersionFile uavf
-    JOIN dbo.[File] f ON f.Id = uavf.FileId
+    FROM dbo.UserApplicationVersionFile uavf WITH (NOLOCK)
+    JOIN dbo.[File] f WITH (NOLOCK) ON f.Id = uavf.FileId
     WHERE uavf.UserApplicationVersionId = uav.Id
       AND uavf.FileCategory IN (2, 3)
     ORDER BY uavf.OrderIndex ASC
 ) pres
 OUTER APPLY (
     SELECT TOP 1 uavf.FileId
-    FROM dbo.UserApplicationVersionFile uavf
+    FROM dbo.UserApplicationVersionFile uavf WITH (NOLOCK)
     WHERE uavf.UserApplicationVersionId = uav.Id
       AND uavf.FileCategory = 4
 ) thumb
@@ -424,24 +1182,24 @@ SELECT
     pres.FileCategory                                   AS DefaultPresentationFileCategory,
     pres.ContentType                                    AS DefaultPresentationContentType,
     thumb.FileId                                        AS DefaultPresentationThumbnailFileId
-FROM dbo.UserApplication ua
+FROM dbo.UserApplication ua WITH (NOLOCK)
 CROSS APPLY (
     SELECT TOP 1 *
-    FROM dbo.UserApplicationVersion v
+    FROM dbo.UserApplicationVersion v WITH (NOLOCK)
     WHERE v.UserApplicationId = ua.Id
     ORDER BY v.VersionIndex DESC
 ) uav
 OUTER APPLY (
     SELECT TOP 1 uavf.FileId, uavf.FileCategory, f.ContentType
-    FROM dbo.UserApplicationVersionFile uavf
-    JOIN dbo.[File] f ON f.Id = uavf.FileId
+    FROM dbo.UserApplicationVersionFile uavf WITH (NOLOCK)
+    JOIN dbo.[File] f WITH (NOLOCK) ON f.Id = uavf.FileId
     WHERE uavf.UserApplicationVersionId = uav.Id
       AND uavf.FileCategory IN (2, 3)
     ORDER BY uavf.OrderIndex ASC
 ) pres
 OUTER APPLY (
     SELECT TOP 1 uavf.FileId
-    FROM dbo.UserApplicationVersionFile uavf
+    FROM dbo.UserApplicationVersionFile uavf WITH (NOLOCK)
     WHERE uavf.UserApplicationVersionId = uav.Id
       AND uavf.FileCategory = 4
 ) thumb
@@ -662,6 +1420,7 @@ ORDER BY uav.CreatedAt DESC;";
                 item.Files = await GetFilesForVersionAsync(connection, item.UserApplicationVersionId);
                 item.DefaultPresentationFileId = ResolveDefaultPresentationFileId(item.Files);
                 item.Technologies = await GetTechnologiesForVersionCachedAsync(connection, item.UserApplicationVersionId);
+                await PopulateZipFileInfoAsync(connection, item);
             }
 
             return results;
@@ -683,8 +1442,8 @@ SELECT TOP 1
        uav.Description,
        uav.RepositoryUrl,
        uav.CreatedAt
-FROM dbo.UserApplication ua
-JOIN dbo.UserApplicationVersion uav ON uav.UserApplicationId = ua.Id
+FROM dbo.UserApplication ua WITH (NOLOCK)
+JOIN dbo.UserApplicationVersion uav WITH (NOLOCK) ON uav.UserApplicationId = ua.Id
 WHERE ua.OwnerUserId = @OwnerUserId
   AND ua.Id = @UserApplicationId
 ORDER BY uav.VersionIndex DESC;";
@@ -714,7 +1473,33 @@ ORDER BY uav.VersionIndex DESC;";
             dto!.Files = await GetFilesForVersionAsync(connection, dto.UserApplicationVersionId);
             dto.DefaultPresentationFileId = ResolveDefaultPresentationFileId(dto.Files);
             dto.Technologies = await GetTechnologiesForVersionCachedAsync(connection, dto.UserApplicationVersionId);
+            await PopulateZipFileInfoAsync(connection, dto);
             return dto;
+        }
+
+        /// <summary>
+        /// Populates ZipFileId and ZipFileName on a details DTO.
+        /// </summary>
+        private async Task PopulateZipFileInfoAsync(SqlConnection connection, UserApplicationDetailsDto dto)
+        {
+            const string sql = @"
+SELECT TOP 1 uavf.FileId
+FROM dbo.UserApplicationVersionFile uavf WITH (NOLOCK)
+WHERE uavf.UserApplicationVersionId = @VersionId
+  AND uavf.FileCategory = @ZipCat
+ORDER BY uavf.OrderIndex;";
+
+            await using var cmd = new SqlCommand(sql, connection);
+            cmd.Parameters.Add("@VersionId", SqlDbType.UniqueIdentifier).Value = dto.UserApplicationVersionId;
+            cmd.Parameters.Add("@ZipCat", SqlDbType.Int).Value = (int)UserApplicationFileCategory.Zip;
+            var obj = await cmd.ExecuteScalarAsync();
+            if (obj != null && obj != DBNull.Value)
+            {
+                dto.ZipFileId = (Guid)obj;
+                // We don't store the original filename, so derive one from the app name
+                var safeName = string.IsNullOrWhiteSpace(dto.Name) ? "application" : dto.Name.Trim();
+                dto.ZipFileName = safeName + ".zip";
+            }
         }
 
         public async Task<List<UserApplicationCardDto>> SearchUserApplicationCardsAsync(
@@ -987,13 +1772,13 @@ WHERE uav.Id = @VersionId
 
             const string sql = @"
 SELECT f.Id, f.ContentType, DATALENGTH(f.FileContents) AS FileSize
-FROM dbo.[File] f
+FROM dbo.[File] f WITH (NOLOCK)
 WHERE f.Id = @FileId
   AND EXISTS (
     SELECT 1
-    FROM dbo.UserApplicationVersionFile uavf
-    JOIN dbo.UserApplicationVersion uav ON uav.Id = uavf.UserApplicationVersionId
-    JOIN dbo.UserApplication ua          ON ua.Id  = uav.UserApplicationId
+    FROM dbo.UserApplicationVersionFile uavf WITH (NOLOCK)
+    JOIN dbo.UserApplicationVersion uav WITH (NOLOCK) ON uav.Id = uavf.UserApplicationVersionId
+    JOIN dbo.UserApplication ua WITH (NOLOCK)          ON ua.Id  = uav.UserApplicationId
     WHERE uavf.FileId      = f.Id
       AND ua.OwnerUserId   = @OwnerUserId
   );";
@@ -1028,13 +1813,13 @@ WHERE f.Id = @FileId
 
                 const string sql = @"
 SELECT SUBSTRING(f.FileContents, @Offset, @Length)
-FROM dbo.[File] f
+FROM dbo.[File] f WITH (NOLOCK)
 WHERE f.Id = @FileId
   AND EXISTS (
     SELECT 1
-    FROM dbo.UserApplicationVersionFile uavf
-    JOIN dbo.UserApplicationVersion uav ON uav.Id = uavf.UserApplicationVersionId
-    JOIN dbo.UserApplication ua          ON ua.Id  = uav.UserApplicationId
+    FROM dbo.UserApplicationVersionFile uavf WITH (NOLOCK)
+    JOIN dbo.UserApplicationVersion uav WITH (NOLOCK) ON uav.Id = uavf.UserApplicationVersionId
+    JOIN dbo.UserApplication ua WITH (NOLOCK)          ON ua.Id  = uav.UserApplicationId
     WHERE uavf.FileId      = f.Id
       AND ua.OwnerUserId   = @OwnerUserId
   );";
@@ -1169,8 +1954,8 @@ END";
 
             const string sql = @"
 SELECT uavf.FileId, uavf.FileCategory, uavf.OrderIndex, f.ContentType
-FROM dbo.UserApplicationVersionFile uavf
-JOIN dbo.[File] f ON f.Id = uavf.FileId
+FROM dbo.UserApplicationVersionFile uavf WITH (NOLOCK)
+JOIN dbo.[File] f WITH (NOLOCK) ON f.Id = uavf.FileId
 WHERE uavf.UserApplicationVersionId = @VersionId
   AND uavf.FileCategory IN (2, 3, 4)
 ORDER BY uavf.OrderIndex ASC;";

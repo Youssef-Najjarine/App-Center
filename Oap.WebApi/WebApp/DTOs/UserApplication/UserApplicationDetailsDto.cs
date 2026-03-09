@@ -18,9 +18,7 @@
         public string DefaultPresentationThumbnailUrl { get; set; } = "";
         public bool IsVideo { get; set; }
         public List<string> Technologies { get; set; } = new();
-
     }
-
     public class UserApplicationDetailsDto
     {
         public Guid UserApplicationId { get; set; }
@@ -35,8 +33,9 @@
         public List<string> Technologies { get; set; } = new();
         public List<UserApplicationFileDto> Files { get; set; } = new();
         public Guid? DefaultPresentationFileId { get; set; }
+        public Guid? ZipFileId { get; set; }
+        public string? ZipFileName { get; set; }
     }
-
     public class UserApplicationFileDto
     {
         public Guid FileId { get; set; }
