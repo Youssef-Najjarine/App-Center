@@ -57,7 +57,7 @@ builder.Services.AddScoped<IVerificationUserAccount, VerificationUserAccountServ
 builder.Services.AddScoped<AuthCookieService>();
 builder.Services.AddScoped<AuthCookieIssuerService>();
 builder.Services.AddSingleton<EmailService>();
-builder.Services.AddScoped<IUserApplication, UserApplicationService>();
+builder.Services.AddScoped<IProfileApplication, ProfileApplicationService>();
 
 var app = builder.Build();
 

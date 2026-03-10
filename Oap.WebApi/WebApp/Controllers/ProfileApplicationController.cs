@@ -11,21 +11,21 @@ namespace Oap.WebApp.Controllers
 {
     [ApiController]
     [Route("api/user-application")]
-    public class UserApplicationController : ControllerBase
+    public class ProfileApplicationController : ControllerBase
     {
         private readonly AuthCookieService _authCookieService;
-        private readonly IUserApplication _userApplicationService;
+        private readonly IProfileApplication _profileAppService;
         private readonly IWebHostEnvironment _environment;
         private readonly IConfiguration _configuration;
 
-        public UserApplicationController(
+        public ProfileApplicationController(
             AuthCookieService authCookieService,
-            IUserApplication userApplicationService,
+            IProfileApplication profileAppService,
             IWebHostEnvironment environment,
             IConfiguration configuration)
         {
             _authCookieService = authCookieService;
-            _userApplicationService = userApplicationService;
+            _profileAppService = profileAppService;
             _environment = environment;
             _configuration = configuration;
         }
@@ -66,11 +66,11 @@ namespace Oap.WebApp.Controllers
 
             try
             {
-                var result = await _userApplicationService.CreateUserApplicationAsync(tokenInfo.UserId, request);
+                var result = await _profileAppService.CreateUserApplicationAsync(tokenInfo.UserId, request);
                 if (!result.Success)
                     return StatusCode(500, new { success = false, error = result.Error });
 
-                var card = await _userApplicationService.GetCreatedCardAsync(
+                var card = await _profileAppService.GetCreatedCardAsync(
                     tokenInfo.UserId,
                     result.UserApplicationId,
                     result.UserApplicationVersionId);
@@ -101,8 +101,7 @@ namespace Oap.WebApp.Controllers
             if (tokenInfo == null)
                 return Unauthorized(new { error = "Not authenticated" });
 
-            // Check if the app has an existing zip (so validator can allow omitting new zip)
-            var hasExistingZip = await _userApplicationService.HasZipFileAsync(tokenInfo.UserId, userApplicationId);
+            var hasExistingZip = await _profileAppService.HasZipFileAsync(tokenInfo.UserId, userApplicationId);
 
             var errors = UpdateUserApplicationValidator.Validate(request, hasExistingZip);
             if (errors.Count > 0)
@@ -110,13 +109,13 @@ namespace Oap.WebApp.Controllers
 
             try
             {
-                var result = await _userApplicationService.UpdateUserApplicationAsync(
+                var result = await _profileAppService.UpdateUserApplicationAsync(
                     tokenInfo.UserId, userApplicationId, request);
 
                 if (!result.Success)
                     return StatusCode(500, new { success = false, error = result.Error });
 
-                var card = await _userApplicationService.GetCreatedCardAsync(
+                var card = await _profileAppService.GetCreatedCardAsync(
                     tokenInfo.UserId,
                     result.UserApplicationId,
                     result.UserApplicationVersionId);
@@ -136,6 +135,28 @@ namespace Oap.WebApp.Controllers
             }
         }
 
+        [HttpDelete("delete-user-application/{userApplicationId:guid}")]
+        public async Task<IActionResult> DeleteUserApplication([FromRoute] Guid userApplicationId)
+        {
+            try
+            {
+                var tokenInfo = GetAuthedUser();
+                if (tokenInfo == null)
+                    return Unauthorized(new { error = "Not authenticated" });
+
+                var success = await _profileAppService.DeleteUserApplicationAsync(tokenInfo.UserId, userApplicationId);
+                if (!success)
+                    return NotFound(new { success = false, error = "Application not found or already deleted." });
+
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return StatusCode(500, new { success = false, error = "Server error while deleting application." });
+            }
+        }
+
         [HttpGet("get-all-user-application-cards")]
         public async Task<IActionResult> GetAllMyUserApplicationCards()
         {
@@ -145,7 +166,7 @@ namespace Oap.WebApp.Controllers
                 if (tokenInfo == null)
                     return Unauthorized(new { error = "Not authenticated" });
 
-                var items = await _userApplicationService.GetAllUserApplicationCardsAsync(tokenInfo.UserId);
+                var items = await _profileAppService.GetAllUserApplicationCardsAsync(tokenInfo.UserId);
                 return Ok(new { success = true, applications = items });
             }
             catch (Exception ex)
@@ -166,7 +187,7 @@ namespace Oap.WebApp.Controllers
                 if (tokenInfo == null)
                     return Unauthorized(new { error = "Not authenticated" });
 
-                var items = await _userApplicationService.SearchUserApplicationCardsAsync(
+                var items = await _profileAppService.SearchUserApplicationCardsAsync(
                     tokenInfo.UserId, q?.Trim(), sort?.Trim());
 
                 return Ok(new { success = true, applications = items });
@@ -195,7 +216,7 @@ namespace Oap.WebApp.Controllers
                     .Distinct()
                     .ToList();
 
-                var result = await _userApplicationService.GetBulkTechnologiesAsync(tokenInfo.UserId, validIds);
+                var result = await _profileAppService.GetBulkTechnologiesAsync(tokenInfo.UserId, validIds);
                 return Ok(new { success = true, technologies = result });
             }
             catch (Exception ex)
@@ -214,7 +235,7 @@ namespace Oap.WebApp.Controllers
                 if (tokenInfo == null)
                     return Unauthorized(new { error = "Not authenticated" });
 
-                var items = await _userApplicationService.GetAllUserApplicationDetailsAsync(tokenInfo.UserId);
+                var items = await _profileAppService.GetAllUserApplicationDetailsAsync(tokenInfo.UserId);
                 return Ok(new { success = true, applications = items });
             }
             catch (Exception ex)
@@ -233,7 +254,7 @@ namespace Oap.WebApp.Controllers
                 if (tokenInfo == null)
                     return Unauthorized(new { error = "Not authenticated" });
 
-                var tech = await _userApplicationService.GetTechnologiesForVersionAsync(tokenInfo.UserId, userApplicationVersionId);
+                var tech = await _profileAppService.GetTechnologiesForVersionAsync(tokenInfo.UserId, userApplicationVersionId);
                 return Ok(new { success = true, technologies = tech });
             }
             catch (Exception ex)
@@ -252,7 +273,7 @@ namespace Oap.WebApp.Controllers
                 if (tokenInfo == null)
                     return Unauthorized(new { error = "Not authenticated" });
 
-                var item = await _userApplicationService.GetUserApplicationDetailsAsync(tokenInfo.UserId, userApplicationId);
+                var item = await _profileAppService.GetUserApplicationDetailsAsync(tokenInfo.UserId, userApplicationId);
                 if (item == null) return NotFound(new { success = false, error = "Not found" });
                 return Ok(new { success = true, application = item });
             }
@@ -260,28 +281,6 @@ namespace Oap.WebApp.Controllers
             {
                 Console.Error.WriteLine(ex);
                 return StatusCode(500, new { success = false, error = "Server error while loading application." });
-            }
-        }
-
-        [HttpDelete("delete-user-application/{userApplicationId:guid}")]
-        public async Task<IActionResult> DeleteUserApplication([FromRoute] Guid userApplicationId)
-        {
-            try
-            {
-                var tokenInfo = GetAuthedUser();
-                if (tokenInfo == null)
-                    return Unauthorized(new { error = "Not authenticated" });
-
-                var success = await _userApplicationService.DeleteUserApplicationAsync(tokenInfo.UserId, userApplicationId);
-                if (!success)
-                    return NotFound(new { success = false, error = "Application not found or already deleted." });
-
-                return Ok(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine(ex);
-                return StatusCode(500, new { success = false, error = "Server error while deleting application." });
             }
         }
 
@@ -294,7 +293,7 @@ namespace Oap.WebApp.Controllers
                 if (tokenInfo == null)
                     return Unauthorized(new { error = "Not authenticated" });
 
-                var meta = await _userApplicationService.GetFileMetaIfOwnedAsync(tokenInfo.UserId, fileId);
+                var meta = await _profileAppService.GetFileMetaIfOwnedAsync(tokenInfo.UserId, fileId);
                 if (meta == null) return NotFound();
 
                 Response.Headers["Cache-Control"] = "public, max-age=31536000, immutable";
@@ -350,7 +349,7 @@ namespace Oap.WebApp.Controllers
                     Response.ContentType = meta.ContentType;
                 }
 
-                await _userApplicationService.StreamFileRangeAsync(
+                await _profileAppService.StreamFileRangeAsync(
                     tokenInfo.UserId,
                     fileId,
                     rangeStart,
