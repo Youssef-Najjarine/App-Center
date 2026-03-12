@@ -156,6 +156,77 @@ END";
             }
         }
 
+        private async Task<(string? tempOutputPath, Guid zipFileId)> PrepareZipMetadataUpdateAsync(
+            SqlConnection connection, Guid versionId, List<string> technologies)
+        {
+            const string sql = @"
+SELECT TOP 1 uavf.FileId
+FROM dbo.UserApplicationVersionFile uavf
+WHERE uavf.UserApplicationVersionId = @VersionId
+  AND uavf.FileCategory = @ZipCat
+ORDER BY uavf.OrderIndex;";
+
+            Guid zipFileId;
+            await using (var cmd = new SqlCommand(sql, connection))
+            {
+                cmd.Parameters.Add("@VersionId", SqlDbType.UniqueIdentifier).Value = versionId;
+                cmd.Parameters.Add("@ZipCat", SqlDbType.Int).Value = (int)UserApplicationFileCategory.Zip;
+                var obj = await cmd.ExecuteScalarAsync();
+                if (obj == null || obj == DBNull.Value)
+                    return (null, Guid.Empty);
+                zipFileId = (Guid)obj;
+            }
+
+            var tempInputPath = Path.GetTempFileName();
+            var tempOutputPath = Path.GetTempFileName();
+            try
+            {
+                const string streamSql = @"SELECT FileContents FROM dbo.[File] WHERE Id = @FileId;";
+                await using (var cmd = new SqlCommand(streamSql, connection))
+                {
+                    cmd.Parameters.Add("@FileId", SqlDbType.UniqueIdentifier).Value = zipFileId;
+                    cmd.CommandTimeout = 300;
+                    await using var reader = await cmd.ExecuteReaderAsync(CommandBehavior.SequentialAccess);
+                    if (!await reader.ReadAsync() || reader.IsDBNull(0))
+                    {
+                        try { File.Delete(tempInputPath); } catch { }
+                        try { File.Delete(tempOutputPath); } catch { }
+                        return (null, Guid.Empty);
+                    }
+                    await using var sqlStream = reader.GetStream(0);
+                    await using var fs = new FileStream(tempInputPath, FileMode.Create,
+                        FileAccess.Write, FileShare.None, 81920, useAsync: true);
+                    await sqlStream.CopyToAsync(fs, 81920);
+                }
+
+                InjectOrUpdateZipMetadataToFile(tempInputPath, tempOutputPath, technologies);
+                return (tempOutputPath, zipFileId);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"PrepareZipMetadataUpdateAsync failed: {ex.Message}");
+                try { if (File.Exists(tempOutputPath)) File.Delete(tempOutputPath); } catch { }
+                return (null, Guid.Empty);
+            }
+            finally
+            {
+                try { if (File.Exists(tempInputPath)) File.Delete(tempInputPath); } catch { }
+            }
+        }
+
+        private async Task ReplaceFileContentsFromTempAsync(
+            SqlConnection connection, SqlTransaction tx, Guid fileId, string tempPath)
+        {
+            const string sql = @"UPDATE dbo.[File] SET FileContents = @FileContents WHERE Id = @FileId;";
+            await using var cmd = new SqlCommand(sql, connection, tx);
+            cmd.Parameters.Add("@FileId", SqlDbType.UniqueIdentifier).Value = fileId;
+            await using var fs = new FileStream(tempPath, FileMode.Open, FileAccess.Read,
+                FileShare.Read, 81920, useAsync: true);
+            cmd.Parameters.Add("@FileContents", SqlDbType.VarBinary, -1).Value = fs;
+            cmd.CommandTimeout = 300;
+            await cmd.ExecuteNonQueryAsync();
+        }
+
         private async Task<(string TempOutputPath, Guid ZipFileId)> InsertZipFileWithMetadataAsync(
             SqlConnection connection, SqlTransaction tx,
             IFormFile zipFile, List<string> technologies)

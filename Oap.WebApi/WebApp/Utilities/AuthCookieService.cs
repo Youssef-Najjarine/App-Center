@@ -80,7 +80,7 @@ namespace Oap.WebApp.Utilities
                 return deviceId;
             }
 
-            deviceId = Guid.NewGuid().ToString("N"); // 32 chars
+            deviceId = Guid.NewGuid().ToString("N");
 
             context.Response.Cookies.Append("device_id", deviceId, new CookieOptions
             {

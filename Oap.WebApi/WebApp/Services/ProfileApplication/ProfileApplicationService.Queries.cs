@@ -269,16 +269,15 @@ WHERE uav.Id = @VersionId AND ua.OwnerUserId = @OwnerUserId;";
 
             if (uncached.Count == 0) return result;
 
-            var zipFileIdMap = await GetZipFileIdsForVersionsAsync(uncached);
             var semaphore = new SemaphoreSlim(6, 6);
             var tasks = uncached.Select(async vid =>
             {
                 await semaphore.WaitAsync();
                 try
                 {
-                    if (!zipFileIdMap.TryGetValue(vid, out var zipFileId))
-                        return (vid, new List<string>());
-                    var techs = await ReadTechnologiesFromZipInDbAsync(zipFileId);
+                    await using var conn = new SqlConnection(_connectionString);
+                    await conn.OpenAsync();
+                    var techs = await GetTechsFromZipFastAsync(conn, vid);
                     _cache.Set(TechCachePrefix + vid, techs, new MemoryCacheEntryOptions { SlidingExpiration = TimeSpan.FromHours(6) });
                     return (vid, techs);
                 }
@@ -395,7 +394,6 @@ ORDER BY {orderBy};";
 
             return dbMatches;
         }
-
 
         private async Task<List<Guid>> GetOwnedVersionIdsAsync(Guid ownerUserId, List<Guid> versionIds)
         {

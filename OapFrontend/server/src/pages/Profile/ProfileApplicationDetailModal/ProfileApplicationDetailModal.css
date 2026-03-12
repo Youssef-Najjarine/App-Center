@@ -43,6 +43,10 @@
   font-weight: 700;
   line-height: 33.833px;
   margin: 0;
+  max-width: 173.22px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .profile-app-details-modal-edit span,
@@ -415,6 +419,7 @@
   .profile-app-details-close-header h2 {
     font-size: 24.5px;
     line-height: 36.75px;
+    max-width: 444px;
   }
 
   .profile-app-details-modal-edit span,
@@ -667,6 +672,7 @@
   .profile-app-details-close-header h2 {
     font-size: 28px;
     line-height: 42px;
+    max-width: 1074px;
   }
 
   .profile-app-details-modal-edit span,

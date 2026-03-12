@@ -440,6 +440,10 @@
   margin: 0 0 9.67px 0;
   font-style: normal;
   font-weight: 700;
+  max-width: 306px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .profileApp-app-description {
@@ -853,6 +857,7 @@
     line-height: 28.875px;
     letter-spacing: -0.385px;
     margin: 0 0 10.5px 0;
+    max-width: 325.5px;
   }
 
   .profileApp-app-description {
@@ -1129,6 +1134,7 @@
     line-height: 33px;
     letter-spacing: -0.44px;
     margin: 0 0 12px 0;
+    max-width: 412px;
   }
 
   .profileApp-app-description {

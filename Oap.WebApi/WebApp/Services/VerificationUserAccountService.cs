@@ -26,7 +26,6 @@ namespace Oap.WebApp.Services
             await using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
 
-            // Upsert: Delete old if exists, insert new
             await using var deleteCommand = new SqlCommand(
                 "DELETE FROM [dbo].[UserVerification] WHERE UserId = @UserId", connection);
             deleteCommand.Parameters.AddWithValue("@UserId", userId);
@@ -72,7 +71,6 @@ namespace Oap.WebApp.Services
 
             Guid userId = (Guid)userIdObj;
 
-            // Mark verified + delete verification row
             await using var transaction = connection.BeginTransaction();
             command.Transaction = transaction;
 
@@ -114,7 +112,6 @@ namespace Oap.WebApp.Services
             await using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
 
-            // 1) Validate code -> get UserId
             await using var getUserIdCmd = new SqlCommand(
                 @"SELECT u.Id
                   FROM [dbo].[User] u
@@ -135,7 +132,6 @@ namespace Oap.WebApp.Services
 
             var userId = (Guid)userIdObj;
 
-            // 2) One-time code: delete verification row
             await using (var deleteVerificationCmd = new SqlCommand(
                 "DELETE FROM [dbo].[UserVerification] WHERE UserId = @UserId",
                 connection))
@@ -144,7 +140,6 @@ namespace Oap.WebApp.Services
                 await deleteVerificationCmd.ExecuteNonQueryAsync();
             }
 
-            // 3) Create reset token (Used=0) and return it
             var resetToken = GenerateResetToken();
             var tokenHash = CryptoUtils.Sha256Hex(resetToken);
             var expires = DateTime.Now.AddMinutes(15);
@@ -165,7 +160,7 @@ namespace Oap.WebApp.Services
 
         private static string GenerateResetToken()
         {
-            var bytes = RandomNumberGenerator.GetBytes(32); // 256-bit
+            var bytes = RandomNumberGenerator.GetBytes(32);
             return Convert.ToBase64String(bytes);
         }
 

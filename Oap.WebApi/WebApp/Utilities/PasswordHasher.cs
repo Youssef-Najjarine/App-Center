@@ -5,9 +5,9 @@ namespace Oap.WebApp.Utilities
 {
     public static class PasswordHasher
     {
-        private const int SaltSize = 128 / 8; // 128 bits
-        private const int HashSize = 256 / 8; // 256 bits
-        private const int Iterations = 100000; // High — adjust up over time for security
+        private const int SaltSize = 128 / 8;
+        private const int HashSize = 256 / 8;
+        private const int Iterations = 100000;
 
         public static string HashPassword(string password)
         {

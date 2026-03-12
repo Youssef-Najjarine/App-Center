@@ -1,117 +1,133 @@
-.appHome-modal-carousel-section {
-    width: 100%;
-    overflow: hidden;
-    padding: 0;
-    margin: 0 0 16px 0;
+.appHome-carousel-section {
+  width: 100%;
+  overflow: hidden;
+  padding: 0;
+  margin: 0 0 16px 0;
 }
 
-.appHome-modal-carousel-image.selected {
-  border: 2.419px solid #5541D7;
+.appHome-carousel-viewport {
+  width: 100%;
+  overflow: hidden;
 }
 
-.appHome-modal-carousel-container {
-    width: 100%;
-    display: flex;
+.appHome-carousel-viewport--live {
+  position: relative;
+  width: 100%;
+  height: 109.442px;
+  overflow: hidden;
 }
 
-.appHome-modal-carousel-track {
-    display: flex;
-    animation: scroll-right 20s linear infinite;
-    gap: 9.67px;
+.appHome-carousel-track {
+  display: flex;
+  flex-direction: row;
+  gap: 9.67px;
 }
 
-.appHome-modal-carousel-image {
+.appHome-carousel-img {
+  flex-shrink: 0;
   cursor: pointer;
-  width: 36%;
+  width: 33%;
   height: 109.442px;
   border-radius: 7.256px;
   object-fit: cover;
   object-position: center;
-  flex-shrink: 0;
+  box-sizing: border-box;
+  border: 2.419px solid transparent;
+  transition: border-color 0.18s ease;
 }
 
-@keyframes scroll-right {
-    0% {
-        transform: translateX(-50%);
-    }
-    100% {
-        transform: translateX(0);
-    }
+.appHome-carousel-viewport--live .appHome-carousel-img {
+  border: 2.419px solid transparent;
+  transition: border-color 0.18s ease;
+}
+
+.appHome-carousel-img--selected {
+  border-color: #5541D7 !important;
+}
+
+.appHome-carousel-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: appHome-carousel-shimmer 1.4s ease-in-out infinite;
+  cursor: default;
+  pointer-events: none;
+}
+
+@keyframes appHome-carousel-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.appHome-carousel-solo-gradient {
+  width: 100%;
+  height: 109.442px;
+  border-radius: 7.256px;
+  background: linear-gradient(
+    135deg,
+    rgba(85, 65, 215, 0.13) 0%,
+    rgba(120, 100, 255, 0.08) 40%,
+    rgba(85, 65, 215, 0.05) 70%,
+    rgba(180, 160, 255, 0.10) 100%
+  );
 }
 
 @media screen and (min-width: 768px) {
-  .appHome-modal-carousel-section {
+  .appHome-carousel-section {
     width: 25%;
     max-height: 544px;
     margin: 0;
-
   }
 
-  .appHome-modal-carousel-container {
+  .appHome-carousel-viewport--live {
     width: 100%;
-    height: 100%;
+    height: 544px;
   }
 
-  .appHome-modal-carousel-track {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    animation: scroll-vertical 20s linear infinite;
-    gap: 14px;
-  }
-
-  .appHome-modal-carousel-image.selected {
-    border: 3.5px solid #5541D7;
-  }
-  .appHome-modal-carousel-image {
+  .appHome-carousel-img {
     width: 100%;
     height: 130px;
     border-radius: 10.5px;
-    flex-shrink: 0;
+    border: 3.5px solid transparent;
   }
 
-  @keyframes scroll-vertical {
-    0% {
-        transform: translateY(-50%);
-    }
-    100% {
-        transform: translateY(0%);
-    }
+  .appHome-carousel-viewport--live .appHome-carousel-img {
+    border: 3.5px solid transparent;
+  }
+
+  .appHome-carousel-solo-gradient {
+    width: 100%;
+    height: 100%;
+    min-height: 130px;
+    border-radius: 10.5px;
   }
 }
 
 @media screen and (min-width: 1440px) {
-  .appHome-modal-carousel-section {
+  .appHome-carousel-section {
+    width: 100%;
+    height: 181px;
+    margin: 0 0 16px 0;
+  }
+
+  .appHome-carousel-viewport--live {
     width: 100%;
     height: 181px;
   }
 
-  .appHome-modal-carousel-container {
-    width: 100%;
-    height: 100%;
-  }
-
-  .appHome-modal-carousel-track {
-    flex-direction: row;
-    animation: scroll-right 20s linear infinite;
-    gap: 16px;
-  }
-
-  .appHome-modal-carousel-image.selected {
-    border: 4px solid #5541D7;
-  }
-  .appHome-modal-carousel-image {
+  .appHome-carousel-img {
     width: 30%;
     height: 181px;
     border-radius: 12px;
+    border: 4px solid transparent;
   }
 
-    @keyframes scroll-right {
-        0% {
-            transform: translateX(-50%);
-        }
-        100% {
-            transform: translateX(0);
-        }
-    }
+  .appHome-carousel-viewport--live .appHome-carousel-img {
+    border: 4px solid transparent;
+  }
+
+  .appHome-carousel-solo-gradient {
+    width: 100%;
+    height: 181px;
+    border-radius: 12px;
+  }
 }

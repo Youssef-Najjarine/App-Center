@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Oap.WebApp.DTOs.UserApplication;
+﻿using Oap.WebApp.DTOs.UserApplication;
 
 namespace Oap.WebApp.Utilities
 {

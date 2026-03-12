@@ -42,6 +42,8 @@ WHERE ua.Id = @AppId
 
             string? zipTempPath = null;
             string? videoTempPath = null;
+            string? zipMetadataUpdatePath = null;
+            Guid zipMetadataUpdateFileId = Guid.Empty;
 
             try
             {
@@ -196,6 +198,19 @@ ORDER BY uav.VersionIndex DESC;";
                     }
                 }
 
+                if (request.ZipFile == null || request.ZipFile.Length == 0)
+                {
+                    try
+                    {
+                        (zipMetadataUpdatePath, zipMetadataUpdateFileId) =
+                            await PrepareZipMetadataUpdateAsync(connection, versionId, request.Technologies);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Error.WriteLine($"ZIP metadata pre-update failed (non-fatal): {ex.Message}");
+                    }
+                }
+
                 await using var tx = connection.BeginTransaction();
                 try
                 {
@@ -233,6 +248,10 @@ WHERE Id = @VersionId;";
 
                         (zipTempPath, var zipFileId) = await InsertZipFileWithMetadataAsync(connection, tx, request.ZipFile, request.Technologies);
                         await InsertVersionFileLinkAsync(connection, tx, versionId, zipFileId, (int)UserApplicationFileCategory.Zip, 0);
+                    }
+                    else if (zipMetadataUpdatePath != null && zipMetadataUpdateFileId != Guid.Empty)
+                    {
+                        await ReplaceFileContentsFromTempAsync(connection, tx, zipMetadataUpdateFileId, zipMetadataUpdatePath);
                     }
 
                     var keepSet = new HashSet<Guid>(existingKeepIds);
@@ -351,9 +370,9 @@ WHERE Id = @FileId
             {
                 try { if (zipTempPath != null && File.Exists(zipTempPath)) File.Delete(zipTempPath); } catch { }
                 try { if (videoTempPath != null && File.Exists(videoTempPath)) File.Delete(videoTempPath); } catch { }
+                try { if (zipMetadataUpdatePath != null && File.Exists(zipMetadataUpdatePath)) File.Delete(zipMetadataUpdatePath); } catch { }
             }
         }
-
 
         private class MediaOrderEntry
         {

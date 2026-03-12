@@ -31,7 +31,6 @@ namespace Oap.WebApp.Services
 
             var lastVerifiedUtc = (DateTime)result;
 
-            // Require re-verify if older than 30 days
             return lastVerifiedUtc >= DateTime.UtcNow.AddDays(-30);
         }
 

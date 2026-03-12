@@ -43,12 +43,10 @@ namespace Oap.WebApp.Controllers
         {
             try
             {
-                // 1) Read auth cookie
                 var token = Request.Cookies["auth_token"];
                 if (string.IsNullOrWhiteSpace(token))
                     return Unauthorized(new { error = "Not authenticated" });
 
-                // 2) Decrypt/validate token -> get userId
                 UserTokenInfo? tokenInfo;
                 try
                 {
@@ -62,7 +60,6 @@ namespace Oap.WebApp.Controllers
                 if (tokenInfo == null || tokenInfo.ExpiresUtc <= DateTime.UtcNow)
                     return Unauthorized(new { error = "Auth token expired" });
 
-                // 3) Get user from DB (best by Id)
                 var user = await _userAccountService.GetUserByIdAsync(tokenInfo.UserId);
                 if (user == null)
                     return Unauthorized(new { error = "User not found" });
@@ -125,11 +122,9 @@ namespace Oap.WebApp.Controllers
             var user = await _userAccountService.GetUserByEmailOrUsernameAsync(request.EmailUsername.Trim());
             if (user == null || !PasswordHasher.VerifyPassword(request.Password, user.PasswordHash))
             {
-                // 401 is more correct than 400 for auth failure
                 return Unauthorized(new { error = "Invalid credentials" });
             }
 
-            // 1) If account itself isn't verified, always force verification first
             if (!user.IsVerified)
             {
                 bool resendSuccess = await _verificationService.ResendCodeAsync(user.EmailAddress);
@@ -144,7 +139,6 @@ namespace Oap.WebApp.Controllers
                 });
             }
 
-            // 2) Device trust (new browser or older than 30 days => verify)
             var deviceId = _authCookieService.GetOrCreateDeviceId(HttpContext, _environment);
 
             var trusted = await _trustedDeviceService.IsDeviceTrustedAsync(user.Id, deviceId);
@@ -160,7 +154,6 @@ namespace Oap.WebApp.Controllers
                 });
             }
 
-            // 3) Issue auth cookie
             _authCookieIssuerService.IssueAuthCookie(Response, user.Id, user.Username);
 
             return Ok(new { success = true });
@@ -176,16 +169,13 @@ namespace Oap.WebApp.Controllers
             if (!valid)
                 return BadRequest(new { error = "Invalid or expired code" });
 
-            // Get user (now verified)
             var user = await _userAccountService.GetUserByEmailOrUsernameAsync(request.Email.Trim());
             if (user == null)
                 return BadRequest(new { error = "User not found" });
 
-            // Trust this device
             var deviceId = _authCookieService.GetOrCreateDeviceId(HttpContext, _environment);
             await _trustedDeviceService.UpsertTrustedDeviceAsync(user.Id, deviceId);
 
-            // Issue auth cookie so they are actually logged in after verifying
             _authCookieIssuerService.IssueAuthCookie(Response, user.Id, user.Username);
 
             return Ok(new { success = true });
@@ -197,12 +187,10 @@ namespace Oap.WebApp.Controllers
             if (string.IsNullOrWhiteSpace(request.Email))
                 return BadRequest(new { error = "Email is required" });
 
-            // Find user even if already verified (device trust challenge needs this)
             var user = await _userAccountService.GetUserByEmailOrUsernameAsync(request.Email.Trim());
             if (user == null)
                 return BadRequest(new { error = "User not found" });
 
-            // Always generate a fresh code for this email
             await _verificationService.GenerateAndSendCodeAsync(user.Id, user.EmailAddress);
 
             return Ok(new { success = true });
@@ -236,21 +224,14 @@ namespace Oap.WebApp.Controllers
 
             var value = request.EmailUsername.Trim();
 
-            // Look up by username OR email
             var user = await _userAccountService.GetUserByEmailOrUsernameAsync(value);
             if (user == null)
             {
-                // Do NOT leak which emails exist if you want security,
-                // but since your UI wants a specific message, we return NotFound.
                 return NotFound(new { errorCode = "NotFound", error = "User not found" });
             }
 
-            // If the user account isn't verified, they should verify account first
-            // (recommended, otherwise you create a password reset path that bypasses account verification)
             if (!user.IsVerified)
             {
-                // Optionally you could re-send their signup verification code here instead
-                // await _verificationService.GenerateAndSendCodeAsync(user.Id, user.EmailAddress);
 
                 return Unauthorized(new
                 {
@@ -260,7 +241,6 @@ namespace Oap.WebApp.Controllers
                 });
             }
 
-            // Send code (same code mechanism you use for verify-identity)
             await _verificationService.GenerateAndSendCodeAsync(user.Id, user.EmailAddress);
 
             return Ok(new
@@ -294,31 +274,25 @@ namespace Oap.WebApp.Controllers
 
             try
             {
-                // 1) Read auth cookie
                 var token = Request.Cookies["auth_token"];
                 if (string.IsNullOrWhiteSpace(token))
                     return Unauthorized(new { error = "Not authenticated" });
 
-                // 2) Validate token -> userId
                 var tokenInfo = _authCookieService.ValidateToken(token);
                 if (tokenInfo == null || tokenInfo.ExpiresUtc <= DateTime.UtcNow)
                     return Unauthorized(new { error = "Auth token expired" });
 
-                // 3) Load user
                 var user = await _userAccountService.GetUserByIdAsync(tokenInfo.UserId);
                 if (user == null)
                     return Unauthorized(new { error = "User not found" });
 
-                // 4) Verify current password
                 if (!PasswordHasher.VerifyPassword(request.CurrentPassword, user.PasswordHash))
                     return BadRequest(new { error = "Current password is incorrect" });
 
-                // ✅ THIS IS THE EXACT REUSE YOU ASKED FOR:
                 var pwdError = SignUpValidator.ValidatePassword(request.NewPassword);
                 if (pwdError != null)
                     return BadRequest(new { error = pwdError });
 
-                // 5) Save new password hash
                 var newHash = PasswordHasher.HashPassword(request.NewPassword);
                 var updated = await _userAccountService.UpdatePasswordHashAsync(user.Id, newHash);
 
@@ -400,14 +374,13 @@ namespace Oap.WebApp.Controllers
             }
         }
 
-        private const long MaxUploadBytes = 25L * 1024 * 1024; // 25 MiB
+        private const long MaxUploadBytes = 25L * 1024 * 1024;
         [HttpPost("save-profile-photo")]
         [RequestSizeLimit(MaxUploadBytes)]
         public async Task<IActionResult> UploadProfilePhoto([FromForm] IFormFile photo)
         {
             try
             {
-                // 1) Auth
                 var token = Request.Cookies["auth_token"];
                 if (string.IsNullOrWhiteSpace(token))
                     return Unauthorized(new { error = "Not authenticated" });
@@ -444,7 +417,6 @@ namespace Oap.WebApp.Controllers
                     })
                 );
 
-                // 5) Encode (JPEG is simplest). You can also store PNG, but JPEG is smaller.
                 await using var outStream = new MemoryStream();
                 var encoder = new JpegEncoder { Quality = 85 };
                 await image.SaveAsync(outStream, encoder);
@@ -452,10 +424,8 @@ namespace Oap.WebApp.Controllers
                 var bytes = outStream.ToArray();
                 var contentType = "image/jpeg";
 
-                // 6) Persist (you’ll implement these service methods)
                 await _userAccountService.UpsertUserProfilePhotoAsync(user.Id, contentType, bytes);
 
-                // 7) Return a stable URL your UI can use
                 return Ok(new
                 {
                     success = true,
@@ -474,7 +444,6 @@ namespace Oap.WebApp.Controllers
         {
             try
             {
-                // Auth (same pattern)
                 var token = Request.Cookies["auth_token"];
                 if (string.IsNullOrWhiteSpace(token))
                     return Unauthorized(new { error = "Not authenticated" });
@@ -518,7 +487,5 @@ namespace Oap.WebApp.Controllers
                 return StatusCode(500, new { error = "Server error while logging out." });
             }
         }
-
-
     }
 }

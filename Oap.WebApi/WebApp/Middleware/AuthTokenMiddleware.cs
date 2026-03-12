@@ -25,7 +25,6 @@ namespace Oap.WebApp.Middleware
                 {
                     context.Items["User"] = userInfo;
 
-                    // Sliding expiration — re-issue cookie
                     var refreshedToken = authCookieService.CreateToken(userInfo);
 
                     context.Response.Cookies.Append("auth_token", refreshedToken, new CookieOptions

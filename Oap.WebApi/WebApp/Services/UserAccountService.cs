@@ -93,32 +93,27 @@ namespace Oap.WebApp.Services
             {
                 Guid? existingUserId = null;
 
-                // Lookup BOTH sides inside the same transaction/connection for consistency
                 var existingByUsername = await GetUserByUsernameAsync(connection, transaction, u);
                 var existingByEmail = await GetUserByEmailAsync(connection, transaction, e);
 
-                // If both exist but belong to different users -> conflict (your exact scenario)
                 if (existingByUsername != null && existingByEmail != null && existingByUsername.Id != existingByEmail.Id)
                 {
                     await transaction.RollbackAsync();
                     return "Username and email belong to different unverified accounts. Please use a unique username/email pair or verify your original account.";
                 }
 
-                // If username exists and is verified -> reject
                 if (existingByUsername != null && existingByUsername.IsVerified)
                 {
                     await transaction.RollbackAsync();
                     return "Username already taken";
                 }
 
-                // If email exists and is verified -> reject
                 if (existingByEmail != null && existingByEmail.IsVerified)
                 {
                     await transaction.RollbackAsync();
                     return "Email already taken";
                 }
 
-                // Decide which unverified record to update (if any)
                 if (existingByUsername != null)
                 {
                     existingUserId = existingByUsername.Id;
@@ -130,7 +125,6 @@ namespace Oap.WebApp.Services
 
                 if (existingUserId.HasValue)
                 {
-                    // Before updating, ensure the "new" username/email won't collide with other users
                     if (await AnyOtherUserHasUsernameAsync(connection, transaction, existingUserId.Value, u))
                     {
                         await transaction.RollbackAsync();
@@ -143,7 +137,6 @@ namespace Oap.WebApp.Services
                         return "Email already taken";
                     }
 
-                    // Update existing unverified user
                     await using var updateCommand = new SqlCommand(
                         @"UPDATE [dbo].[User]
                           SET Username = @Username,
@@ -165,7 +158,6 @@ namespace Oap.WebApp.Services
                 }
                 else
                 {
-                    // New user insert
                     await using var insertCommand = new SqlCommand(
                         @"INSERT INTO [dbo].[User]
                           (Username, PasswordHash, EmailAddress, FirstName, LastName, IsVerified)
@@ -189,7 +181,6 @@ namespace Oap.WebApp.Services
                     existingUserId = (Guid)userIdObj;
                 }
 
-                // Upsert verification row
                 await using var verifyCommand = new SqlCommand(
                     @"MERGE [dbo].[UserVerification] AS target
                       USING (VALUES (@UserId, @Code, @Expires)) AS source (UserId, VerificationCode, ExpirationTime)
@@ -355,7 +346,6 @@ namespace Oap.WebApp.Services
 
             try
             {
-                // 1) Find token that is not used and not expired
                 await using var getTokenCmd = new SqlCommand(@"
             SELECT TOP 1 UserId
             FROM [dbo].[PasswordResetToken]
@@ -544,7 +534,6 @@ namespace Oap.WebApp.Services
                     await insertFileCmd.ExecuteNonQueryAsync();
                 }
 
-                // 4) Insert mapping row
                 await using (var insertMapCmd = new SqlCommand(@"
             INSERT INTO dbo.UserProfileFile (UserId, FileId)
             VALUES (@UserId, @FileId)
