@@ -93,11 +93,21 @@ WHERE ua.OwnerUserId = @OwnerUserId
 
         public async Task<List<UserApplicationCardDto>> GetAllUserApplicationCardsAsync(Guid ownerUserId)
         {
+            return await GetCardsByDraftStatusAsync(ownerUserId, isDraft: false);
+        }
+
+        public async Task<List<UserApplicationCardDto>> GetAllDraftCardsAsync(Guid ownerUserId)
+        {
+            return await GetCardsByDraftStatusAsync(ownerUserId, isDraft: true);
+        }
+
+        private async Task<List<UserApplicationCardDto>> GetCardsByDraftStatusAsync(Guid ownerUserId, bool isDraft)
+        {
             var results = new List<UserApplicationCardDto>();
             await using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
 
-            const string sql = @"
+            var sql = $@"
 SELECT
     ua.Id                                               AS UserApplicationId,
     uav.Id                                              AS UserApplicationVersionId,
@@ -110,7 +120,8 @@ SELECT
 FROM dbo.UserApplication ua WITH (NOLOCK)
 CROSS APPLY (
     SELECT TOP 1 * FROM dbo.UserApplicationVersion v WITH (NOLOCK)
-    WHERE v.UserApplicationId = ua.Id ORDER BY v.VersionIndex DESC
+    WHERE v.UserApplicationId = ua.Id AND v.IsDraft = @IsDraft
+    ORDER BY v.VersionIndex DESC
 ) uav
 OUTER APPLY (
     SELECT TOP 1 uavf.FileId, uavf.FileCategory, f.ContentType
@@ -128,6 +139,7 @@ ORDER BY uav.CreatedAt DESC;";
 
             await using var cmd = new SqlCommand(sql, connection);
             cmd.Parameters.Add("@OwnerUserId", SqlDbType.UniqueIdentifier).Value = ownerUserId;
+            cmd.Parameters.Add("@IsDraft", SqlDbType.Bit).Value = isDraft;
 
             await using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
@@ -320,7 +332,8 @@ SELECT ua.Id AS UserApplicationId, uav.Id AS UserApplicationVersionId,
 FROM dbo.UserApplication ua WITH (NOLOCK)
 CROSS APPLY (
     SELECT TOP 1 * FROM dbo.UserApplicationVersion v WITH (NOLOCK)
-    WHERE v.UserApplicationId = ua.Id ORDER BY v.VersionIndex DESC
+    WHERE v.UserApplicationId = ua.Id AND v.IsDraft = 0
+    ORDER BY v.VersionIndex DESC
 ) uav
 OUTER APPLY (
     SELECT TOP 1 uavf.FileId, uavf.FileCategory, f.ContentType
@@ -414,28 +427,6 @@ WHERE ua.OwnerUserId = @OwnerUserId AND uav.Id IN ({inClause});";
             await using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync()) owned.Add(reader.GetGuid(0));
             return owned;
-        }
-
-        private async Task<Dictionary<Guid, Guid>> GetZipFileIdsForVersionsAsync(List<Guid> versionIds)
-        {
-            var result = new Dictionary<Guid, Guid>();
-            if (versionIds.Count == 0) return result;
-            var paramNames = versionIds.Select((_, i) => $"@v{i}").ToList();
-            var inClause = string.Join(", ", paramNames);
-            var sql = $@"
-SELECT uavf.UserApplicationVersionId, MIN(uavf.FileId) AS ZipFileId
-FROM dbo.UserApplicationVersionFile uavf
-WHERE uavf.UserApplicationVersionId IN ({inClause}) AND uavf.FileCategory = @ZipCategory
-GROUP BY uavf.UserApplicationVersionId;";
-            await using var conn = new SqlConnection(_connectionString);
-            await conn.OpenAsync();
-            await using var cmd = new SqlCommand(sql, conn);
-            cmd.Parameters.Add("@ZipCategory", SqlDbType.Int).Value = (int)UserApplicationFileCategory.Zip;
-            for (int i = 0; i < versionIds.Count; i++)
-                cmd.Parameters.Add(paramNames[i], SqlDbType.UniqueIdentifier).Value = versionIds[i];
-            await using var reader = await cmd.ExecuteReaderAsync();
-            while (await reader.ReadAsync()) result[reader.GetGuid(0)] = reader.GetGuid(1);
-            return result;
         }
 
         private async Task PopulateZipFileInfoAsync(SqlConnection connection, UserApplicationDetailsDto dto)

@@ -13,8 +13,6 @@ import ProcessingModal from "@pages/ProcessingModal/ProcessingModal";
 import { lockScroll, unlockScroll, forceUnlockScroll } from "@utils/bodyScrollLock";
 import "./ProfileUploadEditAppModal.css";
 
-// ─── helpers ────────────────────────────────────────────────────────────────
-
 const FILE_CATEGORY_IMAGE = 2;
 const FILE_CATEGORY_VIDEO = 3;
 
@@ -41,17 +39,19 @@ const compressImage = (file, maxWidth = 1024, maxHeight = 1024, quality = 0.8) =
     };
   });
 
-// ─── component ──────────────────────────────────────────────────────────────
-
-const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
+const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected, context }) => {
   const confirmationOpenRef = useRef(false);
   const fileInputRef = useRef(null);
   const uploadTimeoutRef = useRef(null);
   const mediaInputRef = useRef(null);
   const abortControllerRef = useRef(null);
 
-  // ── Mode ──────────────────────────────────────────────────────────────────
+  // ── Mode detection ────────────────────────────────────────────────────────
   const isEditMode = !!(selected && selected.id);
+  // context="draft" means we're editing from the Drafts page
+  const isDraftContext = context === "draft";
+  // When editing a published app, "Save as Draft" creates a copy
+  const isEditingPublished = isEditMode && !isDraftContext;
 
   // ── Form state ────────────────────────────────────────────────────────────
   const [selectedTechnologies, setSelectedTechnologies] = useState([]);
@@ -64,11 +64,10 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
   // ── ZIP state ─────────────────────────────────────────────────────────────
   const [uploadStage, setUploadStage] = useState("default");
   const [uploadZipName, setUploadZipName] = useState("");
-  const [uploadZip, setUploadZip] = useState(null);       // File object (new uploads only)
-  const [existingZipFileId, setExistingZipFileId] = useState(null); // existing zip id when editing
+  const [uploadZip, setUploadZip] = useState(null);
+  const [existingZipFileId, setExistingZipFileId] = useState(null);
 
   // ── Media state ───────────────────────────────────────────────────────────
-  // Each item: { file?, previewURL, type, originalName, originalSize, originalLastModified, isExisting, fileId? }
   const [mediaFiles, setMediaFiles] = useState([]);
   const [defaultPresentationIndex, setDefaultPresentationIndex] = useState(null);
 
@@ -76,10 +75,12 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
   const [errors, setErrors] = useState({});
   const [showErrorBox, setShowErrorBox] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
+  const [isSavingDraft, setIsSavingDraft] = useState(false);
   const [createError, setCreateError] = useState("");
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [isLoadingEdit, setIsLoadingEdit] = useState(false);
   const [loadEditError, setLoadEditError] = useState("");
+  const [draftSavedBanner, setDraftSavedBanner] = useState(false);
 
   // ── Scroll lock ───────────────────────────────────────────────────────────
 
@@ -101,16 +102,12 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
   }, [modalOpenState, onClose]);
 
   useEffect(() => { confirmationOpenRef.current = showConfirmationModal; }, [showConfirmationModal]);
-
-  useEffect(() => {
-    return () => { if (uploadTimeoutRef.current) clearTimeout(uploadTimeoutRef.current); };
-  }, []);
+  useEffect(() => { return () => { if (uploadTimeoutRef.current) clearTimeout(uploadTimeoutRef.current); }; }, []);
 
   // ── Load existing app for edit mode ───────────────────────────────────────
 
   useEffect(() => {
     if (!isEditMode) return;
-
     let cancelled = false;
 
     const loadAppForEdit = async () => {
@@ -118,33 +115,23 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
       setLoadEditError("");
       try {
         const res = await fetch(`/api/user-application/get-user-application-details/${selected.id}`, {
-          method: "GET",
-          credentials: "include",
+          method: "GET", credentials: "include",
         });
         const text = await res.text();
         let data = null;
         try { data = text ? JSON.parse(text) : null; } catch { data = null; }
-
         if (cancelled) return;
-
-        if (!res.ok || !data?.application) {
-          setLoadEditError("Unable to load app details for editing.");
-          return;
-        }
+        if (!res.ok || !data?.application) { setLoadEditError("Unable to load app details for editing."); return; }
 
         const app = data.application;
-
-        // ── Populate text fields ──
         setAppName(app.name ?? app.Name ?? "");
         setAppPrice(app.price != null ? String(app.price ?? app.Price ?? "") : "");
         setappDescription(app.description ?? app.Description ?? "");
         setAppRepo(app.repositoryUrl ?? app.RepositoryUrl ?? "");
 
-        // ── Populate technologies ──
         const techs = app.technologies ?? app.Technologies ?? [];
         setSelectedTechnologies(techs);
 
-        // ── Populate ZIP ──
         const zipFileId = app.zipFileId ?? app.ZipFileId ?? null;
         if (zipFileId) {
           setExistingZipFileId(zipFileId);
@@ -152,50 +139,26 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
           setUploadStage("uploaded");
         }
 
-        // ── Populate media files ──
         const files = app.files ?? app.Files ?? [];
         const mediaEntries = files
-          .filter((f) => {
-            const cat = f.fileCategory ?? f.FileCategory;
-            return cat === FILE_CATEGORY_IMAGE || cat === FILE_CATEGORY_VIDEO;
-          })
+          .filter((f) => { const cat = f.fileCategory ?? f.FileCategory; return cat === FILE_CATEGORY_IMAGE || cat === FILE_CATEGORY_VIDEO; })
           .sort((a, b) => (a.orderIndex ?? a.OrderIndex ?? 0) - (b.orderIndex ?? b.OrderIndex ?? 0));
 
         const loadedMedia = mediaEntries.map((f) => {
           const fileId = f.fileId ?? f.FileId;
           const contentType = (f.contentType ?? f.ContentType ?? "").toLowerCase();
           const url = f.url ?? f.Url ?? `/api/user-application/get-user-application-file/${fileId}`;
-          return {
-            file: null,
-            previewURL: url,
-            type: contentType,
-            originalName: `file-${fileId}`,
-            originalSize: 0,
-            originalLastModified: 0,
-            isExisting: true,
-            fileId: fileId,
-          };
+          return { file: null, previewURL: url, type: contentType, originalName: `file-${fileId}`, originalSize: 0, originalLastModified: 0, isExisting: true, fileId };
         });
 
-        if (cancelled) return;
-        setMediaFiles(loadedMedia);
-
-        // ── Set presentation index ──
-        // In our system, the presentation file is always saved as orderIndex 1 (the first media).
-        // So in the loaded list (already sorted by orderIndex), index 0 is the presentation.
-        if (loadedMedia.length > 0) {
-          setDefaultPresentationIndex(0);
-        }
+        if (!cancelled) { setMediaFiles(loadedMedia); if (loadedMedia.length > 0) setDefaultPresentationIndex(0); }
       } catch (e) {
         console.error("Failed to load app for edit:", e);
         if (!cancelled) setLoadEditError("Unable to connect to the server.");
-      } finally {
-        if (!cancelled) setIsLoadingEdit(false);
-      }
+      } finally { if (!cancelled) setIsLoadingEdit(false); }
     };
 
     loadAppForEdit();
-
     return () => { cancelled = true; };
   }, [isEditMode, selected]);
 
@@ -207,23 +170,15 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
     setSelectedTechnologies((prev) => {
       const set = new Set(prev.map((t) => t.toLowerCase()));
       const next = [...prev];
-      for (const item of items) {
-        const key = item.toLowerCase();
-        if (!set.has(key)) { set.add(key); next.push(item); }
-      }
+      for (const item of items) { const key = item.toLowerCase(); if (!set.has(key)) { set.add(key); next.push(item); } }
       return next;
     });
     if (errors.technologies) setErrors((p) => ({ ...p, technologies: null }));
     setTechInput("");
   };
 
-  const handleTechKeyDown = (e) => {
-    if (e.key === "Enter" || e.key === ",") { e.preventDefault(); addTechsFromInput(); }
-  };
-
-  const handleDeleteTech = (index) => {
-    setSelectedTechnologies((prev) => prev.filter((_, i) => i !== index));
-  };
+  const handleTechKeyDown = (e) => { if (e.key === "Enter" || e.key === ",") { e.preventDefault(); addTechsFromInput(); } };
+  const handleDeleteTech = (index) => { setSelectedTechnologies((prev) => prev.filter((_, i) => i !== index)); };
 
   // ── Errors ────────────────────────────────────────────────────────────────
 
@@ -239,170 +194,184 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
     if (backendErrors.technologies) next.technologies = "Field Missing";
     if (backendErrors.zipFile) next.uploadZip = "Field Missing";
     if (backendErrors.media) next.mediaUpload = "invalid-media-type";
-    if (backendErrors.presentationIndex) next.mediaUpload = "invalid-media-type";
     setErrors(next);
   };
 
-  // ── Submit (create & update) ──────────────────────────────────────────────
+  // ── Stop video streams helper ─────────────────────────────────────────────
 
-  const handleConfirmUpload = async () => { await submitApplication({ isDraft: false }); };
-  const handleSaveAsDraft = async () => { await submitApplication({ isDraft: true }); };
-
-  const submitApplication = async ({ isDraft }) => {
-    setShowErrorBox(false);
-    setCreateError("");
-
-    // Stop all playing videos before submitting — active video streams to
-    // the server API can cause connection conflicts with the save request.
+  const stopVideoStreams = () => {
     try {
       const modalEl = document.querySelector(".upload-edit-app-modal");
       if (modalEl) {
-        modalEl.querySelectorAll("video").forEach((v) => {
-          v.pause();
-          v.removeAttribute("src");
-          v.load(); // forces the browser to release the network connection
-        });
+        modalEl.querySelectorAll("video").forEach((v) => { v.pause(); v.removeAttribute("src"); v.load(); });
       }
-    } catch { /* non-fatal */ }
+    } catch { }
+  };
 
-    setIsCreating(true);
-    try {
-      const form = new FormData();
-      form.append("name", appName.trim());
-      form.append("price", appPrice ? String(appPrice) : "");
-      form.append("description", appDescription.trim());
-      form.append("repositoryUrl", appRepo.trim() || "");
-      form.append("isDraft", isDraft ? "true" : "false");
+  // ── Build form data (shared between publish and draft save) ───────────────
 
-      const presentationIndex = defaultPresentationIndex === null ? 0 : defaultPresentationIndex;
-      form.append("presentationIndex", String(presentationIndex));
+  const buildFormData = (isDraft) => {
+    const form = new FormData();
+    form.append("name", appName.trim());
+    form.append("price", appPrice ? String(appPrice) : "");
+    form.append("description", appDescription.trim());
+    form.append("repositoryUrl", appRepo.trim() || "");
+    form.append("isDraft", isDraft ? "true" : "false");
+    form.append("presentationIndex", String(defaultPresentationIndex === null ? 0 : defaultPresentationIndex));
+    selectedTechnologies.forEach((t) => form.append("technologies", t));
+    return form;
+  };
 
-      selectedTechnologies.forEach((t) => form.append("technologies", t));
+  const appendMediaToForm = (form) => {
+    if (isEditMode || isEditingPublished) {
+      if (uploadZip) form.append("zipFile", uploadZip, uploadZip.name);
 
-      if (isEditMode) {
-        // ── UPDATE flow ─────────────────────────────────────────────────────
-        // ZIP: send new file if changed, otherwise tell backend to keep existing
-        if (uploadZip) {
-          form.append("zipFile", uploadZip, uploadZip.name);
+      const existingIds = [];
+      const newMediaList = [];
+      const mediaOrderMap = [];
+      let newIdx = 0;
+
+      mediaFiles.forEach((m) => {
+        if (m.isExisting && m.fileId) {
+          existingIds.push(m.fileId);
+          mediaOrderMap.push({ type: "existing", fileId: m.fileId });
+        } else if (m.file) {
+          newMediaList.push(m);
+          mediaOrderMap.push({ type: "new", newIndex: newIdx });
+          newIdx++;
         }
-        // If existingZipFileId is set and no new zip, backend keeps existing
+      });
 
-        // Media: separate existing (keep by ID) from new uploads
-        const existingIds = [];
-        const newMediaFiles = [];
-        mediaFiles.forEach((m, idx) => {
-          if (m.isExisting && m.fileId) {
-            existingIds.push({ fileId: m.fileId, position: idx });
-          } else if (m.file) {
-            newMediaFiles.push({ file: m, position: idx });
-          }
-        });
-
-        // Send the ordered list of existing media file IDs to keep
-        form.append("existingMediaFileIds", JSON.stringify(existingIds.map((e) => e.fileId)));
-        // Send full order map so backend knows how to interleave existing + new
-        // Format: JSON array where each entry is { type: "existing", fileId } or { type: "new", newIndex }
-        const mediaOrderMap = [];
-        let newIdx = 0;
-        mediaFiles.forEach((m) => {
-          if (m.isExisting && m.fileId) {
-            mediaOrderMap.push({ type: "existing", fileId: m.fileId });
-          } else if (m.file) {
-            mediaOrderMap.push({ type: "new", newIndex: newIdx });
-            newIdx++;
-          }
-        });
-        form.append("mediaOrder", JSON.stringify(mediaOrderMap));
-
-        // Append only new media files
-        newMediaFiles.forEach((item) => form.append("media", item.file.file, item.file.originalName));
-
-        abortControllerRef.current = new AbortController();
-
-        const res = await fetch(`/api/user-application/update-user-application/${selected.id}`, {
-          method: "PUT",
-          credentials: "include",
-          body: form,
-          signal: abortControllerRef.current.signal,
-        });
-
-        const text = await res.text();
-        let data = {};
-        try { data = text ? JSON.parse(text) : {}; } catch { data = {}; }
-
-        if (res.status === 400 && data?.errors) {
-          applyBackendValidationErrors(data.errors);
-          showGenericError();
-          setShowConfirmationModal(false);
-          return;
-        }
-
-        if (!res.ok || !data.success) {
-          if ([0, 500, 502, 503, 504].includes(res.status)) showServerError();
-          else showGenericError();
-          setShowConfirmationModal(false);
-          return;
-        }
-
-        if (fileInputRef.current) fileInputRef.current.value = "";
-        if (mediaInputRef.current) mediaInputRef.current.value = "";
-
-        forceUnlockScroll();
-        setShowConfirmationModal(false);
-
-        // Return updated card to parent with an __isUpdate flag
-        const card = data.card ?? null;
-        if (card) card.__isUpdate = true;
-        onClose(card);
-
-      } else {
-        // ── CREATE flow (unchanged) ─────────────────────────────────────────
-        form.append("zipFile", uploadZip, uploadZip.name);
-        mediaFiles.forEach((m) => form.append("media", m.file, m.originalName));
-
-        abortControllerRef.current = new AbortController();
-
-        const res = await fetch("/api/user-application/create-user-application", {
-          method: "POST",
-          credentials: "include",
-          body: form,
-          signal: abortControllerRef.current.signal,
-        });
-
-        const text = await res.text();
-        let data = {};
-        try { data = text ? JSON.parse(text) : {}; } catch { data = {}; }
-
-        if (res.status === 400 && data?.errors) {
-          applyBackendValidationErrors(data.errors);
-          showGenericError();
-          setShowConfirmationModal(false);
-          return;
-        }
-
-        if (!res.ok || !data.success) {
-          if ([0, 500, 502, 503, 504].includes(res.status)) showServerError();
-          else showGenericError();
-          setShowConfirmationModal(false);
-          return;
-        }
-
-        if (fileInputRef.current) fileInputRef.current.value = "";
-        if (mediaInputRef.current) mediaInputRef.current.value = "";
-
-        forceUnlockScroll();
-        setShowConfirmationModal(false);
-
-        onClose(data.card ?? null);
-      }
-    } catch (e) {
-      console.error(e);
-      showServerError();
-      setShowConfirmationModal(false);
-    } finally {
-      setIsCreating(false);
+      form.append("existingMediaFileIds", JSON.stringify(existingIds));
+      form.append("mediaOrder", JSON.stringify(mediaOrderMap));
+      newMediaList.forEach((item) => form.append("media", item.file, item.originalName));
+    } else {
+      if (uploadZip) form.append("zipFile", uploadZip, uploadZip.name);
+      mediaFiles.forEach((m) => { if (m.file) form.append("media", m.file, m.originalName); });
     }
   };
+
+  // ── Submit: Publish (Save & Upload) ───────────────────────────────────────
+
+  const handleConfirmUpload = async () => {
+    stopVideoStreams();
+    setShowErrorBox(false);
+    setCreateError("");
+    setIsCreating(true);
+
+    try {
+      const form = buildFormData(false);
+      appendMediaToForm(form);
+      abortControllerRef.current = new AbortController();
+
+      const url = isEditMode
+        ? `/api/user-application/update-user-application/${selected.id}`
+        : "/api/user-application/create-user-application";
+      const method = isEditMode ? "PUT" : "POST";
+
+      const res = await fetch(url, { method, credentials: "include", body: form, signal: abortControllerRef.current.signal });
+      const text = await res.text();
+      let data = {};
+      try { data = text ? JSON.parse(text) : {}; } catch { data = {}; }
+
+      if (res.status === 400 && data?.errors) { applyBackendValidationErrors(data.errors); showGenericError(); setShowConfirmationModal(false); return; }
+      if (!res.ok || !data.success) {
+        const serverMsg = data?.error;
+        if (serverMsg) { setCreateError(serverMsg); setShowErrorBox(true); }
+        else if ([0, 502, 503, 504].includes(res.status)) showServerError();
+        else showGenericError();
+        setShowConfirmationModal(false); return;
+      }
+
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      if (mediaInputRef.current) mediaInputRef.current.value = "";
+      forceUnlockScroll();
+      setShowConfirmationModal(false);
+
+      const card = data.card ?? null;
+      if (card && isEditMode) card.__isUpdate = true;
+      onClose(card);
+    } catch (e) {
+      console.error(e); showServerError(); setShowConfirmationModal(false);
+    } finally { setIsCreating(false); }
+  };
+
+  // ── Submit: Save as Draft ─────────────────────────────────────────────────
+
+  const handleSaveAsDraft = async () => {
+    setShowErrorBox(false);
+    setCreateError("");
+    setDraftSavedBanner(false);
+
+    // Draft validation: only app name required
+    if (!appName.trim()) {
+      setErrors({ appName: "Field Missing" });
+      showGenericError();
+      return;
+    }
+
+    stopVideoStreams();
+    setIsSavingDraft(true);
+
+    try {
+      const form = buildFormData(true);
+      appendMediaToForm(form);
+      abortControllerRef.current = new AbortController();
+
+      let url, method;
+
+      if (!isEditMode) {
+        // New app → create as draft
+        url = "/api/user-application/create-user-application";
+        method = "POST";
+      } else if (isDraftContext) {
+        // Editing existing draft → update it
+        url = `/api/user-application/update-user-application/${selected.id}`;
+        method = "PUT";
+      } else {
+        // Editing published app → create a draft COPY (published app unchanged)
+        url = `/api/user-application/create-draft-copy/${selected.id}`;
+        method = "POST";
+      }
+
+      const res = await fetch(url, { method, credentials: "include", body: form, signal: abortControllerRef.current.signal });
+      const text = await res.text();
+      let data = {};
+      try { data = text ? JSON.parse(text) : {}; } catch { data = {}; }
+
+      if (res.status === 400 && data?.errors) { applyBackendValidationErrors(data.errors); showGenericError(); return; }
+      if (!res.ok || !data.success) {
+        const serverMsg = data?.error;
+        if (serverMsg) { setCreateError(serverMsg); setShowErrorBox(true); }
+        else if ([0, 502, 503, 504].includes(res.status)) showServerError();
+        else showGenericError();
+        return;
+      }
+
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      if (mediaInputRef.current) mediaInputRef.current.value = "";
+
+      // Show success banner briefly, then close
+      setDraftSavedBanner(true);
+      forceUnlockScroll();
+
+      const card = data.card ?? null;
+      if (card) {
+        card.__isDraft = true;
+        if (isDraftContext && isEditMode) card.__isUpdate = true;
+      }
+
+      setTimeout(() => {
+        setDraftSavedBanner(false);
+        onClose(card);
+      }, 1200);
+
+    } catch (e) {
+      console.error(e); showServerError();
+    } finally { setIsSavingDraft(false); }
+  };
+
+  // ── Publish button handler ────────────────────────────────────────────────
 
   const handleSaveAndUpload = (e) => {
     e.preventDefault();
@@ -414,8 +383,6 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
     if (!appPrice.toString().trim()) newErrors.appPrice = "Field Missing";
     if (!selectedTechnologies.length) newErrors.technologies = "Field Missing";
     if (!appDescription.trim()) newErrors.appDescription = "Field Missing";
-
-    // ZIP is required: in create mode must have uploadZip; in edit mode must have either existing or new
     if (!isEditMode && !uploadZip) newErrors.uploadZip = "Field Missing";
     if (isEditMode && !uploadZip && !existingZipFileId) newErrors.uploadZip = "Field Missing";
 
@@ -427,28 +394,16 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
   // ── ZIP handlers ──────────────────────────────────────────────────────────
 
   const handleFileUpload = (file) => {
-    if (!file.name.endsWith(".zip")) {
-      setErrors((prev) => ({ ...prev, uploadZip: "Invalid Type" }));
-      return;
-    }
+    if (!file.name.endsWith(".zip")) { setErrors((prev) => ({ ...prev, uploadZip: "Invalid Type" })); return; }
     setErrors((prev) => ({ ...prev, uploadZip: null }));
-    setUploadZip(file);
-    setUploadZipName(file.name);
-    setUploadStage("uploaded");
-    // Clear existing zip reference since we're replacing
-    setExistingZipFileId(null);
+    setUploadZip(file); setUploadZipName(file.name); setUploadStage("uploaded"); setExistingZipFileId(null);
   };
 
   const handleFileSelect = (e) => { const file = e.target.files[0]; if (file) handleFileUpload(file); };
   const handleDrop = (e) => { e.preventDefault(); const file = e.dataTransfer.files[0]; if (file) handleFileUpload(file); };
   const handleDragOver = (e) => { e.preventDefault(); };
-  const handleCancelUpload = () => {
-    if (uploadTimeoutRef.current) { clearTimeout(uploadTimeoutRef.current); uploadTimeoutRef.current = null; }
-    setUploadZip(null); setUploadZipName(""); setUploadStage("default"); setExistingZipFileId(null);
-  };
-  const handleDeleteUpload = () => {
-    setUploadZip(null); setUploadZipName(""); setUploadStage("default"); setExistingZipFileId(null);
-  };
+  const handleCancelUpload = () => { if (uploadTimeoutRef.current) { clearTimeout(uploadTimeoutRef.current); uploadTimeoutRef.current = null; } setUploadZip(null); setUploadZipName(""); setUploadStage("default"); setExistingZipFileId(null); };
+  const handleDeleteUpload = () => { setUploadZip(null); setUploadZipName(""); setUploadStage("default"); setExistingZipFileId(null); };
   const triggerFileDialog = () => { fileInputRef.current.click(); };
 
   // ── Media handlers ────────────────────────────────────────────────────────
@@ -460,20 +415,10 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
     const newFiles = [...mediaFiles];
     const validMedia = [];
     const seenKeys = new Set();
-    const existingKeys = new Set(
-      newFiles
-        .filter((f) => !f.isExisting)
-        .map((f) => `${f.originalName}-${f.originalSize}-${f.originalLastModified}`)
-    );
+    const existingKeys = new Set(newFiles.filter((f) => !f.isExisting).map((f) => `${f.originalName}-${f.originalSize}-${f.originalLastModified}`));
 
-    let imageCount = newFiles.filter((f) => {
-      const t = (f.type || "").toLowerCase();
-      return t.startsWith("image/") && t !== "image/gif";
-    }).length;
-    let hasVideo = newFiles.some((f) => {
-      const t = (f.type || "").toLowerCase();
-      return t.startsWith("video/");
-    });
+    let imageCount = newFiles.filter((f) => { const t = (f.type || "").toLowerCase(); return t.startsWith("image/") && t !== "image/gif"; }).length;
+    let hasVideo = newFiles.some((f) => (f.type || "").toLowerCase().startsWith("video/"));
     let error = null;
 
     for (const file of files) {
@@ -489,15 +434,8 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
       seenKeys.add(key);
 
       if (isVideo) {
-        if (hasVideo || validMedia.some((f) => (f.type || "").startsWith("video/"))) {
-          error = "video-limit-exceeded"; continue;
-        }
-        const previewURL = URL.createObjectURL(file);
-        validMedia.push({
-          file, previewURL, type: file.type,
-          originalName: file.name, originalSize: file.size, originalLastModified: file.lastModified,
-          isExisting: false, fileId: null,
-        });
+        if (hasVideo || validMedia.some((f) => (f.type || "").startsWith("video/"))) { error = "video-limit-exceeded"; continue; }
+        validMedia.push({ file, previewURL: URL.createObjectURL(file), type: file.type, originalName: file.name, originalSize: file.size, originalLastModified: file.lastModified, isExisting: false, fileId: null });
         hasVideo = true;
         continue;
       }
@@ -505,12 +443,7 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
       if (isImage) {
         if (imageCount >= 5) { error = "image-limit-exceeded"; continue; }
         const compressedFile = await compressImage(file);
-        const compressedURL = URL.createObjectURL(compressedFile);
-        validMedia.push({
-          file: compressedFile, previewURL: compressedURL, type: compressedFile.type,
-          originalName: file.name, originalSize: file.size, originalLastModified: file.lastModified,
-          isExisting: false, fileId: null,
-        });
+        validMedia.push({ file: compressedFile, previewURL: URL.createObjectURL(compressedFile), type: compressedFile.type, originalName: file.name, originalSize: file.size, originalLastModified: file.lastModified, isExisting: false, fileId: null });
         imageCount++;
       }
     }
@@ -523,35 +456,28 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
     setMediaFiles((prev) => {
       const copy = [...prev];
       const removed = copy[index];
-      // Only revoke URL for non-existing files (blob URLs)
-      if (!removed.isExisting && removed.previewURL) {
-        URL.revokeObjectURL(removed.previewURL);
-      }
+      if (!removed.isExisting && removed.previewURL) URL.revokeObjectURL(removed.previewURL);
       copy.splice(index, 1);
       return copy;
     });
-    setDefaultPresentationIndex((prev) => {
-      if (prev === null) return null;
-      if (index === prev) return 0;
-      if (index < prev) return prev - 1;
-      return prev;
-    });
+    setDefaultPresentationIndex((prev) => { if (prev === null) return null; if (index === prev) return 0; if (index < prev) return prev - 1; return prev; });
   };
 
   const triggerMediaDialog = () => { mediaInputRef.current.click(); };
   const handleCloseErrorBox = () => { setShowErrorBox(false); };
   const handleMakePresentation = (index) => { setDefaultPresentationIndex(index); };
 
-  // ── Render ────────────────────────────────────────────────────────────────
+  // ── Compute button label ──────────────────────────────────────────────────
+
+  const saveButtonLabel = isDraftContext ? "Publish" : isEditMode ? "Save Changes" : "Save & Upload";
+  const draftButtonLabel = isEditingPublished ? "Save Draft Copy" : "Save as Draft";
+  const modalTitle = isDraftContext ? "Edit Draft" : isEditMode ? "Edit App" : "Upload New App";
 
   return (
-    <div
-      className="upload-edit-app-modal-overlay"
-      onClick={() => { if (showConfirmationModal) return; onClose(null); }}
-    >
+    <div className="upload-edit-app-modal-overlay" onClick={() => { if (showConfirmationModal) return; onClose(null); }}>
       <div className="upload-edit-app-modal" onClick={(e) => e.stopPropagation()}>
         <div className="upload-edit-app-close-header">
-          <h2>{isEditMode ? "Edit App" : "Upload New App"}</h2>
+          <h2>{modalTitle}</h2>
           <div className="upload-edit-app-close-modal-div">
             <button className="upload-edit-app-close-button" onClick={() => onClose(null)}>
               <img src={xIcon} alt="Close" />
@@ -559,20 +485,13 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
           </div>
         </div>
 
-        {/* ── Loading state for edit mode ── */}
         {isEditMode && isLoadingEdit && (
-          <div style={{ padding: "40px 24px", textAlign: "center", opacity: 0.7 }}>
-            Loading app details…
-          </div>
+          <div style={{ padding: "40px 24px", textAlign: "center", opacity: 0.7 }}>Loading app details…</div>
         )}
-
         {isEditMode && loadEditError && !isLoadingEdit && (
-          <div style={{ padding: "40px 24px", textAlign: "center", color: "#d32f2f" }}>
-            {loadEditError}
-          </div>
+          <div style={{ padding: "40px 24px", textAlign: "center", color: "#d32f2f" }}>{loadEditError}</div>
         )}
 
-        {/* ── Main form (hidden while loading in edit mode) ── */}
         {(!isEditMode || (!isLoadingEdit && !loadEditError)) && (
           <form>
             <div className="upload-edit-app-body">
@@ -583,45 +502,23 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
                       <label htmlFor="appName">App Name <span className="upload-edit-app-required">*</span></label>
                       {errors.appName === "Field Missing" && <span className="upload-edit-app-field-missing">*Field Missing*</span>}
                     </div>
-                    <input
-                      type="text"
-                      className={`appName ${errors.appName ? "error-input" : ""}`}
-                      name="appName"
-                      placeholder="Name..."
-                      value={appName}
-                      onChange={(e) => { setAppName(e.target.value); if (errors.appName) setErrors((p) => ({ ...p, appName: null })); }}
-                      required
-                    />
+                    <input type="text" className={`appName ${errors.appName ? "error-input" : ""}`} name="appName" placeholder="Name..." value={appName} onChange={(e) => { setAppName(e.target.value); if (errors.appName) setErrors((p) => ({ ...p, appName: null })); }} required />
                   </div>
                   <div className="upload-edit-app-price">
                     <div className="upload-edit-app-label-div">
                       <label htmlFor="appPrice">Price <span className="upload-edit-app-required">*</span></label>
                       {errors.appPrice === "Field Missing" && <span className="upload-edit-app-field-missing">*Field Missing*</span>}
                     </div>
-                    <input
-                      type="number"
-                      className="appPrice"
-                      name="appPrice"
-                      placeholder="Amount..."
-                      value={appPrice}
-                      onChange={(e) => { setAppPrice(e.target.value); if (errors.appPrice) setErrors((p) => ({ ...p, appPrice: null })); }}
-                      required
-                    />
+                    <input type="number" className="appPrice" name="appPrice" placeholder="Amount..." value={appPrice} onChange={(e) => { setAppPrice(e.target.value); if (errors.appPrice) setErrors((p) => ({ ...p, appPrice: null })); }} required />
                   </div>
                 </div>
 
                 <div className="upload-edit-app-tech-desc-repo">
                   <div className="upload-edit-app-tech-stack">
                     <div className="upload-edit-app-tech-stack-label">
-                      <label htmlFor="techName" className="tech-used">
-                        Technologies Used <span className="upload-edit-app-required">*</span>
-                      </label>
-                      {errors.technologies !== "Field Missing" && (
-                        <span className="upload-edit-app-tech-stack-comma-separated">* Comma Separated List *</span>
-                      )}
-                      {errors.technologies === "Field Missing" && (
-                        <span className="upload-edit-app-field-missing">*Field Missing*</span>
-                      )}
+                      <label htmlFor="techName" className="tech-used">Technologies Used <span className="upload-edit-app-required">*</span></label>
+                      {errors.technologies !== "Field Missing" && (<span className="upload-edit-app-tech-stack-comma-separated">* Comma Separated List *</span>)}
+                      {errors.technologies === "Field Missing" && (<span className="upload-edit-app-field-missing">*Field Missing*</span>)}
                     </div>
                     <ul className={`upload-edit-app-tech-container ${errors.technologies ? "error-input" : ""}`}>
                       {selectedTechnologies.map((tech, index) => (
@@ -630,42 +527,19 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
                           <img src={CancelIcon} alt="Remove" className="upload-edit-app-tech-delete" onClick={() => handleDeleteTech(index)} />
                         </li>
                       ))}
-                      <input
-                        type="text"
-                        className="techName"
-                        name="techName"
-                        placeholder="Tech 1, Tech 2, Tech 3..."
-                        value={techInput}
-                        onChange={(e) => setTechInput(e.target.value)}
-                        onKeyDown={handleTechKeyDown}
-                      />
+                      <input type="text" className="techName" name="techName" placeholder="Tech 1, Tech 2, Tech 3..." value={techInput} onChange={(e) => setTechInput(e.target.value)} onKeyDown={handleTechKeyDown} />
                     </ul>
                   </div>
-
                   <div className="upload-edit-app-summary">
                     <div className="upload-edit-app-label-div">
                       <label>Description <span className="upload-edit-app-required">*</span></label>
                       {errors.appDescription === "Field Missing" && <span className="upload-edit-app-field-missing">*Field Missing*</span>}
                     </div>
-                    <textarea
-                      className={errors.appDescription ? "error-input" : ""}
-                      placeholder="App description..."
-                      value={appDescription}
-                      onChange={(e) => { setappDescription(e.target.value); if (errors.appDescription) setErrors((p) => ({ ...p, appDescription: null })); }}
-                      required
-                    />
+                    <textarea className={errors.appDescription ? "error-input" : ""} placeholder="App description..." value={appDescription} onChange={(e) => { setappDescription(e.target.value); if (errors.appDescription) setErrors((p) => ({ ...p, appDescription: null })); }} required />
                   </div>
-
                   <div className="upload-edit-app-repo">
                     <label htmlFor="repoURL">Repository URL</label>
-                    <input
-                      type="text"
-                      className="repoURL"
-                      name="repoURL"
-                      placeholder="https://github.com/myName/repo-name"
-                      value={appRepo}
-                      onChange={(e) => setAppRepo(e.target.value)}
-                    />
+                    <input type="text" className="repoURL" name="repoURL" placeholder="https://github.com/myName/repo-name" value={appRepo} onChange={(e) => setAppRepo(e.target.value)} />
                   </div>
                 </div>
               </div>
@@ -680,12 +554,7 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
                     {errors.uploadZip === "Invalid Type" && <span className="upload-edit-app-field-missing">Error – Only ZIP files allowed</span>}
                   </div>
                   {uploadStage === "default" && (
-                    <div
-                      className={`upload-edit-app-upload ${errors.uploadZip ? "error-input" : ""}`}
-                      onClick={triggerFileDialog}
-                      onDragOver={handleDragOver}
-                      onDrop={handleDrop}
-                    >
+                    <div className={`upload-edit-app-upload ${errors.uploadZip ? "error-input" : ""}`} onClick={triggerFileDialog} onDragOver={handleDragOver} onDrop={handleDrop}>
                       <input type="file" ref={fileInputRef} style={{ display: "none" }} accept=".zip" onChange={handleFileSelect} />
                       <div className="upload-edit-app-upload-img"><img src={UploadIcon} alt="Upload" /></div>
                       <div><p><span>Click</span> or Drag here.</p></div>
@@ -699,9 +568,7 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
                       </div>
                       <div className="upload-edit-app-uploading-upload-txt-close">
                         <div className="upload-edit-app-uploading-text">Uploading...</div>
-                        <div className="upload-edit-app-upload-img" onClick={handleCancelUpload} style={{ cursor: "pointer" }}>
-                          <img src={CancelIcon} alt="Cancel Upload" />
-                        </div>
+                        <div className="upload-edit-app-upload-img" onClick={handleCancelUpload} style={{ cursor: "pointer" }}><img src={CancelIcon} alt="Cancel Upload" /></div>
                       </div>
                     </div>
                   )}
@@ -711,9 +578,7 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
                         <div className="upload-edit-app-upload-img"><img src={FolderIcon} alt="Folder" /></div>
                         <div className="upload-edit-app-uploaded-text">{uploadZipName}</div>
                       </div>
-                      <div className="upload-edit-app-upload-img" onClick={handleDeleteUpload} style={{ cursor: "pointer" }}>
-                        <img src={TrashIcon} alt="Delete Upload" />
-                      </div>
+                      <div className="upload-edit-app-upload-img" onClick={handleDeleteUpload} style={{ cursor: "pointer" }}><img src={TrashIcon} alt="Delete Upload" /></div>
                     </div>
                   )}
                 </div>
@@ -727,26 +592,10 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
                     {errors.mediaUpload === "image-limit-exceeded" && <span className="upload-edit-app-field-missing">5 images max</span>}
                     {errors.mediaUpload === "video-limit-exceeded" && <span className="upload-edit-app-field-missing">1 video max</span>}
                     {errors.mediaUpload === "duplicate-image" && <span className="upload-edit-app-field-missing">Duplicates found</span>}
-                    {errors.mediaUpload === "gif-not-allowed" && (
-                      <span className="upload-edit-app-field-missing">
-                        GIFs are not allowed. Please upload JPG/PNG/WebP images or MP4/WebM/MOV videos.
-                      </span>
-                    )}
+                    {errors.mediaUpload === "gif-not-allowed" && (<span className="upload-edit-app-field-missing">GIFs are not allowed. Please upload JPG/PNG/WebP images or MP4/WebM/MOV videos.</span>)}
                   </div>
-                  <div
-                    className="upload-edit-app-upload"
-                    onClick={triggerMediaDialog}
-                    onDragOver={(e) => e.preventDefault()}
-                    onDrop={handleMediaDrop}
-                  >
-                    <input
-                      type="file"
-                      multiple
-                      accept="image/jpeg,image/png,image/webp,video/mp4,video/webm,video/quicktime"
-                      ref={mediaInputRef}
-                      style={{ display: "none" }}
-                      onChange={handleMediaSelect}
-                    />
+                  <div className="upload-edit-app-upload" onClick={triggerMediaDialog} onDragOver={(e) => e.preventDefault()} onDrop={handleMediaDrop}>
+                    <input type="file" multiple accept="image/jpeg,image/png,image/webp,video/mp4,video/webm,video/quicktime" ref={mediaInputRef} style={{ display: "none" }} onChange={handleMediaSelect} />
                     <div className="upload-edit-app-upload-img"><img src={UploadIcon} alt="Upload" /></div>
                     <div><p><span>Click</span> or Drag here.</p></div>
                   </div>
@@ -760,18 +609,10 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
                         <div key={media.isExisting ? `existing-${media.fileId}` : `new-${index}`} className="uploadedImageContainer">
                           <div className="uploadedImage">
                             {(media.type || "").startsWith("video/") && (
-                              <div className="upload-edit-app-video-duration">
-                                <img src={PlayIcon} alt="Play" />
-                                <span>Video</span>
-                              </div>
+                              <div className="upload-edit-app-video-duration"><img src={PlayIcon} alt="Play" /><span>Video</span></div>
                             )}
-                            <div className="upload-edit-app-uploaded-photo-trash" onClick={() => handleDeleteMedia(index)}>
-                              <img src={TrashIcon} alt="Trash" />
-                            </div>
-                            <div
-                              className={`upload-edit-app-uploaded-photo-make-presentation ${defaultPresentationIndex === index ? "selected-presentation" : ""}`}
-                              onClick={() => handleMakePresentation(index)}
-                            >
+                            <div className="upload-edit-app-uploaded-photo-trash" onClick={() => handleDeleteMedia(index)}><img src={TrashIcon} alt="Trash" /></div>
+                            <div className={`upload-edit-app-uploaded-photo-make-presentation ${defaultPresentationIndex === index ? "selected-presentation" : ""}`} onClick={() => handleMakePresentation(index)}>
                               <span>{defaultPresentationIndex === index ? "Default Presentation" : "Make Presentation"}</span>
                             </div>
                             {(media.type || "").startsWith("image/") ? (
@@ -790,19 +631,17 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
 
             <div className="upload-edit-app-draft-cancel-save">
               <div className="upload-edit-app-draft">
-                <button type="button" onClick={handleSaveAsDraft}>
-                  <img src={DraftIcon} /><span>Save as Draft</span>
+                <button type="button" onClick={handleSaveAsDraft} disabled={isSavingDraft}>
+                  <img src={DraftIcon} alt="" /><span>{draftButtonLabel}</span>
                 </button>
               </div>
               <div className="upload-edit-app-cancel-save">
                 <div className="upload-edit-app-cancel">
-                  <button type="button" onClick={() => onClose(null)}>
-                    <img src={CancelIcon} /><span>Cancel</span>
-                  </button>
+                  <button type="button" onClick={() => onClose(null)}><img src={CancelIcon} alt="" /><span>Cancel</span></button>
                 </div>
                 <div className="upload-edit-app-save">
                   <button type="submit" className="upload-edit-app-save-button" onClick={handleSaveAndUpload}>
-                    <img src={SaveIcon} /><span>{isEditMode ? "Save Changes" : "Save & Upload"}</span>
+                    <img src={SaveIcon} alt="" /><span>{saveButtonLabel}</span>
                   </button>
                 </div>
               </div>
@@ -813,27 +652,22 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected }) => {
         {showErrorBox && (
           <div className="upload-edit-app-error-banner">
             <img src={DangerIcon} alt="Error" className="upload-edit-app-error-icon-banner" />
-            <span className="upload-edit-app-error-box-message-banner">
-              {createError || "Error – Fields Missing or Invalid. Please try again."}
-            </span>
-            <div>
-              <button className="upload-edit-app-close-banner-button">
-                <img src={xIcon} alt="Close" onClick={handleCloseErrorBox} />
-              </button>
-            </div>
+            <span className="upload-edit-app-error-box-message-banner">{createError || "Error – Fields Missing or Invalid. Please try again."}</span>
+            <div><button className="upload-edit-app-close-banner-button"><img src={xIcon} alt="Close" onClick={handleCloseErrorBox} /></button></div>
+          </div>
+        )}
+
+        {draftSavedBanner && (
+          <div className="upload-edit-app-draft-saved-banner">
+            <span>Draft saved successfully!</span>
           </div>
         )}
       </div>
 
       {showConfirmationModal && (
-        <ConfirmationModal
-          modalOpenState={showConfirmationModal}
-          onClose={() => setShowConfirmationModal(false)}
-          app={null}
-          onConfirm={handleConfirmUpload}
-        />
+        <ConfirmationModal modalOpenState={showConfirmationModal} onClose={() => setShowConfirmationModal(false)} app={null} onConfirm={handleConfirmUpload} />
       )}
-      {isCreating && <ProcessingModal />}
+      {(isCreating || isSavingDraft) && <ProcessingModal modalOpenState={true} message={isSavingDraft ? "Saving draft…" : "Saving application…"} />}
     </div>
   );
 };

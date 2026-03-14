@@ -65,6 +65,9 @@ const ProfileAppCard = React.memo(
     onImageLoad,
     onToggleTech,
   }, ref) => {
+    // Safety net: if shimmer persists beyond 5 seconds (browser quirk, video event
+    // not firing, cached resource not triggering onLoad, etc.), force-resolve it.
+    // This guarantees shimmer can NEVER be infinite regardless of the cause.
     const shimmerTimerRef = useRef(null);
     useEffect(() => {
       if (showShimmer) {
@@ -537,6 +540,10 @@ const ProfileApplications = () => {
     setSelectedApp(null);
 
     if (returnedCard && returnedCard.userApplicationId) {
+      // If the user saved as draft (including draft copy from published app),
+      // don't add it to the published apps list — it belongs on the Drafts page.
+      if (returnedCard.__isDraft) return;
+
       const normalized = normalizeCardToUiApp(returnedCard);
 
       if (!normalized?.id) {
@@ -547,6 +554,7 @@ const ProfileApplications = () => {
       const isUpdate = !!returnedCard.__isUpdate;
 
       if (isUpdate) {
+        // ── UPDATE: replace the existing card in-place ──────────────────
         const oldCard = allAppsRef.current.find((a) => a.id === normalized.id);
 
         const updatedAll = allAppsRef.current.map((a) =>
@@ -555,6 +563,7 @@ const ProfileApplications = () => {
         setAllApps(updatedAll);
         allAppsRef.current = updatedAll;
 
+        // Always update tech map for the edited version (handles additions AND removals)
         if (normalized.versionId) {
           const techs = Array.isArray(normalized.technologies) ? normalized.technologies : [];
           const updatedMap = { ...techMapRef.current, [normalized.versionId.toString()]: techs };
@@ -562,11 +571,16 @@ const ProfileApplications = () => {
           techMapRef.current = updatedMap;
         }
 
+        // Re-apply current filter/sort
         const q = searchInputRef.current;
         const sort = sortOptionRef.current;
         const sorted = applyFilterSort(updatedAll, techMapRef.current, q, sort);
         setDisplayApps(sorted);
 
+        // Only invalidate media cache if the presentation actually changed.
+        // Covers: URL changed, type switched (image↔video), or media removed/added.
+        // If nothing changed (e.g. only text/tech edited), skip invalidation —
+        // the browser cache already has the image and won't re-fire onLoad.
         const idStr = String(normalized.id);
         const mediaChanged =
           normalized.previewUrl !== (oldCard?.previewUrl ?? "") ||
@@ -582,6 +596,7 @@ const ProfileApplications = () => {
           setShouldLoadMedia((prev) => ({ ...prev, [idStr]: true }));
         }
       } else {
+        // ── CREATE: prepend the new card ─────────────────────────────────
         const updated = [normalized, ...allAppsRef.current];
         setAllApps(updated);
         allAppsRef.current = updated;

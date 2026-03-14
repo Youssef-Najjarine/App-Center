@@ -60,9 +60,19 @@ namespace Oap.WebApp.Controllers
             if (tokenInfo == null || tokenInfo.ExpiresUtc <= DateTime.UtcNow)
                 return Unauthorized(new { error = "Auth token expired" });
 
-            var errors = CreateUserApplicationValidator.Validate(request);
-            if (errors.Count > 0)
-                return BadRequest(new { success = false, errors });
+            // For drafts: only app name is required (allow saving incomplete work).
+            // For published apps: full validation.
+            if (request.IsDraft)
+            {
+                if (string.IsNullOrWhiteSpace(request.Name))
+                    return BadRequest(new { success = false, errors = new { name = "App name is required." } });
+            }
+            else
+            {
+                var errors = CreateUserApplicationValidator.Validate(request);
+                if (errors.Count > 0)
+                    return BadRequest(new { success = false, errors });
+            }
 
             try
             {
@@ -103,9 +113,18 @@ namespace Oap.WebApp.Controllers
 
             var hasExistingZip = await _profileAppService.HasZipFileAsync(tokenInfo.UserId, userApplicationId);
 
-            var errors = UpdateUserApplicationValidator.Validate(request, hasExistingZip);
-            if (errors.Count > 0)
-                return BadRequest(new { success = false, errors });
+            // For drafts: only app name required. For published: full validation.
+            if (request.IsDraft)
+            {
+                if (string.IsNullOrWhiteSpace(request.Name))
+                    return BadRequest(new { success = false, errors = new { name = "App name is required." } });
+            }
+            else
+            {
+                var errors = UpdateUserApplicationValidator.Validate(request, hasExistingZip);
+                if (errors.Count > 0)
+                    return BadRequest(new { success = false, errors });
+            }
 
             try
             {
@@ -154,6 +173,75 @@ namespace Oap.WebApp.Controllers
             {
                 Console.Error.WriteLine(ex);
                 return StatusCode(500, new { success = false, error = "Server error while deleting application." });
+            }
+        }
+
+        // ── Draft endpoints ─────────────────────────────────────────────────
+
+        [HttpGet("get-all-draft-cards")]
+        public async Task<IActionResult> GetAllMyDraftCards()
+        {
+            try
+            {
+                var tokenInfo = GetAuthedUser();
+                if (tokenInfo == null)
+                    return Unauthorized(new { error = "Not authenticated" });
+
+                var items = await _profileAppService.GetAllDraftCardsAsync(tokenInfo.UserId);
+                return Ok(new { success = true, applications = items });
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return StatusCode(500, new { success = false, error = "Server error while loading drafts." });
+            }
+        }
+
+        /// <summary>
+        /// Creates a draft copy from an existing published app.
+        /// The published app remains unchanged. A new app is created with IsDraft=true.
+        /// Existing file references are shared (not duplicated) with the new draft version.
+        /// </summary>
+        [HttpPost("create-draft-copy/{sourceAppId:guid}")]
+        [DisableRequestSizeLimit]
+        [RequestFormLimits(MultipartBodyLengthLimit = 4L * 1024 * 1024 * 1024)]
+        public async Task<IActionResult> CreateDraftCopy(
+            [FromRoute] Guid sourceAppId,
+            [FromForm] UpdateUserApplicationFormRequest request)
+        {
+            var tokenInfo = GetAuthedUser();
+            if (tokenInfo == null)
+                return Unauthorized(new { error = "Not authenticated" });
+
+            // Draft copy only requires name
+            if (string.IsNullOrWhiteSpace(request.Name))
+                return BadRequest(new { success = false, errors = new { name = "App name is required." } });
+
+            try
+            {
+                var result = await _profileAppService.CreateDraftCopyAsync(
+                    tokenInfo.UserId, sourceAppId, request);
+
+                if (!result.Success)
+                    return StatusCode(500, new { success = false, error = result.Error });
+
+                var card = await _profileAppService.GetCreatedCardAsync(
+                    tokenInfo.UserId,
+                    result.UserApplicationId,
+                    result.UserApplicationVersionId);
+
+                return Ok(new
+                {
+                    success = true,
+                    userApplicationId = result.UserApplicationId,
+                    userApplicationVersionId = result.UserApplicationVersionId,
+                    card,
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return StatusCode(500, new { success = false, error = "Server error while creating draft copy." });
             }
         }
 

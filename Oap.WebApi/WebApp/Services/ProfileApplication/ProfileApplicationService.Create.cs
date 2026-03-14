@@ -17,7 +17,7 @@ namespace Oap.WebApp.Services
                 return new CreateUserApplicationResult { Success = false, Error = "Invalid user." };
             if (request == null)
                 return new CreateUserApplicationResult { Success = false, Error = "Invalid request." };
-            if (request.ZipFile == null || request.ZipFile.Length == 0)
+            if (!request.IsDraft && (request.ZipFile == null || request.ZipFile.Length == 0))
                 return new CreateUserApplicationResult { Success = false, Error = "Zip file is required." };
 
             string? zipTempPath = null;
@@ -43,9 +43,12 @@ namespace Oap.WebApp.Services
 
                 await UpsertTechnologyTagsAsync(connection, tx, request.Technologies);
 
-                (zipTempPath, var zipFileId) = await InsertZipFileWithMetadataAsync(
-                    connection, tx, request.ZipFile, request.Technologies);
-                await InsertVersionFileLinkAsync(connection, tx, versionId, zipFileId, (int)UserApplicationFileCategory.Zip, 0);
+                if (request.ZipFile != null && request.ZipFile.Length > 0)
+                {
+                    (zipTempPath, var zipFileId) = await InsertZipFileWithMetadataAsync(
+                        connection, tx, request.ZipFile, request.Technologies);
+                    await InsertVersionFileLinkAsync(connection, tx, versionId, zipFileId, (int)UserApplicationFileCategory.Zip, 0);
+                }
 
                 var mediaIncoming = request.Media ?? new List<IFormFile>();
                 var media = mediaIncoming.Where(f => f != null && f.Length > 0).ToList();

@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useRef  } from "react";
+import React, { useState, useEffect, useRef, useMemo, useCallback, forwardRef } from "react";
 import { Link } from "react-router-dom";
 import ProfileApplicationDetailModal from "@profile/ProfileApplicationDetailModal/ProfileApplicationDetailModal";
 import ProfileUploadEditAppModal from "@profile/ProfileUploadEditAppModal/ProfileUploadEditAppModal";
 import DeleteConfirmationModal from "@pages/DeleteConfirmationModal/DeleteConfirmationModal";
+import ProcessingModal from "@pages/ProcessingModal/ProcessingModal";
 import searchIcon from "@assets/magnifying-glass-icon.svg";
-import applicationImg1 from "@assets/Member/member-applicationImg-1.png";
-import applicationImg2 from "@assets/Member/member-applicationImg-2.png";
 import githubIcon from "@assets/github-icon.png";
 import expandIcon from "@assets/three-dots-expand-icon.svg";
 import editIcon from "@assets/purple-edit-icon.svg";
@@ -14,210 +13,418 @@ import addIcon from "@assets/add-circle-icon.svg";
 import sortIcon from "@assets/sort-by-icon.svg";
 import playIcon from "@assets/purple-filled-play-icon.svg";
 import draftIcon from "@assets/purple-draft-icon.svg";
+import noImageUploadedPlaceholder from "@assets/no-image-uploaded.jpg";
 import "./ProfileApplicationDrafts.css";
 
+const normalizeCardToUiApp = (apiItem) => {
+  const id = apiItem?.userApplicationId ?? apiItem?.UserApplicationId;
+  const versionId = apiItem?.userApplicationVersionId ?? apiItem?.UserApplicationVersionId;
+  const name = apiItem?.name ?? apiItem?.Name ?? "";
+  const description = apiItem?.description ?? apiItem?.Description ?? "";
+  const repositoryUrl = apiItem?.repositoryUrl ?? apiItem?.RepositoryUrl ?? "";
+  const createdAt = apiItem?.createdAt ?? apiItem?.CreatedAt ?? null;
+  const previewUrl = apiItem?.defaultPresentationUrl ?? apiItem?.DefaultPresentationUrl ?? "";
+  const thumbnailUrl = apiItem?.defaultPresentationThumbnailUrl ?? apiItem?.DefaultPresentationThumbnailUrl ?? "";
+  const fileCategory = Number(apiItem?.defaultPresentationFileCategory ?? apiItem?.DefaultPresentationFileCategory ?? 0);
+  const contentTypeRaw = apiItem?.defaultPresentationContentType ?? apiItem?.DefaultPresentationContentType ?? "";
+  const contentType = String(contentTypeRaw).toLowerCase();
+  const isVideo = fileCategory === 3 || contentType.startsWith("video/");
+
+  return {
+    id, versionId, title: name, description,
+    github: repositoryUrl, previewUrl, thumbnailUrl, isVideo,
+    isDraft: true,
+    technologies: apiItem?.technologies ?? apiItem?.Technologies ?? [],
+    raw: { ...apiItem, createdAt },
+  };
+};
+
+const TECH_VISIBLE_COUNT = 5;
+
+const DraftAppCard = React.memo(
+  forwardRef(({ app, canLoadMedia, showShimmer, expandedDropdownId, dropdownRef, isExpanded,
+    onCardClick, onExpandDropdown, onEditClick, onDeleteClick, onViewDetailsClick, onImageLoad, onToggleTech }, ref) => {
+
+    const shimmerTimerRef = useRef(null);
+    useEffect(() => {
+      if (showShimmer) { shimmerTimerRef.current = setTimeout(() => onImageLoad(), 5000); }
+      else { if (shimmerTimerRef.current) { clearTimeout(shimmerTimerRef.current); shimmerTimerRef.current = null; } }
+      return () => { if (shimmerTimerRef.current) clearTimeout(shimmerTimerRef.current); };
+    }, [showShimmer, onImageLoad]);
+
+    const showVideoOverlay = app.isVideo && app.previewUrl;
+    const techs = app.technologies || [];
+    const visibleTech = isExpanded ? techs : techs.slice(0, TECH_VISIBLE_COUNT);
+    const remaining = techs.length - TECH_VISIBLE_COUNT;
+    const hasThumbnail = !!app.thumbnailUrl;
+    const hasPreview = !!app.previewUrl;
+
+    return (
+      <div className="profileDraftApp" onClick={onCardClick} ref={ref}>
+        <div className={`profileDraftApp-image-div ${showShimmer ? "is-loading-media" : ""}`}>
+          {showShimmer && <div className="profileDraftApp-shimmer" />}
+
+          {!canLoadMedia ? (
+            <div className="profileDraftApp-placeholder-img profileDraftApp-media-slot" />
+          ) : (hasThumbnail && app.isVideo) ? (
+            <img src={app.thumbnailUrl} alt={app.title} className="profileDraftApp-placeholder-img" loading="lazy" decoding="async" onLoad={onImageLoad} onError={onImageLoad} />
+          ) : hasPreview ? (
+            app.isVideo ? (
+              <video src={app.previewUrl} className="profileDraftApp-placeholder-img" muted playsInline preload="metadata" onLoadedMetadata={onImageLoad} onLoadedData={onImageLoad} onError={onImageLoad} />
+            ) : (
+              <img src={app.previewUrl} alt={app.title} className="profileDraftApp-placeholder-img" loading="lazy" decoding="async" onLoad={onImageLoad} onError={onImageLoad} />
+            )
+          ) : (
+            <img src={noImageUploadedPlaceholder} alt="No media" className="profileDraftApp-placeholder-img" onLoad={onImageLoad} onError={onImageLoad} />
+          )}
+
+          {showVideoOverlay && (
+            <div className="profileDraftApp-video-overlay">
+              <img src={playIcon} alt="Play" className="profileDraftApp-play-icon" />
+              <span className="profileDraftApp-video-duration">Video</span>
+            </div>
+          )}
+
+          <div className="profileDraftApp-expand-div" ref={dropdownRef} onClick={onExpandDropdown}>
+            <button type="button"><img src={expandIcon} className="profileDraftApp-expand-icon" alt="More" /></button>
+            {expandedDropdownId === app.id && (
+              <div className="profileDraftApp-dropdown">
+                <div className="profileDraftApp-dropdown-item edit" onClick={onEditClick}><img src={editIcon} alt="Edit" /><span>Edit</span></div>
+                <div className="profileDraftApp-dropdown-item delete" onClick={onDeleteClick}><img src={trashIcon} alt="Delete" /><span>Delete</span></div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="profileDraftApp-gitHub-div">
+          <div>
+            {app.github ? (
+              <a href={app.github} target="_blank" rel="noopener noreferrer"><img src={githubIcon} alt="GitHub icon" /></a>
+            ) : (
+              <img src={githubIcon} alt="GitHub icon" style={{ opacity: 0.35 }} />
+            )}
+          </div>
+          <div className="profileDraftApp-gitHub-anchor-div">
+            {app.github ? (
+              <a href={app.github} target="_blank" rel="noopener noreferrer">{app.github}</a>
+            ) : (
+              <span style={{ opacity: 0.6 }}>No repository link</span>
+            )}
+          </div>
+        </div>
+
+        <h6 className="profileDraftApp-app-title">{app.title}</h6>
+        <p className="profileDraftApp-app-description">{app.description}</p>
+
+        {techs.length > 0 && (
+          <ul className="profileDraftApp-app-tech-stack">
+            {visibleTech.map((t, i) => <li key={`${app.id}-tech-${i}`}>{t}</li>)}
+            {!isExpanded && remaining > 0 && (
+              <li className="expand-tech" onClick={(e) => { e.stopPropagation(); onToggleTech(); }}>+{remaining}</li>
+            )}
+            {isExpanded && remaining > 0 && (
+              <li className="profileDraftApp-collapse-tech" onClick={(e) => { e.stopPropagation(); onToggleTech(); }}>Show less</li>
+            )}
+          </ul>
+        )}
+
+        <button
+          className="profileDraftApp-view-details-button"
+          onClick={(e) => { e.stopPropagation(); onViewDetailsClick(); }}
+        >
+          <img src={addIcon} alt="Details" />
+          <span>View Details</span>
+        </button>
+      </div>
+    );
+  })
+);
+
 const ProfileApplicationDrafts = () => {
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+  useEffect(() => { window.scrollTo({ top: 0, behavior: "smooth" }); }, []);
+
+  const [allApps, setAllApps] = useState([]);
+  const [displayApps, setDisplayApps] = useState([]);
+  const [techMap, setTechMap] = useState({});
+
+  const [isLoadingApps, setIsLoadingApps] = useState(false);
+  const [appsError, setAppsError] = useState("");
+
+  const [showAll, setShowAll] = useState(false);
+  const [sortOption, setSortOption] = useState("Latest");
+  const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+  const [isSearchMode, setIsSearchMode] = useState(false);
+  const [expandedTechStacks, setExpandedTechStacks] = useState({});
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedApp, setSelectedApp] = useState(null);
-  const [modalSource, setModalSource] = useState("card");
-  const [showAll, setShowAll] = useState(false);
-  const [expandedTechStacks, setExpandedTechStacks] = useState({});
-  const [sortOption, setSortOption] = useState("Popular");
-  const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
+  const [modalApp, setModalApp] = useState(null);
+  const [modalDetail, setModalDetail] = useState(null);
+  const [modalDetailLoading, setModalDetailLoading] = useState(false);
+
   const [showUploadEditModal, setShowUploadEditModal] = useState(false);
+  const [selectedApp, setSelectedApp] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [appToDelete, setAppToDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [expandedDropdownId, setExpandedDropdownId] = useState(null);
+
+  const [mediaLoadedMap, setMediaLoadedMap] = useState({});
+  const [shouldLoadMedia, setShouldLoadMedia] = useState({});
+
   const dropdownRefs = useRef({});
-  const [expandedDropdownId, setExpandedDropdownId] = useState(null); // for dropdowns
-  const [modalApp, setModalApp] = useState(null); // for modal
-  let drafts = 2;
-  const [applicationDrafts, setApplicationDrafts] = useState([
-    {
-      id: 1,
-      title: "Toritube App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg1,
-      github: "https://github.com/Youssef-Najjarine/portfolio",
-      tech: ["Firebase", "JavaScript"],
-    },
-    {
-      id: 2,
-      title: "Antidote App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg2,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
-    },
-    {
-      id: 3,
-      title: "Toritube App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg1,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API"],
-    },
-    {
-      id: 4,
-      title: "Antidote App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg2,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
-    },
-    {
-      id: 5,
-      title: "Toritube App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg1,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API"],
-    },
-    {
-      id: 6,
-      title: "Antidote App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg2,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
-    },
-    {
-      id: 7,
-      title: "Toritube App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg1,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API"],
-    },
-    {
-      id: 8,
-      title: "Antidote App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg2,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
-    },
-      {
-      id: 9,
-      title: "Toritube App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg1,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API"],
-    },
-    {
-      id: 10,
-      title: "Antidote App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg2,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
-    },
-    {
-      id: 11,
-      title: "Toritube App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg1,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API"],
-    },
-    {
-      id: 12,
-      title: "Antidote App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg2,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
-    },
-    {
-      id: 13,
-      title: "Toritube App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg1,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API", "Firebase", "JavaScript", "UI/UX Design", "GitHub Repo", "Artificial Intelligence", "React", "REST API"],
-    },
-    {
-      id: 14,
-      title: "Antidote App",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's ...",
-      img: applicationImg2,
-      github: "https://github.com/my-name/repo...",
-      tech: ["Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App", "Web App", "Artificial Intelligence", "Node.js", "SQL", "Mobile App"],
-    },
-  ]);
+  const cardNodesRef = useRef({});
+  const observerRef = useRef(null);
+  const searchDebounceRef = useRef(null);
+  const allAppsRef = useRef([]);
+  const techMapRef = useRef({});
+  const sortOptionRef = useRef("Latest");
+  const searchInputRef = useRef("");
 
-   const visibleApps = showAll ? applicationDrafts : applicationDrafts.slice(0, 12);
-    useEffect(() => {
-      const handleClickOutside = (event) => {
-        if (
-          expandedDropdownId &&
-          dropdownRefs.current[expandedDropdownId] &&
-          !dropdownRefs.current[expandedDropdownId].current.contains(event.target)
-        ) {
-          setExpandedDropdownId(null);
+  useEffect(() => { allAppsRef.current = allApps; }, [allApps]);
+  useEffect(() => { techMapRef.current = techMap; }, [techMap]);
+  useEffect(() => { sortOptionRef.current = sortOption; }, [sortOption]);
+  useEffect(() => { searchInputRef.current = searchInput; }, [searchInput]);
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (expandedDropdownId && dropdownRefs.current[expandedDropdownId]?.current &&
+        !dropdownRefs.current[expandedDropdownId].current.contains(e.target))
+        setExpandedDropdownId(null);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [expandedDropdownId]);
+
+  const markMediaLoaded = useCallback((appId) => {
+    setMediaLoadedMap((prev) => prev[appId] ? prev : { ...prev, [appId]: true });
+  }, []);
+  const toggleTechStack = useCallback((id) => {
+    setExpandedTechStacks((prev) => ({ ...prev, [id]: !prev[id] }));
+  }, []);
+
+  // ── IntersectionObserver ──────────────────────────────────────────────
+  useEffect(() => {
+    observerRef.current?.disconnect();
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const id = entry.target?.dataset?.appid;
+          if (!id || !entry.isIntersecting) return;
+          setShouldLoadMedia((prev) => (prev[id] ? prev : { ...prev, [id]: true }));
+          observerRef.current?.unobserve(entry.target);
+        });
+      },
+      { root: null, rootMargin: "250px", threshold: 0.01 }
+    );
+    Object.values(cardNodesRef.current).forEach((node) => {
+      if (node) observerRef.current.observe(node);
+    });
+    return () => observerRef.current?.disconnect();
+  }, [displayApps]);
+
+  const setCardNode = useCallback((appId, node) => {
+    if (!appId) return;
+    if (node) { cardNodesRef.current[appId] = node; node.dataset.appid = String(appId); observerRef.current?.observe(node); }
+    else delete cardNodesRef.current[appId];
+  }, []);
+
+  // ── Filter / Sort ─────────────────────────────────────────────────────
+  const applyFilterSort = useCallback((apps, techMapSnap, query, sort) => {
+    let arr = apps;
+    const q = query.trim().toLowerCase();
+    if (q) {
+      arr = arr.filter((a) => {
+        const techs = techMapSnap[a.versionId?.toString()] ?? a.technologies ?? [];
+        return (a.title || "").toLowerCase().includes(q) ||
+          (a.description || "").toLowerCase().includes(q) ||
+          (a.github || "").toLowerCase().includes(q) ||
+          techs.some((t) => t.toLowerCase().includes(q));
+      });
+    }
+    const sorted = [...arr];
+    if (sort === "A-Z") sorted.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
+    else if (sort === "Z-A") sorted.sort((a, b) => (b.title || "").localeCompare(a.title || ""));
+    else sorted.sort((a, b) => {
+      const ad = a?.raw?.createdAt ? new Date(a.raw.createdAt).getTime() : 0;
+      const bd = b?.raw?.createdAt ? new Date(b.raw.createdAt).getTime() : 0;
+      return bd - ad;
+    });
+    return sorted;
+  }, []);
+
+  const triggerFilterSort = useCallback((query, sort) => {
+    const isDefault = !query.trim() && sort === "Latest";
+    if (isDefault) { setIsSearchMode(false); setDisplayApps(applyFilterSort(allAppsRef.current, techMapRef.current, "", "Latest")); setShowAll(false); return; }
+    setIsSearchMode(true); setShowAll(false);
+    setDisplayApps(applyFilterSort(allAppsRef.current, techMapRef.current, query, sort));
+  }, [applyFilterSort]);
+
+  const handleSearchInputChange = useCallback((e) => {
+    const val = e.target.value; setSearchInput(val); searchInputRef.current = val;
+    clearTimeout(searchDebounceRef.current);
+    searchDebounceRef.current = setTimeout(() => triggerFilterSort(val, sortOptionRef.current), 300);
+  }, [triggerFilterSort]);
+
+  const handleSearchSubmit = useCallback(() => { clearTimeout(searchDebounceRef.current); triggerFilterSort(searchInputRef.current, sortOptionRef.current); }, [triggerFilterSort]);
+  const handleSearchKeyDown = useCallback((e) => { if (e.key === "Enter") handleSearchSubmit(); }, [handleSearchSubmit]);
+
+  const handleSortChange = useCallback((option) => {
+    if (option === "Popular") { setSortDropdownOpen(false); return; }
+    setSortOption(option); sortOptionRef.current = option; setSortDropdownOpen(false);
+    triggerFilterSort(searchInputRef.current, option);
+  }, [triggerFilterSort]);
+
+  const clearSearchState = useCallback(() => {
+    clearTimeout(searchDebounceRef.current);
+    setSearchInput(""); searchInputRef.current = "";
+    setSortOption("Latest"); sortOptionRef.current = "Latest";
+    setIsSearchMode(false); setShowAll(false);
+  }, []);
+
+  // ── Load drafts ───────────────────────────────────────────────────────
+  const loadDrafts = useCallback(async () => {
+    setIsLoadingApps(true); setAppsError(""); clearSearchState();
+    try {
+      const res = await fetch("/api/user-application/get-all-draft-cards", { method: "GET", credentials: "include" });
+      const text = await res.text();
+      let data = null;
+      try { data = text ? JSON.parse(text) : null; } catch { data = null; }
+      if (!res.ok) { setAppsError("Unable to load your drafts."); setAllApps([]); setDisplayApps([]); return; }
+
+      const items = Array.isArray(data?.applications) ? data.applications : [];
+      const normalized = items.map(normalizeCardToUiApp).filter((x) => !!x?.id);
+      setAllApps(normalized); allAppsRef.current = normalized; setDisplayApps(normalized);
+
+      if (normalized.length === 0) return;
+      const versionIds = normalized.map((a) => a.versionId).filter(Boolean);
+      fetch("/api/user-application/get-bulk-technologies", { method: "POST", credentials: "include", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ versionIds }) })
+        .then((r) => r.text())
+        .then((t) => {
+          let td = null; try { td = t ? JSON.parse(t) : null; } catch { return; }
+          const map = td?.technologies ?? {};
+          if (typeof map !== "object" || map === null) return;
+          setTechMap(map); techMapRef.current = map;
+          const merged = allAppsRef.current.map((app) => { const techs = map[app.versionId?.toString()]; return techs ? { ...app, technologies: techs } : app; });
+          setAllApps(merged); allAppsRef.current = merged;
+          const q = searchInputRef.current; const sort = sortOptionRef.current;
+          if (q.trim() || sort !== "Latest") setDisplayApps(applyFilterSort(merged, map, q, sort));
+          else setDisplayApps(merged);
+        }).catch(() => {});
+    } catch (e) {
+      console.error(e); setAppsError("Unable to connect to the server."); setAllApps([]); setDisplayApps([]);
+    } finally { setIsLoadingApps(false); }
+  }, [applyFilterSort, clearSearchState]);
+
+  useEffect(() => { loadDrafts(); }, [loadDrafts]);
+
+  // ── Detail modal ──────────────────────────────────────────────────────
+  const openDetailModal = useCallback(async (app) => {
+    setModalApp(app); setModalDetail(null); setModalDetailLoading(true); setModalOpen(true);
+    try {
+      const res = await fetch(`/api/user-application/get-user-application-details/${app.id}`, { method: "GET", credentials: "include" });
+      const text = await res.text();
+      let data = null; try { data = text ? JSON.parse(text) : null; } catch { data = null; }
+      if (res.ok && data?.application) setModalDetail(data.application);
+    } catch (e) { console.error("Failed to load draft details:", e); }
+    finally { setModalDetailLoading(false); }
+  }, []);
+
+  const closeDetailModal = useCallback(() => {
+    setModalOpen(false); setModalApp(null); setModalDetail(null); setModalDetailLoading(false);
+  }, []);
+
+  // ── Upload/edit modal close handler ───────────────────────────────────
+  const handleCloseUploadModal = useCallback((returnedCard) => {
+    setShowUploadEditModal(false); setSelectedApp(null);
+    if (returnedCard && returnedCard.userApplicationId) {
+      const normalized = normalizeCardToUiApp(returnedCard);
+      if (!normalized?.id) { loadDrafts(); return; }
+
+      // If this card is a draft, add/update it in our list
+      if (returnedCard.__isDraft || returnedCard.__isUpdate) {
+        const isUpdate = !!returnedCard.__isUpdate;
+        if (isUpdate) {
+          const updatedAll = allAppsRef.current.map((a) => a.id === normalized.id ? normalized : a);
+          setAllApps(updatedAll); allAppsRef.current = updatedAll;
+          if (normalized.versionId) {
+            const techs = Array.isArray(normalized.technologies) ? normalized.technologies : [];
+            const updatedMap = { ...techMapRef.current, [normalized.versionId.toString()]: techs };
+            setTechMap(updatedMap); techMapRef.current = updatedMap;
+          }
+          setDisplayApps(applyFilterSort(updatedAll, techMapRef.current, searchInputRef.current, sortOptionRef.current));
+        } else {
+          const updated = [normalized, ...allAppsRef.current];
+          setAllApps(updated); allAppsRef.current = updated;
+          clearSearchState();
+          setDisplayApps(applyFilterSort(updated, techMapRef.current, "", "Latest"));
+          setShouldLoadMedia((prev) => ({ ...prev, [String(normalized.id)]: true }));
         }
-      };
+        return;
+      }
 
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }, [expandedDropdownId]);
+      // If the card is published (not a draft), it means it was published from drafts
+      // Remove it from drafts list since it's now published
+      if (!returnedCard.__isDraft && !returnedCard.__isUpdate) {
+        loadDrafts();
+        return;
+      }
+    }
+    loadDrafts();
+  }, [applyFilterSort, clearSearchState, loadDrafts]);
 
-  const toggleTechStack = (id) => {
-    setExpandedTechStacks((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
+  // ── Delete ────────────────────────────────────────────────────────────
+  const handleConfirmDelete = useCallback(async () => {
+    if (!appToDelete) return;
+    setIsDeleting(true);
+    try {
+      const res = await fetch(`/api/user-application/delete-user-application/${appToDelete.id}`, { method: "DELETE", credentials: "include" });
+      if (res.ok) {
+        const deleteId = appToDelete.id;
+        const updated = allAppsRef.current.filter((a) => a.id !== deleteId);
+        setAllApps(updated); allAppsRef.current = updated;
+        setDisplayApps((prev) => prev.filter((a) => a.id !== deleteId));
+        closeDetailModal();
+      }
+    } catch (e) { console.error(e); }
+    finally { setIsDeleting(false); setShowDeleteModal(false); setAppToDelete(null); }
+  }, [appToDelete, closeDetailModal]);
+
+  const visibleApps = useMemo(() => (showAll ? displayApps : displayApps.slice(0, 12)), [displayApps, showAll]);
+  const hasNoAppsAtAll = !isLoadingApps && !appsError && allApps.length === 0;
+  const hasAppsButNoResults = !isLoadingApps && !appsError && allApps.length > 0 && displayApps.length === 0 && isSearchMode;
 
   return (
     <section id="profile-application-drafts">
       <div className="profile-application-drafts-title-div">
-        <h2 className="profile-application-drafts-title">Drafts ({drafts})</h2>
+        <h2 className="profile-application-drafts-title">Drafts ({allApps.length})</h2>
         <div className="profile-application-drafts-search-filter-add-div">
           <div className="profile-application-drafts-search-div">
-            <input className="profile-application-drafts-search" placeholder="Search..." />
-            <img src={searchIcon} alt="Applications Search" className="profile-application-drafts-search-icon" />
+            <input className="profile-application-drafts-search" placeholder="Search..." value={searchInput} onChange={handleSearchInputChange} onKeyDown={handleSearchKeyDown} />
+            <img src={searchIcon} alt="Search" className="profile-application-drafts-search-icon" onClick={handleSearchSubmit} />
           </div>
           <div className="profile-application-drafts-sortby-upload-div">
             <div className="profile-application-drafts-sortby-div">
-              <div onClick={() => setSortDropdownOpen(!sortDropdownOpen)}>
-                <img src={sortIcon} alt="Sort Icon" />
+              <div onClick={() => setSortDropdownOpen((o) => !o)}>
+                <img src={sortIcon} alt="Sort" />
                 <span>Sort By: {sortOption}</span>
               </div>
               {sortDropdownOpen && (
                 <ul className="sortby-dropdown">
                   {["Popular", "Latest", "A-Z", "Z-A"].map((option) => (
-                    <li
-                      key={option}
-                      className={sortOption === option ? "active" : ""}
-                      onClick={() => {
-                        setSortOption(option);
-                        setSortDropdownOpen(false);
-                      }}
-                    >
-                      {option}
-                    </li>
+                    <li key={option} className={sortOption === option ? "active" : ""} onClick={() => handleSortChange(option)}>{option}</li>
                   ))}
                 </ul>
               )}
             </div>
             <div className="profile-application-drafts-drafts-div">
-                <img src={draftIcon}/>
-                <span>Drafts</span>
+              <img src={draftIcon} alt="" />
+              <span>Drafts</span>
             </div>
-            <div className="profileDrafts-header-right-border"></div>            
+            <div className="profileDrafts-header-right-border"></div>
             <div className="profile-application-drafts-upload-new-div">
-              <div
-                className="profile-application-drafts-upload-new-btn"
-                onClick={() => setShowUploadEditModal(true)}
-              >
-                <img src={addIcon} alt="Add App" />
+              <div className="profile-application-drafts-upload-new-btn" onClick={() => setShowUploadEditModal(true)}>
+                <img src={addIcon} alt="Add" />
                 <span>Upload New App</span>
               </div>
             </div>
@@ -225,182 +432,118 @@ const ProfileApplicationDrafts = () => {
         </div>
       </div>
 
+      {isLoadingApps && <div style={{ padding: "12px 0", opacity: 0.8 }}>Loading your drafts…</div>}
+      {!isLoadingApps && appsError && <div style={{ padding: "12px 0" }}>{appsError}</div>}
+
+      {hasNoAppsAtAll && (
+        <div className="profileDrafts-emptyState">
+          <div className="profileDrafts-emptyState-card">
+            <div className="profileDrafts-emptyState-icon" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="12" y1="18" x2="12" y2="12" />
+                <line x1="9" y1="15" x2="15" y2="15" />
+              </svg>
+            </div>
+            <h3 className="profileDrafts-emptyState-title">No drafts yet</h3>
+            <p className="profileDrafts-emptyState-subtitle">Save an app as a draft to continue working on it later.</p>
+          </div>
+        </div>
+      )}
+
+      {hasAppsButNoResults && (
+        <div className="profileDrafts-emptyState">
+          <div className="profileDrafts-emptyState-card">
+            <div className="profileDrafts-emptyState-icon" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /><line x1="8" y1="11" x2="14" y2="11" />
+              </svg>
+            </div>
+            <h3 className="profileDrafts-emptyState-title">No results found</h3>
+            <p className="profileDrafts-emptyState-subtitle">
+              No drafts matched{" "}{searchInput.trim() ? (<>&ldquo;<strong>{searchInput.trim()}</strong>&rdquo;</>) : "your current filters"}. Try adjusting your search.
+            </p>
+            <button type="button" className="profileDrafts-emptyState-cta" onClick={() => { clearSearchState(); setDisplayApps(applyFilterSort(allAppsRef.current, techMapRef.current, "", "Latest")); }}>
+              Clear search
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="profile-application-drafts-grid">
         {visibleApps.map((app) => {
-          const isExpanded = expandedTechStacks[app.id];
-          const visibleTech = isExpanded ? app.tech : app.tech.slice(0, 3);
-          const remaining = app.tech.length - 3;
-          if (!dropdownRefs.current[app.id]) {
-            dropdownRefs.current[app.id] = React.createRef();
-          }
-          return (
-            <div
-              className="profileDraftApp"
-              key={app.id}
-              onClick={(e) => {
-                const target = e.target;
-                const isInsideLink = target.closest("a");
-                const isInsideExpandDiv = target.closest(".profileDraftApp-expand-div");
-                const isTechToggle =
-                  target.classList.contains("expand-tech") ||
-                  target.classList.contains("profileDraftApp-collapse-tech");
+          if (!dropdownRefs.current[app.id]) dropdownRefs.current[app.id] = React.createRef();
+          const idStr = String(app.id);
+          const canLoadMedia = !!shouldLoadMedia[idStr];
+          const hasMedia = !!(app.thumbnailUrl || app.previewUrl);
+          const showShimmer = canLoadMedia && hasMedia && !mediaLoadedMap[idStr];
 
-                if (!isInsideLink && !isInsideExpandDiv && !isTechToggle) {
-                  setModalApp(app);
-                  setModalSource("card");
-                  setModalOpen(true);
-                }
+          return (
+            <DraftAppCard
+              key={app.id}
+              ref={(node) => setCardNode(app.id, node)}
+              app={app}
+              canLoadMedia={canLoadMedia}
+              showShimmer={showShimmer}
+              expandedDropdownId={expandedDropdownId}
+              dropdownRef={dropdownRefs.current[app.id]}
+              isExpanded={!!expandedTechStacks[app.id]}
+              onCardClick={(e) => {
+                if (e.target.closest("a") || e.target.closest(".profileDraftApp-expand-div") ||
+                  e.target.classList.contains("expand-tech") || e.target.classList.contains("profileDraftApp-collapse-tech")) return;
+                openDetailModal(app);
               }}
-            >
-              <div className="profileDraftApp-image-div">
-                <img src={app.img} alt={app.title} className="profileDraftApp-placeholder-img" />
-                <div className="profileDraftApp-video-overlay">
-                  <img src={playIcon} alt="Play" className="profileDraftApp-play-icon" />
-                  <span className="profileDraftApp-video-duration">14:22</span>
-                </div>
-                <div className="profileDraftApp-expand-div"
-                  ref={dropdownRefs.current[app.id]}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setExpandedDropdownId((prev) => (prev === app.id ? null : app.id));
-                  }}
-                >
-                  <button>
-                    <img src={expandIcon} className="profileDraftApp-expand-icon" />
-                  </button>
-                  {expandedDropdownId === app.id &&  (
-                    <div className="profileDraftApp-dropdown">
-                      <div
-                        className="profileDraftApp-dropdown-item edit"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setShowUploadEditModal(true);
-                          setSelectedApp(null);
-                        }}
-                      >
-                        <img src={editIcon} alt="Edit" />
-                        <span>Edit</span>
-                      </div>
-                      <div
-                        className="profileDraftApp-dropdown-item delete"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setAppToDelete(app);
-                          setShowDeleteModal(true);
-                          setSelectedApp(null);
-                        }}
-                      >
-                        <img src={trashIcon} alt="Delete" />
-                        <span>Delete</span>
-                      </div>
-                    </div>
-                  )}                  
-                </div>
-              </div>
-              <div className="profileDraftApp-gitHub-div">
-                <div>
-                  <a href={app.github} target="_blank" rel="noopener noreferrer">
-                    <img src={githubIcon} alt="GitHub icon" />
-                  </a>
-                </div>
-                <div className="profileDraftApp-gitHub-anchor-div">
-                  <a href={app.github} target="_blank" rel="noopener noreferrer">
-                    {app.github}
-                  </a>
-                </div>
-              </div>
-              <h6 className="profileDraftApp-app-title">{app.title}</h6>
-              <p className="profileDraftApp-app-description">{app.description}</p>
-              <ul className="profileDraftApp-app-tech-stack">
-                {visibleTech.map((techItem, index) => (
-                  <li key={`${app.id}-tech-${index}`}>{techItem}</li>
-                ))}
-                {!isExpanded && remaining > 0 && (
-                  <li
-                    className="expand-tech"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleTechStack(app.id);
-                    }}
-                  >
-                    +{remaining}
-                  </li>
-                )}
-                {isExpanded && remaining > 0 && (
-                  <li
-                    className="profileDraftApp-collapse-tech"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleTechStack(app.id);
-                    }}
-                  >
-                    Show less
-                  </li>
-                )}
-              </ul>
-                <button
-                    className="profileDraftApp-view-details-button"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        setModalApp(app);
-                        setModalSource("details");
-                        setModalOpen(true);
-                        setExpandedDropdownId(null);
-                    }}
-                    >
-                    <img src={addIcon} alt="Details" />
-                    <span>View Details</span>
-                </button>
-            </div>
+              onExpandDropdown={(e) => { e.stopPropagation(); setExpandedDropdownId((prev) => (prev === app.id ? null : app.id)); }}
+              onEditClick={(e) => { e.stopPropagation(); setSelectedApp(app); setShowUploadEditModal(true); setExpandedDropdownId(null); }}
+              onDeleteClick={(e) => { e.stopPropagation(); setAppToDelete(app); setShowDeleteModal(true); setExpandedDropdownId(null); }}
+              onViewDetailsClick={() => { openDetailModal(app); setExpandedDropdownId(null); }}
+              onImageLoad={() => markMediaLoaded(app.id)}
+              onToggleTech={() => toggleTechStack(app.id)}
+            />
           );
         })}
       </div>
 
-      <div className="profile-application-drafts-load-more-div">
-        <button
-          className="profile-application-drafts-load-more"
-          onClick={() => setShowAll(!showAll)}
-        >
-          {showAll ? "Show Less" : "Load More"}
-        </button>
-      </div>
+      {displayApps.length > 12 && (
+        <div className="profile-application-drafts-load-more-div">
+          <button className="profile-application-drafts-load-more" onClick={() => setShowAll((s) => !s)}>
+            {showAll ? "Show Less" : "Load More"}
+          </button>
+        </div>
+      )}
 
       {modalOpen && (
         <ProfileApplicationDetailModal
           modalOpenState={modalOpen}
-          onClose={() => {
-            setModalOpen(false);
-            setModalApp(null);
-          }}
+          onClose={() => { if (showDeleteModal) return; closeDetailModal(); }}
           app={modalApp}
-          modalSource={modalSource}
+          detail={modalDetail}
+          detailLoading={modalDetailLoading}
+          onEditClick={() => { closeDetailModal(); setSelectedApp(modalApp); setShowUploadEditModal(true); }}
+          onDeleteClick={() => { setAppToDelete(modalApp); setShowDeleteModal(true); }}
         />
       )}
 
       {showUploadEditModal && (
         <ProfileUploadEditAppModal
           modalOpenState={showUploadEditModal}
-          onClose={() => setShowUploadEditModal(false)}
+          onClose={handleCloseUploadModal}
+          selected={selectedApp}
+          context={selectedApp ? "draft" : undefined}
         />
       )}
 
       {showDeleteModal && appToDelete && (
         <DeleteConfirmationModal
           modalOpenState={showDeleteModal}
-          onClose={() => {
-            setShowDeleteModal(false);
-            setAppToDelete(null);
-          }}
+          onClose={() => { if (isDeleting) return; setShowDeleteModal(false); setAppToDelete(null); }}
           app={appToDelete}
-          onConfirmDelete={() => {
-            setApplicationDrafts((prevApps) =>
-              prevApps.filter((app) => app.id !== appToDelete.id)
-            );
-            setShowDeleteModal(false);
-            setAppToDelete(null);
-          }}
+          onConfirmDelete={handleConfirmDelete}
         />
       )}
+
+      {isDeleting && <ProcessingModal modalOpenState={isDeleting} message="Deleting draft…" />}
     </section>
   );
 };
