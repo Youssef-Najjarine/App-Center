@@ -208,6 +208,39 @@
   line-height: 24.167px;
 }
 
+.appHome-modal-description-entry::-webkit-scrollbar,
+.appHome-modal::-webkit-scrollbar,
+.homeApp-modal-tech-stack::-webkit-scrollbar {
+  width: 6px;
+}
+
+.appHome-modal-description-entry::-webkit-scrollbar-track,
+.appHome-modal::-webkit-scrollbar-track,
+.homeApp-modal-tech-stack::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.appHome-modal-description-entry::-webkit-scrollbar-thumb,
+.appHome-modal::-webkit-scrollbar-thumb,
+.homeApp-modal-tech-stack::-webkit-scrollbar-thumb {
+  background: rgba(85, 65, 215, 0.3);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.appHome-modal-description-entry::-webkit-scrollbar-thumb:hover,
+.appHome-modal::-webkit-scrollbar-thumb:hover,
+.homeApp-modal-tech-stack::-webkit-scrollbar-thumb:hover {
+  background: rgba(85, 65, 215, 0.5);
+}
+
+.appHome-modal-description-entry,
+.appHome-modal,
+.homeApp-modal-tech-stack {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
 .appHome-modal-description-entry {
   color: #374151;
   font-size: 16.111px;
@@ -217,8 +250,10 @@
   letter-spacing: 0.322px;
   min-height: 360px;
   max-height: 360px;
-  overflow-y: auto;
   margin: 0 0 16px 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  overflow: auto;
 }
 
 .appHome-modal-purchase-app-div {

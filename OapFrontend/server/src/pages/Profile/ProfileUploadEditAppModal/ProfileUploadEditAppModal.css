@@ -59,7 +59,7 @@
 
 .upload-edit-app-body {
   height: 88%;
-  overflow-y: auto;
+  overflow: auto;
   display: flex;
   flex-direction: column;
 }
@@ -149,6 +149,39 @@
   opacity: 0.8;
 }
 
+.upload-edit-app-tech-container::-webkit-scrollbar,
+.upload-edit-app-summary textarea::-webkit-scrollbar,
+.upload-edit-app-body:-webkit-scrollbar {
+  width: 6px;
+}
+
+.upload-edit-app-tech-container::-webkit-scrollbar-track,
+.upload-edit-app-summary textarea::-webkit-scrollbar-track,
+.upload-edit-app-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.upload-edit-app-tech-container::-webkit-scrollbar-thumb,
+.upload-edit-app-summary textarea::-webkit-scrollbar-thumb,
+.upload-edit-app-body::-webkit-scrollbar-thumb {
+  background: rgba(85, 65, 215, 0.3);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.upload-edit-app-tech-container::-webkit-scrollbar-thumb:hover,
+.upload-edit-app-summary textarea::-webkit-scrollbar-thumb:hover,
+.upload-edit-app-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(85, 65, 215, 0.5);
+}
+
+.upload-edit-app-tech-container,
+.upload-edit-app-summary textarea,
+.upload-edit-app-body {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
 .upload-edit-app-tech-container {
   display: flex;
   flex-wrap: wrap;
@@ -162,6 +195,7 @@
   border-radius: 6.444px;
   background: rgba(245, 245, 245, 0.50);
   min-height: 40.28px;
+  overflow: auto;
 }
 
 .upload-edit-app-tech-tag {
@@ -179,9 +213,6 @@
 }
 
 .upload-edit-app-tech-tag span {
-  max-width: 116px;
-  max-height: 26.7px;
-  overflow-y: auto;
   color: #5541D7;
   font-size: 11.278px;
   font-style: normal;
@@ -224,7 +255,6 @@
     width: 100%;
     height: 133.1px;
     max-height: 133.1px;
-    overflow-y: auto;
     resize: none;
     font-family: 'Poppins', sans-serif;
 }
@@ -366,8 +396,6 @@
   display: grid;
   gap: 9.67px;
   grid-template-columns: repeat(auto-fit, 147.5px);
-  align-items: start;
-  justify-content: center;
 }
 
 .upload-edit-app-uploaded-images .uploadedImageContainer {
@@ -740,8 +768,6 @@
   }
 
   .upload-edit-app-tech-tag span {
-    max-width: 126px;
-    max-height: 28.5px;
     font-size: 12.25px;
     line-height: 18.375px;
   }
@@ -1098,7 +1124,6 @@
   }
 
   .upload-edit-app-tech-tag span {
-    max-width: 144px;
     font-size: 14px;
     line-height: 21px;
   }

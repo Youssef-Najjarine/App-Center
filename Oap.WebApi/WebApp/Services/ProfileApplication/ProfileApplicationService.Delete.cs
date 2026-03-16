@@ -94,7 +94,7 @@ WHERE uavf.UserApplicationVersionId IN ({inClause});";
                         cmd.Parameters.Add(paramNames[i], SqlDbType.UniqueIdentifier).Value = versionIds[i];
                     await cmd.ExecuteNonQueryAsync();
                 }
-                catch (SqlException)
+                catch (SqlException) {}
 
                 {
                     var paramNames = versionIds.Select((_, i) => $"@v{i}").ToList();
@@ -103,6 +103,13 @@ WHERE uavf.UserApplicationVersionId IN ({inClause});";
                     await using var cmd = new SqlCommand(sql, connection, transaction);
                     for (int i = 0; i < versionIds.Count; i++)
                         cmd.Parameters.Add(paramNames[i], SqlDbType.UniqueIdentifier).Value = versionIds[i];
+                    await cmd.ExecuteNonQueryAsync();
+                }
+
+                {
+                    const string sql = "DELETE FROM dbo.ApplicationAnalyticsEvent WHERE UserApplicationId = @AppId;";
+                    await using var cmd = new SqlCommand(sql, connection, transaction);
+                    cmd.Parameters.Add("@AppId", SqlDbType.UniqueIdentifier).Value = userApplicationId;
                     await cmd.ExecuteNonQueryAsync();
                 }
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback, forwardRef } from "react";
 import ApplicationDetailModal from "./ApplicationDetailModal";
+import useAnalyticsTracker from "@hooks/useAnalyticsTracker";
 import searchIcon from "@assets/magnifying-glass-icon.svg";
 import githubIcon from "@assets/github-icon.png";
 import playIcon from "@assets/purple-filled-play-icon.svg";
@@ -103,9 +104,12 @@ const StoreAppCard = React.memo(
             )}
           </div>
         </div>
-
-        <h6 className="homeApp-app-title">{app.title}</h6>
-        <p className="homeApp-app-description">{app.description}</p>
+        <div className="homeApp-app-header">
+            <h6 className="homeApp-app-title">{app.title}</h6>
+        </div>
+        <div className="homeApp-app-description-div">
+            <p className="homeApp-app-description">{app.description}</p>
+        </div>
 
         {techs.length > 0 && (
           <ul className="homeApp-app-tech-stack">
@@ -132,7 +136,11 @@ const HomeApplications = () => {
   const [allApps, setAllApps] = useState([]);
   const [displayApps, setDisplayApps] = useState([]);
   const [techMap, setTechMap] = useState({});
+  const [popularityMap, setPopularityMap] = useState({});
   const [currentUserId, setCurrentUserId] = useState(null);
+
+  // Analytics tracking — batches impressions/clicks and sends to backend
+  const { trackImpression, trackClick } = useAnalyticsTracker(currentUserId);
 
   const [isLoadingApps, setIsLoadingApps] = useState(false);
   const [appsError, setAppsError] = useState("");
@@ -157,11 +165,13 @@ const HomeApplications = () => {
   const searchDebounceRef = useRef(null);
   const allAppsRef = useRef([]);
   const techMapRef = useRef({});
+  const popularityMapRef = useRef({});
   const sortOptionRef = useRef("Latest");
   const searchInputRef = useRef("");
 
   useEffect(() => { allAppsRef.current = allApps; }, [allApps]);
   useEffect(() => { techMapRef.current = techMap; }, [techMap]);
+  useEffect(() => { popularityMapRef.current = popularityMap; }, [popularityMap]);
   useEffect(() => { sortOptionRef.current = sortOption; }, [sortOption]);
   useEffect(() => { searchInputRef.current = searchInput; }, [searchInput]);
 
@@ -182,6 +192,9 @@ const HomeApplications = () => {
           const id = entry.target?.dataset?.appid;
           if (!id || !entry.isIntersecting) return;
           setShouldLoadMedia((prev) => (prev[id] ? prev : { ...prev, [id]: true }));
+          // Track impression — find the app to get ownerUserId
+          const app = allAppsRef.current.find((a) => String(a.id) === id);
+          if (app) trackImpression(app.id, app.ownerUserId);
           observerRef.current?.unobserve(entry.target);
         });
       },
@@ -220,7 +233,20 @@ const HomeApplications = () => {
       });
     }
     const sorted = [...arr];
-    if (sort === "A-Z") sorted.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
+    if (sort === "Popular") {
+      const popMap = popularityMapRef.current;
+      sorted.sort((a, b) => {
+        const aP = popMap[String(a.id)];
+        const bP = popMap[String(b.id)];
+        const aScore = (aP?.impressions ?? 0) + (aP?.clicks ?? 0);
+        const bScore = (bP?.impressions ?? 0) + (bP?.clicks ?? 0);
+        if (bScore !== aScore) return bScore - aScore;
+        const ad = a?.raw?.createdAt ? new Date(a.raw.createdAt).getTime() : 0;
+        const bd = b?.raw?.createdAt ? new Date(b.raw.createdAt).getTime() : 0;
+        return bd - ad;
+      });
+    }
+    else if (sort === "A-Z") sorted.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
     else if (sort === "Z-A") sorted.sort((a, b) => (b.title || "").localeCompare(a.title || ""));
     else sorted.sort((a, b) => {
       const ad = a?.raw?.createdAt ? new Date(a.raw.createdAt).getTime() : 0;
@@ -262,7 +288,6 @@ const HomeApplications = () => {
   }, [handleSearchSubmit]);
 
   const handleSortChange = useCallback((option) => {
-    if (option === "Popular") { setSortDropdownOpen(false); return; }
     setSortOption(option);
     sortOptionRef.current = option;
     setSortDropdownOpen(false);
@@ -326,6 +351,24 @@ const HomeApplications = () => {
           }
         })
         .catch(() => {});
+
+      // Fetch popularity data in background (for Sort by Popular)
+      const appIds = normalized.map((a) => a.id).filter(Boolean);
+      fetch("/api/analytics/bulk-popularity", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ appIds }),
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          const totals = data?.totals;
+          if (typeof totals !== "object" || totals === null) return;
+          setPopularityMap(totals);
+          popularityMapRef.current = totals;
+        })
+        .catch(() => {});
+
     } catch (e) {
       console.error(e);
       setAppsError("Unable to connect to the server.");
@@ -350,6 +393,9 @@ const HomeApplications = () => {
 
   // ── Detail modal ──────────────────────────────────────────────────────
   const openDetailModal = useCallback(async (app) => {
+    // Track click event for analytics (skips own apps)
+    trackClick(app.id, app.ownerUserId);
+
     setModalApp(app);
     setModalDetail(null);
     setModalDetailLoading(true);
@@ -369,7 +415,7 @@ const HomeApplications = () => {
     } finally {
       setModalDetailLoading(false);
     }
-  }, []);
+  }, [trackClick]);
 
   const closeDetailModal = useCallback(() => {
     setModalOpen(false);

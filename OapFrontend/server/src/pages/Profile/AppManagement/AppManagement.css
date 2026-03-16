@@ -192,10 +192,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 16px 0 4.83px 0;
+    margin: 16px 0 4.83px 0;   
 }
 
-.app-management-app-title h4 {
+.app-management-app-header {
+    max-width: 81.4%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.app-management-app-header h4 {
     margin: 0;
     color: #141522;
     font-size: 17.722px;
@@ -203,11 +210,18 @@
     font-weight: 700;
     line-height: 26.583px;
     letter-spacing: -0.354px;
+    display: inline;
 }
 
 .app-management-description {
-    width: 76%;
     margin: 0 0 19.33px 0;
+    max-width: 81.4%;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 7;
+    overflow: hidden;
 }
 
 .app-management-description p {
@@ -218,6 +232,7 @@
     line-height: 19.333px;
     letter-spacing: -0.129px;
     margin: 0;
+    display: inline;
 }
 
  .app-management-expand-div {
@@ -408,6 +423,266 @@
     font-weight: 700;
     line-height: 19.333px;
     letter-spacing: -0.129px;
+}
+
+.app-management-display-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.app-management-display-image video {
+  width: 100%;
+  height: 100%;
+  border-radius: 6.444px;
+  object-fit: cover;
+}
+
+.app-management-video-overlay {
+  position: absolute;
+  bottom: 9.67px;
+  left: 9.67px;
+  display: flex;
+  align-items: center;
+  gap: 6.444px;
+  padding: 9.667px;
+  border-radius: 8.056px;
+  background: rgba(255, 255, 255, 0.70);
+  width: 80.1px;
+  height: 38.7px;
+  z-index: 3;
+}
+
+.app-management-play-icon {
+  width: 19.333px;
+  height: 19.333px;
+}
+
+.app-management-video-duration {
+  color: #141522;
+  font-size: 14.5px;
+  font-weight: 500;
+  line-height: 21.75px;
+  letter-spacing: -0.29px;
+}
+
+.app-management-chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.app-management-chart-title {
+  color: #141522;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 21px;
+}
+
+.app-management-chart-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-management-period-dropdown {
+  position: relative;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid #F0F0F0;
+  background: #FFF;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  color: #141522;
+  line-height: 18px;
+}
+
+.app-management-period-list {
+  position: absolute;
+  top: 28px;
+  right: 0;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  border-radius: 6px;
+  border: 1px solid #F5F5F5;
+  background: #FFF;
+  box-shadow: 6px 6px 18px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+  width: 110px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.app-management-period-list li {
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #141522;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.app-management-period-list li:hover,
+.app-management-period-list li.active {
+  background: #F6F5FD;
+  color: #5541D7;
+}
+
+.app-management-chart-skeleton {
+  width: 100%;
+  height: 200px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: applicationMgmtChartShimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes applicationMgmtChartShimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.app-management-chart-empty {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(20, 21, 34, 0.4);
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
+  background: #FAFAFA;
+}
+
+.applicationMgmt-emptyState {
+  width: 100%;
+  padding: clamp(24px, 4vw, 48px) 0;
+  display: flex;
+  justify-content: center;
+}
+
+.applicationMgmt-emptyState-card {
+  width: 100%;
+  max-width: 520px;
+  border: 1px solid #F5F5F5;
+  background: #FFF;
+  border-radius: 16px;
+  padding: clamp(20px, 3vw, 32px);
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+.applicationMgmt-emptyState-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 14px auto;
+  border-radius: 14px;
+  background: rgba(85, 65, 215, 0.1);
+  color: #5541D7;
+  display: grid;
+  place-items: center;
+}
+
+.applicationMgmt-emptyState-title {
+  margin: 0 0 6px 0;
+  color: #141522;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+.applicationMgmt-emptyState-subtitle {
+  margin: 0 auto 16px auto;
+  max-width: 40ch;
+  color: rgba(20, 21, 34, 0.65);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.applicationMgmt-emptyState-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  background: #5541D7;
+  color: #FFF;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.applicationMgmt-emptyState-cta img {
+  width: 18px;
+  height: 18px;
+}
+
+.applicationMgmt-emptyState-cta--ghost {
+  background: transparent;
+  color: #5541D7;
+  border: 1.5px solid #5541D7;
+}
+
+.applicationMgmt-emptyState-cta--ghost:hover {
+  background: rgba(85, 65, 215, 0.06);
+}
+
+.applicationMgmt-detail-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 21, 34, 0.15);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.applicationMgmt-detail-modal {
+  background: #FFF;
+  border-radius: 14px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 24px;
+  z-index: 10000;
+}
+
+.applicationMgmt-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.applicationMgmt-detail-header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #141522;
+}
+
+.applicationMgmt-detail-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #888;
+  padding: 4px 8px;
+}
+
+.applicationMgmt-detail-body p {
+  margin: 0 0 10px 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #374151;
 }
 
 .app-management-load-more-div {
@@ -604,18 +879,24 @@
         margin: 0 0 5.25px 0;
     }
 
-    .app-management-app-title h4 {
+    .app-management-app-header {
+        max-width: 88.8%;
+    }
+
+    .app-management-app-header h4 {
         font-size: 19.25px;
         line-height: 28.875px;
         letter-spacing: -0.385px;
     }
 
     .app-management-description {
-        width: 84%;
-        height: 105px;
-        max-height: 105px;
         margin: 0 0 6px 0;
-        overflow-y: auto;
+        max-width: 88.8%;
+        -webkit-line-clamp: 5;
+    }
+
+    .app-management-chart-metrics {
+        gap: 100px;
     }
 
     .app-management-description p {
@@ -642,11 +923,11 @@
 
     .app-management-chart {
         position: absolute;
-        bottom: 21px;
+        bottom: -15px;
         left: 21px;
         margin: 0;
         max-width: 100%;
-        width: 97%;
+        width: 94%;
         height: 262px;
     }
 
@@ -711,6 +992,26 @@
         line-height: 21px;
         letter-spacing: -0.14px;
     }
+
+  .app-management-display-image video {
+    border-radius: 7px;
+  }
+
+  .app-management-video-overlay {
+    bottom: 10.5px;
+    left: 10.5px;
+    gap: 7px;
+    padding: 10.5px;
+    border-radius: 8.75px;
+    width: 87px;
+    height: 42px;
+  }
+
+  .app-management-play-icon { width: 21px; height: 21px; }
+  .app-management-video-duration { font-size: 15.75px; line-height: 23.625px; letter-spacing: -0.315px; }
+
+  .app-management-chart-title { font-size: 16px; line-height: 24px; }
+  .app-management-period-dropdown { font-size: 13px; padding: 5px 12px; }
 
     .app-management-load-more-div {
         margin: 50.4px 0 0 0;
@@ -888,17 +1189,21 @@
         margin: 0 0 6px 0;
     }
 
-    .app-management-app-title h4 {
+    .app-management-app-header {
+        max-width: 92.75%;
+    }
+
+    .app-management-app-header  h4 {
         font-size: 22px;
         line-height: 33px;
         letter-spacing: -0.44px;
     }
 
     .app-management-description {
-        width: 89%;
-        height: 48px;
+        max-width: 92.75%;
         max-height: 48px;
         margin: 0 0 20px 0;
+        -webkit-line-clamp: 2;
     }
 
     .app-management-description p {
@@ -926,8 +1231,8 @@
     .app-management-chart {
         position: static;
         margin: 0;
-        max-width: 71%;
-        width: 71%;
+        max-width: 90%;
+        width: 90%;
     }
 
     .app-management-chart-metrics {
@@ -936,7 +1241,7 @@
     }
 
     .app-management-metrics-boosts {
-        width: 27%;
+        width: 36.5%;
     }
 
     .app-management-metrics {
@@ -966,7 +1271,6 @@
 
     .app-management-boosts {
         width: 100%;
-        /* display: flow-root; */
         gap: 8px;
     }
 
@@ -995,6 +1299,28 @@
         line-height: 24px;
         letter-spacing: -0.16px;
     }
+
+  .app-management-display-image video {
+    border-radius: 8px;
+  }
+
+  .app-management-video-overlay {
+    bottom: 12px;
+    left: 12px;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 10px;
+    width: 99px;
+    height: 48px;
+  }
+
+  .app-management-play-icon { width: 24px; height: 24px; }
+  .app-management-video-duration { font-size: 18px; line-height: 27px; letter-spacing: -0.36px; }
+
+  .app-management-chart-title { font-size: 18px; line-height: 27px; }
+  .app-management-period-dropdown { font-size: 14px; padding: 6px 14px; border-radius: 8px; }
+  .app-management-period-list { top: 32px; width: 130px; }
+  .app-management-period-list li { font-size: 14px; padding: 5px 10px; }
 
     .app-management-load-more-div {
         margin: 57.6px 0 0 0;

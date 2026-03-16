@@ -146,7 +146,7 @@ const ApplicationDetailModal = ({
 
           <div className="appHome-modal-details">
             <div className="appHome-modal-github-section">
-              <h3 className="appHome-modal-github-header">GitHub Repo:</h3>
+              <h3 className="appHome-modal-github-header">Repository:</h3>
               <div className="homeApp-modal-gitHub-div">
                 {github ? (
                   <>

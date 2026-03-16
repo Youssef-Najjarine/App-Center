@@ -200,8 +200,12 @@ const ProfileAppCard = React.memo(
           </div>
         </div>
 
-        <h6 className="profileApp-app-title">{app.title}</h6>
-        <p className="profileApp-app-description">{app.description}</p>
+        <div className="profileApp-app-header">
+            <h6 className="profileApp-app-title">{app.title}</h6>
+        </div>
+        <div className="profileApp-app-description-div">
+            <p className="profileApp-app-description">{app.description}</p>
+        </div>
 
         {techs.length > 0 && (
           <ul className="profileApp-app-tech-stack">
@@ -261,6 +265,7 @@ const ProfileApplications = () => {
 
   const [allApps, setAllApps] = useState([]);
   const [techMap, setTechMap] = useState({});
+  const [popularityMap, setPopularityMap] = useState({});
   const [displayApps, setDisplayApps] = useState([]);
 
   const [isLoadingApps, setIsLoadingApps] = useState(false);
@@ -278,11 +283,13 @@ const ProfileApplications = () => {
 
   const allAppsRef = useRef([]);
   const techMapRef = useRef({});
+  const popularityMapRef = useRef({});
   const sortOptionRef = useRef("Latest");
   const searchInputRef = useRef("");
 
   useEffect(() => { allAppsRef.current = allApps; }, [allApps]);
   useEffect(() => { techMapRef.current = techMap; }, [techMap]);
+  useEffect(() => { popularityMapRef.current = popularityMap; }, [popularityMap]);
   useEffect(() => { sortOptionRef.current = sortOption; }, [sortOption]);
   useEffect(() => { searchInputRef.current = searchInput; }, [searchInput]);
 
@@ -382,7 +389,19 @@ const ProfileApplications = () => {
       });
     }
     const sorted = q ? arr : [...arr];
-    if (sort === "A-Z") {
+    if (sort === "Popular") {
+      const popMap = popularityMapRef.current;
+      sorted.sort((a, b) => {
+        const aP = popMap[String(a.id)];
+        const bP = popMap[String(b.id)];
+        const aScore = (aP?.impressions ?? 0) + (aP?.clicks ?? 0);
+        const bScore = (bP?.impressions ?? 0) + (bP?.clicks ?? 0);
+        if (bScore !== aScore) return bScore - aScore;
+        const ad = a?.raw?.createdAt ? new Date(a.raw.createdAt).getTime() : 0;
+        const bd = b?.raw?.createdAt ? new Date(b.raw.createdAt).getTime() : 0;
+        return bd - ad;
+      });
+    } else if (sort === "A-Z") {
       sorted.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
     } else if (sort === "Z-A") {
       sorted.sort((a, b) => (b.title || "").localeCompare(a.title || ""));
@@ -436,7 +455,6 @@ const ProfileApplications = () => {
   }, [handleSearchSubmit]);
 
   const handleSortChange = useCallback((option) => {
-    if (option === "Popular") { setSortDropdownOpen(false); return; }
     setSortOption(option);
     sortOptionRef.current = option;
     setSortDropdownOpen(false);
@@ -520,6 +538,23 @@ const ProfileApplications = () => {
           } else {
             setDisplayApps(merged);
           }
+        })
+        .catch(() => { });
+
+      // Fetch popularity data in background (for Sort by Popular)
+      const appIds = normalized.map((a) => a.id).filter(Boolean);
+      fetch("/api/analytics/bulk-popularity", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ appIds }),
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          const totals = data?.totals;
+          if (typeof totals !== "object" || totals === null) return;
+          setPopularityMap(totals);
+          popularityMapRef.current = totals;
         })
         .catch(() => { });
 

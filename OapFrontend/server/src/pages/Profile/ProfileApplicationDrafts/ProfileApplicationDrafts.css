@@ -98,7 +98,7 @@
   height: 16.111px;
 }
 
-.sortby-dropdown {
+.draft-sortby-dropdown {
   position: absolute;
   top: 39.51px;
   right: 0px;
@@ -111,13 +111,13 @@
   list-style: none;
   z-index: 1000;
   width: 79px;
-  height: 112px;
+  height: 89.5px;
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.sortby-dropdown li {
+.draft-sortby-dropdown li {
   padding: 3px 6px;
   color: #141522;
   font-size: 11px;
@@ -128,12 +128,12 @@
   border-radius: 3px;
 }
 
-.sortby-dropdown li:hover {
+.draft-sortby-dropdown li:hover {
   background: #F6F5FD;
   color: #5541D7;
 }
 
-.sortby-dropdown li.active {
+.draft-sortby-dropdown li.active {
   background: #F6F5FD;
   color: #5541D7;
 }
@@ -371,14 +371,33 @@ background: rgba(85, 65, 215, 0.20);
   letter-spacing: -0.29px;
 }
 
+.profileDraftApp-app-header {
+  max-width: 97.6%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0 0 9.67px 0;
+}
+
 .profileDraftApp-app-title {
   color: #141522;
   font-size: 17.722px;
   line-height: 26.583px;
   letter-spacing: -0.354px;
-  margin: 0 0 9.67px 0;
   font-style: normal;
-font-weight: 700;
+  font-weight: 700;
+  display: inline;
+}
+
+.profileDraftApp-app-description-div {
+    max-width: 97.6%;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    margin: 0 0 12.89px 0;
 }
 
 .profileDraftApp-app-description {
@@ -388,7 +407,30 @@ font-weight: 700;
   font-weight: 400;
   line-height: 21.75px;
   letter-spacing: -0.29px;
-  margin: 0 0 12.89px 0;
+  display: inline;
+}
+
+.profileDraftApp-app-tech-stack::-webkit-scrollbar {
+  width: 6px;
+}
+
+.profileDraftApp-app-tech-stack::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.profileDraftApp-app-tech-stack::-webkit-scrollbar-thumb {
+  background: rgba(85, 65, 215, 0.3);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.profileDraftApp-app-tech-stack::-webkit-scrollbar-thumb:hover {
+  background: rgba(85, 65, 215, 0.5);
+}
+
+.profileDraftApp-app-tech-stack {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
 }
 
 .profileDraftApp-app-tech-stack {
@@ -399,7 +441,7 @@ font-weight: 700;
   flex-wrap: wrap;
   gap: 9.67px;
   max-height: 226.14px;
-  overflow-y: auto;
+  overflow: auto;
 }
 
 .profileDraftApp-app-tech-stack li {
@@ -535,14 +577,14 @@ font-weight: 700;
     line-height: 18.375px;
   }
 
-  .sortby-dropdown {
+  .draft-sortby-dropdown {
     top: 43px;
     border: 0.875px solid #F5F5F5;
     width: 151px;
-    height: 124px;
+    height: 97.62px;
   }
 
-  .sortby-dropdown li {
+  .draft-sortby-dropdown li {
     padding: 4px 6px;
     font-size: 12.25px;
     line-height:  18.375px;
@@ -702,18 +744,26 @@ font-weight: 700;
     letter-spacing: -0.315px;
   }
 
+  .profileDraftApp-app-header {
+    max-width: 97.46%;
+    margin: 0 0 10.5px 0;
+  }
+
   .profileDraftApp-app-title {
     font-size: 19.25px;
     line-height: 28.875px;
-    letter-spacing:  -0.385px;
-    margin: 0 0 10.5px 0;
+    letter-spacing: -0.385px;
+  }
+
+  .profileDraftApp-app-description-div {
+    max-width: 97.46%;
+    margin: 0 0 14px 0;
   }
 
   .profileDraftApp-app-description {
     font-size: 15.75px;
     line-height: 23.625px;
     letter-spacing: -0.315px;
-    margin: 0 0 14px 0;
   }
 
   .profileDraftApp-app-tech-stack {
@@ -827,13 +877,13 @@ font-weight: 700;
     line-height: 21px;
   }
 
-  .sortby-dropdown {
+  .draft-sortby-dropdown {
     top: 51px;
     width: 173px;
-    height: 144px;
+    height: 113px;
   }
 
-  .sortby-dropdown li {
+  .draft-sortby-dropdown li {
     padding: 5px 8px;
     font-size: 14px;
     line-height:  21px;
@@ -987,18 +1037,27 @@ font-weight: 700;
     letter-spacing: -0.36px;
   }
 
+  .profileDraftApp-app-header {
+    max-width: 97.7%;
+    margin: 0 0 12px 0;
+  }
+
   .profileDraftApp-app-title {
     font-size: 22px;
     line-height: 33px;
     letter-spacing:  -0.44px;
-    margin: 0 0 12px 0;
+  }
+
+  .profileDraftApp-app-description-div {
+    max-width: 97.7%;
+    -webkit-line-clamp: 3;
+    margin: 0 0 16px 0;
   }
 
   .profileDraftApp-app-description {
     font-size: 18px;
     line-height: 27px;
     letter-spacing: -0.36px;
-    margin: 0 0 16px 0;
   }
 
   .profileDraftApp-app-tech-stack {

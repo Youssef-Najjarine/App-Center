@@ -432,6 +432,14 @@
   letter-spacing: -0.29px;
 }
 
+.profileApp-app-header {
+    max-width: 97.6%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0 0 9.67px 0;
+}
+
 .profileApp-app-title {
   color: #141522;
   font-size: 17.722px;
@@ -440,10 +448,18 @@
   margin: 0 0 9.67px 0;
   font-style: normal;
   font-weight: 700;
-  max-width: 306px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  display: inline;
+}
+ 
+.profileApp-app-description-div {
+    max-width: 97.6%;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    margin: 0 0 12.89px 0;
 }
 
 .profileApp-app-description {
@@ -454,10 +470,29 @@
   line-height: 21.75px;
   letter-spacing: -0.29px;
   margin: 0 0 12.89px 0;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
-  overflow: hidden; 
+}
+
+.profileApp-app-tech-stack::-webkit-scrollbar {
+  width: 6px;
+}
+
+.profileApp-app-tech-stack::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.profileApp-app-tech-stack::-webkit-scrollbar-thumb {
+  background: rgba(85, 65, 215, 0.3);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.profileApp-app-tech-stack::-webkit-scrollbar-thumb:hover {
+  background: rgba(85, 65, 215, 0.5);
+}
+
+.profileApp-app-tech-stack {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
 }
 
 .profileApp-app-tech-stack {
@@ -852,19 +887,26 @@
     letter-spacing: -0.315px;
   }
 
+.profileApp-app-header {
+  max-width: 97.46%;
+  margin: 0 0 10.5px 0;
+}
+
   .profileApp-app-title {
     font-size: 19.25px;
     line-height: 28.875px;
     letter-spacing: -0.385px;
-    margin: 0 0 10.5px 0;
-    max-width: 325.5px;
+  }
+
+  .profileApp-app-description-div {
+    max-width: 97.46%;
+    margin: 0 0 14px 0;
   }
 
   .profileApp-app-description {
     font-size: 15.75px;
     line-height: 23.625px;
     letter-spacing: -0.315px;
-    margin: 0 0 14px 0;
   }
 
   .profileApp-app-tech-stack {
@@ -1129,20 +1171,26 @@
     letter-spacing: -0.36px;
   }
 
+  .profileApp-app-header {
+    max-width: 97.7%;
+    margin: 0 0 12px 0;
+  }
+
   .profileApp-app-title {
     font-size: 22px;
     line-height: 33px;
     letter-spacing: -0.44px;
     margin: 0 0 12px 0;
-    max-width: 412px;
   }
 
+  .profileApp-app-description-div {
+    max-width: 97.7%;
+    margin: 0 0 16px 0;
+  }
   .profileApp-app-description {
     font-size: 18px;
     line-height: 27px;
     letter-spacing: -0.36px;
-    margin: 0 0 16px 0;
-    -webkit-line-clamp: 3;
   }
 
   .profileApp-app-tech-stack {

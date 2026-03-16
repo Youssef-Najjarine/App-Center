@@ -26,7 +26,7 @@
   height: 95%;
   border-radius: 12.889px;
   z-index: 10000;
-  overflow-y: auto;
+  overflow: auto;
 }
 
 .profile-app-details-close-header {
@@ -270,6 +270,39 @@
   margin: 0 0 6.4px 0;
 }
 
+.profile-app-details-modal-tech-stack::-webkit-scrollbar,
+.profile-app-details-modal-description-entry::-webkit-scrollbar,
+.profile-app-details-modal:-webkit-scrollbar {
+  width: 6px;
+}
+
+.profile-app-details-modal-tech-stack::-webkit-scrollbar-track,
+.profile-app-details-modal-description-entry::-webkit-scrollbar-track,
+.profile-app-details-modal::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.profile-app-details-modal-tech-stack::-webkit-scrollbar-thumb,
+.profile-app-details-modal-description-entry::-webkit-scrollbar-thumb,
+.profile-app-details-modal::-webkit-scrollbar-thumb {
+  background: rgba(85, 65, 215, 0.3);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.profile-app-details-modal-tech-stack::-webkit-scrollbar-thumb:hover,
+.profile-app-details-modal-description-entry::-webkit-scrollbar-thumb:hover,
+.profile-app-details-modal::-webkit-scrollbar-thumb:hover {
+  background: rgba(85, 65, 215, 0.5);
+}
+
+.profile-app-details-modal-tech-stack,
+.profile-app-details-modal-description-entry,
+.profile-app-details-modal {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
 .profile-app-details-modal-tech-stack {
   margin: 0;
   padding: 0;
@@ -278,7 +311,7 @@
   flex-wrap: wrap;
   gap: 11.6px;
   max-height: 247.6px;
-  overflow-y: auto;
+  overflow: auto;
 }
 
 .profile-app-details-modal-tech-stack li {
@@ -310,8 +343,10 @@
   letter-spacing: 0.322px;
   min-height: 360px;
   max-height: 360px;
-  overflow-y: auto;
   margin: 0 0 16px 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  overflow: scroll;
 }
 
 .profile-details-app-details {

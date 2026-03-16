@@ -34,6 +34,13 @@ const buildCarouselItems = (files) => {
     });
 };
 
+const formatAnalyticsNumber = (n) => {
+  if (n == null || n === 0) return "0";
+  if (n >= 1000000) return `${(n / 1000000).toFixed(1)}M`;
+  if (n >= 1000) return `${(n / 1000).toFixed(1)}K`;
+  return String(n);
+};
+
 const ProfileApplicationDetailModal = ({
   modalOpenState,
   onClose,
@@ -47,6 +54,10 @@ const ProfileApplicationDetailModal = ({
 
   const [selectedItem, setSelectedItem]     = useState(null);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+
+  // ── Analytics data for this app ─────────────────────────────────────────
+  const [impressions, setImpressions] = useState(null);
+  const [clicks, setClicks] = useState(null);
 
   const carouselItems = detail ? buildCarouselItems(detail.files ?? []) : [];
 
@@ -63,6 +74,33 @@ const ProfileApplicationDetailModal = ({
   useEffect(() => {
     setSelectedItem(null);
     setIsVideoPlaying(false);
+  }, [app?.id]);
+
+  // Fetch impressions/clicks for this app when it opens
+  useEffect(() => {
+    const appId = app?.id;
+    if (!appId) return;
+    setImpressions(null);
+    setClicks(null);
+
+    let cancelled = false;
+    fetch("/api/analytics/bulk-popularity", {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ appIds: [appId] }),
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        if (cancelled) return;
+        const totals = data?.totals?.[String(appId)];
+        setImpressions(totals?.impressions ?? 0);
+        setClicks(totals?.clicks ?? 0);
+      })
+      .catch(() => {
+        if (!cancelled) { setImpressions(0); setClicks(0); }
+      });
+    return () => { cancelled = true; };
   }, [app?.id]);
 
   useEffect(() => {
@@ -180,7 +218,7 @@ const ProfileApplicationDetailModal = ({
           <div className="profile-app-details-modal-details">
 
             <div className="profile-app-details-modal-github-section">
-              <h3 className="profile-app-details-modal-github-header">GitHub Repo:</h3>
+              <h3 className="profile-app-details-modal-github-header">Repository:</h3>
               <div className="profile-app-details-modal-gitHub-div">
                 {github ? (
                   <>
@@ -238,11 +276,15 @@ const ProfileApplicationDetailModal = ({
               <div className="profile-details-app-details">
                 <div className="profile-details-app-impressions">
                   <p className="profile-details-app-impressions-label">Impressions:</p>
-                  <p className="profile-details-app-impressions-count">—</p>
+                  <p className="profile-details-app-impressions-count">
+                    {impressions === null ? "…" : formatAnalyticsNumber(impressions)}
+                  </p>
                 </div>
                 <div className="profile-details-app-clicks">
                   <p className="profile-details-app-clicks-label">Clicks:</p>
-                  <p className="profile-details-app-clicks-count">—</p>
+                  <p className="profile-details-app-clicks-count">
+                    {clicks === null ? "…" : formatAnalyticsNumber(clicks)}
+                  </p>
                 </div>
                 <div className="profile-details-app-boost-promotion">
                   <button>

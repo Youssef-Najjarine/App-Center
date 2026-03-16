@@ -47,6 +47,8 @@ builder.Services.AddScoped<AuthCookieIssuerService>();
 builder.Services.AddSingleton<EmailService>();
 builder.Services.AddScoped<IProfileApplication, ProfileApplicationService>();
 builder.Services.AddScoped<IStoreApplication, StoreApplicationService>();
+builder.Services.AddScoped<IApplicationAnalytics, ApplicationAnalyticsService>();
+builder.Services.AddScoped<IApplicationManagement, ApplicationManagementService>();
 
 var app = builder.Build();
 

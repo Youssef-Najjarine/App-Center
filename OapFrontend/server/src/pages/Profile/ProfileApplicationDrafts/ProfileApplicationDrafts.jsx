@@ -113,8 +113,12 @@ const DraftAppCard = React.memo(
           </div>
         </div>
 
-        <h6 className="profileDraftApp-app-title">{app.title}</h6>
-        <p className="profileDraftApp-app-description">{app.description}</p>
+        <div className="profileDraftApp-app-header">
+          <h6 className="profileDraftApp-app-title">{app.title}</h6>
+        </div>
+        <div className="profileDraftApp-app-description-div">
+            <p className="profileDraftApp-app-description">{app.description}</p>
+        </div>
 
         {techs.length > 0 && (
           <ul className="profileDraftApp-app-tech-stack">
@@ -203,7 +207,6 @@ const ProfileApplicationDrafts = () => {
     setExpandedTechStacks((prev) => ({ ...prev, [id]: !prev[id] }));
   }, []);
 
-  // ── IntersectionObserver ──────────────────────────────────────────────
   useEffect(() => {
     observerRef.current?.disconnect();
     observerRef.current = new IntersectionObserver(
@@ -229,7 +232,6 @@ const ProfileApplicationDrafts = () => {
     else delete cardNodesRef.current[appId];
   }, []);
 
-  // ── Filter / Sort ─────────────────────────────────────────────────────
   const applyFilterSort = useCallback((apps, techMapSnap, query, sort) => {
     let arr = apps;
     const q = query.trim().toLowerCase();
@@ -270,7 +272,6 @@ const ProfileApplicationDrafts = () => {
   const handleSearchKeyDown = useCallback((e) => { if (e.key === "Enter") handleSearchSubmit(); }, [handleSearchSubmit]);
 
   const handleSortChange = useCallback((option) => {
-    if (option === "Popular") { setSortDropdownOpen(false); return; }
     setSortOption(option); sortOptionRef.current = option; setSortDropdownOpen(false);
     triggerFilterSort(searchInputRef.current, option);
   }, [triggerFilterSort]);
@@ -282,7 +283,6 @@ const ProfileApplicationDrafts = () => {
     setIsSearchMode(false); setShowAll(false);
   }, []);
 
-  // ── Load drafts ───────────────────────────────────────────────────────
   const loadDrafts = useCallback(async () => {
     setIsLoadingApps(true); setAppsError(""); clearSearchState();
     try {
@@ -318,7 +318,6 @@ const ProfileApplicationDrafts = () => {
 
   useEffect(() => { loadDrafts(); }, [loadDrafts]);
 
-  // ── Detail modal ──────────────────────────────────────────────────────
   const openDetailModal = useCallback(async (app) => {
     setModalApp(app); setModalDetail(null); setModalDetailLoading(true); setModalOpen(true);
     try {
@@ -344,6 +343,18 @@ const ProfileApplicationDrafts = () => {
       // If this card is a draft, add/update it in our list
       if (returnedCard.__isDraft || returnedCard.__isUpdate) {
         const isUpdate = !!returnedCard.__isUpdate;
+
+        // If the card was published (isDraft is false/undefined on returned card),
+        // remove it from the drafts list — it's no longer a draft.
+        const cardIsDraft = returnedCard.isDraft ?? returnedCard.IsDraft ?? returnedCard.__isDraft ?? false;
+        if (isUpdate && !cardIsDraft) {
+          const removeId = normalized.id;
+          const updated = allAppsRef.current.filter((a) => a.id !== removeId);
+          setAllApps(updated); allAppsRef.current = updated;
+          setDisplayApps((prev) => prev.filter((a) => a.id !== removeId));
+          return;
+        }
+
         if (isUpdate) {
           const updatedAll = allAppsRef.current.map((a) => a.id === normalized.id ? normalized : a);
           setAllApps(updatedAll); allAppsRef.current = updatedAll;
@@ -373,7 +384,6 @@ const ProfileApplicationDrafts = () => {
     loadDrafts();
   }, [applyFilterSort, clearSearchState, loadDrafts]);
 
-  // ── Delete ────────────────────────────────────────────────────────────
   const handleConfirmDelete = useCallback(async () => {
     if (!appToDelete) return;
     setIsDeleting(true);
@@ -410,8 +420,8 @@ const ProfileApplicationDrafts = () => {
                 <span>Sort By: {sortOption}</span>
               </div>
               {sortDropdownOpen && (
-                <ul className="sortby-dropdown">
-                  {["Popular", "Latest", "A-Z", "Z-A"].map((option) => (
+                <ul className="draft-sortby-dropdown">
+                  {["Latest", "A-Z", "Z-A"].map((option) => (
                     <li key={option} className={sortOption === option ? "active" : ""} onClick={() => handleSortChange(option)}>{option}</li>
                   ))}
                 </ul>
