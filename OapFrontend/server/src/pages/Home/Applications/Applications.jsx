@@ -5,7 +5,6 @@ import searchIcon from "@assets/magnifying-glass-icon.svg";
 import githubIcon from "@assets/github-icon.png";
 import playIcon from "@assets/purple-filled-play-icon.svg";
 import noImageUploadedPlaceholder from "@assets/no-image-uploaded.jpg";
-import sortIcon from "@assets/sort-by-icon.svg";
 import { useAuthUser } from "@context/AuthUserContext";
 import ContactUs from "@components/ContactUs/ContactUs";
 import Footer from "@components/Footer/Footer";
@@ -127,7 +126,7 @@ const StoreAppCard = React.memo(
   })
 );
 
-const HomeApplications = () => {
+const Applications = () => {
   useEffect(() => { window.scrollTo({ top: 0, behavior: "smooth" }); }, []);
 
   const { user } = useAuthUser();
@@ -574,4 +573,4 @@ const HomeApplications = () => {
   );
 };
 
-export default HomeApplications;
+export default Applications;

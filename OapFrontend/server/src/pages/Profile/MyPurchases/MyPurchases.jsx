@@ -15,7 +15,7 @@ import addIcon from "@assets/add-circle-icon.svg";
 import sortIcon from "@assets/sort-by-icon.svg";
 import "./MyPurchases.css";
 
-const ProfileApplications = () => {
+const MyPurchases = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
@@ -421,4 +421,4 @@ const ProfileApplications = () => {
   );
 };
 
-export default ProfileApplications;
+export default MyPurchases;
