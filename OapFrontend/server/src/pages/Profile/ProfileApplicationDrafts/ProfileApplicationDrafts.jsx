@@ -132,12 +132,9 @@ const DraftAppCard = React.memo(
           </ul>
         )}
 
-        <button
-          className="profileDraftApp-view-details-button"
-          onClick={(e) => { e.stopPropagation(); onViewDetailsClick(); }}
-        >
-          <img src={addIcon} alt="Details" />
-          <span>View Details</span>
+        <button className="profileDraftApp-view-details-button"
+          onClick={(e) => { e.stopPropagation(); onViewDetailsClick(); }}>
+          <img src={addIcon} alt="Details" /><span>View Details</span>
         </button>
       </div>
     );
@@ -147,19 +144,19 @@ const DraftAppCard = React.memo(
 const ProfileApplicationDrafts = () => {
   useEffect(() => { window.scrollTo({ top: 0, behavior: "smooth" }); }, []);
 
-  const [allApps, setAllApps] = useState([]);
   const [displayApps, setDisplayApps] = useState([]);
-  const [techMap, setTechMap] = useState({});
+  const [hasDraftsAtAll, setHasDraftsAtAll] = useState(true);
 
   const [isLoadingApps, setIsLoadingApps] = useState(false);
   const [appsError, setAppsError] = useState("");
+  const [isSearchMode, setIsSearchMode] = useState(false);
 
   const [showAll, setShowAll] = useState(false);
   const [sortOption, setSortOption] = useState("Latest");
   const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
-  const [isSearchMode, setIsSearchMode] = useState(false);
   const [expandedTechStacks, setExpandedTechStacks] = useState({});
+  const [expandedDropdownId, setExpandedDropdownId] = useState(null);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalApp, setModalApp] = useState(null);
@@ -171,7 +168,6 @@ const ProfileApplicationDrafts = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [appToDelete, setAppToDelete] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [expandedDropdownId, setExpandedDropdownId] = useState(null);
 
   const [mediaLoadedMap, setMediaLoadedMap] = useState({});
   const [shouldLoadMedia, setShouldLoadMedia] = useState({});
@@ -180,13 +176,9 @@ const ProfileApplicationDrafts = () => {
   const cardNodesRef = useRef({});
   const observerRef = useRef(null);
   const searchDebounceRef = useRef(null);
-  const allAppsRef = useRef([]);
-  const techMapRef = useRef({});
   const sortOptionRef = useRef("Latest");
   const searchInputRef = useRef("");
 
-  useEffect(() => { allAppsRef.current = allApps; }, [allApps]);
-  useEffect(() => { techMapRef.current = techMap; }, [techMap]);
   useEffect(() => { sortOptionRef.current = sortOption; }, [sortOption]);
   useEffect(() => { searchInputRef.current = searchInput; }, [searchInput]);
 
@@ -232,91 +224,71 @@ const ProfileApplicationDrafts = () => {
     else delete cardNodesRef.current[appId];
   }, []);
 
-  const applyFilterSort = useCallback((apps, techMapSnap, query, sort) => {
-    let arr = apps;
-    const q = query.trim().toLowerCase();
-    if (q) {
-      arr = arr.filter((a) => {
-        const techs = techMapSnap[a.versionId?.toString()] ?? a.technologies ?? [];
-        return (a.title || "").toLowerCase().includes(q) ||
-          (a.description || "").toLowerCase().includes(q) ||
-          (a.github || "").toLowerCase().includes(q) ||
-          techs.some((t) => t.toLowerCase().includes(q));
-      });
-    }
-    const sorted = [...arr];
-    if (sort === "A-Z") sorted.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
-    else if (sort === "Z-A") sorted.sort((a, b) => (b.title || "").localeCompare(a.title || ""));
-    else sorted.sort((a, b) => {
-      const ad = a?.raw?.createdAt ? new Date(a.raw.createdAt).getTime() : 0;
-      const bd = b?.raw?.createdAt ? new Date(b.raw.createdAt).getTime() : 0;
-      return bd - ad;
-    });
-    return sorted;
+  const loadDrafts = useCallback(async (sort, query) => {
+    setIsLoadingApps(true); setAppsError("");
+    try {
+      const params = new URLSearchParams();
+      if (sort && sort !== "Latest") params.set("sort", sort);
+      if (query?.trim()) params.set("q", query.trim());
+      const qs = params.toString();
+      const url = qs
+        ? `/api/user-application/search-draft-cards?${qs}`
+        : "/api/user-application/search-draft-cards";
+
+      const res = await fetch(url, { method: "GET", credentials: "include" });
+      const text = await res.text();
+      let data = null;
+      try { data = text ? JSON.parse(text) : null; } catch { data = null; }
+
+      if (!res.ok) { setAppsError("Unable to load your drafts."); setDisplayApps([]); return; }
+
+      const items = Array.isArray(data?.applications) ? data.applications : [];
+      const normalized = items.map(normalizeCardToUiApp).filter((x) => !!x?.id);
+      setDisplayApps(normalized);
+
+      if (!query?.trim() && (!sort || sort === "Latest")) {
+        setHasDraftsAtAll(normalized.length > 0);
+      }
+    } catch (e) {
+      console.error(e); setAppsError("Unable to connect to the server."); setDisplayApps([]);
+    } finally { setIsLoadingApps(false); }
   }, []);
 
-  const triggerFilterSort = useCallback((query, sort) => {
-    const isDefault = !query.trim() && sort === "Latest";
-    if (isDefault) { setIsSearchMode(false); setDisplayApps(applyFilterSort(allAppsRef.current, techMapRef.current, "", "Latest")); setShowAll(false); return; }
-    setIsSearchMode(true); setShowAll(false);
-    setDisplayApps(applyFilterSort(allAppsRef.current, techMapRef.current, query, sort));
-  }, [applyFilterSort]);
+  useEffect(() => { loadDrafts("Latest", ""); }, [loadDrafts]);
 
   const handleSearchInputChange = useCallback((e) => {
-    const val = e.target.value; setSearchInput(val); searchInputRef.current = val;
+    const val = e.target.value;
+    setSearchInput(val); searchInputRef.current = val;
+    setIsSearchMode(!!val.trim() || sortOptionRef.current !== "Latest");
     clearTimeout(searchDebounceRef.current);
-    searchDebounceRef.current = setTimeout(() => triggerFilterSort(val, sortOptionRef.current), 300);
-  }, [triggerFilterSort]);
+    searchDebounceRef.current = setTimeout(() => {
+      setShowAll(false);
+      loadDrafts(sortOptionRef.current, val);
+    }, 300);
+  }, [loadDrafts]);
 
-  const handleSearchSubmit = useCallback(() => { clearTimeout(searchDebounceRef.current); triggerFilterSort(searchInputRef.current, sortOptionRef.current); }, [triggerFilterSort]);
+  const handleSearchSubmit = useCallback(() => {
+    clearTimeout(searchDebounceRef.current);
+    setShowAll(false);
+    setIsSearchMode(!!searchInputRef.current.trim() || sortOptionRef.current !== "Latest");
+    loadDrafts(sortOptionRef.current, searchInputRef.current);
+  }, [loadDrafts]);
+
   const handleSearchKeyDown = useCallback((e) => { if (e.key === "Enter") handleSearchSubmit(); }, [handleSearchSubmit]);
 
   const handleSortChange = useCallback((option) => {
     setSortOption(option); sortOptionRef.current = option; setSortDropdownOpen(false);
-    triggerFilterSort(searchInputRef.current, option);
-  }, [triggerFilterSort]);
+    setShowAll(false);
+    setIsSearchMode(!!searchInputRef.current.trim() || option !== "Latest");
+    loadDrafts(option, searchInputRef.current);
+  }, [loadDrafts]);
 
-  const clearSearchState = useCallback(() => {
-    clearTimeout(searchDebounceRef.current);
+  const clearSearchAndReload = useCallback(() => {
     setSearchInput(""); searchInputRef.current = "";
     setSortOption("Latest"); sortOptionRef.current = "Latest";
     setIsSearchMode(false); setShowAll(false);
-  }, []);
-
-  const loadDrafts = useCallback(async () => {
-    setIsLoadingApps(true); setAppsError(""); clearSearchState();
-    try {
-      const res = await fetch("/api/user-application/get-all-draft-cards", { method: "GET", credentials: "include" });
-      const text = await res.text();
-      let data = null;
-      try { data = text ? JSON.parse(text) : null; } catch { data = null; }
-      if (!res.ok) { setAppsError("Unable to load your drafts."); setAllApps([]); setDisplayApps([]); return; }
-
-      const items = Array.isArray(data?.applications) ? data.applications : [];
-      const normalized = items.map(normalizeCardToUiApp).filter((x) => !!x?.id);
-      setAllApps(normalized); allAppsRef.current = normalized; setDisplayApps(normalized);
-
-      if (normalized.length === 0) return;
-      const versionIds = normalized.map((a) => a.versionId).filter(Boolean);
-      fetch("/api/user-application/get-bulk-technologies", { method: "POST", credentials: "include", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ versionIds }) })
-        .then((r) => r.text())
-        .then((t) => {
-          let td = null; try { td = t ? JSON.parse(t) : null; } catch { return; }
-          const map = td?.technologies ?? {};
-          if (typeof map !== "object" || map === null) return;
-          setTechMap(map); techMapRef.current = map;
-          const merged = allAppsRef.current.map((app) => { const techs = map[app.versionId?.toString()]; return techs ? { ...app, technologies: techs } : app; });
-          setAllApps(merged); allAppsRef.current = merged;
-          const q = searchInputRef.current; const sort = sortOptionRef.current;
-          if (q.trim() || sort !== "Latest") setDisplayApps(applyFilterSort(merged, map, q, sort));
-          else setDisplayApps(merged);
-        }).catch(() => {});
-    } catch (e) {
-      console.error(e); setAppsError("Unable to connect to the server."); setAllApps([]); setDisplayApps([]);
-    } finally { setIsLoadingApps(false); }
-  }, [applyFilterSort, clearSearchState]);
-
-  useEffect(() => { loadDrafts(); }, [loadDrafts]);
+    loadDrafts("Latest", "");
+  }, [loadDrafts]);
 
   const openDetailModal = useCallback(async (app) => {
     setModalApp(app); setModalDetail(null); setModalDetailLoading(true); setModalOpen(true);
@@ -333,56 +305,24 @@ const ProfileApplicationDrafts = () => {
     setModalOpen(false); setModalApp(null); setModalDetail(null); setModalDetailLoading(false);
   }, []);
 
-  // ── Upload/edit modal close handler ───────────────────────────────────
   const handleCloseUploadModal = useCallback((returnedCard) => {
     setShowUploadEditModal(false); setSelectedApp(null);
+
     if (returnedCard && returnedCard.userApplicationId) {
-      const normalized = normalizeCardToUiApp(returnedCard);
-      if (!normalized?.id) { loadDrafts(); return; }
-
-      // If this card is a draft, add/update it in our list
-      if (returnedCard.__isDraft || returnedCard.__isUpdate) {
-        const isUpdate = !!returnedCard.__isUpdate;
-
-        // If the card was published (isDraft is false/undefined on returned card),
-        // remove it from the drafts list — it's no longer a draft.
-        const cardIsDraft = returnedCard.isDraft ?? returnedCard.IsDraft ?? returnedCard.__isDraft ?? false;
-        if (isUpdate && !cardIsDraft) {
-          const removeId = normalized.id;
-          const updated = allAppsRef.current.filter((a) => a.id !== removeId);
-          setAllApps(updated); allAppsRef.current = updated;
-          setDisplayApps((prev) => prev.filter((a) => a.id !== removeId));
-          return;
-        }
-
-        if (isUpdate) {
-          const updatedAll = allAppsRef.current.map((a) => a.id === normalized.id ? normalized : a);
-          setAllApps(updatedAll); allAppsRef.current = updatedAll;
-          if (normalized.versionId) {
-            const techs = Array.isArray(normalized.technologies) ? normalized.technologies : [];
-            const updatedMap = { ...techMapRef.current, [normalized.versionId.toString()]: techs };
-            setTechMap(updatedMap); techMapRef.current = updatedMap;
-          }
-          setDisplayApps(applyFilterSort(updatedAll, techMapRef.current, searchInputRef.current, sortOptionRef.current));
-        } else {
-          const updated = [normalized, ...allAppsRef.current];
-          setAllApps(updated); allAppsRef.current = updated;
-          clearSearchState();
-          setDisplayApps(applyFilterSort(updated, techMapRef.current, "", "Latest"));
-          setShouldLoadMedia((prev) => ({ ...prev, [String(normalized.id)]: true }));
-        }
+      const cardIsDraft = returnedCard.isDraft ?? returnedCard.IsDraft ?? returnedCard.__isDraft ?? false;
+      if (!cardIsDraft && returnedCard.__isUpdate) {
+        loadDrafts(sortOptionRef.current, searchInputRef.current);
         return;
       }
-
-      // If the card is published (not a draft), it means it was published from drafts
-      // Remove it from drafts list since it's now published
-      if (!returnedCard.__isDraft && !returnedCard.__isUpdate) {
-        loadDrafts();
-        return;
-      }
+      loadDrafts(sortOptionRef.current, searchInputRef.current);
+      return;
     }
-    loadDrafts();
-  }, [applyFilterSort, clearSearchState, loadDrafts]);
+
+    if (!returnedCard) return;
+
+    loadDrafts(sortOptionRef.current, searchInputRef.current);
+  }, [loadDrafts]);
+
 
   const handleConfirmDelete = useCallback(async () => {
     if (!appToDelete) return;
@@ -390,10 +330,7 @@ const ProfileApplicationDrafts = () => {
     try {
       const res = await fetch(`/api/user-application/delete-user-application/${appToDelete.id}`, { method: "DELETE", credentials: "include" });
       if (res.ok) {
-        const deleteId = appToDelete.id;
-        const updated = allAppsRef.current.filter((a) => a.id !== deleteId);
-        setAllApps(updated); allAppsRef.current = updated;
-        setDisplayApps((prev) => prev.filter((a) => a.id !== deleteId));
+        setDisplayApps((prev) => prev.filter((a) => a.id !== appToDelete.id));
         closeDetailModal();
       }
     } catch (e) { console.error(e); }
@@ -401,23 +338,23 @@ const ProfileApplicationDrafts = () => {
   }, [appToDelete, closeDetailModal]);
 
   const visibleApps = useMemo(() => (showAll ? displayApps : displayApps.slice(0, 12)), [displayApps, showAll]);
-  const hasNoAppsAtAll = !isLoadingApps && !appsError && allApps.length === 0;
-  const hasAppsButNoResults = !isLoadingApps && !appsError && allApps.length > 0 && displayApps.length === 0 && isSearchMode;
+  const hasNoDrafts = !isLoadingApps && !appsError && !hasDraftsAtAll;
+  const hasAppsButNoResults = !isLoadingApps && !appsError && hasDraftsAtAll && displayApps.length === 0 && isSearchMode;
 
   return (
     <section id="profile-application-drafts">
       <div className="profile-application-drafts-title-div">
-        <h2 className="profile-application-drafts-title">Drafts ({allApps.length})</h2>
+        <h2 className="profile-application-drafts-title">Drafts ({displayApps.length})</h2>
         <div className="profile-application-drafts-search-filter-add-div">
           <div className="profile-application-drafts-search-div">
-            <input className="profile-application-drafts-search" placeholder="Search..." value={searchInput} onChange={handleSearchInputChange} onKeyDown={handleSearchKeyDown} />
+            <input className="profile-application-drafts-search" placeholder="Search..." value={searchInput}
+              onChange={handleSearchInputChange} onKeyDown={handleSearchKeyDown} />
             <img src={searchIcon} alt="Search" className="profile-application-drafts-search-icon" onClick={handleSearchSubmit} />
           </div>
           <div className="profile-application-drafts-sortby-upload-div">
             <div className="profile-application-drafts-sortby-div">
               <div onClick={() => setSortDropdownOpen((o) => !o)}>
-                <img src={sortIcon} alt="Sort" />
-                <span>Sort By: {sortOption}</span>
+                <img src={sortIcon} alt="Sort" /><span>Sort By: {sortOption}</span>
               </div>
               {sortDropdownOpen && (
                 <ul className="draft-sortby-dropdown">
@@ -428,14 +365,12 @@ const ProfileApplicationDrafts = () => {
               )}
             </div>
             <div className="profile-application-drafts-drafts-div">
-              <img src={draftIcon} alt="" />
-              <span>Drafts</span>
+              <img src={draftIcon} alt="" /><span>Drafts</span>
             </div>
             <div className="profileDrafts-header-right-border"></div>
             <div className="profile-application-drafts-upload-new-div">
               <div className="profile-application-drafts-upload-new-btn" onClick={() => setShowUploadEditModal(true)}>
-                <img src={addIcon} alt="Add" />
-                <span>Upload New App</span>
+                <img src={addIcon} alt="Add" /><span>Upload New App</span>
               </div>
             </div>
           </div>
@@ -445,15 +380,13 @@ const ProfileApplicationDrafts = () => {
       {isLoadingApps && <div style={{ padding: "12px 0", opacity: 0.8 }}>Loading your drafts…</div>}
       {!isLoadingApps && appsError && <div style={{ padding: "12px 0" }}>{appsError}</div>}
 
-      {hasNoAppsAtAll && (
+      {hasNoDrafts && (
         <div className="profileDrafts-emptyState">
           <div className="profileDrafts-emptyState-card">
             <div className="profileDrafts-emptyState-icon" aria-hidden="true">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                <polyline points="14 2 14 8 20 8" />
-                <line x1="12" y1="18" x2="12" y2="12" />
-                <line x1="9" y1="15" x2="15" y2="15" />
+                <polyline points="14 2 14 8 20 8" /><line x1="12" y1="18" x2="12" y2="12" /><line x1="9" y1="15" x2="15" y2="15" />
               </svg>
             </div>
             <h3 className="profileDrafts-emptyState-title">No drafts yet</h3>
@@ -474,9 +407,7 @@ const ProfileApplicationDrafts = () => {
             <p className="profileDrafts-emptyState-subtitle">
               No drafts matched{" "}{searchInput.trim() ? (<>&ldquo;<strong>{searchInput.trim()}</strong>&rdquo;</>) : "your current filters"}. Try adjusting your search.
             </p>
-            <button type="button" className="profileDrafts-emptyState-cta" onClick={() => { clearSearchState(); setDisplayApps(applyFilterSort(allAppsRef.current, techMapRef.current, "", "Latest")); }}>
-              Clear search
-            </button>
+            <button type="button" className="profileDrafts-emptyState-cta" onClick={clearSearchAndReload}>Clear search</button>
           </div>
         </div>
       )}
@@ -490,15 +421,9 @@ const ProfileApplicationDrafts = () => {
           const showShimmer = canLoadMedia && hasMedia && !mediaLoadedMap[idStr];
 
           return (
-            <DraftAppCard
-              key={app.id}
-              ref={(node) => setCardNode(app.id, node)}
-              app={app}
-              canLoadMedia={canLoadMedia}
-              showShimmer={showShimmer}
-              expandedDropdownId={expandedDropdownId}
-              dropdownRef={dropdownRefs.current[app.id]}
-              isExpanded={!!expandedTechStacks[app.id]}
+            <DraftAppCard key={app.id} ref={(node) => setCardNode(app.id, node)} app={app}
+              canLoadMedia={canLoadMedia} showShimmer={showShimmer} expandedDropdownId={expandedDropdownId}
+              dropdownRef={dropdownRefs.current[app.id]} isExpanded={!!expandedTechStacks[app.id]}
               onCardClick={(e) => {
                 if (e.target.closest("a") || e.target.closest(".profileDraftApp-expand-div") ||
                   e.target.classList.contains("expand-tech") || e.target.classList.contains("profileDraftApp-collapse-tech")) return;
@@ -524,35 +449,24 @@ const ProfileApplicationDrafts = () => {
       )}
 
       {modalOpen && (
-        <ProfileApplicationDetailModal
-          modalOpenState={modalOpen}
+        <ProfileApplicationDetailModal modalOpenState={modalOpen}
           onClose={() => { if (showDeleteModal) return; closeDetailModal(); }}
-          app={modalApp}
-          detail={modalDetail}
-          detailLoading={modalDetailLoading}
+          app={modalApp} detail={modalDetail} detailLoading={modalDetailLoading}
           onEditClick={() => { closeDetailModal(); setSelectedApp(modalApp); setShowUploadEditModal(true); }}
           onDeleteClick={() => { setAppToDelete(modalApp); setShowDeleteModal(true); }}
         />
       )}
 
       {showUploadEditModal && (
-        <ProfileUploadEditAppModal
-          modalOpenState={showUploadEditModal}
-          onClose={handleCloseUploadModal}
-          selected={selectedApp}
-          context={selectedApp ? "draft" : undefined}
-        />
+        <ProfileUploadEditAppModal modalOpenState={showUploadEditModal} onClose={handleCloseUploadModal}
+          selected={selectedApp} context={selectedApp ? "draft" : undefined} />
       )}
 
       {showDeleteModal && appToDelete && (
-        <DeleteConfirmationModal
-          modalOpenState={showDeleteModal}
+        <DeleteConfirmationModal modalOpenState={showDeleteModal}
           onClose={() => { if (isDeleting) return; setShowDeleteModal(false); setAppToDelete(null); }}
-          app={appToDelete}
-          onConfirmDelete={handleConfirmDelete}
-        />
+          app={appToDelete} onConfirmDelete={handleConfirmDelete} />
       )}
-
       {isDeleting && <ProcessingModal modalOpenState={isDeleting} message="Deleting draft…" />}
     </section>
   );

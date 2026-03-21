@@ -39,7 +39,6 @@ const ProfileNavbarDesktop = () => {
     setShowDropdown((prev) => !prev);
   };
 
-  // Handle click outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (profileWrapperRef.current && !profileWrapperRef.current.contains(event.target)) {

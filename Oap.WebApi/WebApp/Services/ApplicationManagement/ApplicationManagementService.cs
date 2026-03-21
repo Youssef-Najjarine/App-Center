@@ -21,7 +21,8 @@ namespace Oap.WebApp.Services
             _analytics = analytics;
         }
 
-        public async Task<List<ApplicationManagementCardDto>> GetManagementCardsAsync(Guid ownerUserId)
+        public async Task<List<ApplicationManagementCardDto>> GetManagementCardsAsync(
+            Guid ownerUserId, string? sort = null, string? query = null)
         {
             var cards = new List<ApplicationManagementCardDto>();
 
@@ -101,6 +102,30 @@ ORDER BY uav.CreatedAt DESC;";
                         card.TotalClicks = t.clicks;
                     }
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(query))
+            {
+                var q = query.ToLowerInvariant();
+                cards = cards.Where(c =>
+                    (c.Name ?? "").ToLowerInvariant().Contains(q) ||
+                    (c.Description ?? "").ToLowerInvariant().Contains(q)
+                ).ToList();
+            }
+
+            if (sort?.ToUpperInvariant() == "POPULAR")
+            {
+                cards = cards.OrderByDescending(c => c.TotalImpressions + c.TotalClicks)
+                    .ThenByDescending(c => c.CreatedAt).ToList();
+            }
+            else
+            {
+                cards = sort?.ToUpperInvariant() switch
+                {
+                    "A-Z" => cards.OrderBy(c => c.Name ?? "").ToList(),
+                    "Z-A" => cards.OrderByDescending(c => c.Name ?? "").ToList(),
+                    _ => cards.OrderByDescending(c => c.CreatedAt).ToList(),
+                };
             }
 
             return cards;

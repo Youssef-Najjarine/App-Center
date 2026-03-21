@@ -31,7 +31,6 @@ const ForgotPassword = () => {
 
     setErrors((prev) => ({ ...prev, [name]: '' }));
 
-    // clear error box as they type
     if (showErrorBox) setShowErrorBox(false);
     if (errorBoxMessage) setErrorBoxMessage('');
   };
@@ -62,7 +61,6 @@ const ForgotPassword = () => {
     setShowErrorBox(false);
     setErrorBoxMessage('');
 
-    // Validate
     const newErrors = {};
     if (!formData.emailUsername.trim()) {
       newErrors.emailUsername = 'Field Missing';
@@ -79,7 +77,6 @@ const ForgotPassword = () => {
     try {
       setShowProcessingModal(true);
 
-      // You will implement this endpoint in the backend
       const response = await fetch('/api/forgot-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -98,19 +95,14 @@ const ForgotPassword = () => {
       }
 
       if (response.ok && data.success) {
-        // Must navigate with REAL email from backend so VerifyIdentity can resend/verify correctly
         navigate('/auth/verify-identity', {
           state: {
-            email: data.email,          // backend should return canonical email
-            fromForgotPassword: true,   // used later to route to CreateNewPassword after verify
+            email: data.email,
+            fromForgotPassword: true,
           }
         });
         return;
       }
-
-      // --- Error mapping ---
-      // Recommended server contract for clarity:
-      // { errorCode: 'NotFound' | 'Invalid' | 'NotVerified' | 'ServerError', error: '...' }
 
       const errorCode = data.errorCode || '';
 
@@ -121,7 +113,6 @@ const ForgotPassword = () => {
       } else if (errorCode === 'NotVerified') {
         setErrorBoxMessage('Error - Username/Email for account not verified. Please verify the account first.');
       } else {
-        // Non-network fallback should not say "unable to connect"
         setErrorBoxMessage(data.error || 'Error - Invalid Username/Email');
       }
       setShowErrorBox(true);

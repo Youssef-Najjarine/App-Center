@@ -99,7 +99,6 @@ ORDER BY uav.VersionIndex DESC;";
                 };
             }
 
-            // Get files
             {
                 const string filesSql = @"
 SELECT uavf.FileId, uavf.FileCategory, uavf.OrderIndex, f.ContentType
@@ -188,13 +187,30 @@ ORDER BY uavf.OrderIndex ASC;";
                     c.Technologies.Any(t => t.ToLowerInvariant().Contains(q))
                 ).ToList();
             }
-
-            allCards = sort?.ToUpperInvariant() switch
+            if (sort?.ToUpperInvariant() == "POPULAR")
             {
-                "A-Z" => allCards.OrderBy(c => c.Name ?? "").ToList(),
-                "Z-A" => allCards.OrderByDescending(c => c.Name ?? "").ToList(),
-                _ => allCards.OrderByDescending(c => c.CreatedAt).ToList(),
-            };
+                var appIds = allCards.Select(c => c.UserApplicationId).ToList();
+                var popularityTotals = new Dictionary<Guid, (long impressions, long clicks)>();
+                try
+                {
+                    popularityTotals = await _analytics.GetBulkPopularityAsync(appIds);
+                }
+                catch { }
+                allCards = allCards.OrderByDescending(c =>
+                {
+                    popularityTotals.TryGetValue(c.UserApplicationId, out var t);
+                    return t.impressions + t.clicks;
+                }).ThenByDescending(c => c.CreatedAt).ToList();
+            }
+            else
+            {
+                allCards = sort?.ToUpperInvariant() switch
+                {
+                    "A-Z" => allCards.OrderBy(c => c.Name ?? "").ToList(),
+                    "Z-A" => allCards.OrderByDescending(c => c.Name ?? "").ToList(),
+                    _ => allCards.OrderByDescending(c => c.CreatedAt).ToList(),
+                };
+            }
 
             return allCards;
         }

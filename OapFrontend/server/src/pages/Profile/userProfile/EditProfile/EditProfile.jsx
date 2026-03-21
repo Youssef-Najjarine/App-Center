@@ -82,7 +82,6 @@ const EditProfile = () => {
   const handleSaveAndRedirect = async (e) => {
   e.preventDefault();
 
-  // Client-side validation (keeps your UI behavior)
   const newErrors = {};
 
   if (!firstName.trim()) newErrors.firstName = "Field Missing";

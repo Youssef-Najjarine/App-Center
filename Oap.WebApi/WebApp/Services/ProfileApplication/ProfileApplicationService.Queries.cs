@@ -317,6 +317,7 @@ WHERE uav.Id = @VersionId AND ua.OwnerUserId = @OwnerUserId;";
             {
                 "A-Z" => "uav.Name ASC",
                 "Z-A" => "uav.Name DESC",
+                "POPULAR" => "uav.CreatedAt DESC",
                 _ => "uav.CreatedAt DESC",
             };
             var hasQuery = !string.IsNullOrWhiteSpace(query);
@@ -381,6 +382,123 @@ ORDER BY {orderBy};";
                 var matchedIds = new HashSet<Guid>(dbMatches.Select(c => c.UserApplicationId));
 
                 var allCards = await GetAllUserApplicationCardsAsync(ownerUserId);
+                var candidates = allCards.Where(c => !matchedIds.Contains(c.UserApplicationId)).ToList();
+
+                if (candidates.Count > 0)
+                {
+                    var candidateVersionIds = candidates.Select(c => c.UserApplicationVersionId).ToList();
+                    var candidateTechMap = await GetBulkTechnologiesAsync(ownerUserId, candidateVersionIds);
+
+                    foreach (var card in candidates)
+                    {
+                        if (candidateTechMap.TryGetValue(card.UserApplicationVersionId.ToString(), out var techs))
+                            card.Technologies = techs;
+                        if (card.Technologies.Any(t => t.ToLowerInvariant().Contains(q)))
+                            dbMatches.Add(card);
+                    }
+
+                    dbMatches = sort?.ToUpperInvariant() switch
+                    {
+                        "A-Z" => dbMatches.OrderBy(c => c.Name ?? "").ToList(),
+                        "Z-A" => dbMatches.OrderByDescending(c => c.Name ?? "").ToList(),
+                        _ => dbMatches.OrderByDescending(c => c.CreatedAt).ToList(),
+                    };
+                }
+            }
+
+            if (sort?.ToUpperInvariant() == "POPULAR")
+            {
+                var appIds = dbMatches.Select(c => c.UserApplicationId).ToList();
+                var popularityTotals = new Dictionary<Guid, (long impressions, long clicks)>();
+                try
+                {
+                    popularityTotals = await _analytics.GetBulkPopularityAsync(appIds);
+                }
+                catch { }
+                dbMatches = dbMatches.OrderByDescending(c =>
+                {
+                    popularityTotals.TryGetValue(c.UserApplicationId, out var t);
+                    return t.impressions + t.clicks;
+                }).ThenByDescending(c => c.CreatedAt).ToList();
+            }
+
+            return dbMatches;
+        }
+
+        public async Task<List<UserApplicationCardDto>> SearchDraftCardsAsync(
+            Guid ownerUserId, string? query, string? sort)
+        {
+            await using var connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var orderBy = sort?.ToUpperInvariant() switch
+            {
+                "A-Z" => "uav.Name ASC",
+                "Z-A" => "uav.Name DESC",
+                _ => "uav.CreatedAt DESC",
+            };
+            var hasQuery = !string.IsNullOrWhiteSpace(query);
+
+            var sql = $@"
+SELECT ua.Id AS UserApplicationId, uav.Id AS UserApplicationVersionId,
+    uav.VersionIndex, uav.IsDraft, uav.Name, uav.Price,
+    uav.Description, uav.RepositoryUrl, uav.CreatedAt,
+    pres.FileId AS DefaultPresentationFileId,
+    pres.FileCategory AS DefaultPresentationFileCategory,
+    pres.ContentType AS DefaultPresentationContentType,
+    thumb.FileId AS DefaultPresentationThumbnailFileId
+FROM dbo.UserApplication ua WITH (NOLOCK)
+CROSS APPLY (
+    SELECT TOP 1 * FROM dbo.UserApplicationVersion v WITH (NOLOCK)
+    WHERE v.UserApplicationId = ua.Id AND v.IsDraft = 1
+    ORDER BY v.VersionIndex DESC
+) uav
+OUTER APPLY (
+    SELECT TOP 1 uavf.FileId, uavf.FileCategory, f.ContentType
+    FROM dbo.UserApplicationVersionFile uavf WITH (NOLOCK)
+    JOIN dbo.[File] f WITH (NOLOCK) ON f.Id = uavf.FileId
+    WHERE uavf.UserApplicationVersionId = uav.Id AND uavf.FileCategory IN (2, 3)
+    ORDER BY uavf.OrderIndex ASC
+) pres
+OUTER APPLY (
+    SELECT TOP 1 uavf.FileId FROM dbo.UserApplicationVersionFile uavf WITH (NOLOCK)
+    WHERE uavf.UserApplicationVersionId = uav.Id AND uavf.FileCategory = 4
+) thumb
+WHERE ua.OwnerUserId = @OwnerUserId
+{(hasQuery ? "AND (uav.Name LIKE @Query OR uav.Description LIKE @Query OR uav.RepositoryUrl LIKE @Query)" : "")}
+ORDER BY {orderBy};";
+
+            await using var cmd = new SqlCommand(sql, connection);
+            cmd.Parameters.Add("@OwnerUserId", SqlDbType.UniqueIdentifier).Value = ownerUserId;
+            if (hasQuery) cmd.Parameters.Add("@Query", SqlDbType.NVarChar, 2100).Value = $"%{query}%";
+
+            var dbMatches = new List<UserApplicationCardDto>();
+            var allVersionIds = new List<Guid>();
+
+            await using (var reader = await cmd.ExecuteReaderAsync())
+            {
+                while (await reader.ReadAsync())
+                {
+                    var card = ReadCardFromReader(reader);
+                    dbMatches.Add(card);
+                    allVersionIds.Add(card.UserApplicationVersionId);
+                }
+            }
+
+            if (allVersionIds.Count > 0)
+            {
+                var techMap = await GetBulkTechnologiesAsync(ownerUserId, allVersionIds);
+                foreach (var card in dbMatches)
+                    if (techMap.TryGetValue(card.UserApplicationVersionId.ToString(), out var techs))
+                        card.Technologies = techs;
+            }
+
+            if (hasQuery)
+            {
+                var q = query!.ToLowerInvariant();
+                var matchedIds = new HashSet<Guid>(dbMatches.Select(c => c.UserApplicationId));
+
+                var allCards = await GetAllDraftCardsAsync(ownerUserId);
                 var candidates = allCards.Where(c => !matchedIds.Contains(c.UserApplicationId)).ToList();
 
                 if (candidates.Count > 0)

@@ -37,11 +37,9 @@ const ChangePasswordModal = ({ onClose }) => {
     specialChar: false,
   });
 
-  // NEW: submit loading + server error
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [serverError, setServerError] = useState("");
 
-  // Close on ESC + prevent background scroll
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") onClose?.();
@@ -81,7 +79,6 @@ const ChangePasswordModal = ({ onClose }) => {
     if (serverError) setServerError("");
     if (value.trim()) setErrors((prev) => ({ ...prev, newPassword: null }));
 
-    // Live mismatch clearing
     if (confirmPassword && value === confirmPassword) {
       setErrors((prev) => ({ ...prev, confirmPassword: null, newPassword: null }));
     }
@@ -94,7 +91,6 @@ const ChangePasswordModal = ({ onClose }) => {
     if (serverError) setServerError("");
     if (value.trim()) setErrors((prev) => ({ ...prev, confirmPassword: null }));
 
-    // Live mismatch clearing
     if (newPassword && value === newPassword) {
       setErrors((prev) => ({ ...prev, confirmPassword: null, newPassword: null }));
     }
@@ -127,7 +123,6 @@ const ChangePasswordModal = ({ onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Front-end validation (keep your existing style)
     const newErrors = {};
     if (!currentPassword.trim()) newErrors.currentPassword = "Field Missing";
     if (!newPassword.trim()) newErrors.newPassword = "Field Missing";
@@ -142,7 +137,6 @@ const ChangePasswordModal = ({ onClose }) => {
 
     if (Object.keys(newErrors).length > 0) return;
 
-    // Requirements check
     if (!meetsAllRequirements) {
       setServerError("Error - Password does not meet the required criteria.");
       return;
@@ -178,7 +172,6 @@ const ChangePasswordModal = ({ onClose }) => {
         return;
       }
 
-      // Success
       onClose?.();
     } catch (err) {
       console.error("Change password error:", err);
@@ -188,7 +181,6 @@ const ChangePasswordModal = ({ onClose }) => {
     }
   };
 
-  // Show global loading overlay while submitting
   if (isSubmitting) {
     return <ProcessingModal />;
   }
@@ -205,14 +197,12 @@ const ChangePasswordModal = ({ onClose }) => {
 
         <div className="profile-change-password-body">
           <form onSubmit={handleSubmit}>
-            {/* Optional: top error message */}
             {serverError && (
               <div className="profile-change-password-server-error">
                 <span>{serverError}</span>
               </div>
             )}
 
-            {/* Current Password */}
             <div className="profile-current-password-div">
               <label>Current Password</label>
               <div className="profile-change-password-password-input-container">
@@ -244,7 +234,6 @@ const ChangePasswordModal = ({ onClose }) => {
 
             <div className="profile-change-password-line"></div>
 
-            {/* New Password */}
             <div className="profile-new-password-div">
               <label>New Password</label>
               <div className="profile-change-password-password-input-container">
@@ -278,7 +267,6 @@ const ChangePasswordModal = ({ onClose }) => {
               </div>
             </div>
 
-            {/* Confirm Password */}
             <div className="profile-confirm-password-div">
               <label>Confirm New Password</label>
               <div className="profile-change-password-password-input-container">
@@ -318,7 +306,6 @@ const ChangePasswordModal = ({ onClose }) => {
               )}
             </div>
 
-            {/* Requirements list */}
             <ul className="profile-change-password-password-requirements">
               <li className={passwordValidation.length ? "valid" : "invalid"}>
                 <img

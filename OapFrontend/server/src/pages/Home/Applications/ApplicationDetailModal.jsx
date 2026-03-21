@@ -55,7 +55,6 @@ const ApplicationDetailModal = ({
   const [selectedItem, setSelectedItem] = useState(null);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
-  // Purchase state
   const [showPurchaseConfirm, setShowPurchaseConfirm] = useState(false);
   const [isPurchasing, setIsPurchasing] = useState(false);
   const [purchaseError, setPurchaseError] = useState("");
@@ -80,7 +79,6 @@ const ApplicationDetailModal = ({
     setAlreadyPurchased(initialAlreadyPurchased);
   }, [app?.id]);
 
-  // Check purchase status when modal opens
   useEffect(() => {
     if (!app?.id || !currentUserId) return;
     let cancelled = false;
@@ -128,8 +126,6 @@ const ApplicationDetailModal = ({
   const showVideoThumb = !detailLoading && selectedItem?.type === "video" && !isVideoPlaying;
   const showImage = !detailLoading && selectedItem?.type === "image";
 
-  // ── Purchase flow ─────────────────────────────────────────────────────
-
   const handlePurchaseClick = () => {
     setPurchaseError("");
     setShowPurchaseConfirm(true);
@@ -157,7 +153,6 @@ const ApplicationDetailModal = ({
       setPurchaseSuccess(true);
       setAlreadyPurchased(true);
 
-      // Auto-download the ZIP file after successful purchase
       try {
         const dlRes = await fetch(`/api/transaction/download/${app.id}`, { credentials: "include" });
         if (dlRes.ok) {
@@ -173,7 +168,7 @@ const ApplicationDetailModal = ({
           document.body.removeChild(a);
           URL.revokeObjectURL(url);
         }
-      } catch { /* download failure is non-fatal */ }
+      } catch {}
     } catch {
       setPurchaseError("Unable to connect to the server.");
     } finally {
@@ -181,12 +176,9 @@ const ApplicationDetailModal = ({
     }
   };
 
-  // ── Determine button state ────────────────────────────────────────────
 
   const renderPurchaseButton = () => {
     if (isOwnApp) {
-      // Disabled button — same styling as purchase but grayed out.
-      // pointer-events:none + aria-disabled + tabIndex -1 to prevent DOM hacks.
       return (
         <button
           disabled

@@ -132,13 +132,10 @@ const Applications = () => {
   const { user } = useAuthUser();
   const isSignedIn = !!user;
 
-  const [allApps, setAllApps] = useState([]);
   const [displayApps, setDisplayApps] = useState([]);
-  const [techMap, setTechMap] = useState({});
-  const [popularityMap, setPopularityMap] = useState({});
   const [currentUserId, setCurrentUserId] = useState(null);
+  const [hasAppsInStore, setHasAppsInStore] = useState(true);
 
-  // Analytics tracking — batches impressions/clicks and sends to backend
   const { trackImpression, trackClick } = useAnalyticsTracker(currentUserId);
 
   const [isLoadingApps, setIsLoadingApps] = useState(false);
@@ -162,15 +159,11 @@ const Applications = () => {
   const cardNodesRef = useRef({});
   const observerRef = useRef(null);
   const searchDebounceRef = useRef(null);
-  const allAppsRef = useRef([]);
-  const techMapRef = useRef({});
-  const popularityMapRef = useRef({});
+  const displayAppsRef = useRef([]);
   const sortOptionRef = useRef("Latest");
   const searchInputRef = useRef("");
 
-  useEffect(() => { allAppsRef.current = allApps; }, [allApps]);
-  useEffect(() => { techMapRef.current = techMap; }, [techMap]);
-  useEffect(() => { popularityMapRef.current = popularityMap; }, [popularityMap]);
+  useEffect(() => { displayAppsRef.current = displayApps; }, [displayApps]);
   useEffect(() => { sortOptionRef.current = sortOption; }, [sortOption]);
   useEffect(() => { searchInputRef.current = searchInput; }, [searchInput]);
 
@@ -182,7 +175,6 @@ const Applications = () => {
     setExpandedTechStacks((prev) => ({ ...prev, [id]: !prev[id] }));
   }, []);
 
-  // ── IntersectionObserver for lazy media loading ───────────────────────
   useEffect(() => {
     observerRef.current?.disconnect();
     observerRef.current = new IntersectionObserver(
@@ -191,8 +183,7 @@ const Applications = () => {
           const id = entry.target?.dataset?.appid;
           if (!id || !entry.isIntersecting) return;
           setShouldLoadMedia((prev) => (prev[id] ? prev : { ...prev, [id]: true }));
-          // Track impression — find the app to get ownerUserId
-          const app = allAppsRef.current.find((a) => String(a.id) === id);
+          const app = displayAppsRef.current.find((a) => String(a.id) === id);
           if (app) trackImpression(app.id, app.ownerUserId);
           observerRef.current?.unobserve(entry.target);
         });
@@ -216,71 +207,71 @@ const Applications = () => {
     }
   }, []);
 
-  // ── Filter / Sort ─────────────────────────────────────────────────────
-  const applyFilterSort = useCallback((apps, techMapSnap, query, sort) => {
-    let arr = apps;
-    const q = query.trim().toLowerCase();
-    if (q) {
-      arr = arr.filter((a) => {
-        const techs = techMapSnap[a.versionId?.toString()] ?? a.technologies ?? [];
-        return (
-          (a.title || "").toLowerCase().includes(q) ||
-          (a.description || "").toLowerCase().includes(q) ||
-          (a.github || "").toLowerCase().includes(q) ||
-          techs.some((t) => t.toLowerCase().includes(q))
-        );
-      });
+  const loadStoreApps = useCallback(async (sort, query) => {
+    setIsLoadingApps(true);
+    setAppsError("");
+    try {
+      const params = new URLSearchParams();
+      if (sort && sort !== "Latest") params.set("sort", sort);
+      if (query?.trim()) params.set("q", query.trim());
+      const qs = params.toString();
+      const url = qs ? `/api/store/search-cards?${qs}` : "/api/store/search-cards";
+
+      const res = await fetch(url, { method: "GET", credentials: "include" });
+      const text = await res.text();
+      let data = null;
+      try { data = text ? JSON.parse(text) : null; } catch { data = null; }
+
+      if (!res.ok) { setAppsError("Unable to load applications."); setDisplayApps([]); return; }
+
+      const items = Array.isArray(data?.applications) ? data.applications : [];
+      const normalized = items.map(normalizeStoreCard).filter((x) => !!x?.id);
+
+      setDisplayApps(normalized);
+      displayAppsRef.current = normalized;
+
+      if (data?.currentUserId) setCurrentUserId(data.currentUserId);
+
+      if (!query?.trim() && (!sort || sort === "Latest")) {
+        setHasAppsInStore(normalized.length > 0);
+      }
+    } catch (e) {
+      console.error(e);
+      setAppsError("Unable to connect to the server.");
+      setDisplayApps([]);
+    } finally {
+      setIsLoadingApps(false);
     }
-    const sorted = [...arr];
-    if (sort === "Popular") {
-      const popMap = popularityMapRef.current;
-      sorted.sort((a, b) => {
-        const aP = popMap[String(a.id)];
-        const bP = popMap[String(b.id)];
-        const aScore = (aP?.impressions ?? 0) + (aP?.clicks ?? 0);
-        const bScore = (bP?.impressions ?? 0) + (bP?.clicks ?? 0);
-        if (bScore !== aScore) return bScore - aScore;
-        const ad = a?.raw?.createdAt ? new Date(a.raw.createdAt).getTime() : 0;
-        const bd = b?.raw?.createdAt ? new Date(b.raw.createdAt).getTime() : 0;
-        return bd - ad;
-      });
-    }
-    else if (sort === "A-Z") sorted.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
-    else if (sort === "Z-A") sorted.sort((a, b) => (b.title || "").localeCompare(a.title || ""));
-    else sorted.sort((a, b) => {
-      const ad = a?.raw?.createdAt ? new Date(a.raw.createdAt).getTime() : 0;
-      const bd = b?.raw?.createdAt ? new Date(b.raw.createdAt).getTime() : 0;
-      return bd - ad;
-    });
-    return sorted;
   }, []);
 
-  const triggerFilterSort = useCallback((query, sort) => {
-    const isDefault = !query.trim() && sort === "Latest";
-    if (isDefault) {
-      setIsSearchMode(false);
-      setDisplayApps(applyFilterSort(allAppsRef.current, techMapRef.current, "", "Latest"));
-      setShowAll(false);
-      return;
-    }
-    setIsSearchMode(true);
-    setShowAll(false);
-    const result = applyFilterSort(allAppsRef.current, techMapRef.current, query, sort);
-    setDisplayApps(result);
-  }, [applyFilterSort]);
+  useEffect(() => { loadStoreApps("Latest", ""); }, [loadStoreApps]);
+
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") loadStoreApps(sortOptionRef.current, searchInputRef.current);
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => document.removeEventListener("visibilitychange", handleVisibility);
+  }, [loadStoreApps]);
 
   const handleSearchInputChange = useCallback((e) => {
     const val = e.target.value;
     setSearchInput(val);
     searchInputRef.current = val;
+    setIsSearchMode(!!val.trim() || sortOptionRef.current !== "Latest");
     clearTimeout(searchDebounceRef.current);
-    searchDebounceRef.current = setTimeout(() => triggerFilterSort(val, sortOptionRef.current), 300);
-  }, [triggerFilterSort]);
+    searchDebounceRef.current = setTimeout(() => {
+      setShowAll(false);
+      loadStoreApps(sortOptionRef.current, val);
+    }, 300);
+  }, [loadStoreApps]);
 
   const handleSearchSubmit = useCallback(() => {
     clearTimeout(searchDebounceRef.current);
-    triggerFilterSort(searchInputRef.current, sortOptionRef.current);
-  }, [triggerFilterSort]);
+    setShowAll(false);
+    setIsSearchMode(!!searchInputRef.current.trim() || sortOptionRef.current !== "Latest");
+    loadStoreApps(sortOptionRef.current, searchInputRef.current);
+  }, [loadStoreApps]);
 
   const handleSearchKeyDown = useCallback((e) => {
     if (e.key === "Enter") handleSearchSubmit();
@@ -290,111 +281,13 @@ const Applications = () => {
     setSortOption(option);
     sortOptionRef.current = option;
     setSortDropdownOpen(false);
-    triggerFilterSort(searchInputRef.current, option);
-  }, [triggerFilterSort]);
-
-  // ── Load apps ─────────────────────────────────────────────────────────
-  const loadStoreApps = useCallback(async () => {
-    setIsLoadingApps(true);
-    setAppsError("");
-    try {
-      const res = await fetch("/api/store/get-all-cards", { method: "GET", credentials: "include" });
-      const text = await res.text();
-      let data = null;
-      try { data = text ? JSON.parse(text) : null; } catch { data = null; }
-
-      if (!res.ok) { setAppsError("Unable to load applications."); setAllApps([]); setDisplayApps([]); return; }
-
-      const items = Array.isArray(data?.applications) ? data.applications : [];
-      const normalized = items.map(normalizeStoreCard).filter((x) => !!x?.id);
-
-      setAllApps(normalized);
-      allAppsRef.current = normalized;
-      setDisplayApps(normalized);
-
-      if (data?.currentUserId) setCurrentUserId(data.currentUserId);
-
-      if (normalized.length === 0) return;
-
-      // Load technologies in background
-      const versionIds = normalized.map((a) => a.versionId).filter(Boolean);
-      fetch("/api/store/get-bulk-technologies", {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ versionIds }),
-      })
-        .then((r) => r.text())
-        .then((t) => {
-          let td = null;
-          try { td = t ? JSON.parse(t) : null; } catch { return; }
-          const map = td?.technologies ?? {};
-          if (typeof map !== "object" || map === null) return;
-
-          setTechMap(map);
-          techMapRef.current = map;
-
-          const merged = allAppsRef.current.map((app) => {
-            const techs = map[app.versionId?.toString()];
-            return techs ? { ...app, technologies: techs } : app;
-          });
-          setAllApps(merged);
-          allAppsRef.current = merged;
-
-          const q = searchInputRef.current;
-          const sort = sortOptionRef.current;
-          if (q.trim() || sort !== "Latest") {
-            setDisplayApps(applyFilterSort(merged, map, q, sort));
-          } else {
-            setDisplayApps(merged);
-          }
-        })
-        .catch(() => {});
-
-      // Fetch popularity data in background (for Sort by Popular)
-      const appIds = normalized.map((a) => a.id).filter(Boolean);
-      fetch("/api/analytics/bulk-popularity", {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ appIds }),
-      })
-        .then((r) => r.json())
-        .then((data) => {
-          const totals = data?.totals;
-          if (typeof totals !== "object" || totals === null) return;
-          setPopularityMap(totals);
-          popularityMapRef.current = totals;
-        })
-        .catch(() => {});
-
-    } catch (e) {
-      console.error(e);
-      setAppsError("Unable to connect to the server.");
-      setAllApps([]);
-      setDisplayApps([]);
-    } finally {
-      setIsLoadingApps(false);
-    }
-  }, [applyFilterSort]);
-
-  useEffect(() => { loadStoreApps(); }, [loadStoreApps]);
-
-  // Reload store data when the page becomes visible again (e.g., user edited
-  // an app in the Profile tab, then navigated back to the store).
-  useEffect(() => {
-    const handleVisibility = () => {
-      if (document.visibilityState === "visible") loadStoreApps();
-    };
-    document.addEventListener("visibilitychange", handleVisibility);
-    return () => document.removeEventListener("visibilitychange", handleVisibility);
+    setShowAll(false);
+    setIsSearchMode(!!searchInputRef.current.trim() || option !== "Latest");
+    loadStoreApps(option, searchInputRef.current);
   }, [loadStoreApps]);
 
-  // ── Detail modal ──────────────────────────────────────────────────────
   const openDetailModal = useCallback(async (app) => {
-    // Track click event for analytics (skips own apps)
     trackClick(app.id, app.ownerUserId);
-
     setModalApp(app);
     setModalDetail(null);
     setModalDetailLoading(true);
@@ -428,8 +321,8 @@ const Applications = () => {
     [displayApps, showAll]
   );
 
-  const hasNoAppsAtAll = !isLoadingApps && !appsError && allApps.length === 0;
-  const hasAppsButNoResults = !isLoadingApps && !appsError && allApps.length > 0 && displayApps.length === 0 && isSearchMode;
+  const hasNoAppsAtAll = !isLoadingApps && !appsError && !hasAppsInStore;
+  const hasAppsButNoResults = !isLoadingApps && !appsError && hasAppsInStore && displayApps.length === 0 && isSearchMode;
 
   return (
     <>
@@ -509,7 +402,7 @@ const Applications = () => {
                   setSearchInput(""); searchInputRef.current = "";
                   setSortOption("Latest"); sortOptionRef.current = "Latest";
                   setIsSearchMode(false); setShowAll(false);
-                  setDisplayApps(applyFilterSort(allAppsRef.current, techMapRef.current, "", "Latest"));
+                  loadStoreApps("Latest", "");
                 }}
               >
                 Clear search

@@ -64,14 +64,12 @@ const MyPurchases = () => {
   const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
   const [expandedDropdownId, setExpandedDropdownId] = useState(null);
 
-  // Detail modal (using Store's ApplicationDetailModal)
   const [modalOpen, setModalOpen] = useState(false);
   const [modalApp, setModalApp] = useState(null);
   const [modalDetail, setModalDetail] = useState(null);
   const [modalDetailLoading, setModalDetailLoading] = useState(false);
 
-  // Confirmation modals
-  const [confirmAction, setConfirmAction] = useState(null); // { type, app, title, subtitle }
+  const [confirmAction, setConfirmAction] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [processingMessage, setProcessingMessage] = useState("");
 
@@ -89,8 +87,6 @@ const MyPurchases = () => {
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, [expandedDropdownId, sortDropdownOpen]);
-
-  // ── Load purchases from backend (with sort) ───────────────────────────
 
   const loadPurchases = useCallback(async (sort) => {
     setIsLoading(true); setError("");
@@ -113,8 +109,6 @@ const MyPurchases = () => {
     loadPurchases(option);
   }, [loadPurchases]);
 
-  // ── Detail modal (Store version) ──────────────────────────────────────
-
   const openDetailModal = useCallback(async (purchase) => {
     setModalApp(purchase);
     setModalDetail(null);
@@ -132,8 +126,6 @@ const MyPurchases = () => {
   const closeDetailModal = useCallback(() => {
     setModalOpen(false); setModalApp(null); setModalDetail(null); setModalDetailLoading(false);
   }, []);
-
-  // ── Confirmation actions ──────────────────────────────────────────────
 
   const handleConfirmAction = useCallback(async () => {
     if (!confirmAction) return;

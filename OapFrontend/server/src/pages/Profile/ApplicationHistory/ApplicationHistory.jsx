@@ -35,8 +35,8 @@ const ApplicationHistory = () => {
     const [sortOption, setSortOption] = useState("Popular");
     const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
     const dropdownRefs = useRef({});
-    const [expandedDropdownId, setExpandedDropdownId] = useState(null); // for dropdowns
-    const [modalApp, setModalApp] = useState(null); // for modal
+    const [expandedDropdownId, setExpandedDropdownId] = useState(null);
+    const [modalApp, setModalApp] = useState(null);
     const totalRevenue = "12,560";
     const applicationsSold = 17;
     const disputedApplications = 2;

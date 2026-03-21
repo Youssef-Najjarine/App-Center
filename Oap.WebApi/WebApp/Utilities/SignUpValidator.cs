@@ -50,7 +50,7 @@ namespace Oap.WebApp.Utilities
             if (!SpecialCharRegex.IsMatch(password))
                 return "Password must contain at least one special character.";
 
-            return null; // valid
+            return null;
         }
 
     }

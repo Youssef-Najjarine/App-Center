@@ -7,7 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 const long FourGb = 4L * 1024 * 1024 * 1024;
 
-// 1. Kestrel transport-level limit.
 builder.WebHost.ConfigureKestrel(options =>
 {
     options.Limits.MaxRequestBodySize = FourGb;

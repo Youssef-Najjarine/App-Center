@@ -55,7 +55,6 @@ const ProfileApplicationDetailModal = ({
   const [selectedItem, setSelectedItem]     = useState(null);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
-  // ── Analytics data for this app ─────────────────────────────────────────
   const [impressions, setImpressions] = useState(null);
   const [clicks, setClicks] = useState(null);
 
@@ -76,7 +75,6 @@ const ProfileApplicationDetailModal = ({
     setIsVideoPlaying(false);
   }, [app?.id]);
 
-  // Fetch impressions/clicks for this app when it opens
   useEffect(() => {
     const appId = app?.id;
     if (!appId) return;
@@ -214,7 +212,6 @@ const ProfileApplicationDetailModal = ({
             />
           </div>
 
-          {/* ── Right column ── */}
           <div className="profile-app-details-modal-details">
 
             <div className="profile-app-details-modal-github-section">

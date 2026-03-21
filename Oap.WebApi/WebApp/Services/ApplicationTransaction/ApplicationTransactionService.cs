@@ -15,16 +15,11 @@ namespace Oap.WebApp.Services
             _connectionString = configuration.GetConnectionString("DefaultConnection")!;
         }
 
-        /// <summary>
-        /// Creates a purchase transaction. Records the listed price but skips payment (mock).
-        /// Prevents: buying own app, duplicate active purchase.
-        /// </summary>
         public async Task<PurchaseResult> PurchaseAsync(Guid buyerUserId, Guid userApplicationId)
         {
             await using var conn = new SqlConnection(_connectionString);
             await conn.OpenAsync();
 
-            // Get app info: owner, price, latest published version
             Guid sellerUserId;
             Guid versionId;
             decimal price;
@@ -48,11 +43,9 @@ OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY;";
                 price = reader.GetDecimal(2);
             }
 
-            // Prevent buying own app
             if (buyerUserId == sellerUserId)
                 return new PurchaseResult { Success = false, Error = "You cannot purchase your own application." };
 
-            // Check for existing active purchase
             const string dupSql = @"
 SELECT TOP 1 1 FROM dbo.ApplicationTransaction
 WHERE BuyerUserId = @BuyerId AND UserApplicationId = @AppId AND Status = 0;";
@@ -65,7 +58,6 @@ WHERE BuyerUserId = @BuyerId AND UserApplicationId = @AppId AND Status = 0;";
                     return new PurchaseResult { Success = false, Error = "You have already purchased this application." };
             }
 
-            // Insert transaction (mock — no real payment)
             var transactionId = Guid.NewGuid();
             const string insertSql = @"
 INSERT INTO dbo.ApplicationTransaction
@@ -87,10 +79,6 @@ VALUES
             return new PurchaseResult { Success = true, TransactionId = transactionId };
         }
 
-        /// <summary>
-        /// Returns all purchases for the buyer, sorted by the given option.
-        /// Includes seller name/email and app presentation info.
-        /// </summary>
         public async Task<List<PurchasedAppCardDto>> GetMyPurchasesAsync(Guid buyerUserId, string? sort)
         {
             var orderBy = sort?.ToUpperInvariant() switch
@@ -98,7 +86,7 @@ VALUES
                 "A-Z" => "uav.Name ASC",
                 "Z-A" => "uav.Name DESC",
                 "POPULAR" => "t.Amount DESC, t.PurchasedAtUtc DESC",
-                _ => "t.PurchasedAtUtc DESC", // Latest
+                _ => "t.PurchasedAtUtc DESC",
             };
 
             var sql = $@"
@@ -179,7 +167,6 @@ ORDER BY {orderBy};";
             await using var conn = new SqlConnection(_connectionString);
             await conn.OpenAsync();
 
-            // Check if user owns the app
             const string ownSql = "SELECT TOP 1 1 FROM dbo.UserApplication WHERE Id = @AppId AND OwnerUserId = @UserId;";
             await using (var cmd = new SqlCommand(ownSql, conn))
             {
@@ -189,7 +176,6 @@ ORDER BY {orderBy};";
                     return new CheckPurchaseResult { IsOwnApp = true, AlreadyPurchased = false };
             }
 
-            // Check if already purchased
             const string purchSql = @"
 SELECT TOP 1 1 FROM dbo.ApplicationTransaction
 WHERE BuyerUserId = @UserId AND UserApplicationId = @AppId AND Status = 0;";
@@ -222,9 +208,6 @@ WHERE Id = @TxId AND BuyerUserId = @BuyerId AND Status = 0;";
                 : (false, "Transaction not found or already refunded.");
         }
 
-        /// <summary>
-        /// Report an issue with a purchase. Sets Status = 3 (Reported).
-        /// </summary>
         public async Task<(bool success, string? error)> ReportIssueAsync(Guid buyerUserId, Guid transactionId)
         {
             await using var conn = new SqlConnection(_connectionString);
@@ -245,15 +228,11 @@ WHERE Id = @TxId AND BuyerUserId = @BuyerId AND Status IN (0, 2);";
                 : (false, "Transaction not found or already resolved.");
         }
 
-        /// <summary>
-        /// Streams the ZIP file for a purchased app after verifying the buyer owns the purchase.
-        /// </summary>
         public async Task<(Stream? fileStream, string? fileName, string? error)> GetPurchasedZipAsync(Guid buyerUserId, Guid appId)
         {
             await using var conn = new SqlConnection(_connectionString);
             await conn.OpenAsync();
 
-            // Verify active purchase exists
             const string verifySql = @"
 SELECT TOP 1 t.UserApplicationVersionId, uav.Name
 FROM dbo.ApplicationTransaction t
@@ -274,7 +253,6 @@ WHERE t.BuyerUserId = @BuyerId AND t.UserApplicationId = @AppId AND t.Status IN 
                 appName = reader.IsDBNull(1) ? "application" : reader.GetString(1);
             }
 
-            // Find the ZIP file
             const string zipSql = @"
 SELECT TOP 1 f.Id, f.FileContents
 FROM dbo.UserApplicationVersionFile uavf
@@ -295,7 +273,6 @@ ORDER BY uavf.OrderIndex;";
             memStream.Position = 0;
 
             var safeName = string.IsNullOrWhiteSpace(appName) ? "application" : appName.Trim();
-            // Replace spaces and special chars with hyphens, truncate to 25 chars
             safeName = System.Text.RegularExpressions.Regex.Replace(safeName, @"[^\w\-.]", "-");
             safeName = System.Text.RegularExpressions.Regex.Replace(safeName, @"-{2,}", "-").Trim('-');
             if (safeName.Length > 25) safeName = safeName[..25].TrimEnd('-');

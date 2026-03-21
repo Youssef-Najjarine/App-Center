@@ -93,7 +93,6 @@ export const AuthUserProvider = ({ children }) => {
         });
       } catch (e) {
         console.error("logout error:", e);
-        // still proceed to logged-out UI
       } finally {
         setAuthBusy(false);
         navigate(redirectTo, { replace: true });

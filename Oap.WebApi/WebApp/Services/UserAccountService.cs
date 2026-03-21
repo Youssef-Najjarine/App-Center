@@ -209,7 +209,7 @@ namespace Oap.WebApp.Services
                     Console.Error.WriteLine($"Email send failed: {ex.Message}");
                 }
 
-                return null; // Success
+                return null;
             }
             catch (SqlException ex) when (IsUniqueViolation(ex))
             {
@@ -365,7 +365,6 @@ namespace Oap.WebApp.Services
 
                 var userId = (Guid)userIdObj;
 
-                // 2) Update password
                 await using var updateUserCmd = new SqlCommand(@"
             UPDATE [dbo].[User]
             SET PasswordHash = @PasswordHash
@@ -382,7 +381,6 @@ namespace Oap.WebApp.Services
                     return (false, "User not found");
                 }
 
-                // 3) Mark token used
                 await using var markUsedCmd = new SqlCommand(@"
             UPDATE [dbo].[PasswordResetToken]
             SET Used = 1

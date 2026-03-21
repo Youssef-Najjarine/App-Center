@@ -58,11 +58,10 @@ const SignUp = () => {
     formData.lastName.trim() &&
     formData.email.trim() &&
     formData.username.trim() &&
-    formData.password; // don't trim password
+    formData.password;
 
   const passwordIsValid = Object.values(passwordValidation).every(Boolean);
 
-  // If you want to be extra safe, ensure errors are empty for every field
   const noFieldErrors =
     !errors.firstName &&
     !errors.lastName &&
@@ -92,9 +91,6 @@ const SignUp = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-  // ✅ This is the actual rule implied by your message:
-  // - 3 to 15 chars
-  // - only letters/numbers/period/underscore/hyphen
   const isUsernameFormatValid = (username) => {
     const u = username.trim();
     return /^[a-zA-Z0-9._-]{3,15}$/.test(u);
@@ -105,7 +101,6 @@ const SignUp = () => {
   const shouldShowErrorForField = (fieldName) => submitAttempted || touched[fieldName];
 
   const validateField = (name, value) => {
-    // Required fields
     if (name === 'password') {
       if (!value) return 'Field Missing';
       return '';
@@ -113,13 +108,11 @@ const SignUp = () => {
 
     if (!value.trim()) return 'Field Missing';
 
-    // Format rules
     if (name === 'email') {
       if (!isEmailValid(value)) return 'Invalid email address';
     }
 
     if (name === 'username') {
-      // Only validate format if it's not empty (required already handled above)
       if (!isUsernameFormatValid(value)) return USERNAME_RULE_MESSAGE;
     }
 
@@ -156,7 +149,6 @@ const SignUp = () => {
 
     if (unverifiedConflictError) setUnverifiedConflictError('');
 
-    // Only validate live once the field has been touched or a submit was attempted
     if (shouldShowErrorForField(name)) {
       const err = validateField(name, value);
       setErrors((prev) => ({ ...prev, [name]: err }));
@@ -202,7 +194,6 @@ const SignUp = () => {
       lastName: formData.lastName.trim(),
       email: formData.email.trim(),
       username: formData.username.trim(),
-      // password: do not trim
     };
 
     try {
@@ -221,7 +212,6 @@ const SignUp = () => {
       return;
     }
 
-    // Detect username taken (your existing robust check)
     const isUsernameTakenPayload = (payload) => {
       const texts = [];
       if (payload?.error) texts.push(String(payload.error));
@@ -239,7 +229,6 @@ const SignUp = () => {
       );
     };
 
-    // Detect email taken (similar logic)
     const isEmailTakenPayload = (payload) => {
       const texts = [];
       if (payload?.error) texts.push(String(payload.error));
@@ -290,7 +279,6 @@ const SignUp = () => {
       return;
     }
 
-    // Handle field errors from validator
     if (data?.errors && typeof data.errors === 'object') {
       setErrors(data.errors);
       return;

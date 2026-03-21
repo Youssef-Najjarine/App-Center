@@ -8,15 +8,17 @@ namespace Oap.WebApp.Services
         private readonly string _connectionString;
         private readonly IMemoryCache _cache;
         private readonly IServiceScopeFactory _scopeFactory;
+        private readonly IApplicationAnalytics _analytics;
         private const string AppMetadataPath = "oap.app.json";
         private const string TechCachePrefix = "ua_tech_v_";
         private const int ThumbnailCategory = 4;
 
-        public ProfileApplicationService(IConfiguration configuration, IMemoryCache cache, IServiceScopeFactory scopeFactory)
+        public ProfileApplicationService(IConfiguration configuration, IMemoryCache cache, IServiceScopeFactory scopeFactory, IApplicationAnalytics analytics)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection")!;
             _cache = cache;
             _scopeFactory = scopeFactory;
+            _analytics = analytics;
         }
     }
 }

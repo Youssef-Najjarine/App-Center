@@ -80,10 +80,8 @@ const CreateNewPassword = () => {
 
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    // clear field error as they type
     setErrors((prev) => ({ ...prev, [name]: '' }));
 
-    // clear error box as they type
     if (showErrorBox) setShowErrorBox(false);
     if (errorBoxMessage) setErrorBoxMessage('');
 

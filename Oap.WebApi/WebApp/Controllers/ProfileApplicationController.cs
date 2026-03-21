@@ -60,8 +60,6 @@ namespace Oap.WebApp.Controllers
             if (tokenInfo == null || tokenInfo.ExpiresUtc <= DateTime.UtcNow)
                 return Unauthorized(new { error = "Auth token expired" });
 
-            // For drafts: only app name is required (allow saving incomplete work).
-            // For published apps: full validation.
             if (request.IsDraft)
             {
                 if (string.IsNullOrWhiteSpace(request.Name))
@@ -113,7 +111,6 @@ namespace Oap.WebApp.Controllers
 
             var hasExistingZip = await _profileAppService.HasZipFileAsync(tokenInfo.UserId, userApplicationId);
 
-            // For drafts: only app name required. For published: full validation.
             if (request.IsDraft)
             {
                 if (string.IsNullOrWhiteSpace(request.Name))
@@ -176,8 +173,6 @@ namespace Oap.WebApp.Controllers
             }
         }
 
-        // ── Draft endpoints ─────────────────────────────────────────────────
-
         [HttpGet("get-all-draft-cards")]
         public async Task<IActionResult> GetAllMyDraftCards()
         {
@@ -197,11 +192,29 @@ namespace Oap.WebApp.Controllers
             }
         }
 
-        /// <summary>
-        /// Creates a draft copy from an existing published app.
-        /// The published app remains unchanged. A new app is created with IsDraft=true.
-        /// Existing file references are shared (not duplicated) with the new draft version.
-        /// </summary>
+        [HttpGet("search-draft-cards")]
+        public async Task<IActionResult> SearchDraftCards(
+            [FromQuery] string? q,
+            [FromQuery] string? sort)
+        {
+            try
+            {
+                var tokenInfo = GetAuthedUser();
+                if (tokenInfo == null)
+                    return Unauthorized(new { error = "Not authenticated" });
+
+                var items = await _profileAppService.SearchDraftCardsAsync(
+                    tokenInfo.UserId, q?.Trim(), sort?.Trim());
+
+                return Ok(new { success = true, applications = items });
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return StatusCode(500, new { success = false, error = "Server error while searching drafts." });
+            }
+        }
+
         [HttpPost("create-draft-copy/{sourceAppId:guid}")]
         [DisableRequestSizeLimit]
         [RequestFormLimits(MultipartBodyLengthLimit = 4L * 1024 * 1024 * 1024)]
@@ -213,7 +226,6 @@ namespace Oap.WebApp.Controllers
             if (tokenInfo == null)
                 return Unauthorized(new { error = "Not authenticated" });
 
-            // Draft copy only requires name
             if (string.IsNullOrWhiteSpace(request.Name))
                 return BadRequest(new { success = false, errors = new { name = "App name is required." } });
 

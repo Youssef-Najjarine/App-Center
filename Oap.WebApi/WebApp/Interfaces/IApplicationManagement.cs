@@ -4,6 +4,7 @@ namespace Oap.WebApp.Interfaces
 {
     public interface IApplicationManagement
     {
-        Task<List<ApplicationManagementCardDto>> GetManagementCardsAsync(Guid ownerUserId);
+        Task<List<ApplicationManagementCardDto>> GetManagementCardsAsync(
+            Guid ownerUserId, string? sort = null, string? query = null);
     }
 }

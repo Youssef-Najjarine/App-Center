@@ -46,14 +46,10 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected, context 
   const mediaInputRef = useRef(null);
   const abortControllerRef = useRef(null);
 
-  // ── Mode detection ────────────────────────────────────────────────────────
   const isEditMode = !!(selected && selected.id);
-  // context="draft" means we're editing from the Drafts page
   const isDraftContext = context === "draft";
-  // When editing a published app, "Save as Draft" creates a copy
   const isEditingPublished = isEditMode && !isDraftContext;
 
-  // ── Form state ────────────────────────────────────────────────────────────
   const [selectedTechnologies, setSelectedTechnologies] = useState([]);
   const [techInput, setTechInput] = useState("");
   const [appName, setAppName] = useState("");
@@ -61,17 +57,14 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected, context 
   const [appDescription, setappDescription] = useState("");
   const [appRepo, setAppRepo] = useState("");
 
-  // ── ZIP state ─────────────────────────────────────────────────────────────
   const [uploadStage, setUploadStage] = useState("default");
   const [uploadZipName, setUploadZipName] = useState("");
   const [uploadZip, setUploadZip] = useState(null);
   const [existingZipFileId, setExistingZipFileId] = useState(null);
 
-  // ── Media state ───────────────────────────────────────────────────────────
   const [mediaFiles, setMediaFiles] = useState([]);
   const [defaultPresentationIndex, setDefaultPresentationIndex] = useState(null);
 
-  // ── UI state ──────────────────────────────────────────────────────────────
   const [errors, setErrors] = useState({});
   const [showErrorBox, setShowErrorBox] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
@@ -81,8 +74,6 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected, context 
   const [isLoadingEdit, setIsLoadingEdit] = useState(false);
   const [loadEditError, setLoadEditError] = useState("");
   const [draftSavedBanner, setDraftSavedBanner] = useState(false);
-
-  // ── Scroll lock ───────────────────────────────────────────────────────────
 
   useEffect(() => {
     lockScroll();
@@ -103,8 +94,6 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected, context 
 
   useEffect(() => { confirmationOpenRef.current = showConfirmationModal; }, [showConfirmationModal]);
   useEffect(() => { return () => { if (uploadTimeoutRef.current) clearTimeout(uploadTimeoutRef.current); }; }, []);
-
-  // ── Load existing app for edit mode ───────────────────────────────────────
 
   useEffect(() => {
     if (!isEditMode) return;
@@ -162,8 +151,6 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected, context 
     return () => { cancelled = true; };
   }, [isEditMode, selected]);
 
-  // ── Tech ──────────────────────────────────────────────────────────────────
-
   const addTechsFromInput = () => {
     const items = techInput.split(",").map((x) => x.trim()).filter(Boolean);
     if (!items.length) return;
@@ -180,8 +167,6 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected, context 
   const handleTechKeyDown = (e) => { if (e.key === "Enter" || e.key === ",") { e.preventDefault(); addTechsFromInput(); } };
   const handleDeleteTech = (index) => { setSelectedTechnologies((prev) => prev.filter((_, i) => i !== index)); };
 
-  // ── Errors ────────────────────────────────────────────────────────────────
-
   const showGenericError = () => { setCreateError(""); setShowErrorBox(true); };
   const showServerError = () => { setCreateError("Error - Unable to connect to the server."); setShowErrorBox(true); };
 
@@ -197,8 +182,6 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected, context 
     setErrors(next);
   };
 
-  // ── Stop video streams helper ─────────────────────────────────────────────
-
   const stopVideoStreams = () => {
     try {
       const modalEl = document.querySelector(".upload-edit-app-modal");
@@ -207,8 +190,6 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected, context 
       }
     } catch { }
   };
-
-  // ── Build form data (shared between publish and draft save) ───────────────
 
   const buildFormData = (isDraft) => {
     const form = new FormData();
@@ -250,8 +231,6 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected, context 
       mediaFiles.forEach((m) => { if (m.file) form.append("media", m.file, m.originalName); });
     }
   };
-
-  // ── Submit: Publish (Save & Upload) ───────────────────────────────────────
 
   const handleConfirmUpload = async () => {
     stopVideoStreams();
@@ -296,14 +275,11 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected, context 
     } finally { setIsCreating(false); }
   };
 
-  // ── Submit: Save as Draft ─────────────────────────────────────────────────
-
   const handleSaveAsDraft = async () => {
     setShowErrorBox(false);
     setCreateError("");
     setDraftSavedBanner(false);
 
-    // Draft validation: only app name required
     if (!appName.trim()) {
       setErrors({ appName: "Field Missing" });
       showGenericError();
@@ -321,15 +297,12 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected, context 
       let url, method;
 
       if (!isEditMode) {
-        // New app → create as draft
         url = "/api/user-application/create-user-application";
         method = "POST";
       } else if (isDraftContext) {
-        // Editing existing draft → update it
         url = `/api/user-application/update-user-application/${selected.id}`;
         method = "PUT";
       } else {
-        // Editing published app → create a draft COPY (published app unchanged)
         url = `/api/user-application/create-draft-copy/${selected.id}`;
         method = "POST";
       }
@@ -351,7 +324,6 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected, context 
       if (fileInputRef.current) fileInputRef.current.value = "";
       if (mediaInputRef.current) mediaInputRef.current.value = "";
 
-      // Show success banner briefly, then close
       setDraftSavedBanner(true);
       forceUnlockScroll();
 
@@ -371,8 +343,6 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected, context 
     } finally { setIsSavingDraft(false); }
   };
 
-  // ── Publish button handler ────────────────────────────────────────────────
-
   const handleSaveAndUpload = (e) => {
     e.preventDefault();
     setShowErrorBox(false);
@@ -391,8 +361,6 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected, context 
     else setShowConfirmationModal(true);
   };
 
-  // ── ZIP handlers ──────────────────────────────────────────────────────────
-
   const handleFileUpload = (file) => {
     if (!file.name.endsWith(".zip")) { setErrors((prev) => ({ ...prev, uploadZip: "Invalid Type" })); return; }
     setErrors((prev) => ({ ...prev, uploadZip: null }));
@@ -405,8 +373,6 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected, context 
   const handleCancelUpload = () => { if (uploadTimeoutRef.current) { clearTimeout(uploadTimeoutRef.current); uploadTimeoutRef.current = null; } setUploadZip(null); setUploadZipName(""); setUploadStage("default"); setExistingZipFileId(null); };
   const handleDeleteUpload = () => { setUploadZip(null); setUploadZipName(""); setUploadStage("default"); setExistingZipFileId(null); };
   const triggerFileDialog = () => { fileInputRef.current.click(); };
-
-  // ── Media handlers ────────────────────────────────────────────────────────
 
   const handleMediaSelect = (e) => { handleMediaUpload(Array.from(e.target.files)); };
   const handleMediaDrop = (e) => { e.preventDefault(); handleMediaUpload(Array.from(e.dataTransfer.files)); };
@@ -466,8 +432,6 @@ const ProfileUploadEditAppModal = ({ modalOpenState, onClose, selected, context 
   const triggerMediaDialog = () => { mediaInputRef.current.click(); };
   const handleCloseErrorBox = () => { setShowErrorBox(false); };
   const handleMakePresentation = (index) => { setDefaultPresentationIndex(index); };
-
-  // ── Compute button label ──────────────────────────────────────────────────
 
   const saveButtonLabel = isDraftContext ? "Publish" : isEditMode ? "Save Changes" : "Save & Upload";
   const draftButtonLabel = isEditingPublished ? "Save Draft Copy" : "Save as Draft";

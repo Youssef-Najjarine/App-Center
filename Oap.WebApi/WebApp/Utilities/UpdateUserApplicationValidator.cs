@@ -9,10 +9,6 @@ namespace Oap.WebApp.Utilities
         private const long MaxImageBytes = 4L * 1024 * 1024 * 1024;
         private const long MaxVideoBytes = 4L * 1024 * 1024 * 1024;
 
-        /// <summary>
-        /// Validates the update request. Returns a dictionary of field → error message.
-        /// An empty dictionary means the request is valid.
-        /// </summary>
         public static Dictionary<string, string> Validate(
             UpdateUserApplicationFormRequest req,
             bool hasExistingZip)
@@ -31,7 +27,6 @@ namespace Oap.WebApp.Utilities
             if (req.Technologies == null || req.Technologies.Count == 0)
                 errors["technologies"] = "At least one technology is required";
 
-            // Zip: required either as existing or newly uploaded
             if (req.ZipFile == null && !hasExistingZip)
             {
                 errors["zipFile"] = "Zip file is required";
@@ -44,7 +39,6 @@ namespace Oap.WebApp.Utilities
                     errors["zipFile"] = $"Zip file must be <= {MaxZipBytes / (1024L * 1024 * 1024)} GB";
             }
 
-            // Parse existing media IDs
             var existingMediaIds = new List<string>();
             if (!string.IsNullOrWhiteSpace(req.ExistingMediaFileIds))
             {
@@ -52,7 +46,7 @@ namespace Oap.WebApp.Utilities
                 {
                     existingMediaIds = JsonSerializer.Deserialize<List<string>>(req.ExistingMediaFileIds) ?? new();
                 }
-                catch { /* ignore parse errors */ }
+                catch {}
             }
 
             var newMedia = (req.Media ?? new List<IFormFile>()).Where(f => f != null && f.Length > 0).ToList();
@@ -61,7 +55,6 @@ namespace Oap.WebApp.Utilities
             if (totalMediaCount > 6 && !errors.ContainsKey("media"))
                 errors["media"] = "Max 6 media items allowed (5 images + 1 video)";
 
-            // Validate new media files
             foreach (var f in newMedia)
             {
                 var detected = MediaTypeDetector.DetectContentType(f);
@@ -80,7 +73,6 @@ namespace Oap.WebApp.Utilities
                 }
             }
 
-            // Validate presentation index against total media count
             if (totalMediaCount > 0)
             {
                 if (req.PresentationIndex < 0 || req.PresentationIndex >= totalMediaCount)

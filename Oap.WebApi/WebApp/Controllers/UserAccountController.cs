@@ -6,8 +6,6 @@ using Oap.WebApp.Utilities;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.Formats.Jpeg;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Oap.WebApp.Controllers
 {
@@ -311,19 +309,16 @@ namespace Oap.WebApp.Controllers
         [HttpPost("edit-profile")]
         public async Task<IActionResult> EditProfile([FromBody] UpdateProfileRequest request)
         {
-            // 0) Validate body fields
             var errors = EditProfileValidator.Validate(request);
             if (errors.Count > 0)
                 return BadRequest(new { errors });
 
             try
             {
-                // 1) Read auth cookie
                 var token = Request.Cookies["auth_token"];
                 if (string.IsNullOrWhiteSpace(token))
                     return Unauthorized(new { error = "Not authenticated" });
 
-                // 2) Validate token -> userId
                 UserTokenInfo? tokenInfo;
                 try
                 {
@@ -337,7 +332,6 @@ namespace Oap.WebApp.Controllers
                 if (tokenInfo == null || tokenInfo.ExpiresUtc <= DateTime.UtcNow)
                     return Unauthorized(new { error = "Auth token expired" });
 
-                // 3) Ensure user exists
                 var user = await _userAccountService.GetUserByIdAsync(tokenInfo.UserId);
                 if (user == null)
                     return Unauthorized(new { error = "User not found" });
@@ -345,14 +339,12 @@ namespace Oap.WebApp.Controllers
                 var newEmail = request.Email!.Trim();
                 var newUsername = request.Username!.Trim();
 
-                // 4) Uniqueness checks (exclude yourself)
                 if (await _userAccountService.AnyOtherUserHasEmailAsync(user.Id, newEmail))
                     return BadRequest(new { errors = new Dictionary<string, string> { ["email"] = "Email already taken" } });
 
                 if (await _userAccountService.AnyOtherUserHasUsernameAsync(user.Id, newUsername))
                     return BadRequest(new { errors = new Dictionary<string, string> { ["username"] = "Username already taken" } });
 
-                // 5) Update
                 var updated = await _userAccountService.UpdateProfileAsync(
                     user.Id,
                     request.FirstName!,

@@ -38,14 +38,16 @@ namespace Oap.WebApp.Controllers
         }
 
         [HttpGet("cards")]
-        public async Task<IActionResult> GetManagementCards()
+        public async Task<IActionResult> GetManagementCards(
+            [FromQuery] string? sort,
+            [FromQuery] string? q)
         {
             try
             {
                 var tokenInfo = GetAuthedUser();
                 if (tokenInfo == null) return Unauthorized(new { error = "Not authenticated" });
 
-                var cards = await _managementService.GetManagementCardsAsync(tokenInfo.UserId);
+                var cards = await _managementService.GetManagementCardsAsync(tokenInfo.UserId, sort?.Trim(), q?.Trim());
                 return Ok(new { success = true, applications = cards });
             }
             catch (Exception ex)

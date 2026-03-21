@@ -55,39 +55,24 @@ const normalizeCard = (apiItem) => {
   };
 };
 
+
 const buildFullTimeline = (dataPoints, period) => {
   const now = new Date();
   const labels = [];
 
   if (period === "7d") {
-    for (let i = 6; i >= 0; i--) {
-      const d = new Date(now);
-      d.setDate(d.getDate() - i);
-      labels.push(d.toLocaleDateString("en-US", { month: "short", day: "numeric" }));
-    }
+    for (let i = 6; i >= 0; i--) { const d = new Date(now); d.setDate(d.getDate() - i); labels.push(d.toLocaleDateString("en-US", { month: "short", day: "numeric" })); }
   } else if (period === "30d") {
-    for (let i = 29; i >= 0; i--) {
-      const d = new Date(now);
-      d.setDate(d.getDate() - i);
-      labels.push(d.toLocaleDateString("en-US", { month: "short", day: "numeric" }));
-    }
+    for (let i = 29; i >= 0; i--) { const d = new Date(now); d.setDate(d.getDate() - i); labels.push(d.toLocaleDateString("en-US", { month: "short", day: "numeric" })); }
   } else if (period === "6m") {
-    for (let i = 5; i >= 0; i--) {
-      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-      labels.push(d.toLocaleDateString("en-US", { month: "short" }));
-    }
+    for (let i = 5; i >= 0; i--) { const d = new Date(now.getFullYear(), now.getMonth() - i, 1); labels.push(d.toLocaleDateString("en-US", { month: "short" })); }
   } else if (period === "1y") {
-    for (let i = 11; i >= 0; i--) {
-      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-      labels.push(d.toLocaleDateString("en-US", { month: "short" }));
-    }
+    for (let i = 11; i >= 0; i--) { const d = new Date(now.getFullYear(), now.getMonth() - i, 1); labels.push(d.toLocaleDateString("en-US", { month: "short" })); }
   }
 
   if (labels.length === 0) return dataPoints;
-
   const dataMap = {};
   for (const pt of dataPoints) dataMap[pt.label] = pt;
-
   return labels.map((label) => dataMap[label] ?? { label, impressions: 0, clicks: 0 });
 };
 
@@ -102,9 +87,7 @@ const ApplicationChart = ({ appId, initialPeriod = "6m" }) => {
     setLoading(true);
     fetch(`/api/app-management/chart/${appId}?period=${period}`, { credentials: "include" })
       .then((r) => r.json())
-      .then((data) => {
-        if (!cancelled && data?.chart) setChartData(data.chart);
-      })
+      .then((data) => { if (!cancelled && data?.chart) setChartData(data.chart); })
       .catch(() => {})
       .finally(() => { if (!cancelled) setLoading(false); });
     return () => { cancelled = true; };
@@ -139,40 +122,29 @@ const ApplicationChart = ({ appId, initialPeriod = "6m" }) => {
           </div>
         </div>
       </div>
-
       {loading && <div className="app-management-chart-skeleton" />}
-
-      {!loading && dataPoints.length === 0 && (
-        <div className="app-management-chart-empty">No data yet for this period</div>
-      )}
-
+      {!loading && dataPoints.length === 0 && <div className="app-management-chart-empty">No data yet for this period</div>}
       {!loading && dataPoints.length > 0 && (
         <ResponsiveContainer width="100%" height={200}>
           <AreaChart data={dataPoints} margin={{ top: 8, right: 8, left: -20, bottom: 0 }}>
             <defs>
               <linearGradient id={`impressionFill-${appId}`} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#5541D7" stopOpacity={0.35} />
-                <stop offset="100%" stopColor="#5541D7" stopOpacity={0.05} />
+                <stop offset="0%" stopColor="#5541D7" stopOpacity={0.35} /><stop offset="100%" stopColor="#5541D7" stopOpacity={0.05} />
               </linearGradient>
               <linearGradient id={`clickFill-${appId}`} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#A78BFA" stopOpacity={0.25} />
-                <stop offset="100%" stopColor="#A78BFA" stopOpacity={0.03} />
+                <stop offset="0%" stopColor="#A78BFA" stopOpacity={0.25} /><stop offset="100%" stopColor="#A78BFA" stopOpacity={0.03} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" vertical={false} />
             <XAxis dataKey="label" tick={{ fontSize: 11, fill: "#999" }} axisLine={false} tickLine={false} />
             <YAxis tick={{ fontSize: 11, fill: "#999" }} axisLine={false} tickLine={false} tickFormatter={formatNumber} allowDecimals={false} />
-            <Tooltip
-              contentStyle={{ borderRadius: 8, border: "1px solid #eee", fontSize: 13, fontFamily: "Poppins" }}
-              formatter={(value, name) => [formatNumber(value), name === "impressions" ? "Impressions" : "Clicks"]}
-            />
+            <Tooltip contentStyle={{ borderRadius: 8, border: "1px solid #eee", fontSize: 13, fontFamily: "Poppins" }}
+              formatter={(value, name) => [formatNumber(value), name === "impressions" ? "Impressions" : "Clicks"]} />
             <Area type="monotone" dataKey="impressions" stroke="#5541D7" strokeWidth={2.5}
-              fill={`url(#impressionFill-${appId})`} fillOpacity={1}
-              dot={renderDot("#5541D7")}
+              fill={`url(#impressionFill-${appId})`} fillOpacity={1} dot={renderDot("#5541D7")}
               activeDot={{ r: 7, fill: "#5541D7", stroke: "#fff", strokeWidth: 2 }} />
             <Area type="monotone" dataKey="clicks" stroke="#A78BFA" strokeWidth={2}
-              fill={`url(#clickFill-${appId})`} fillOpacity={1}
-              dot={renderDot("#A78BFA")}
+              fill={`url(#clickFill-${appId})`} fillOpacity={1} dot={renderDot("#A78BFA")}
               activeDot={{ r: 6, fill: "#A78BFA", stroke: "#fff", strokeWidth: 2 }} />
           </AreaChart>
         </ResponsiveContainer>
@@ -184,8 +156,8 @@ const ApplicationChart = ({ appId, initialPeriod = "6m" }) => {
 const AppManagement = () => {
   useEffect(() => { window.scrollTo({ top: 0, behavior: "smooth" }); }, []);
 
-  const [allApps, setAllApps] = useState([]);
   const [displayApps, setDisplayApps] = useState([]);
+  const [hasAppsAtAll, setHasAppsAtAll] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -212,11 +184,9 @@ const AppManagement = () => {
   const dropdownRefs = useRef({});
   const sortByRef = useRef(null);
   const searchDebounceRef = useRef(null);
-  const allAppsRef = useRef([]);
   const sortOptionRef = useRef("Latest");
   const searchInputRef = useRef("");
 
-  useEffect(() => { allAppsRef.current = allApps; }, [allApps]);
   useEffect(() => { sortOptionRef.current = sortOption; }, [sortOption]);
   useEffect(() => { searchInputRef.current = searchInput; }, [searchInput]);
 
@@ -232,59 +202,51 @@ const AppManagement = () => {
     return () => document.removeEventListener("mousedown", handler);
   }, [expandedDropdownId, sortDropdownOpen]);
 
-  const applyFilterSort = useCallback((apps, query, sort) => {
-    let arr = apps;
-    const q = query.trim().toLowerCase();
-    if (q) arr = arr.filter((a) => (a.title || "").toLowerCase().includes(q) || (a.description || "").toLowerCase().includes(q));
-    const sorted = [...arr];
-    if (sort === "Popular") sorted.sort((a, b) => {
-      const aScore = (a.totalImpressions || 0) + (a.totalClicks || 0);
-      const bScore = (b.totalImpressions || 0) + (b.totalClicks || 0);
-      if (bScore !== aScore) return bScore - aScore;
-      const ad = a?.raw?.createdAt ? new Date(a.raw.createdAt).getTime() : 0;
-      const bd = b?.raw?.createdAt ? new Date(b.raw.createdAt).getTime() : 0;
-      return bd - ad;
-    });
-    else if (sort === "A-Z") sorted.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
-    else if (sort === "Z-A") sorted.sort((a, b) => (b.title || "").localeCompare(a.title || ""));
-    else sorted.sort((a, b) => {
-      const ad = a?.raw?.createdAt ? new Date(a.raw.createdAt).getTime() : 0;
-      const bd = b?.raw?.createdAt ? new Date(b.raw.createdAt).getTime() : 0;
-      return bd - ad;
-    });
-    return sorted;
-  }, []);
 
-  const triggerFilterSort = useCallback((query, sort) => {
-    if (!query.trim() && sort === "Latest") { setIsSearchMode(false); setDisplayApps(applyFilterSort(allAppsRef.current, "", "Latest")); setShowAll(false); return; }
-    setIsSearchMode(true); setShowAll(false);
-    setDisplayApps(applyFilterSort(allAppsRef.current, query, sort));
-  }, [applyFilterSort]);
-
-  const handleSearchChange = useCallback((e) => {
-    const val = e.target.value; setSearchInput(val); searchInputRef.current = val;
-    clearTimeout(searchDebounceRef.current);
-    searchDebounceRef.current = setTimeout(() => triggerFilterSort(val, sortOptionRef.current), 300);
-  }, [triggerFilterSort]);
-
-  const handleSortChange = useCallback((option) => {
-    setSortOption(option); sortOptionRef.current = option; setSortDropdownOpen(false);
-    triggerFilterSort(searchInputRef.current, option);
-  }, [triggerFilterSort]);
-
-  const loadCards = useCallback(async () => {
+  const loadCards = useCallback(async (sort, query) => {
     setIsLoading(true); setError("");
     try {
-      const res = await fetch("/api/app-management/cards", { credentials: "include" });
+      const params = new URLSearchParams();
+      if (sort && sort !== "Latest") params.set("sort", sort);
+      if (query?.trim()) params.set("q", query.trim());
+      const qs = params.toString();
+      const url = qs ? `/api/app-management/cards?${qs}` : "/api/app-management/cards";
+
+      const res = await fetch(url, { credentials: "include" });
       const data = await res.json();
-      if (!res.ok) { setError("Unable to load management data."); setAllApps([]); setDisplayApps([]); return; }
+      if (!res.ok) { setError("Unable to load management data."); setDisplayApps([]); return; }
+
       const items = (data?.applications ?? []).map(normalizeCard).filter((x) => !!x.id);
-      setAllApps(items); allAppsRef.current = items; setDisplayApps(items);
-    } catch { setError("Unable to connect to the server."); setAllApps([]); setDisplayApps([]); }
+      setDisplayApps(items);
+
+      if (!query?.trim() && (!sort || sort === "Latest")) {
+        setHasAppsAtAll(items.length > 0);
+      }
+    } catch { setError("Unable to connect to the server."); setDisplayApps([]); }
     finally { setIsLoading(false); }
   }, []);
 
-  useEffect(() => { loadCards(); }, [loadCards]);
+  useEffect(() => { loadCards("Latest", ""); }, [loadCards]);
+
+
+  const handleSearchChange = useCallback((e) => {
+    const val = e.target.value;
+    setSearchInput(val); searchInputRef.current = val;
+    setIsSearchMode(!!val.trim() || sortOptionRef.current !== "Latest");
+    clearTimeout(searchDebounceRef.current);
+    searchDebounceRef.current = setTimeout(() => {
+      setShowAll(false);
+      loadCards(sortOptionRef.current, val);
+    }, 300);
+  }, [loadCards]);
+
+  const handleSortChange = useCallback((option) => {
+    setSortOption(option); sortOptionRef.current = option; setSortDropdownOpen(false);
+    setShowAll(false);
+    setIsSearchMode(!!searchInputRef.current.trim() || option !== "Latest");
+    loadCards(option, searchInputRef.current);
+  }, [loadCards]);
+
 
   const openDetailModal = useCallback(async (app) => {
     setModalApp(app); setModalDetail(null); setModalDetailLoading(true); setModalOpen(true);
@@ -304,8 +266,6 @@ const AppManagement = () => {
     try {
       const res = await fetch(`/api/user-application/delete-user-application/${appToDelete.id}`, { method: "DELETE", credentials: "include" });
       if (res.ok) {
-        const updated = allAppsRef.current.filter((a) => a.id !== appToDelete.id);
-        setAllApps(updated); allAppsRef.current = updated;
         setDisplayApps((prev) => prev.filter((a) => a.id !== appToDelete.id));
         closeDetailModal();
       }
@@ -316,12 +276,12 @@ const AppManagement = () => {
   const handleCloseUploadModal = useCallback((returnedCard) => {
     setShowUploadEditModal(false); setSelectedApp(null);
     if (returnedCard && returnedCard.__isDraft) return;
-    loadCards();
+    loadCards(sortOptionRef.current, searchInputRef.current);
   }, [loadCards]);
 
   const visibleApps = useMemo(() => (showAll ? displayApps : displayApps.slice(0, 3)), [displayApps, showAll]);
-  const hasNoApps = !isLoading && !error && allApps.length === 0;
-  const hasNoResults = !isLoading && !error && allApps.length > 0 && displayApps.length === 0 && isSearchMode;
+  const hasNoApps = !isLoading && !error && !hasAppsAtAll;
+  const hasNoResults = !isLoading && !error && hasAppsAtAll && displayApps.length === 0 && isSearchMode;
 
   return (
     <section id="app-management-applications">
@@ -330,7 +290,7 @@ const AppManagement = () => {
         <div className="app-management-search-filter-add-div">
           <div className="app-management-search-div">
             <input className="app-management-search" placeholder="Search..." value={searchInput} onChange={handleSearchChange}
-              onKeyDown={(e) => { if (e.key === "Enter") triggerFilterSort(searchInput, sortOption); }} />
+              onKeyDown={(e) => { if (e.key === "Enter") { clearTimeout(searchDebounceRef.current); setShowAll(false); loadCards(sortOption, searchInput); } }} />
             <img src={searchIcon} alt="Search" className="app-management-search-icon" />
           </div>
           <div className="app-management-sortby-upload-div">
@@ -391,7 +351,7 @@ const AppManagement = () => {
               setSearchInput(""); searchInputRef.current = "";
               setSortOption("Latest"); sortOptionRef.current = "Latest";
               setIsSearchMode(false); setShowAll(false);
-              setDisplayApps(applyFilterSort(allAppsRef.current, "", "Latest"));
+              loadCards("Latest", "");
             }}>Clear search</button>
           </div>
         </div>
@@ -409,11 +369,7 @@ const AppManagement = () => {
                 {(hasThumbnail && app.isVideo) ? (
                   <img src={app.thumbnailUrl} alt={app.title} />
                 ) : hasPreview ? (
-                  app.isVideo ? (
-                    <video src={app.previewUrl} muted playsInline preload="metadata" />
-                  ) : (
-                    <img src={app.previewUrl} alt={app.title} />
-                  )
+                  app.isVideo ? (<video src={app.previewUrl} muted playsInline preload="metadata" />) : (<img src={app.previewUrl} alt={app.title} />)
                 ) : (
                   <img src={noImageUploadedPlaceholder} alt="No media" />
                 )}
@@ -427,9 +383,7 @@ const AppManagement = () => {
 
               <div className="app-management-info">
                 <div className="app-management-app-title">
-                  <div className="app-management-app-header">
-                    <h4>{app.title}</h4>
-                  </div>
+                  <div className="app-management-app-header"><h4>{app.title}</h4></div>
                   <div className="app-management-expand-div" ref={dropdownRefs.current[app.id]}
                     onClick={(e) => { e.stopPropagation(); setExpandedDropdownId((prev) => (prev === app.id ? null : app.id)); }}>
                     <button className="app-management-expand-button"><img src={expandIcon} alt="More" /></button>
@@ -483,12 +437,9 @@ const AppManagement = () => {
       )}
 
       {modalOpen && (
-        <ProfileApplicationDetailModal
-          modalOpenState={modalOpen}
+        <ProfileApplicationDetailModal modalOpenState={modalOpen}
           onClose={() => { if (showDeleteModal) return; closeDetailModal(); }}
-          app={modalApp}
-          detail={modalDetail}
-          detailLoading={modalDetailLoading}
+          app={modalApp} detail={modalDetail} detailLoading={modalDetailLoading}
           onEditClick={() => { closeDetailModal(); setSelectedApp(modalApp); setShowUploadEditModal(true); }}
           onDeleteClick={() => { setAppToDelete(modalApp); setShowDeleteModal(true); }}
         />

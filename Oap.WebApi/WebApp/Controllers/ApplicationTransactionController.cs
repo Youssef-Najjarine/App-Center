@@ -35,9 +35,6 @@ namespace Oap.WebApp.Controllers
             catch { return null; }
         }
 
-        /// <summary>
-        /// Purchase an application. Records transaction with the listed price (mock — no real payment).
-        /// </summary>
         [HttpPost("purchase")]
         public async Task<IActionResult> Purchase([FromBody] PurchaseRequest request)
         {
@@ -59,9 +56,6 @@ namespace Oap.WebApp.Controllers
             }
         }
 
-        /// <summary>
-        /// Get all purchases for the current user. Supports sort param: Latest, A-Z, Z-A, Popular.
-        /// </summary>
         [HttpGet("my-purchases")]
         public async Task<IActionResult> GetMyPurchases([FromQuery] string? sort)
         {
@@ -80,10 +74,6 @@ namespace Oap.WebApp.Controllers
             }
         }
 
-        /// <summary>
-        /// Check if the current user owns or has already purchased a specific app.
-        /// Used by the Store detail modal to show the correct button state.
-        /// </summary>
         [HttpGet("check-status/{appId:guid}")]
         public async Task<IActionResult> CheckPurchaseStatus([FromRoute] Guid appId)
         {
@@ -108,9 +98,6 @@ namespace Oap.WebApp.Controllers
             }
         }
 
-        /// <summary>
-        /// Request a refund for a purchase.
-        /// </summary>
         [HttpPost("request-refund/{transactionId:guid}")]
         public async Task<IActionResult> RequestRefund([FromRoute] Guid transactionId)
         {
@@ -132,9 +119,6 @@ namespace Oap.WebApp.Controllers
             }
         }
 
-        /// <summary>
-        /// Report an issue with a purchase.
-        /// </summary>
         [HttpPost("report-issue/{transactionId:guid}")]
         public async Task<IActionResult> ReportIssue([FromRoute] Guid transactionId)
         {
@@ -156,9 +140,6 @@ namespace Oap.WebApp.Controllers
             }
         }
 
-        /// <summary>
-        /// Download the ZIP file for a purchased app. Verifies the buyer owns the purchase.
-        /// </summary>
         [HttpGet("download/{appId:guid}")]
         public async Task<IActionResult> DownloadPurchasedApp([FromRoute] Guid appId)
         {
@@ -171,7 +152,6 @@ namespace Oap.WebApp.Controllers
                 if (fileStream == null)
                     return NotFound(new { success = false, error = error ?? "File not found." });
 
-                // Set a clean, simple Content-Disposition header (no UTF-8 encoding prefix)
                 Response.Headers["Content-Disposition"] = $"attachment; filename=\"{fileName}\"";
                 return File(fileStream, "application/zip");
             }

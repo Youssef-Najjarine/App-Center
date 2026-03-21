@@ -123,7 +123,7 @@ const VerifyIdentity = () => {
 
   const handlePaste = (e, startIndex) => {
     e.preventDefault();
-    const pastedData = e.clipboardData.getData('text/plain').replace(/\D/g, ''); // Only digits
+    const pastedData = e.clipboardData.getData('text/plain').replace(/\D/g, '');
     if (pastedData.length === 0) return;
 
     const newCode = [...code];
@@ -137,7 +137,6 @@ const VerifyIdentity = () => {
     setCode(newCode);
     setActiveIndex(Math.min(currentIndex, 3));
 
-    // Focus the last filled input (or the next empty if paste filled all)
     const focusIndex = Math.min(currentIndex, 3);
     inputRefs.current[focusIndex]?.focus();
   };
