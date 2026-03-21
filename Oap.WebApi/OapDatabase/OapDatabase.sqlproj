@@ -69,6 +69,7 @@
     <Build Include="UserApplicationVersionFile.sql" />
     <Build Include="UserProfileFile.sql" />
     <Build Include="ApplicationAnalyticsEvent.sql" />
+    <Build Include="ApplicationTransaction.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="local.sqlserver.publish.xml" />

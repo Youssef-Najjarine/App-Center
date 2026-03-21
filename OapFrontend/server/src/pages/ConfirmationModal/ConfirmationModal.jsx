@@ -11,6 +11,8 @@ const ConfirmationModal = ({
   app,
   onConfirm,
   shouldUnlockScroll = false,
+  title,
+  subtitle,
 }) => {
   const handleClose = () => {
     if (shouldUnlockScroll) {
@@ -57,11 +59,10 @@ const ConfirmationModal = ({
         <div className="profile-confirmation-modal-body">
           <form onSubmit={handleSubmit}>
             <h2 className="profile-confirmation-modal-title">
-              Are you sure to do action?
+              {title || "Are you sure to do action?"}
             </h2>
             <h3 className="profile-confirmation-modal-sub-title">
-              Are you sure to do the action on the app? Make sure this action
-              will not reverse-able.
+              {subtitle || "Are you sure to do the action on the app? Make sure this action will not reverse-able."}
             </h3>
             <div className="profile-confirmation-modal-buttons">
               <div className="profile-confirmation-modal-cancel">

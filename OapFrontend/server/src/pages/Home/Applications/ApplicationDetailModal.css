@@ -576,3 +576,18 @@
     height: 24px;
   }  
 }
+
+.appHome-purchase-disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: grayscale(0.3);
+}
+ 
+/* Already purchased success state */
+.appHome-purchase-success {
+  background: #22C55E !important;
+  color: #FFF !important;
+  border: none !important;
+  cursor: default;
+  opacity: 0.9;
+}

@@ -49,6 +49,7 @@ builder.Services.AddScoped<IProfileApplication, ProfileApplicationService>();
 builder.Services.AddScoped<IStoreApplication, StoreApplicationService>();
 builder.Services.AddScoped<IApplicationAnalytics, ApplicationAnalyticsService>();
 builder.Services.AddScoped<IApplicationManagement, ApplicationManagementService>();
+builder.Services.AddScoped<IApplicationTransaction, ApplicationTransactionService>();
 
 var app = builder.Build();
 
