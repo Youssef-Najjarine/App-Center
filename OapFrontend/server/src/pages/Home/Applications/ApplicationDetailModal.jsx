@@ -49,12 +49,14 @@ const ApplicationDetailModal = ({
   detailLoading,
   currentUserId,
   alreadyPurchased: initialAlreadyPurchased = false,
+  hidePurchaseButton = false,
 }) => {
   if (!app) return null;
 
   const [selectedItem, setSelectedItem] = useState(null);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
+  // Purchase state
   const [showPurchaseConfirm, setShowPurchaseConfirm] = useState(false);
   const [isPurchasing, setIsPurchasing] = useState(false);
   const [purchaseError, setPurchaseError] = useState("");
@@ -176,7 +178,6 @@ const ApplicationDetailModal = ({
     }
   };
 
-
   const renderPurchaseButton = () => {
     if (isOwnApp) {
       return (
@@ -296,14 +297,16 @@ const ApplicationDetailModal = ({
                 )}
               </div>
 
-              <div className="appHome-modal-purchase-app-div">
-                {renderPurchaseButton()}
-                {purchaseError && (
-                  <p style={{ color: "#d32f2f", fontSize: 13, margin: "8px 0 0 0", textAlign: "center" }}>
-                    {purchaseError}
-                  </p>
-                )}
-              </div>
+              {!hidePurchaseButton && (
+                <div className="appHome-modal-purchase-app-div">
+                  {renderPurchaseButton()}
+                  {purchaseError && (
+                    <p style={{ color: "#d32f2f", fontSize: 13, margin: "8px 0 0 0", textAlign: "center" }}>
+                      {purchaseError}
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>

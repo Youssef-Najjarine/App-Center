@@ -337,7 +337,6 @@
   gap: 12.889px;
   grid-template-columns: repeat(auto-fit, 335px);
   align-items: start;
-  justify-content: center;
 }
 
 .profile-app-history {
@@ -372,7 +371,14 @@
 .app-history-title {
   display: flex;
   align-items: center;
-  gap: 6.45px;
+  justify-content: space-between;
+}
+
+.app-history-title-header {
+    max-width: 66%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .app-history-title h3 {
@@ -383,6 +389,7 @@
   font-weight: 700;
   line-height: 21.75px;
   letter-spacing: -0.29px;
+  display: inline;
 }
 
 .app-history-title .app-history-status {
@@ -534,12 +541,13 @@
 
 .profile-app-history-description {
   max-width: 100%;
-  -webkit-line-clamp: 3;
+  overflow-wrap: break-word;
+  word-break: break-word;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  overflow: hidden;
+  -webkit-line-clamp: 3;
+  overflow: hidden;  
   margin: 0 0 12.89px 0;
-  min-height: 57px;
 }
 
 .profile-app-history-description p {
@@ -550,6 +558,7 @@
   font-weight: 400;
   line-height: 19.333px;
   letter-spacing: -0.258px;
+  display: inline;
 }
 
 .profile-app-history-gitHub-div {
@@ -867,7 +876,11 @@
   }
 
   .app-history-title {
-    gap: 7px;
+    width: 300px;
+  }
+
+  .app-history-title-header {
+    max-width: 61%;
   }
 
   .app-history-title h3 {
@@ -936,7 +949,6 @@
 
   .profile-app-history-description {
     margin: 0 0 4px 0;
-    min-height: 63px;
   }
 
   .profile-app-history-description p {
@@ -1219,7 +1231,11 @@
   }
 
   .app-history-title {
-    gap: 8px;
+    width: 80%;
+  }
+
+  .app-history-title-header {
+    max-width: 85%;
   }
 
   .app-history-title h3 {
@@ -1287,8 +1303,6 @@
   .profile-app-history-description {
     -webkit-line-clamp: 1;
     margin: 0 0 10px 0;
-    max-width: 94%;
-    min-height: 24px;
   }
 
   .profile-app-history-description p {
@@ -1378,4 +1392,136 @@
     font-size: 16.8px;
     line-height: 25.2px;
   }
+}
+
+.appHistory-emptyState {
+  width: 100%;
+  padding: clamp(24px, 4vw, 48px) 0;
+  display: flex;
+  justify-content: center;
+}
+
+.appHistory-emptyState-card {
+  width: 100%;
+  max-width: 520px;
+  border: 1px solid #F5F5F5;
+  background: #FFF;
+  border-radius: 16px;
+  padding: clamp(20px, 3vw, 32px);
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+.appHistory-emptyState-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 14px auto;
+  border-radius: 14px;
+  background: rgba(85, 65, 215, 0.1);
+  color: #5541D7;
+  display: grid;
+  place-items: center;
+}
+
+.appHistory-emptyState-title {
+  margin: 0 0 6px 0;
+  color: #141522;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+.appHistory-emptyState-subtitle {
+  margin: 0 auto 16px auto;
+  max-width: 40ch;
+  color: rgba(20, 21, 34, 0.65);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.appHistory-emptyState-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  background: #5541D7;
+  color: #FFF;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.app-history-status.refunded {
+  color: #6B7280;
+  background: rgba(107, 114, 128, 0.15);
+}
+
+.appHistory-emptyState {
+  width: 100%;
+  padding: clamp(24px, 4vw, 48px) 0;
+  display: flex;
+  justify-content: center;
+}
+
+.appHistory-emptyState-card {
+  width: 100%;
+  max-width: 520px;
+  border: 1px solid #F5F5F5;
+  background: #FFF;
+  border-radius: 16px;
+  padding: clamp(20px, 3vw, 32px);
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+.appHistory-emptyState-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 14px auto;
+  border-radius: 14px;
+  background: rgba(85, 65, 215, 0.1);
+  color: #5541D7;
+  display: grid;
+  place-items: center;
+}
+
+.appHistory-emptyState-title {
+  margin: 0 0 6px 0;
+  color: #141522;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+.appHistory-emptyState-subtitle {
+  margin: 0 auto 16px auto;
+  max-width: 40ch;
+  color: rgba(20, 21, 34, 0.65);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.appHistory-emptyState-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  background: #5541D7;
+  color: #FFF;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.app-history-status.refunded {
+  color: #6B7280;
+  background: rgba(107, 114, 128, 0.15);
 }
