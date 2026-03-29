@@ -14,7 +14,6 @@
     justify-content: space-between;
     align-items: center;
     margin: 0 0 25.78px 0;
-
 }
 
 .member-profile-bio-header h2 {
@@ -24,6 +23,33 @@
     font-weight: 700;
     line-height: 26.583px;
     margin: 0;
+}
+
+.member-profile-bio-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 6.44px;
+}
+
+.member-profile-bio-info-delete-div {
+    display: flex;
+    align-items: center;
+    gap: 6.44px;
+    padding: 9.667px 12.889px;
+    border-radius: 8.056px;
+    background: #FFF;
+    border: 0.806px solid #FF461D;
+    cursor: pointer;
+}
+
+.member-profile-bio-info-delete-div span,
+.member-profile-bio-info-password-div span {
+    display: none;
+}
+
+.member-profile-bio-info-delete-icon {
+    width: 16.111px;
+    height: 16.111px;
 }
 
 .member-profile-bio-info-password-div {
@@ -44,6 +70,7 @@
     font-weight: 500;
     line-height: 16.917px;
 }
+
 .member-profile-bio-info-password-icon {
     width: 16.111px;
     height: 16.111px;
@@ -62,11 +89,11 @@
 }
 
 .member-profile-bio-info-grid {
-  display: grid;
-  gap: 0;
-  grid-template-columns: repeat(auto-fit, 100%);
-  justify-content: center;
-  align-items: start;
+    display: grid;
+    gap: 0;
+    grid-template-columns: repeat(auto-fit, 100%);
+    justify-content: center;
+    align-items: start;
 }
 
 .member-profile-bio-info-name,
@@ -126,7 +153,7 @@
     height: 286px;
     max-height: 286px;
     overflow-y: auto;
-} 
+}
 
 .member-profile-bio-info-edit-div {
     width: 100%;
@@ -156,31 +183,31 @@
 }
 
 .member-profile-success-banner {
-  position: absolute;
-  top: 128px;
-  right: 10.11px;
-  border-radius: 6.444px;
-  border: 0.806px solid #EAEAEA;
-  background: linear-gradient(0deg, rgba(33, 181, 115, 0.05) 0%, rgba(33, 181, 115, 0.05) 100%), #FFF;
-  box-shadow: 9.667px 9.667px 19.333px 0px rgba(0, 0, 0, 0.10);
-  padding: 9.667px;
-  display: flex;
-  align-items: center;
-  z-index: 1000;
-  animation: fadeIn 0.3s ease;
+    position: absolute;
+    top: 128px;
+    right: 10.11px;
+    border-radius: 6.444px;
+    border: 0.806px solid #EAEAEA;
+    background: linear-gradient(0deg, rgba(33, 181, 115, 0.05) 0%, rgba(33, 181, 115, 0.05) 100%), #FFF;
+    box-shadow: 9.667px 9.667px 19.333px 0px rgba(0, 0, 0, 0.10);
+    padding: 9.667px;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
 }
 
 .member-profile-success-banner .member-bio-success {
-  width: 19.333px;
-  height: 19.333px;
-  margin: 0 6.44px 0 0;
+    width: 19.333px;
+    height: 19.333px;
+    margin: 0 6.44px 0 0;
 }
 
 .member-profile-close-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
 }
 
 .member-profile-success-banner span {
@@ -199,9 +226,10 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
+
 @media screen and (min-width: 768px) {
     #member-profile-bio {
         padding: 148.75px 20px 21px 20px;
@@ -215,12 +243,36 @@
 
     .member-profile-bio-header {
         margin: 0 0 28px 0;
-
     }
 
     .member-profile-bio-header h2 {
         font-size: 19.25px;
         line-height: 28.875px;
+    }
+
+    .member-profile-bio-header-actions {
+        gap: 7px;
+    }
+
+    .member-profile-bio-info-delete-div {
+        gap: 7px;
+        padding: 10.5px 14px;
+        border-radius: 8.75px;
+        border: 0.875px solid #FF461D;
+    }
+
+    .member-profile-bio-info-delete-div span {
+        display: flow-root;
+        color: #FF461D;
+        font-size: 12.25px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 18.375px;
+    }
+
+    .member-profile-bio-info-delete-icon {
+        width: 17.5px;
+        height: 17.5px;
     }
 
     .member-profile-bio-info-password-div {
@@ -230,9 +282,11 @@
     }
 
     .member-profile-bio-info-password-div span {
+        display: flow-root;
         font-size: 12.25px;
         line-height: 18.375px;
     }
+
     .member-profile-bio-info-password-icon {
         width: 17.5px;
         height: 17.5px;
@@ -267,8 +321,8 @@
     .member-profile-bio-info-name::after {
         content: '';
         position: absolute;
-        top: 14px;                 
-        bottom: 14px;              
+        top: 14px;
+        bottom: 14px;
         right: 0;
         width: 0.875px;
         background-color: #F5F5F5;
@@ -281,8 +335,8 @@
     .member-profile-bio-info-email::after {
         content: '';
         position: absolute;
-        top: 14px;                 
-        bottom: 14px;              
+        top: 14px;
+        bottom: 14px;
         right: 0;
         width: 0.875px;
         background-color: #F5F5F5;
@@ -292,7 +346,7 @@
     .member-profile-bio-info-email label,
     .member-profile-bio-info-username label {
         font-size: 15.75px;
-        line-height:  23.625px;
+        line-height: 23.625px;
     }
 
     .member-profile-bio-info-name p,
@@ -318,7 +372,7 @@
         margin: 5.25px 0 0 0;
         height: 500px;
         max-height: 500px;
-    } 
+    }
 
     .member-profile-bio-info-edit-div {
         padding: 10.5px 14px;
@@ -329,6 +383,7 @@
         font-size: 12.25px;
         line-height: 18.375px;
     }
+
     .member-profile-bio-info-edit-icon {
         width: 17.5px;
         height: 17.5px;
@@ -362,6 +417,7 @@
         height: 31px;
     }
 }
+
 @media screen and (min-width: 1440px) {
     #member-profile-bio {
         padding: 131px 32px 24px 32px;
@@ -375,12 +431,36 @@
 
     .member-profile-bio-header {
         margin: 0 0 38px 0;
-
     }
 
     .member-profile-bio-header h2 {
         font-size: 22px;
         line-height: 33px;
+    }
+
+    .member-profile-bio-header-actions {
+        gap: 8px;
+    }
+
+    .member-profile-bio-info-delete-div {
+        padding: 12px 16px;
+        border-radius: 10px;
+        gap: 8px;
+        border: 1px solid #FF461D;
+    }
+
+    .member-profile-bio-info-delete-div span {
+        display: flow-root;
+        color: #FF461D;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 21px;
+    }
+
+    .member-profile-bio-info-delete-icon {
+        width: 20px;
+        height: 20px;
     }
 
     .member-profile-bio-info-password-div {
@@ -393,6 +473,7 @@
         font-size: 14px;
         line-height: 21px;
     }
+
     .member-profile-bio-info-password-icon {
         width: 20px;
         height: 20px;
@@ -417,14 +498,14 @@
     }
 
     .member-profile-bio-info-name::after {
-        top: 16px;                 
-        bottom: 16px;              
+        top: 16px;
+        bottom: 16px;
         width: 1px;
     }
 
     .member-profile-bio-info-email::after {
-        top: 16px;                 
-        bottom: 16px;              
+        top: 16px;
+        bottom: 16px;
         width: 1px;
     }
 
@@ -432,7 +513,7 @@
     .member-profile-bio-info-email label,
     .member-profile-bio-info-username label {
         font-size: 18px;
-        line-height:  27px;
+        line-height: 27px;
     }
 
     .member-profile-bio-info-name p,
@@ -458,7 +539,7 @@
         margin: 6px 0 0 0;
         height: 329px;
         max-height: 329px;
-    } 
+    }
 
     .member-profile-bio-info-edit-div {
         padding: 12px 16px;
@@ -469,13 +550,14 @@
         font-size: 14px;
         line-height: 21px;
     }
+
     .member-profile-bio-info-edit-icon {
         width: 20px;
         height: 20px;
         margin: 0 8px 0 0;
     }
 
-        .member-profile-success-banner {
+    .member-profile-success-banner {
         top: 121px;
         right: 12px;
         border-radius: 8px;

@@ -28,8 +28,8 @@ namespace Oap.WebApp.Services
 
             var orderBy = sort?.ToUpperInvariant() switch
             {
-                "A-Z" => "uav.Name ASC",
-                "Z-A" => "uav.Name DESC",
+                "A-Z" => "t.AppName ASC",
+                "Z-A" => "t.AppName DESC",
                 "RECENT SOLD" => "t.PurchasedAtUtc DESC",
                 "POPULAR" => "t.Amount DESC, t.PurchasedAtUtc DESC",
                 _ => "t.PurchasedAtUtc DESC",
@@ -43,31 +43,17 @@ SELECT
     t.UserApplicationId,
     t.UserApplicationVersionId,
     t.Amount, t.Status, t.PurchasedAtUtc,
-    uav.Name, uav.Description, uav.RepositoryUrl,
-    buyer.FirstName + ' ' + buyer.LastName AS BuyerName,
-    buyer.EmailAddress AS BuyerEmail,
-    pres.FileId AS DefaultPresentationFileId,
-    pres.FileCategory AS DefaultPresentationFileCategory,
-    pres.ContentType AS DefaultPresentationContentType,
-    thumb.FileId AS DefaultPresentationThumbnailFileId
+    t.AppName, t.AppDescription, t.AppRepositoryUrl,
+    t.BuyerName, t.BuyerEmail,
+    t.PresentationFileId,
+    t.PresentationFileCategory,
+    t.PresentationContentType,
+    t.ThumbnailFileId,
+    t.PresentationFilesJson
 FROM dbo.ApplicationTransaction t
-JOIN dbo.UserApplicationVersion uav ON uav.Id = t.UserApplicationVersionId
-JOIN dbo.[User] buyer ON buyer.Id = t.BuyerUserId
-OUTER APPLY (
-    SELECT TOP 1 uavf.FileId, uavf.FileCategory, f.ContentType
-    FROM dbo.UserApplicationVersionFile uavf
-    JOIN dbo.[File] f ON f.Id = uavf.FileId
-    WHERE uavf.UserApplicationVersionId = uav.Id AND uavf.FileCategory IN (2, 3)
-    ORDER BY uavf.OrderIndex ASC
-) pres
-OUTER APPLY (
-    SELECT TOP 1 uavf.FileId
-    FROM dbo.UserApplicationVersionFile uavf
-    WHERE uavf.UserApplicationVersionId = uav.Id AND uavf.FileCategory = 4
-) thumb
 WHERE t.SellerUserId = @SellerId
 {dateFilter}
-{(hasQuery ? "AND (uav.Name LIKE @Query OR uav.Description LIKE @Query OR buyer.FirstName + ' ' + buyer.LastName LIKE @Query OR buyer.EmailAddress LIKE @Query)" : "")}
+{(hasQuery ? "AND (t.AppName LIKE @Query OR t.AppDescription LIKE @Query OR t.BuyerName LIKE @Query OR t.BuyerEmail LIKE @Query)" : "")}
 ORDER BY {orderBy};";
 
             var results = new List<SaleHistoryCardDto>();
@@ -80,14 +66,14 @@ ORDER BY {orderBy};";
             await using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                var fileId = reader.IsDBNull(reader.GetOrdinal("DefaultPresentationFileId"))
-                    ? Guid.Empty : reader.GetGuid(reader.GetOrdinal("DefaultPresentationFileId"));
-                var fileCategory = reader.IsDBNull(reader.GetOrdinal("DefaultPresentationFileCategory"))
-                    ? 0 : reader.GetInt32(reader.GetOrdinal("DefaultPresentationFileCategory"));
-                var contentType = reader.IsDBNull(reader.GetOrdinal("DefaultPresentationContentType"))
-                    ? "" : reader.GetString(reader.GetOrdinal("DefaultPresentationContentType"));
-                var thumbId = reader.IsDBNull(reader.GetOrdinal("DefaultPresentationThumbnailFileId"))
-                    ? Guid.Empty : reader.GetGuid(reader.GetOrdinal("DefaultPresentationThumbnailFileId"));
+                var fileId = reader.IsDBNull(reader.GetOrdinal("PresentationFileId"))
+                    ? Guid.Empty : reader.GetGuid(reader.GetOrdinal("PresentationFileId"));
+                var fileCategory = reader.IsDBNull(reader.GetOrdinal("PresentationFileCategory"))
+                    ? 0 : reader.GetInt32(reader.GetOrdinal("PresentationFileCategory"));
+                var contentType = reader.IsDBNull(reader.GetOrdinal("PresentationContentType"))
+                    ? "" : reader.GetString(reader.GetOrdinal("PresentationContentType"));
+                var thumbId = reader.IsDBNull(reader.GetOrdinal("ThumbnailFileId"))
+                    ? Guid.Empty : reader.GetGuid(reader.GetOrdinal("ThumbnailFileId"));
 
                 results.Add(new SaleHistoryCardDto
                 {
@@ -97,16 +83,17 @@ ORDER BY {orderBy};";
                     Amount = reader.GetDecimal(reader.GetOrdinal("Amount")),
                     Status = reader.GetByte(reader.GetOrdinal("Status")),
                     PurchasedAt = new DateTimeOffset(reader.GetDateTime(reader.GetOrdinal("PurchasedAtUtc")), TimeSpan.Zero),
-                    Name = reader.GetString(reader.GetOrdinal("Name")),
-                    Description = reader.IsDBNull(reader.GetOrdinal("Description")) ? null : reader.GetString(reader.GetOrdinal("Description")),
-                    RepositoryUrl = reader.IsDBNull(reader.GetOrdinal("RepositoryUrl")) ? null : reader.GetString(reader.GetOrdinal("RepositoryUrl")),
-                    BuyerName = reader.IsDBNull(reader.GetOrdinal("BuyerName")) ? "" : reader.GetString(reader.GetOrdinal("BuyerName")),
-                    BuyerEmail = reader.IsDBNull(reader.GetOrdinal("BuyerEmail")) ? "" : reader.GetString(reader.GetOrdinal("BuyerEmail")),
-                    DefaultPresentationUrl = fileId == Guid.Empty ? "" : $"/api/store/file/{fileId}",
-                    DefaultPresentationThumbnailUrl = thumbId == Guid.Empty ? "" : $"/api/store/file/{thumbId}",
+                    Name = reader.GetString(reader.GetOrdinal("AppName")),
+                    Description = reader.IsDBNull(reader.GetOrdinal("AppDescription")) ? null : reader.GetString(reader.GetOrdinal("AppDescription")),
+                    RepositoryUrl = reader.IsDBNull(reader.GetOrdinal("AppRepositoryUrl")) ? null : reader.GetString(reader.GetOrdinal("AppRepositoryUrl")),
+                    BuyerName = reader.GetString(reader.GetOrdinal("BuyerName")),
+                    BuyerEmail = reader.GetString(reader.GetOrdinal("BuyerEmail")),
+                    DefaultPresentationUrl = fileId == Guid.Empty ? "" : $"/api/transaction/file/{fileId}",
+                    DefaultPresentationThumbnailUrl = thumbId == Guid.Empty ? "" : $"/api/transaction/file/{thumbId}",
                     DefaultPresentationFileCategory = fileCategory,
                     DefaultPresentationContentType = contentType,
                     IsVideo = fileCategory == 3,
+                    PresentationFilesJson = reader.IsDBNull(reader.GetOrdinal("PresentationFilesJson")) ? null : reader.GetString(reader.GetOrdinal("PresentationFilesJson")),
                 });
             }
 

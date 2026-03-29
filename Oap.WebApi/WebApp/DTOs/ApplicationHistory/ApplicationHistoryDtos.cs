@@ -18,6 +18,7 @@
         public int DefaultPresentationFileCategory { get; set; }
         public string DefaultPresentationContentType { get; set; } = "";
         public bool IsVideo { get; set; }
+        public string? PresentationFilesJson { get; set; }
     }
 
     public class SalesSummaryDto

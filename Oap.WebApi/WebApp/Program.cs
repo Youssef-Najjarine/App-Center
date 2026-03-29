@@ -50,6 +50,7 @@ builder.Services.AddScoped<IApplicationAnalytics, ApplicationAnalyticsService>()
 builder.Services.AddScoped<IApplicationManagement, ApplicationManagementService>();
 builder.Services.AddScoped<IApplicationTransaction, ApplicationTransactionService>();
 builder.Services.AddScoped<IApplicationHistory, ApplicationHistoryService>();
+builder.Services.AddScoped<DeleteAccountService>();
 
 var app = builder.Build();
 

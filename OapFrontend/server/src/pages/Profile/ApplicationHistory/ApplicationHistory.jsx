@@ -41,11 +41,12 @@ const normalizeSale = (apiItem) => {
   const purchasedAt = apiItem?.purchasedAt ?? apiItem?.PurchasedAt ?? null;
   const buyerName = apiItem?.buyerName ?? apiItem?.BuyerName ?? "";
   const buyerEmail = apiItem?.buyerEmail ?? apiItem?.BuyerEmail ?? "";
-  const previewUrl = apiItem?.defaultPresentationUrl ?? apiItem?.DefaultPresentationUrl ?? "";
-  const thumbnailUrl = apiItem?.defaultPresentationThumbnailUrl ?? apiItem?.DefaultPresentationThumbnailUrl ?? "";
+  const previewUrl = (apiItem?.defaultPresentationUrl ?? apiItem?.DefaultPresentationUrl ?? "").replace("/api/store/file/", "/api/transaction/file/");
+  const thumbnailUrl = (apiItem?.defaultPresentationThumbnailUrl ?? apiItem?.DefaultPresentationThumbnailUrl ?? "").replace("/api/store/file/", "/api/transaction/file/");
   const fileCategory = Number(apiItem?.defaultPresentationFileCategory ?? apiItem?.DefaultPresentationFileCategory ?? 0);
   const contentType = String(apiItem?.defaultPresentationContentType ?? apiItem?.DefaultPresentationContentType ?? "").toLowerCase();
   const isVideo = fileCategory === 3 || contentType.startsWith("video/");
+  const presentationFilesJson = apiItem?.presentationFilesJson ?? apiItem?.PresentationFilesJson ?? null;
 
   const dateStr = purchasedAt ? new Date(purchasedAt).toLocaleDateString("en-US", {
     day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit"
@@ -59,7 +60,7 @@ const normalizeSale = (apiItem) => {
     github: repositoryUrl,
     amount, status, purchasedAt, dateStr,
     buyerName, buyerEmail,
-    previewUrl, thumbnailUrl, isVideo,
+    previewUrl, thumbnailUrl, isVideo, presentationFilesJson,
     statusLabel: statusInfo.label,
     statusClass: statusInfo.className,
     cost: amount > 0 ? `$${Number(amount).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : "Free",
@@ -69,6 +70,46 @@ const normalizeSale = (apiItem) => {
 const formatRevenue = (n) => {
   if (n == null || n === 0) return "$0";
   return `$${Number(n).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`;
+};
+
+const SaleCardImage = ({ sale }) => {
+  const hasThumbnail = !!sale.thumbnailUrl;
+  const hasPreview = !!sale.previewUrl;
+
+  const handleImgError = (e) => {
+    e.currentTarget.onerror = null;
+    e.currentTarget.src = noImageUploadedPlaceholder;
+  };
+
+  if (sale.isVideo && hasThumbnail) {
+    return (
+      <div className="appHistory-video-thumb-wrapper">
+        <img src={sale.thumbnailUrl} alt={sale.title} onError={handleImgError} />
+        <div className="appHistory-video-overlay">
+          <img src={playIcon} alt="Play" className="appHistory-play-icon" />
+          <span className="appHistory-video-label">Video</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (sale.isVideo && hasPreview) {
+    return (
+      <div className="appHistory-video-thumb-wrapper">
+        <video src={sale.previewUrl} muted playsInline preload="metadata" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "inherit" }} />
+        <div className="appHistory-video-overlay">
+          <img src={playIcon} alt="Play" className="appHistory-play-icon" />
+          <span className="appHistory-video-label">Video</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (hasPreview) {
+    return <img src={sale.previewUrl} alt={sale.title} onError={handleImgError} />;
+  }
+
+  return <img src={noImageUploadedPlaceholder} alt="No media" />;
 };
 
 const ApplicationHistory = () => {
@@ -204,12 +245,65 @@ const ApplicationHistory = () => {
 
   const openDetailModal = useCallback(async (sale) => {
     setModalApp(sale); setModalDetail(null); setModalDetailLoading(true); setModalOpen(true);
+
+    let fetched = false;
     try {
       const res = await fetch(`/api/store/get-application-details/${sale.id}`, { credentials: "include" });
       const data = await res.json();
-      if (res.ok && data?.application) setModalDetail(data.application);
+      if (res.ok && data?.application) {
+        setModalDetail(data.application);
+        fetched = true;
+      }
     } catch {}
-    finally { setModalDetailLoading(false); }
+
+    if (!fetched) {
+      let fallbackFiles = [];
+
+      if (sale.presentationFilesJson) {
+        try {
+          const parsed = JSON.parse(sale.presentationFilesJson);
+          if (Array.isArray(parsed)) {
+            fallbackFiles = parsed.map((f) => ({
+              fileId: f.fileId,
+              url: (f.url || "").replace("/api/store/file/", "/api/transaction/file/"),
+              fileCategory: f.fileCategory,
+              contentType: f.contentType ?? "",
+              orderIndex: f.orderIndex ?? 0,
+            }));
+          }
+        } catch {}
+      }
+
+      if (fallbackFiles.length === 0) {
+        if (sale.previewUrl) {
+          fallbackFiles.push({
+            fileId: "snapshot-pres",
+            url: sale.previewUrl,
+            fileCategory: sale.isVideo ? 3 : 2,
+            orderIndex: 0,
+          });
+        }
+        if (sale.thumbnailUrl && sale.isVideo) {
+          fallbackFiles.push({
+            fileId: "snapshot-thumb",
+            url: sale.thumbnailUrl,
+            fileCategory: 4,
+            orderIndex: 0,
+          });
+        }
+      }
+
+      setModalDetail({
+        name: sale.title,
+        description: sale.description,
+        repositoryUrl: sale.github,
+        technologies: [],
+        price: sale.amount,
+        files: fallbackFiles,
+      });
+    }
+
+    setModalDetailLoading(false);
   }, []);
 
   const closeDetailModal = useCallback(() => {
@@ -386,24 +480,12 @@ const ApplicationHistory = () => {
       <div className="profile-application-history-grid">
         {visibleApps.map((sale) => {
           if (!dropdownRefs.current[sale.transactionId]) dropdownRefs.current[sale.transactionId] = React.createRef();
-          const hasThumbnail = !!sale.thumbnailUrl;
-          const hasPreview = !!sale.previewUrl;
 
           return (
             <div className="profile-app-history" key={sale.transactionId}>
               <div className="profile-app-history-row">
                 <div className="profile-app-history-placeholder-image">
-                  {(hasThumbnail && sale.isVideo) ? (
-                    <img src={sale.thumbnailUrl} alt={sale.title} />
-                  ) : hasPreview ? (
-                    sale.isVideo ? (
-                      <video src={sale.previewUrl} muted playsInline preload="metadata" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "inherit" }} />
-                    ) : (
-                      <img src={sale.previewUrl} alt={sale.title} />
-                    )
-                  ) : (
-                    <img src={noImageUploadedPlaceholder} alt="No media" />
-                  )}
+                  <SaleCardImage sale={sale} />
                 </div>
                 <div className="profile-app-history-body">
                   <div className="profile-app-history-header">

@@ -37,7 +37,7 @@ namespace Oap.WebApp.Services
                 BioText = reader.IsDBNull("BioText") ? null : reader.GetString("BioText")
             };
         }
-        
+
         public UserAccountService(IConfiguration configuration, EmailService emailService)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection")!;
@@ -331,7 +331,7 @@ namespace Oap.WebApp.Services
                 BioText = reader.IsDBNull("BioText") ? null : reader.GetString("BioText")
             };
         }
-        
+
         public async Task<(bool Success, string? Error)> ResetPasswordWithTokenAsync(string tokenHash, string newPassword)
         {
             if (string.IsNullOrWhiteSpace(tokenHash))

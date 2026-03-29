@@ -30,11 +30,12 @@ const normalizePurchase = (apiItem) => {
   const purchasedAt = apiItem?.purchasedAt ?? apiItem?.PurchasedAt ?? null;
   const sellerName = apiItem?.sellerName ?? apiItem?.SellerName ?? "";
   const sellerEmail = apiItem?.sellerEmail ?? apiItem?.SellerEmail ?? "";
-  const previewUrl = apiItem?.defaultPresentationUrl ?? apiItem?.DefaultPresentationUrl ?? "";
-  const thumbnailUrl = apiItem?.defaultPresentationThumbnailUrl ?? apiItem?.DefaultPresentationThumbnailUrl ?? "";
+  const previewUrl = (apiItem?.defaultPresentationUrl ?? apiItem?.DefaultPresentationUrl ?? "").replace("/api/store/file/", "/api/transaction/file/");
+  const thumbnailUrl = (apiItem?.defaultPresentationThumbnailUrl ?? apiItem?.DefaultPresentationThumbnailUrl ?? "").replace("/api/store/file/", "/api/transaction/file/");
   const fileCategory = Number(apiItem?.defaultPresentationFileCategory ?? apiItem?.DefaultPresentationFileCategory ?? 0);
   const contentType = String(apiItem?.defaultPresentationContentType ?? apiItem?.DefaultPresentationContentType ?? "").toLowerCase();
   const isVideo = fileCategory === 3 || contentType.startsWith("video/");
+  const presentationFilesJson = apiItem?.presentationFilesJson ?? apiItem?.PresentationFilesJson ?? null;
 
   const dateStr = purchasedAt ? new Date(purchasedAt).toLocaleDateString("en-US", {
     day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit"
@@ -46,9 +47,49 @@ const normalizePurchase = (apiItem) => {
     github: repositoryUrl,
     amount, status, purchasedAt, dateStr,
     sellerName, sellerEmail,
-    previewUrl, thumbnailUrl, isVideo,
+    previewUrl, thumbnailUrl, isVideo, presentationFilesJson,
     spent: amount > 0 ? `$${Number(amount).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : "Free",
   };
+};
+
+const AppCardImage = ({ app }) => {
+  const hasThumbnail = !!app.thumbnailUrl;
+  const hasPreview = !!app.previewUrl;
+
+  const handleImgError = (e) => {
+    e.currentTarget.onerror = null;
+    e.currentTarget.src = noImageUploadedPlaceholder;
+  };
+
+  if (app.isVideo && hasThumbnail) {
+    return (
+      <div className="myPurchases-video-thumb-wrapper">
+        <img src={app.thumbnailUrl} alt={app.title} className="profile-my-purchases-placeholder-img" onError={handleImgError} />
+        <div className="myPurchases-video-overlay">
+          <img src={playIcon} alt="Play" className="myPurchases-play-icon" />
+          <span className="myPurchases-video-label">Video</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (app.isVideo && hasPreview) {
+    return (
+      <div className="myPurchases-video-thumb-wrapper">
+        <video src={app.previewUrl} className="profile-my-purchases-placeholder-img" muted playsInline preload="metadata" />
+        <div className="myPurchases-video-overlay">
+          <img src={playIcon} alt="Play" className="myPurchases-play-icon" />
+          <span className="myPurchases-video-label">Video</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (hasPreview) {
+    return <img src={app.previewUrl} alt={app.title} className="profile-my-purchases-placeholder-img" onError={handleImgError} />;
+  }
+
+  return <img src={noImageUploadedPlaceholder} alt="No media" className="profile-my-purchases-placeholder-img" />;
 };
 
 const MyPurchases = () => {
@@ -115,12 +156,64 @@ const MyPurchases = () => {
     setModalDetailLoading(true);
     setModalOpen(true);
 
+    let fetched = false;
     try {
       const res = await fetch(`/api/store/get-application-details/${purchase.id}`, { credentials: "include" });
       const data = await res.json();
-      if (res.ok && data?.application) setModalDetail(data.application);
+      if (res.ok && data?.application) {
+        setModalDetail(data.application);
+        fetched = true;
+      }
     } catch { }
-    finally { setModalDetailLoading(false); }
+
+    if (!fetched) {
+      let fallbackFiles = [];
+
+      if (purchase.presentationFilesJson) {
+        try {
+          const parsed = JSON.parse(purchase.presentationFilesJson);
+          if (Array.isArray(parsed)) {
+            fallbackFiles = parsed.map((f) => ({
+              fileId: f.fileId,
+              url: (f.url || "").replace("/api/store/file/", "/api/transaction/file/"),
+              fileCategory: f.fileCategory,
+              contentType: f.contentType ?? "",
+              orderIndex: f.orderIndex ?? 0,
+            }));
+          }
+        } catch {}
+      }
+
+      if (fallbackFiles.length === 0) {
+        if (purchase.previewUrl) {
+          fallbackFiles.push({
+            fileId: "snapshot-pres",
+            url: purchase.previewUrl,
+            fileCategory: purchase.isVideo ? 3 : 2,
+            orderIndex: 0,
+          });
+        }
+        if (purchase.thumbnailUrl && purchase.isVideo) {
+          fallbackFiles.push({
+            fileId: "snapshot-thumb",
+            url: purchase.thumbnailUrl,
+            fileCategory: 4,
+            orderIndex: 0,
+          });
+        }
+      }
+
+      setModalDetail({
+        name: purchase.title,
+        description: purchase.description,
+        repositoryUrl: purchase.github,
+        technologies: [],
+        price: purchase.amount,
+        files: fallbackFiles,
+      });
+    }
+
+    setModalDetailLoading(false);
   }, []);
 
   const closeDetailModal = useCallback(() => {
@@ -243,24 +336,12 @@ const MyPurchases = () => {
       <div className="profile-my-purchases-grid">
         {visibleApps.map((app) => {
           if (!dropdownRefs.current[app.id]) dropdownRefs.current[app.id] = React.createRef();
-          const hasThumbnail = !!app.thumbnailUrl;
-          const hasPreview = !!app.previewUrl;
 
           return (
             <div className="profile-my-purchases-app" key={app.transactionId}>
               <div className="profile-my-purchases-body-part1">
                 <div className="profile-my-purchases-image-div">
-                  {(hasThumbnail && app.isVideo) ? (
-                    <img src={app.thumbnailUrl} alt={app.title} className="profile-my-purchases-placeholder-img" />
-                  ) : hasPreview ? (
-                    app.isVideo ? (
-                      <video src={app.previewUrl} className="profile-my-purchases-placeholder-img" muted playsInline preload="metadata" />
-                    ) : (
-                      <img src={app.previewUrl} alt={app.title} className="profile-my-purchases-placeholder-img" />
-                    )
-                  ) : (
-                    <img src={noImageUploadedPlaceholder} alt="No media" className="profile-my-purchases-placeholder-img" />
-                  )}
+                  <AppCardImage app={app} />
                 </div>
                 <div className="profile-my-purchases-body-part1-details">
                   <div className="profile-my-purchases-body-part1-details-header">

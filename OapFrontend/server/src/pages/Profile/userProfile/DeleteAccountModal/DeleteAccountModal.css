@@ -1,0 +1,278 @@
+.delete-account-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 21, 34, 0.15);
+  z-index: 10001;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete-account-modal-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.delete-account-modal {
+  background: #FFF;
+  padding: 16px;
+  width: 335px;
+  border-radius: 16px;
+  z-index: 10002;
+}
+
+.delete-account-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 0 0 12px 0;
+}
+
+.delete-account-modal-warning-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.delete-account-modal-close {
+  cursor: pointer;
+}
+
+.delete-account-modal-close img {
+  width: 24px;
+  height: 24px;
+}
+
+.delete-account-modal-title {
+  color: #141522;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 27px;
+  margin: 0 0 6px 0;
+}
+
+.delete-account-modal-subtitle {
+  color: #141522;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  margin: 0 0 16px 0;
+  opacity: 0.8;
+}
+
+.delete-account-modal-label {
+  display: block;
+  color: #141522;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 20px;
+  margin: 0 0 6px 0;
+}
+
+.delete-account-modal-input {
+  width: 100%;
+  height: 42px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #F5F5F5;
+  background: rgba(245, 245, 245, 0.5);
+  color: #141522;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  font-family: 'Poppins', sans-serif;
+  margin: 0 0 6px 0;
+}
+
+.delete-account-modal-input::placeholder {
+  color: #141522;
+  opacity: 0.5;
+  font-family: 'Poppins', sans-serif;
+}
+
+.delete-account-modal-input.error-input {
+  border-color: #FF461D;
+}
+
+.delete-account-modal-error {
+  color: #FF461D;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+  margin: 0 0 12px 0;
+  min-height: 18px;
+}
+
+.delete-account-modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin: 4px 0 0 0;
+}
+
+.delete-account-modal-cancel {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid #F5F5F5;
+  background: #FFF;
+  color: #141522;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 20px;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+}
+
+.delete-account-modal-confirm {
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: #FF461D;
+  border: none;
+  color: #FFF;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.delete-account-modal-confirm:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.delete-account-modal-confirm img {
+  width: 16px;
+  height: 16px;
+  filter: brightness(0) invert(1);
+}
+
+@media screen and (min-width: 768px) {
+  .delete-account-modal {
+    width: 420px;
+    padding: 20px;
+  }
+
+  .delete-account-modal-warning-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .delete-account-modal-title {
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  .delete-account-modal-subtitle {
+    font-size: 14px;
+    line-height: 21px;
+    margin: 0 0 20px 0;
+  }
+
+  .delete-account-modal-label {
+    font-size: 14px;
+    line-height: 21px;
+    margin: 0 0 7px 0;
+  }
+
+  .delete-account-modal-input {
+    height: 45px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .delete-account-modal-cancel {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .delete-account-modal-confirm {
+    font-size: 14px;
+    line-height: 21px;
+    gap: 7px;
+  }
+
+  .delete-account-modal-confirm img {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .delete-account-modal {
+    width: 497px;
+    padding: 24px;
+  }
+
+  .delete-account-modal-header {
+    margin: 0 0 16px 0;
+  }
+
+  .delete-account-modal-warning-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .delete-account-modal-close img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .delete-account-modal-title {
+    font-size: 22px;
+    line-height: 33px;
+  }
+
+  .delete-account-modal-subtitle {
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0 0 24px 0;
+  }
+
+  .delete-account-modal-label {
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0 0 8px 0;
+  }
+
+  .delete-account-modal-input {
+    height: 50px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .delete-account-modal-error {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .delete-account-modal-cancel {
+    padding: 12px 20px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .delete-account-modal-confirm {
+    padding: 12px 20px;
+    font-size: 16px;
+    line-height: 24px;
+    gap: 8px;
+  }
+
+  .delete-account-modal-confirm img {
+    width: 20px;
+    height: 20px;
+  }
+}

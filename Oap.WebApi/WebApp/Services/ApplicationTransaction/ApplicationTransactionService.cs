@@ -3,6 +3,7 @@ using Oap.WebApp.DTOs.ApplicationTransaction;
 using Oap.WebApp.Interfaces;
 using Oap.WebApp.Models;
 using System.Data;
+using System.Text.Json;
 
 namespace Oap.WebApp.Services
 {
@@ -23,9 +24,13 @@ namespace Oap.WebApp.Services
             Guid sellerUserId;
             Guid versionId;
             decimal price;
+            string appName;
+            string? appDescription;
+            string? appRepositoryUrl;
 
             const string appSql = @"
-SELECT ua.OwnerUserId, uav.Id AS VersionId, ISNULL(uav.Price, 0) AS Price
+SELECT ua.OwnerUserId, uav.Id AS VersionId, ISNULL(uav.Price, 0) AS Price,
+       uav.Name, uav.Description, uav.RepositoryUrl
 FROM dbo.UserApplication ua
 JOIN dbo.UserApplicationVersion uav ON uav.UserApplicationId = ua.Id
 WHERE ua.Id = @AppId AND uav.IsDraft = 0
@@ -41,6 +46,9 @@ OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY;";
                 sellerUserId = reader.GetGuid(0);
                 versionId = reader.GetGuid(1);
                 price = reader.GetDecimal(2);
+                appName = reader.GetString(3);
+                appDescription = reader.IsDBNull(4) ? null : reader.GetString(4);
+                appRepositoryUrl = reader.IsDBNull(5) ? null : reader.GetString(5);
             }
 
             if (buyerUserId == sellerUserId)
@@ -58,12 +66,112 @@ WHERE BuyerUserId = @BuyerId AND UserApplicationId = @AppId AND Status = 0;";
                     return new PurchaseResult { Success = false, Error = "You have already purchased this application." };
             }
 
+            string sellerName = "";
+            string sellerEmail = "";
+            const string sellerSql = "SELECT FirstName + ' ' + LastName, EmailAddress FROM dbo.[User] WHERE Id = @SellerId;";
+            await using (var cmd = new SqlCommand(sellerSql, conn))
+            {
+                cmd.Parameters.Add("@SellerId", SqlDbType.UniqueIdentifier).Value = sellerUserId;
+                await using var reader = await cmd.ExecuteReaderAsync();
+                if (await reader.ReadAsync())
+                {
+                    sellerName = reader.IsDBNull(0) ? "" : reader.GetString(0);
+                    sellerEmail = reader.IsDBNull(1) ? "" : reader.GetString(1);
+                }
+            }
+
+            string buyerName = "";
+            string buyerEmail = "";
+            const string buyerSql = "SELECT FirstName + ' ' + LastName, EmailAddress FROM dbo.[User] WHERE Id = @BuyerId;";
+            await using (var cmd = new SqlCommand(buyerSql, conn))
+            {
+                cmd.Parameters.Add("@BuyerId", SqlDbType.UniqueIdentifier).Value = buyerUserId;
+                await using var reader = await cmd.ExecuteReaderAsync();
+                if (await reader.ReadAsync())
+                {
+                    buyerName = reader.IsDBNull(0) ? "" : reader.GetString(0);
+                    buyerEmail = reader.IsDBNull(1) ? "" : reader.GetString(1);
+                }
+            }
+
+            Guid? zipFileId = null;
+            const string zipSql = @"
+SELECT TOP 1 uavf.FileId FROM dbo.UserApplicationVersionFile uavf
+WHERE uavf.UserApplicationVersionId = @VersionId AND uavf.FileCategory = 1
+ORDER BY uavf.OrderIndex;";
+            await using (var cmd = new SqlCommand(zipSql, conn))
+            {
+                cmd.Parameters.Add("@VersionId", SqlDbType.UniqueIdentifier).Value = versionId;
+                var obj = await cmd.ExecuteScalarAsync();
+                if (obj != null && obj != DBNull.Value) zipFileId = (Guid)obj;
+            }
+
+            var allFiles = new List<object>();
+            Guid? presentationFileId = null;
+            int? presentationFileCategory = null;
+            string? presentationContentType = null;
+            Guid? thumbnailFileId = null;
+
+            const string allFilesSql = @"
+SELECT uavf.FileId, uavf.FileCategory, uavf.OrderIndex, f.ContentType
+FROM dbo.UserApplicationVersionFile uavf
+JOIN dbo.[File] f ON f.Id = uavf.FileId
+WHERE uavf.UserApplicationVersionId = @VersionId AND uavf.FileCategory IN (2, 3, 4)
+ORDER BY uavf.FileCategory ASC, uavf.OrderIndex ASC;";
+
+            await using (var cmd = new SqlCommand(allFilesSql, conn))
+            {
+                cmd.Parameters.Add("@VersionId", SqlDbType.UniqueIdentifier).Value = versionId;
+                await using var reader = await cmd.ExecuteReaderAsync();
+                bool firstPresSet = false;
+                while (await reader.ReadAsync())
+                {
+                    var fId = reader.GetGuid(0);
+                    var fCat = reader.GetInt32(1);
+                    var fOrder = reader.GetInt32(2);
+                    var fCType = reader.GetString(3);
+
+                    allFiles.Add(new
+                    {
+                        fileId = fId.ToString(),
+                        fileCategory = fCat,
+                        contentType = fCType,
+                        orderIndex = fOrder,
+                        url = $"/api/transaction/file/{fId}"
+                    });
+
+                    if (fCat == 4)
+                    {
+                        thumbnailFileId = fId;
+                    }
+                    else if (!firstPresSet && (fCat == 2 || fCat == 3))
+                    {
+                        presentationFileId = fId;
+                        presentationFileCategory = fCat;
+                        presentationContentType = fCType;
+                        firstPresSet = true;
+                    }
+                }
+            }
+
+            string? presentationFilesJson = allFiles.Count > 0 ? JsonSerializer.Serialize(allFiles) : null;
+
             var transactionId = Guid.NewGuid();
             const string insertSql = @"
 INSERT INTO dbo.ApplicationTransaction
-    (Id, BuyerUserId, SellerUserId, UserApplicationId, UserApplicationVersionId, Amount, Status, PurchasedAtUtc)
+    (Id, BuyerUserId, SellerUserId, UserApplicationId, UserApplicationVersionId,
+     Amount, Status, PurchasedAtUtc,
+     AppName, AppDescription, AppRepositoryUrl,
+     SellerName, SellerEmail, BuyerName, BuyerEmail,
+     ZipFileId, PresentationFileId, PresentationFileCategory, PresentationContentType, ThumbnailFileId,
+     PresentationFilesJson)
 VALUES
-    (@Id, @BuyerId, @SellerId, @AppId, @VersionId, @Amount, 0, SYSUTCDATETIME());";
+    (@Id, @BuyerId, @SellerId, @AppId, @VersionId,
+     @Amount, 0, SYSUTCDATETIME(),
+     @AppName, @AppDescription, @AppRepositoryUrl,
+     @SellerName, @SellerEmail, @BuyerName, @BuyerEmail,
+     @ZipFileId, @PresentationFileId, @PresentationFileCategory, @PresentationContentType, @ThumbnailFileId,
+     @PresentationFilesJson);";
 
             await using (var cmd = new SqlCommand(insertSql, conn))
             {
@@ -73,6 +181,19 @@ VALUES
                 cmd.Parameters.Add("@AppId", SqlDbType.UniqueIdentifier).Value = userApplicationId;
                 cmd.Parameters.Add("@VersionId", SqlDbType.UniqueIdentifier).Value = versionId;
                 cmd.Parameters.Add("@Amount", SqlDbType.Decimal).Value = price;
+                cmd.Parameters.Add("@AppName", SqlDbType.NVarChar, 500).Value = appName;
+                cmd.Parameters.Add("@AppDescription", SqlDbType.NVarChar, -1).Value = (object?)appDescription ?? DBNull.Value;
+                cmd.Parameters.Add("@AppRepositoryUrl", SqlDbType.NVarChar, 2100).Value = (object?)appRepositoryUrl ?? DBNull.Value;
+                cmd.Parameters.Add("@SellerName", SqlDbType.NVarChar, 200).Value = sellerName;
+                cmd.Parameters.Add("@SellerEmail", SqlDbType.NVarChar, 255).Value = sellerEmail;
+                cmd.Parameters.Add("@BuyerName", SqlDbType.NVarChar, 200).Value = buyerName;
+                cmd.Parameters.Add("@BuyerEmail", SqlDbType.NVarChar, 255).Value = buyerEmail;
+                cmd.Parameters.Add("@ZipFileId", SqlDbType.UniqueIdentifier).Value = (object?)zipFileId ?? DBNull.Value;
+                cmd.Parameters.Add("@PresentationFileId", SqlDbType.UniqueIdentifier).Value = (object?)presentationFileId ?? DBNull.Value;
+                cmd.Parameters.Add("@PresentationFileCategory", SqlDbType.Int).Value = (object?)presentationFileCategory ?? DBNull.Value;
+                cmd.Parameters.Add("@PresentationContentType", SqlDbType.NVarChar, 100).Value = (object?)presentationContentType ?? DBNull.Value;
+                cmd.Parameters.Add("@ThumbnailFileId", SqlDbType.UniqueIdentifier).Value = (object?)thumbnailFileId ?? DBNull.Value;
+                cmd.Parameters.Add("@PresentationFilesJson", SqlDbType.NVarChar, -1).Value = (object?)presentationFilesJson ?? DBNull.Value;
                 await cmd.ExecuteNonQueryAsync();
             }
 
@@ -83,8 +204,8 @@ VALUES
         {
             var orderBy = sort?.ToUpperInvariant() switch
             {
-                "A-Z" => "uav.Name ASC",
-                "Z-A" => "uav.Name DESC",
+                "A-Z" => "t.AppName ASC",
+                "Z-A" => "t.AppName DESC",
                 "POPULAR" => "t.Amount DESC, t.PurchasedAtUtc DESC",
                 _ => "t.PurchasedAtUtc DESC",
             };
@@ -95,28 +216,14 @@ SELECT
     t.UserApplicationId,
     t.UserApplicationVersionId,
     t.Amount, t.Status, t.PurchasedAtUtc,
-    uav.Name, uav.Description, uav.RepositoryUrl,
-    seller.FirstName + ' ' + seller.LastName AS SellerName,
-    seller.EmailAddress AS SellerEmail,
-    pres.FileId AS DefaultPresentationFileId,
-    pres.FileCategory AS DefaultPresentationFileCategory,
-    pres.ContentType AS DefaultPresentationContentType,
-    thumb.FileId AS DefaultPresentationThumbnailFileId
+    t.AppName, t.AppDescription, t.AppRepositoryUrl,
+    t.SellerName, t.SellerEmail,
+    t.PresentationFileId,
+    t.PresentationFileCategory,
+    t.PresentationContentType,
+    t.ThumbnailFileId,
+    t.PresentationFilesJson
 FROM dbo.ApplicationTransaction t
-JOIN dbo.UserApplicationVersion uav ON uav.Id = t.UserApplicationVersionId
-JOIN dbo.[User] seller ON seller.Id = t.SellerUserId
-OUTER APPLY (
-    SELECT TOP 1 uavf.FileId, uavf.FileCategory, f.ContentType
-    FROM dbo.UserApplicationVersionFile uavf
-    JOIN dbo.[File] f ON f.Id = uavf.FileId
-    WHERE uavf.UserApplicationVersionId = uav.Id AND uavf.FileCategory IN (2, 3)
-    ORDER BY uavf.OrderIndex ASC
-) pres
-OUTER APPLY (
-    SELECT TOP 1 uavf.FileId
-    FROM dbo.UserApplicationVersionFile uavf
-    WHERE uavf.UserApplicationVersionId = uav.Id AND uavf.FileCategory = 4
-) thumb
 WHERE t.BuyerUserId = @BuyerId
 ORDER BY {orderBy};";
 
@@ -129,14 +236,14 @@ ORDER BY {orderBy};";
             await using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                var fileId = reader.IsDBNull(reader.GetOrdinal("DefaultPresentationFileId"))
-                    ? Guid.Empty : reader.GetGuid(reader.GetOrdinal("DefaultPresentationFileId"));
-                var fileCategory = reader.IsDBNull(reader.GetOrdinal("DefaultPresentationFileCategory"))
-                    ? 0 : reader.GetInt32(reader.GetOrdinal("DefaultPresentationFileCategory"));
-                var contentType = reader.IsDBNull(reader.GetOrdinal("DefaultPresentationContentType"))
-                    ? "" : reader.GetString(reader.GetOrdinal("DefaultPresentationContentType"));
-                var thumbId = reader.IsDBNull(reader.GetOrdinal("DefaultPresentationThumbnailFileId"))
-                    ? Guid.Empty : reader.GetGuid(reader.GetOrdinal("DefaultPresentationThumbnailFileId"));
+                var fileId = reader.IsDBNull(reader.GetOrdinal("PresentationFileId"))
+                    ? Guid.Empty : reader.GetGuid(reader.GetOrdinal("PresentationFileId"));
+                var fileCategory = reader.IsDBNull(reader.GetOrdinal("PresentationFileCategory"))
+                    ? 0 : reader.GetInt32(reader.GetOrdinal("PresentationFileCategory"));
+                var contentType = reader.IsDBNull(reader.GetOrdinal("PresentationContentType"))
+                    ? "" : reader.GetString(reader.GetOrdinal("PresentationContentType"));
+                var thumbId = reader.IsDBNull(reader.GetOrdinal("ThumbnailFileId"))
+                    ? Guid.Empty : reader.GetGuid(reader.GetOrdinal("ThumbnailFileId"));
 
                 results.Add(new PurchasedAppCardDto
                 {
@@ -146,16 +253,17 @@ ORDER BY {orderBy};";
                     Amount = reader.GetDecimal(reader.GetOrdinal("Amount")),
                     Status = reader.GetByte(reader.GetOrdinal("Status")),
                     PurchasedAt = new DateTimeOffset(reader.GetDateTime(reader.GetOrdinal("PurchasedAtUtc")), TimeSpan.Zero),
-                    Name = reader.GetString(reader.GetOrdinal("Name")),
-                    Description = reader.IsDBNull(reader.GetOrdinal("Description")) ? null : reader.GetString(reader.GetOrdinal("Description")),
-                    RepositoryUrl = reader.IsDBNull(reader.GetOrdinal("RepositoryUrl")) ? null : reader.GetString(reader.GetOrdinal("RepositoryUrl")),
-                    SellerName = reader.IsDBNull(reader.GetOrdinal("SellerName")) ? "" : reader.GetString(reader.GetOrdinal("SellerName")),
-                    SellerEmail = reader.IsDBNull(reader.GetOrdinal("SellerEmail")) ? "" : reader.GetString(reader.GetOrdinal("SellerEmail")),
-                    DefaultPresentationUrl = fileId == Guid.Empty ? "" : $"/api/store/file/{fileId}",
-                    DefaultPresentationThumbnailUrl = thumbId == Guid.Empty ? "" : $"/api/store/file/{thumbId}",
+                    Name = reader.GetString(reader.GetOrdinal("AppName")),
+                    Description = reader.IsDBNull(reader.GetOrdinal("AppDescription")) ? null : reader.GetString(reader.GetOrdinal("AppDescription")),
+                    RepositoryUrl = reader.IsDBNull(reader.GetOrdinal("AppRepositoryUrl")) ? null : reader.GetString(reader.GetOrdinal("AppRepositoryUrl")),
+                    SellerName = reader.GetString(reader.GetOrdinal("SellerName")),
+                    SellerEmail = reader.GetString(reader.GetOrdinal("SellerEmail")),
+                    DefaultPresentationUrl = fileId == Guid.Empty ? "" : $"/api/transaction/file/{fileId}",
+                    DefaultPresentationThumbnailUrl = thumbId == Guid.Empty ? "" : $"/api/transaction/file/{thumbId}",
                     DefaultPresentationFileCategory = fileCategory,
                     DefaultPresentationContentType = contentType,
                     IsVideo = fileCategory == 3,
+                    PresentationFilesJson = reader.IsDBNull(reader.GetOrdinal("PresentationFilesJson")) ? null : reader.GetString(reader.GetOrdinal("PresentationFilesJson")),
                 });
             }
 
@@ -234,12 +342,11 @@ WHERE Id = @TxId AND BuyerUserId = @BuyerId AND Status IN (0, 2);";
             await conn.OpenAsync();
 
             const string verifySql = @"
-SELECT TOP 1 t.UserApplicationVersionId, uav.Name
+SELECT TOP 1 t.ZipFileId, t.AppName
 FROM dbo.ApplicationTransaction t
-JOIN dbo.UserApplicationVersion uav ON uav.Id = t.UserApplicationVersionId
 WHERE t.BuyerUserId = @BuyerId AND t.UserApplicationId = @AppId AND t.Status IN (0, 3);";
 
-            Guid versionId;
+            Guid? zipFileId;
             string appName;
 
             await using (var cmd = new SqlCommand(verifySql, conn))
@@ -249,25 +356,22 @@ WHERE t.BuyerUserId = @BuyerId AND t.UserApplicationId = @AppId AND t.Status IN 
                 await using var reader = await cmd.ExecuteReaderAsync();
                 if (!await reader.ReadAsync())
                     return (null, null, "Purchase not found or has been refunded.");
-                versionId = reader.GetGuid(0);
+                zipFileId = reader.IsDBNull(0) ? null : reader.GetGuid(0);
                 appName = reader.IsDBNull(1) ? "application" : reader.GetString(1);
             }
 
-            const string zipSql = @"
-SELECT TOP 1 f.Id, f.FileContents
-FROM dbo.UserApplicationVersionFile uavf
-JOIN dbo.[File] f ON f.Id = uavf.FileId
-WHERE uavf.UserApplicationVersionId = @VersionId AND uavf.FileCategory = 1
-ORDER BY uavf.OrderIndex;";
+            if (zipFileId == null)
+                return (null, null, "ZIP file not found for this application.");
 
+            const string zipSql = "SELECT FileContents FROM dbo.[File] WHERE Id = @FileId;";
             await using var zipCmd = new SqlCommand(zipSql, conn);
-            zipCmd.Parameters.Add("@VersionId", SqlDbType.UniqueIdentifier).Value = versionId;
-            await using var zipReader = await zipCmd.ExecuteReaderAsync(System.Data.CommandBehavior.SequentialAccess);
+            zipCmd.Parameters.Add("@FileId", SqlDbType.UniqueIdentifier).Value = zipFileId.Value;
+            await using var zipReader = await zipCmd.ExecuteReaderAsync(CommandBehavior.SequentialAccess);
 
             if (!await zipReader.ReadAsync())
                 return (null, null, "ZIP file not found for this application.");
 
-            var stream = zipReader.GetStream(1);
+            var stream = zipReader.GetStream(0);
             var memStream = new MemoryStream();
             await stream.CopyToAsync(memStream);
             memStream.Position = 0;

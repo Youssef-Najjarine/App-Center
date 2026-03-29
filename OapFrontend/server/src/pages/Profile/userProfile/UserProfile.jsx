@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ChangePasswordModal from "./ChangePasswordModal/ChangePasswordModal";
+import DeleteAccountModal from "./DeleteAccountModal/DeleteAccountModal";
 import profilePic from '@assets/placeholder-profile-picture.png';
 import passwordIcon from '@assets/password-verify-identity-icon.svg';
 import editInfoIcon from '@assets/add-circle-icon.svg';
+import trashIcon from '@assets/red-outline-trash-icon.svg';
 import CheckMarkIcon from '@assets/white-check-green-background-icon.svg';
 import XIcon from '@assets/x-icon.svg';
 import ProcessingModal from "@pages/ProcessingModal/ProcessingModal";
@@ -18,6 +20,7 @@ const UserProfile = () => {
 
   const [showSuccess, setShowSuccess] = useState(false);
   const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
+  const [isDeleteAccountOpen, setIsDeleteAccountOpen] = useState(false);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -63,6 +66,11 @@ const UserProfile = () => {
 
   const fullName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
 
+  const handleAccountDeleted = () => {
+    setIsDeleteAccountOpen(false);
+    window.location.href = "/auth/sign-in";
+  };
+
   return (
     <section id='member-profile-bio'>
       <div className='member-profile-bio-info'>
@@ -70,13 +78,23 @@ const UserProfile = () => {
           <div>
             <h2>My Account</h2>
           </div>
-          <div
-            className='member-profile-bio-info-password-div'
-            onClick={() => setIsChangePasswordOpen(true)}
-            style={{ cursor: 'pointer' }}
-          >
-            <img src={passwordIcon} className='member-profile-bio-info-password-icon' />
-            <span>Change Password</span>
+          <div className='member-profile-bio-header-actions'>
+            <div
+              className='member-profile-bio-info-delete-div'
+              onClick={() => setIsDeleteAccountOpen(true)}
+              style={{ cursor: 'pointer' }}
+            >
+              <img src={trashIcon} className='member-profile-bio-info-delete-icon' alt="" />
+              <span>Delete Account</span>
+            </div>
+            <div
+              className='member-profile-bio-info-password-div'
+              onClick={() => setIsChangePasswordOpen(true)}
+              style={{ cursor: 'pointer' }}
+            >
+              <img src={passwordIcon} className='member-profile-bio-info-password-icon' alt="" />
+              <span>Change Password</span>
+            </div>
           </div>
         </div>
 
@@ -113,7 +131,7 @@ const UserProfile = () => {
 
         <div className='member-profile-bio-info-edit-div'>
           <Link to="/profile/edit">
-            <img src={editInfoIcon} className='member-profile-bio-info-edit-icon' />
+            <img src={editInfoIcon} className='member-profile-bio-info-edit-icon' alt="" />
             <span>Edit my Information</span>
           </Link>
         </div>
@@ -133,6 +151,13 @@ const UserProfile = () => {
         <ChangePasswordModal
           key={isChangePasswordOpen ? "open" : "closed"}
           onClose={() => setIsChangePasswordOpen(false)}
+        />
+      )}
+
+      {isDeleteAccountOpen && (
+        <DeleteAccountModal
+          onClose={() => setIsDeleteAccountOpen(false)}
+          onDeleted={handleAccountDeleted}
         />
       )}
     </section>

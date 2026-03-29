@@ -10,13 +10,21 @@ CREATE TABLE dbo.ApplicationTransaction
     PurchasedAtUtc              DATETIME2(0)     NOT NULL DEFAULT SYSUTCDATETIME(),
     RefundedAtUtc               DATETIME2(0)     NULL,
 
-    CONSTRAINT PK_ApplicationTransaction PRIMARY KEY NONCLUSTERED (Id),
-    CONSTRAINT FK_AT_BuyerUser
-        FOREIGN KEY (BuyerUserId) REFERENCES dbo.[User](Id),
-    CONSTRAINT FK_AT_SellerUser
-        FOREIGN KEY (SellerUserId) REFERENCES dbo.[User](Id),
-    CONSTRAINT FK_AT_UserApplication
-        FOREIGN KEY (UserApplicationId) REFERENCES dbo.UserApplication(Id)
+    AppName                     NVARCHAR(500)    NOT NULL DEFAULT '',
+    AppDescription              NVARCHAR(MAX)    NULL,
+    AppRepositoryUrl            NVARCHAR(2100)   NULL,
+    SellerName                  NVARCHAR(200)    NOT NULL DEFAULT '',
+    SellerEmail                 NVARCHAR(255)    NOT NULL DEFAULT '',
+    BuyerName                   NVARCHAR(200)    NOT NULL DEFAULT '',
+    BuyerEmail                  NVARCHAR(255)    NOT NULL DEFAULT '',
+    ZipFileId                   UNIQUEIDENTIFIER NULL,
+    PresentationFileId          UNIQUEIDENTIFIER NULL,
+    PresentationFileCategory    INT              NULL,
+    PresentationContentType     NVARCHAR(100)    NULL,
+    ThumbnailFileId             UNIQUEIDENTIFIER NULL,
+    PresentationFilesJson       NVARCHAR(MAX)    NULL,
+
+    CONSTRAINT PK_ApplicationTransaction PRIMARY KEY NONCLUSTERED (Id)
 );
 GO
 
