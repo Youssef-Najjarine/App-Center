@@ -330,7 +330,7 @@ const Applications = () => {
         <div className="applications-title-div">
           <h2 className="applications-title">Applications</h2>
           <h3 className="applications-sub-header">
-            Explore the best applications in world available to own.
+            Explore the best applications in the world available to own.
           </h3>
           <div className="applications-search-div">
             <input

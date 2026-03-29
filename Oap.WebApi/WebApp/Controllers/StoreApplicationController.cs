@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Oap.WebApp.Interfaces;
 using Oap.WebApp.Utilities;
-using Microsoft.Data.SqlClient;
+using SixLabors.ImageSharp;
 
 namespace Oap.WebApp.Controllers
 {
@@ -11,13 +12,16 @@ namespace Oap.WebApp.Controllers
     {
         private readonly AuthCookieService _authCookieService;
         private readonly IStoreApplication _storeService;
+        private readonly IConfiguration _configuration;
 
         public StoreApplicationController(
             AuthCookieService authCookieService,
-            IStoreApplication storeService)
+            IStoreApplication storeService,
+            IConfiguration configuration)
         {
             _authCookieService = authCookieService;
             _storeService = storeService;
+            _configuration = configuration;
         }
 
         private Guid? GetOptionalUserId()
@@ -192,6 +196,78 @@ namespace Oap.WebApp.Controllers
             {
                 Console.Error.WriteLine(ex);
                 return StatusCode(500);
+            }
+        }
+
+        [HttpGet("featured-carousel")]
+        public async Task<IActionResult> GetFeaturedCarousel()
+        {
+            try
+            {
+                var connStr = _configuration.GetConnectionString("DefaultConnection")!;
+                await using var conn = new SqlConnection(connStr);
+                await conn.OpenAsync();
+
+                const string sql = @"
+SELECT TOP 6
+    ua.Id AS UserApplicationId,
+    uav.Name,
+    pres.FileId AS PresentationFileId,
+    pres.FileCategory AS PresentationFileCategory,
+    pres.ContentType AS PresentationContentType,
+    thumb.FileId AS ThumbnailFileId,
+    ISNULL(pop.Total, 0) AS Popularity
+FROM dbo.UserApplication ua
+CROSS APPLY (
+    SELECT TOP 1 * FROM dbo.UserApplicationVersion v
+    WHERE v.UserApplicationId = ua.Id AND v.IsDraft = 0
+    ORDER BY v.VersionIndex DESC
+) uav
+OUTER APPLY (
+    SELECT TOP 1 uavf.FileId, uavf.FileCategory, f.ContentType
+    FROM dbo.UserApplicationVersionFile uavf
+    JOIN dbo.[File] f ON f.Id = uavf.FileId
+    WHERE uavf.UserApplicationVersionId = uav.Id AND uavf.FileCategory IN (2, 3)
+    ORDER BY uavf.OrderIndex ASC
+) pres
+OUTER APPLY (
+    SELECT TOP 1 uavf.FileId
+    FROM dbo.UserApplicationVersionFile uavf
+    WHERE uavf.UserApplicationVersionId = uav.Id AND uavf.FileCategory = 4
+) thumb
+OUTER APPLY (
+    SELECT COUNT(*) AS Total
+    FROM dbo.ApplicationAnalyticsEvent ae
+    WHERE ae.UserApplicationId = ua.Id
+) pop
+WHERE pres.FileId IS NOT NULL
+ORDER BY pop.Total DESC, uav.CreatedAt DESC;";
+
+                var items = new List<object>();
+                await using var cmd = new SqlCommand(sql, conn);
+                await using var reader = await cmd.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    var fileId = reader.GetGuid(reader.GetOrdinal("PresentationFileId"));
+                    var fileCategory = reader.GetInt32(reader.GetOrdinal("PresentationFileCategory"));
+                    var contentType = reader.GetString(reader.GetOrdinal("PresentationContentType"));
+                    var thumbId = reader.IsDBNull(reader.GetOrdinal("ThumbnailFileId"))
+                        ? (Guid?)null : reader.GetGuid(reader.GetOrdinal("ThumbnailFileId"));
+                    var isVideo = fileCategory == 3;
+
+                    var imageUrl = isVideo && thumbId.HasValue
+                        ? $"/api/store/file/{thumbId.Value}"
+                        : $"/api/store/file/{fileId}";
+
+                    items.Add(new { imageUrl });
+                }
+
+                return Ok(new { success = true, items });
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return Ok(new { success = true, items = Array.Empty<object>() });
             }
         }
     }
