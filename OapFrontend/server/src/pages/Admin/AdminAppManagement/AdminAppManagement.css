@@ -1,0 +1,284 @@
+.admin-app-mgmt {
+  padding: 32px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.admin-app-mgmt-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0 0 28px 0;
+}
+
+.admin-app-mgmt-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.admin-app-mgmt-header-left h1 {
+  color: #141522;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 36px;
+  margin: 0;
+}
+
+.admin-app-mgmt-back,
+.admin-app-mgmt-logout {
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  border: 1px solid #F5F5F5;
+  background: #FFF;
+  color: #141522;
+}
+
+.admin-app-mgmt-logout {
+  border-color: #FF461D;
+  color: #FF461D;
+}
+
+.admin-app-mgmt-loading {
+  padding: 24px 0;
+  text-align: center;
+  opacity: 0.7;
+}
+
+.admin-app-mgmt-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 0 0 32px 0;
+}
+
+.admin-app-mgmt-stat-card {
+  background: #FFF;
+  border-radius: 12px;
+  border: 1px solid #F5F5F5;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.admin-app-mgmt-stat-card.highlight {
+  background: rgba(85, 65, 215, 0.04);
+  border-color: rgba(85, 65, 215, 0.15);
+}
+
+.admin-app-mgmt-stat-value {
+  color: #141522;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 30px;
+}
+
+.admin-app-mgmt-stat-card.highlight .admin-app-mgmt-stat-value {
+  color: #5541D7;
+}
+
+.admin-app-mgmt-stat-label {
+  color: rgba(20, 21, 34, 0.55);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.admin-app-mgmt-top-section {
+  margin: 0;
+}
+
+.admin-app-mgmt-top-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 0 16px 0;
+}
+
+.admin-app-mgmt-top-header h2 {
+  color: #141522;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.admin-app-mgmt-top-count {
+  color: rgba(20, 21, 34, 0.5);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.admin-app-mgmt-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #F5F5F5;
+  background: #FFF;
+}
+
+.admin-app-mgmt-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 550px;
+}
+
+.admin-app-mgmt-table thead {
+  background: #FAFAFA;
+}
+
+.admin-app-mgmt-table th {
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(20, 21, 34, 0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.admin-app-mgmt-table td {
+  padding: 12px 14px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #141522;
+  border-top: 1px solid #F5F5F5;
+  white-space: nowrap;
+}
+
+.admin-app-mgmt-table-loading {
+  text-align: center;
+  padding: 24px 14px;
+  opacity: 0.6;
+}
+
+.admin-app-mgmt-table tbody tr:hover {
+  background: rgba(85, 65, 215, 0.02);
+}
+
+.admin-app-mgmt-table tbody tr.deleted-row {
+  background: rgba(255, 70, 29, 0.02);
+}
+
+.admin-app-mgmt-table tbody tr.deleted-row:hover {
+  background: rgba(255, 70, 29, 0.04);
+}
+
+.admin-app-mgmt-rank {
+  font-weight: 700;
+  color: #5541D7;
+  width: 40px;
+}
+
+.admin-app-mgmt-app-name {
+  font-weight: 600;
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-app-mgmt-deleted-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(255, 70, 29, 0.1);
+  color: #FF461D;
+  font-size: 11px;
+  font-weight: 700;
+  vertical-align: middle;
+}
+
+.admin-app-mgmt-owner {
+  color: rgba(20, 21, 34, 0.65);
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-app-mgmt-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 20px 0 0 0;
+}
+
+.admin-app-mgmt-page-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #F5F5F5;
+  background: #FFF;
+  color: #141522;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  min-width: 36px;
+  text-align: center;
+}
+
+.admin-app-mgmt-page-btn:hover:not(:disabled) {
+  background: #F6F5FD;
+  border-color: #5541D7;
+  color: #5541D7;
+}
+
+.admin-app-mgmt-page-btn.active {
+  background: #5541D7;
+  border-color: #5541D7;
+  color: #FFF;
+}
+
+.admin-app-mgmt-page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.admin-app-mgmt-page-ellipsis {
+  color: rgba(20, 21, 34, 0.4);
+  font-size: 14px;
+  padding: 0 4px;
+}
+
+@media screen and (min-width: 768px) {
+  .admin-app-mgmt { padding: 40px 30px; }
+
+  .admin-app-mgmt-stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  .admin-app-mgmt-stat-value {
+    font-size: 26px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .admin-app-mgmt { padding: 48px 60px; }
+
+  .admin-app-mgmt-header-left h1 { font-size: 28px; }
+
+  .admin-app-mgmt-stats-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+  }
+
+  .admin-app-mgmt-stat-value {
+    font-size: 28px;
+  }
+
+  .admin-app-mgmt-stat-card {
+    padding: 22px 20px;
+  }
+
+  .admin-app-mgmt-app-name {
+    max-width: 350px;
+  }
+}

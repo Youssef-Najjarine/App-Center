@@ -1,12 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
-
 import Home from "@pages/Home/Home";
 import Applications from "@pages/Home/Applications/Applications";
 import Blogs from "@pages/Home/Blog/Blogs";
 import BlogDetails from "@pages/Home/Blog/BlogDetails";
 import AboutUs from "@pages/Home/AboutUs/AboutUs";
-
 import UserProfile from "@pages/Profile/userProfile/UserProfile";
 import ProfileApplications from "@pages/Profile/ProfileApplications/ProfileApplications";
 import ProfileApplicationDrafts from "@profile/ProfileApplicationDrafts/ProfileApplicationDrafts";
@@ -17,16 +15,23 @@ import ApplicationHistory from "@pages/Profile/ApplicationHistory/ApplicationHis
 import CardsPayments from "@pages/Profile/CardsPayments/CardsPayments";
 import EarningsPayouts from "@pages/Profile/Earnings&Payouts/Earnings&Payouts";
 import ManagePayoutMethods from "@pages/Profile/Earnings&Payouts/ManagePayoutMethods/ManagePayoutMethods";
-
 import SignIn from "@pages/Auth/SignIn/SignIn";
 import SignUp from "@pages/Auth/SignUp/SignUp";
 import VerifyIdentity from "@pages/Auth/VerifyIdentity/VerifyIdentity";
 import ForgotPassword from "@pages/Auth/ForgotPassword/ForgotPassword";
 import CreateNewPassword from "@pages/Auth/CreateNewPassword/CreateNewPassword";
-
 import RequireAuth from "@pages/Auth/RequireAuth";
 import { AuthUserProvider } from "@context/AuthUserContext";
+import { AdminAuthProvider } from "@context/AdminAuthContext";
 import SiteLayout from "@layouts/SiteLayout";
+import AdminSignIn from "@pages/Admin/AdminSignIn/AdminSignIn";
+import AdminLayout from "@pages/Admin/AdminLayout";
+import AdminDashboard from "@pages/Admin/AdminDashboard/AdminDashboard";
+import AdminBlogManagement from "@pages/Admin/AdminBlogManagement/AdminBlogManagement";
+import AdminBlogCreate from "@pages/Admin/AdminBlogCreate";
+import AdminBlogEdit from "@pages/Admin/AdminBlogEdit";
+import AdminApps from "@pages/Admin/AdminApps/AdminApps";
+import AdminAppManagement from "@pages/Admin/AdminAppManagement/AdminAppManagement";
 
 const AuthLayout = () => (
   <div className="container">
@@ -44,8 +49,7 @@ const App = () => {
             <Route path="applications" element={<Applications />} />
             <Route path="about-us" element={<AboutUs />} />
             <Route path="blogs" element={<Blogs />} />
-            <Route path="blog/blogDetails" element={<BlogDetails />} />
-
+            <Route path="blog/:slug" element={<BlogDetails />} />
             <Route element={<RequireAuth />}>
               <Route path="profile">
                 <Route index element={<UserProfile />} />
@@ -68,6 +72,18 @@ const App = () => {
             <Route path="verify-identity" element={<VerifyIdentity />} />
             <Route path="forgot-password" element={<ForgotPassword />} />
             <Route path="create-new-password" element={<CreateNewPassword />} />
+          </Route>
+
+          <Route path="/admin" element={<AdminAuthProvider><Outlet /></AdminAuthProvider>}>
+            <Route path="sign-in" element={<AdminSignIn />} />
+            <Route element={<AdminLayout />}>
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="blogs" element={<AdminBlogManagement />} />
+              <Route path="blogs/create" element={<AdminBlogCreate />} />
+              <Route path="blogs/edit/:blogId" element={<AdminBlogEdit />} />
+              <Route path="apps" element={<AdminApps />} />
+              <Route path="app-management" element={<AdminAppManagement />} />
+            </Route>
           </Route>
         </Routes>
       </AuthUserProvider>

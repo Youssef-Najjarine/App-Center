@@ -214,7 +214,9 @@ const ApplicationDetailModal = ({
     <div className="appHome-modal-overlay" onClick={() => { if (showPurchaseConfirm) return; onClose(); }}>
       <div className="appHome-modal" onClick={(e) => e.stopPropagation()}>
         <div className="appHome-close-header">
+        <div className="appHome-title-div">
           <h2>{title}</h2>
+        </div>
           <button className="appHome-modal-close" onClick={onClose}>
             <img src={closeButton} alt="Close Icon" />
           </button>

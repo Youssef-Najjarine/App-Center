@@ -1,7 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Oap.WebApp.DTOs.ApplicationTransaction;
 using Oap.WebApp.Interfaces;
-using Oap.WebApp.Models;
 using System.Data;
 using System.Text.Json;
 
@@ -56,7 +55,7 @@ OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY;";
 
             const string dupSql = @"
 SELECT TOP 1 1 FROM dbo.ApplicationTransaction
-WHERE BuyerUserId = @BuyerId AND UserApplicationId = @AppId AND Status = 0;";
+WHERE BuyerUserId = @BuyerId AND UserApplicationId = @AppId AND Status IN (0, 2, 3);";
 
             await using (var cmd = new SqlCommand(dupSql, conn))
             {
@@ -286,7 +285,7 @@ ORDER BY {orderBy};";
 
             const string purchSql = @"
 SELECT TOP 1 1 FROM dbo.ApplicationTransaction
-WHERE BuyerUserId = @UserId AND UserApplicationId = @AppId AND Status = 0;";
+WHERE BuyerUserId = @UserId AND UserApplicationId = @AppId AND Status IN (0, 2, 3);";
             await using (var cmd = new SqlCommand(purchSql, conn))
             {
                 cmd.Parameters.Add("@UserId", SqlDbType.UniqueIdentifier).Value = userId;

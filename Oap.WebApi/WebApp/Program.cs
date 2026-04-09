@@ -51,6 +51,8 @@ builder.Services.AddScoped<IApplicationManagement, ApplicationManagementService>
 builder.Services.AddScoped<IApplicationTransaction, ApplicationTransactionService>();
 builder.Services.AddScoped<IApplicationHistory, ApplicationHistoryService>();
 builder.Services.AddScoped<DeleteAccountService>();
+builder.Services.AddSingleton<AdminCookieService>();
+builder.Services.AddScoped<IBlog, BlogService>();
 
 var app = builder.Build();
 

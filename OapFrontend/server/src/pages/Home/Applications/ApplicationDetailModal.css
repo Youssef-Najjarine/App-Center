@@ -36,6 +36,13 @@
   margin: 0 0 19.33px 0;
 }
 
+.appHome-title-div {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .appHome-close-header h2 {
   color: #141522;
   font-size: 22.556px;
@@ -43,10 +50,7 @@
   font-weight: 700;
   line-height: 33.833px;
   margin: 0;
-  max-width: 277.22px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  display: inline;
 }
 
 .appHome-close-header .appHome-modal-close {
@@ -295,7 +299,6 @@
   .appHome-close-header h2 {
     font-size: 24.5px;
     line-height: 36.75px;
-    max-width: 658px;
   }
   .appHome-close-header img {
     width: 28px;
@@ -438,7 +441,6 @@
   .appHome-close-header h2 {
     font-size: 28px;
     line-height: 42px;
-    max-width: 1312px;
   }
   .appHome-close-header img {
     width: 32px;

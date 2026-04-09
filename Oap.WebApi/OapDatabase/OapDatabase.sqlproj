@@ -70,6 +70,10 @@
     <Build Include="UserProfileFile.sql" />
     <Build Include="ApplicationAnalyticsEvent.sql" />
     <Build Include="ApplicationTransaction.sql" />
+    <Build Include="AdminAccount.sql" />
+    <Build Include="Blog.sql" />
+    <Build Include="BlogSection.sql" />
+    <Build Include="BlogFile.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="local.sqlserver.publish.xml" />
